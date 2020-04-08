@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,34 +13,34 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Dom
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
 /**
- * Transform CSS selectors to XPath
+ * Transform CSS selectors to XPath.
  *
- * @package    Zend_Dom
- * @subpackage Query
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 class Zend_Dom_Query_Css2Xpath
 {
     /**
-     * Transform CSS expression to XPath
+     * Transform CSS expression to XPath.
      *
-     * @param  string $path
+     * @param string $path
+     *
      * @return string
      */
     public static function transform($path)
     {
         $path = (string) $path;
         if (strstr($path, ',')) {
-            $paths       = explode(',', $path);
-            $expressions = array();
+            $paths = explode(',', $path);
+            $expressions = [];
             foreach ($paths as $path) {
                 $xpath = self::transform(trim($path));
                 if (is_string($xpath)) {
@@ -49,11 +49,12 @@ class Zend_Dom_Query_Css2Xpath
                     $expressions = array_merge($expressions, $xpath);
                 }
             }
+
             return implode('|', $expressions);
         }
 
-        $paths    = array('//');
-        $path     = preg_replace('|\s+>\s+|', '>', $path);
+        $paths = ['//'];
+        $path = preg_replace('|\s+>\s+|', '>', $path);
         $segments = preg_split('/\s+/', $path);
         foreach ($segments as $key => $segment) {
             $pathSegment = self::_tokenize($segment);
@@ -68,7 +69,7 @@ class Zend_Dom_Query_Css2Xpath
             if (0 === strpos($pathSegment, '[contains(')) {
                 foreach ($paths as $key => $xpath) {
                     $paths[$key] .= '//*' . ltrim($pathSegment, '*');
-                    $paths[]      = $xpath . $pathSegment;
+                    $paths[] = $xpath . $pathSegment;
                 }
             } else {
                 foreach ($paths as $key => $xpath) {
@@ -80,13 +81,15 @@ class Zend_Dom_Query_Css2Xpath
         if (1 == count($paths)) {
             return $paths[0];
         }
+
         return implode('|', $paths);
     }
 
     /**
-     * Tokenize CSS expressions to XPath
+     * Tokenize CSS expressions to XPath.
      *
-     * @param  string $expression
+     * @param string $expression
+     *
      * @return string
      */
     protected static function _tokenize($expression)
@@ -101,21 +104,21 @@ class Zend_Dom_Query_Css2Xpath
         // arbitrary attribute strict equality
         $expression = preg_replace_callback(
             '|\[([a-z0-9_-]+)=[\'"]([^\'"]+)[\'"]\]|i',
-            array(__CLASS__, '_createEqualityExpression'),
+            [__CLASS__, '_createEqualityExpression'],
             $expression
         );
 
         // arbitrary attribute contains full word
         $expression = preg_replace_callback(
             '|\[([a-z0-9_-]+)~=[\'"]([^\'"]+)[\'"]\]|i',
-            array(__CLASS__, '_normalizeSpaceAttribute'),
+            [__CLASS__, '_normalizeSpaceAttribute'],
             $expression
         );
 
         // arbitrary attribute contains specified content
         $expression = preg_replace_callback(
             '|\[([a-z0-9_-]+)\*=[\'"]([^\'"]+)[\'"]\]|i',
-            array(__CLASS__, '_createContainsExpression'),
+            [__CLASS__, '_createContainsExpression'],
             $expression
         );
 
@@ -133,9 +136,10 @@ class Zend_Dom_Query_Css2Xpath
     }
 
     /**
-     * Callback for creating equality expressions
+     * Callback for creating equality expressions.
      *
-     * @param  array $matches
+     * @param array $matches
+     *
      * @return string
      */
     protected static function _createEqualityExpression($matches)
@@ -144,9 +148,10 @@ class Zend_Dom_Query_Css2Xpath
     }
 
     /**
-     * Callback for creating expressions to match one or more attribute values
+     * Callback for creating expressions to match one or more attribute values.
      *
-     * @param  array $matches
+     * @param array $matches
+     *
      * @return string
      */
     protected static function _normalizeSpaceAttribute($matches)
@@ -156,14 +161,15 @@ class Zend_Dom_Query_Css2Xpath
     }
 
     /**
-     * Callback for creating a strict "contains" expression
+     * Callback for creating a strict "contains" expression.
      *
-     * @param  array $matches
+     * @param array $matches
+     *
      * @return string
      */
     protected static function _createContainsExpression($matches)
     {
-        return "[contains(@" . strtolower($matches[1]) . ", '"
+        return '[contains(@' . strtolower($matches[1]) . ", '"
              . $matches[2] . "')]";
     }
 }

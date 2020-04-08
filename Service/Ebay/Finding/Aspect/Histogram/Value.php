@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Service
- * @subpackage Ebay
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id: Value.php 22791 2010-08-04 16:11:47Z renanbr $
  */
 
@@ -27,10 +27,10 @@ require_once 'Zend/Service/Ebay/Finding/Abstract.php';
 
 /**
  * @category   Zend
- * @package    Zend_Service
- * @subpackage Ebay
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @uses       Zend_Service_Ebay_Finding_Abstract
  */
 class Zend_Service_Ebay_Finding_Aspect_Histogram_Value extends Zend_Service_Ebay_Finding_Abstract
@@ -39,7 +39,7 @@ class Zend_Service_Ebay_Finding_Aspect_Histogram_Value extends Zend_Service_Ebay
      * Number of items that share the characteristic the respective aspect
      * value.
      *
-     * @var integer
+     * @var int
      */
     public $count;
 

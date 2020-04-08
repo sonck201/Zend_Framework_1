@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,9 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Feed_Reader
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -31,18 +32,17 @@ require_once 'Zend/Feed/Reader/Extension/Atom/Feed.php';
 
 /**
  * @category   Zend
- * @package    Zend_Feed_Reader
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
 {
-
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param  DOMDocument $dom
-     * @param  string $type
+     * @param DOMDocument $dom
+     * @param string $type
      */
     public function __construct(DOMDocument $dom, $type = null)
     {
@@ -57,9 +57,10 @@ class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
     }
 
     /**
-     * Get a single author
+     * Get a single author.
      *
-     * @param  int $index
+     * @param int $index
+     *
      * @return string|null
      */
     public function getAuthor($index = 0)
@@ -74,7 +75,7 @@ class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
     }
 
     /**
-     * Get an array with feed authors
+     * Get an array with feed authors.
      *
      * @return array
      */
@@ -92,7 +93,7 @@ class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
     }
 
     /**
-     * Get the copyright entry
+     * Get the copyright entry.
      *
      * @return string|null
      */
@@ -114,7 +115,7 @@ class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
     }
 
     /**
-     * Get the feed creation date
+     * Get the feed creation date.
      *
      * @return string|null
      */
@@ -136,7 +137,7 @@ class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
     }
 
     /**
-     * Get the feed modification date
+     * Get the feed modification date.
      *
      * @return string|null
      */
@@ -168,7 +169,7 @@ class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
     }
 
     /**
-     * Get the feed description
+     * Get the feed description.
      *
      * @return string|null
      */
@@ -190,7 +191,7 @@ class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
     }
 
     /**
-     * Get the feed generator entry
+     * Get the feed generator entry.
      *
      * @return string|null
      */
@@ -208,7 +209,7 @@ class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
     }
 
     /**
-     * Get the feed ID
+     * Get the feed ID.
      *
      * @return string|null
      */
@@ -226,7 +227,7 @@ class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
     }
 
     /**
-     * Get the feed language
+     * Get the feed language.
      *
      * @return string|null
      */
@@ -252,7 +253,7 @@ class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
     }
 
     /**
-     * Get a link to the source website
+     * Get a link to the source website.
      *
      * @return string|null
      */
@@ -270,7 +271,7 @@ class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
     }
 
     /**
-     * Get a link to the source website
+     * Get a link to the source website.
      *
      * @return string|null
      */
@@ -288,7 +289,7 @@ class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
     }
 
     /**
-     * Get feed image data
+     * Get feed image data.
      *
      * @return array|null
      */
@@ -306,7 +307,7 @@ class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
     }
 
     /**
-     * Get a link to the feed's XML Url
+     * Get a link to the feed's XML Url.
      *
      * @return string|null
      */
@@ -328,7 +329,7 @@ class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
     }
 
     /**
-     * Get the feed title
+     * Get the feed title.
      *
      * @return string|null
      */
@@ -346,7 +347,7 @@ class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
     }
 
     /**
-     * Get an array of any supported Pusubhubbub endpoints
+     * Get an array of any supported Pusubhubbub endpoints.
      *
      * @return array|null
      */
@@ -364,7 +365,7 @@ class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
     }
 
     /**
-     * Get all categories
+     * Get all categories.
      *
      * @return Zend_Feed_Reader_Collection_Category
      */
@@ -386,7 +387,7 @@ class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
     }
 
     /**
-     * Read all entries to the internal entries array
+     * Read all entries to the internal entries array.
      *
      * @return void
      */
@@ -394,18 +395,17 @@ class Zend_Feed_Reader_Feed_Atom extends Zend_Feed_Reader_FeedAbstract
     {
         if ($this->getType() == Zend_Feed_Reader::TYPE_ATOM_10 ||
             $this->getType() == Zend_Feed_Reader::TYPE_ATOM_03) {
-            $entries = array();
+            $entries = [];
             $entries = $this->_xpath->evaluate('//atom:entry');
 
-            foreach($entries as $index=>$entry) {
+            foreach ($entries as $index => $entry) {
                 $this->_entries[$index] = $entry;
             }
         }
     }
 
     /**
-     * Register the default namespaces for the current feed format
-     *
+     * Register the default namespaces for the current feed format.
      */
     protected function _registerNamespaces()
     {

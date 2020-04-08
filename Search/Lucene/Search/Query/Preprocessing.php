@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,26 +13,24 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Search_Lucene
- * @subpackage Search
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
-
 /** Zend_Search_Lucene_Search_Query */
 require_once 'Zend/Search/Lucene/Search/Query.php';
-
 
 /**
  * It's an internal abstract class intended to finalize ase a query processing after query parsing.
  * This type of query is not actually involved into query execution.
  *
  * @category   Zend
- * @package    Zend_Search_Lucene
- * @subpackage Search
+ *
  * @internal
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -51,9 +49,10 @@ abstract class Zend_Search_Lucene_Search_Query_Preprocessing extends Zend_Search
     protected $_matches = null;
 
     /**
-     * Optimize query in the context of specified index
+     * Optimize query in the context of specified index.
      *
      * @param Zend_Search_Lucene_Interface $index
+     *
      * @return Zend_Search_Lucene_Search_Query
      */
     public function optimize(Zend_Search_Lucene_Interface $index)
@@ -66,6 +65,7 @@ abstract class Zend_Search_Lucene_Search_Query_Preprocessing extends Zend_Search
      * Constructs an appropriate Weight implementation for this query.
      *
      * @param Zend_Search_Lucene_Interface $reader
+     *
      * @return Zend_Search_Lucene_Search_Weight
      */
     public function createWeight(Zend_Search_Lucene_Interface $reader)
@@ -76,7 +76,7 @@ abstract class Zend_Search_Lucene_Search_Query_Preprocessing extends Zend_Search
 
     /**
      * Execute query in context of index reader
-     * It also initializes necessary internal structures
+     * It also initializes necessary internal structures.
      *
      * @param Zend_Search_Lucene_Interface $reader
      * @param Zend_Search_Lucene_Index_DocsFilter|null $docsFilter
@@ -88,7 +88,7 @@ abstract class Zend_Search_Lucene_Search_Query_Preprocessing extends Zend_Search
     }
 
     /**
-     * Get document ids likely matching the query
+     * Get document ids likely matching the query.
      *
      * It's an array with document ids as keys (performance considerations)
      *
@@ -101,10 +101,11 @@ abstract class Zend_Search_Lucene_Search_Query_Preprocessing extends Zend_Search
     }
 
     /**
-     * Score specified document
+     * Score specified document.
      *
-     * @param integer $docId
+     * @param int $docId
      * @param Zend_Search_Lucene_Interface $reader
+     *
      * @return float
      */
     public function score($docId, Zend_Search_Lucene_Interface $reader)
@@ -114,7 +115,7 @@ abstract class Zend_Search_Lucene_Search_Query_Preprocessing extends Zend_Search
     }
 
     /**
-     * Return query terms
+     * Return query terms.
      *
      * @return array
      */
@@ -124,4 +125,3 @@ abstract class Zend_Search_Lucene_Search_Query_Preprocessing extends Zend_Search
         throw new Zend_Search_Lucene_Exception('Rewrite operation has to be done before retrieving query terms.');
     }
 }
-

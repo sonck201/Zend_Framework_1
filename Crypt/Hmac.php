@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Crypt
- * @subpackage Hmac
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -31,23 +31,23 @@ require_once 'Zend/Crypt.php';
  *
  * @todo  Patch for refactoring failed tests (key block sizes >80 using internal algo)
  * @todo       Check if mhash() is a required alternative (will be PECL-only soon)
+ *
  * @category   Zend
- * @package    Zend_Crypt
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Crypt_Hmac extends Zend_Crypt
 {
-
     /**
-     * The key to use for the hash
+     * The key to use for the hash.
      *
      * @var string
      */
     protected static $_key = null;
 
     /**
-     * pack() format to be used for current hashing method
+     * pack() format to be used for current hashing method.
      *
      * @var string
      */
@@ -62,16 +62,16 @@ class Zend_Crypt_Hmac extends Zend_Crypt
     protected static $_hashAlgorithm = 'md5';
 
     /**
-     * List of algorithms supported my mhash()
+     * List of algorithms supported my mhash().
      *
      * @var array
      */
-    protected static $_supportedMhashAlgorithms = array('adler32',' crc32', 'crc32b', 'gost',
-            'haval128', 'haval160', 'haval192', 'haval256', 'md4', 'md5', 'ripemd160',
-            'sha1', 'sha256', 'tiger', 'tiger128', 'tiger160');
+    protected static $_supportedMhashAlgorithms = ['adler32', ' crc32', 'crc32b', 'gost',
+        'haval128', 'haval160', 'haval192', 'haval256', 'md4', 'md5', 'ripemd160',
+        'sha1', 'sha256', 'tiger', 'tiger128', 'tiger160', ];
 
     /**
-     * Constants representing the output mode of the hash algorithm
+     * Constants representing the output mode of the hash algorithm.
      */
     const STRING = 'string';
     const BINARY = 'binary';
@@ -85,7 +85,9 @@ class Zend_Crypt_Hmac extends Zend_Crypt
      * @param string $hash
      * @param string $data
      * @param string $output
+     *
      * @throws Zend_Crypt_Hmac_Exception
+     *
      * @return string
      */
     public static function compute($key, $hash, $data, $output = self::STRING)
@@ -108,7 +110,9 @@ class Zend_Crypt_Hmac extends Zend_Crypt
      * Setter for the hash method.
      *
      * @param string $hash
+     *
      * @throws Zend_Crypt_Hmac_Exception
+     *
      * @return Zend_Crypt_Hmac
      */
     protected static function _setHashAlgorithm($hash)
@@ -137,11 +141,12 @@ class Zend_Crypt_Hmac extends Zend_Crypt
     }
 
     /**
-     * Perform HMAC and return the keyed data
+     * Perform HMAC and return the keyed data.
      *
      * @param string $data
      * @param string $output
      * @param bool $internal Option to not use hash() functions for testing
+     *
      * @return string
      */
     protected static function _hash($data, $output = self::STRING, $internal = false)
@@ -150,6 +155,7 @@ class Zend_Crypt_Hmac extends Zend_Crypt
             if ($output == self::BINARY) {
                 return hash_hmac(self::$_hashAlgorithm, $data, self::$_key, true);
             }
+
             return hash_hmac(self::$_hashAlgorithm, $data, self::$_key);
         }
 
@@ -158,6 +164,7 @@ class Zend_Crypt_Hmac extends Zend_Crypt
                 return mhash(self::_getMhashDefinition(self::$_hashAlgorithm), $data, self::$_key);
             }
             $bin = mhash(self::_getMhashDefinition(self::$_hashAlgorithm), $data, self::$_key);
+
             return bin2hex($bin);
         }
     }
@@ -168,15 +175,15 @@ class Zend_Crypt_Hmac extends Zend_Crypt
      * algorithm's name.
      *
      * @param string $hashAlgorithm
-     * @return integer
+     *
+     * @return int
      */
     protected static function _getMhashDefinition($hashAlgorithm)
     {
-        for ($i = 0; $i <= mhash_count(); $i++)
-        {
+        for ($i = 0; $i <= mhash_count(); ++$i) {
             $types[mhash_get_hash_name($i)] = $i;
         }
+
         return $types[strtoupper($hashAlgorithm)];
     }
-
 }

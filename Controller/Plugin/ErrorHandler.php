@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,8 +13,7 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Controller
- * @subpackage Plugins
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -27,88 +26,96 @@ require_once 'Zend/Controller/Plugin/Abstract.php';
  * application errors, and forward to an error handler.
  *
  * @uses       Zend_Controller_Plugin_Abstract
+ *
  * @category   Zend
- * @package    Zend_Controller
- * @subpackage Plugins
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 class Zend_Controller_Plugin_ErrorHandler extends Zend_Controller_Plugin_Abstract
 {
     /**
-     * Const - No controller exception; controller does not exist
+     * Const - No controller exception; controller does not exist.
      */
     const EXCEPTION_NO_CONTROLLER = 'EXCEPTION_NO_CONTROLLER';
 
     /**
-     * Const - No action exception; controller exists, but action does not
+     * Const - No action exception; controller exists, but action does not.
      */
     const EXCEPTION_NO_ACTION = 'EXCEPTION_NO_ACTION';
 
     /**
-     * Const - No route exception; no routing was possible
+     * Const - No route exception; no routing was possible.
      */
     const EXCEPTION_NO_ROUTE = 'EXCEPTION_NO_ROUTE';
 
     /**
-     * Const - Other Exception; exceptions thrown by application controllers
+     * Const - Other Exception; exceptions thrown by application controllers.
      */
     const EXCEPTION_OTHER = 'EXCEPTION_OTHER';
 
     /**
-     * Module to use for errors; defaults to default module in dispatcher
+     * Module to use for errors; defaults to default module in dispatcher.
+     *
      * @var string
      */
     protected $_errorModule;
 
     /**
-     * Controller to use for errors; defaults to 'error'
+     * Controller to use for errors; defaults to 'error'.
+     *
      * @var string
      */
     protected $_errorController = 'error';
 
     /**
-     * Action to use for errors; defaults to 'error'
+     * Action to use for errors; defaults to 'error'.
+     *
      * @var string
      */
     protected $_errorAction = 'error';
 
     /**
      * Flag; are we already inside the error handler loop?
+     *
      * @var bool
      */
     protected $_isInsideErrorHandlerLoop = false;
 
     /**
-     * Exception count logged at first invocation of plugin
+     * Exception count logged at first invocation of plugin.
+     *
      * @var int
      */
     protected $_exceptionCountAtFirstEncounter = 0;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * Options may include:
      * - module
      * - controller
      * - action
      *
-     * @param  Array $options
+     * @param array $options
+     *
      * @return void
      */
-    public function __construct(Array $options = array())
+    public function __construct(array $options = [])
     {
         $this->setErrorHandler($options);
     }
 
     /**
-     * setErrorHandler() - setup the error handling options
+     * setErrorHandler() - setup the error handling options.
      *
-     * @param  array $options
+     * @param array $options
+     *
      * @return Zend_Controller_Plugin_ErrorHandler
      */
-    public function setErrorHandler(Array $options = array())
+    public function setErrorHandler(array $options = [])
     {
         if (isset($options['module'])) {
             $this->setErrorHandlerModule($options['module']);
@@ -119,23 +126,26 @@ class Zend_Controller_Plugin_ErrorHandler extends Zend_Controller_Plugin_Abstrac
         if (isset($options['action'])) {
             $this->setErrorHandlerAction($options['action']);
         }
+
         return $this;
     }
 
     /**
-     * Set the module name for the error handler
+     * Set the module name for the error handler.
      *
-     * @param  string $module
+     * @param string $module
+     *
      * @return Zend_Controller_Plugin_ErrorHandler
      */
     public function setErrorHandlerModule($module)
     {
         $this->_errorModule = (string) $module;
+
         return $this;
     }
 
     /**
-     * Retrieve the current error handler module
+     * Retrieve the current error handler module.
      *
      * @return string
      */
@@ -144,23 +154,26 @@ class Zend_Controller_Plugin_ErrorHandler extends Zend_Controller_Plugin_Abstrac
         if (null === $this->_errorModule) {
             $this->_errorModule = Zend_Controller_Front::getInstance()->getDispatcher()->getDefaultModule();
         }
+
         return $this->_errorModule;
     }
 
     /**
-     * Set the controller name for the error handler
+     * Set the controller name for the error handler.
      *
-     * @param  string $controller
+     * @param string $controller
+     *
      * @return Zend_Controller_Plugin_ErrorHandler
      */
     public function setErrorHandlerController($controller)
     {
         $this->_errorController = (string) $controller;
+
         return $this;
     }
 
     /**
-     * Retrieve the current error handler controller
+     * Retrieve the current error handler controller.
      *
      * @return string
      */
@@ -170,19 +183,21 @@ class Zend_Controller_Plugin_ErrorHandler extends Zend_Controller_Plugin_Abstrac
     }
 
     /**
-     * Set the action name for the error handler
+     * Set the action name for the error handler.
      *
-     * @param  string $action
+     * @param string $action
+     *
      * @return Zend_Controller_Plugin_ErrorHandler
      */
     public function setErrorHandlerAction($action)
     {
         $this->_errorAction = (string) $action;
+
         return $this;
     }
 
     /**
-     * Retrieve the current error handler action
+     * Retrieve the current error handler action.
      *
      * @return string
      */
@@ -192,7 +207,7 @@ class Zend_Controller_Plugin_ErrorHandler extends Zend_Controller_Plugin_Abstrac
     }
 
     /**
-     * Route shutdown hook -- Ccheck for router exceptions
+     * Route shutdown hook -- Ccheck for router exceptions.
      *
      * @param Zend_Controller_Request_Abstract $request
      */
@@ -203,7 +218,7 @@ class Zend_Controller_Plugin_ErrorHandler extends Zend_Controller_Plugin_Abstrac
 
     /**
      * Pre dispatch hook -- check for exceptions and dispatch error handler if
-     * necessary
+     * necessary.
      *
      * @param Zend_Controller_Request_Abstract $request
      */
@@ -211,10 +226,10 @@ class Zend_Controller_Plugin_ErrorHandler extends Zend_Controller_Plugin_Abstrac
     {
         $this->_handleError($request);
     }
-	
+
     /**
      * Post dispatch hook -- check for exceptions and dispatch error handler if
-     * necessary
+     * necessary.
      *
      * @param Zend_Controller_Request_Abstract $request
      */
@@ -224,12 +239,13 @@ class Zend_Controller_Plugin_ErrorHandler extends Zend_Controller_Plugin_Abstrac
     }
 
     /**
-     * Handle errors and exceptions
+     * Handle errors and exceptions.
      *
      * If the 'noErrorHandler' front controller flag has been set,
      * returns early.
      *
-     * @param  Zend_Controller_Request_Abstract $request
+     * @param Zend_Controller_Request_Abstract $request
+     *
      * @return void
      */
     protected function _handleError(Zend_Controller_Request_Abstract $request)
@@ -255,10 +271,10 @@ class Zend_Controller_Plugin_ErrorHandler extends Zend_Controller_Plugin_Abstrac
             $this->_isInsideErrorHandlerLoop = true;
 
             // Get exception information
-            $error            = new ArrayObject(array(), ArrayObject::ARRAY_AS_PROPS);
-            $exceptions       = $response->getException();
-            $exception        = $exceptions[0];
-            $exceptionType    = get_class($exception);
+            $error = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
+            $exceptions = $response->getException();
+            $exception = $exceptions[0];
+            $exceptionType = get_class($exception);
             $error->exception = $exception;
             switch ($exceptionType) {
                 case 'Zend_Controller_Router_Exception':

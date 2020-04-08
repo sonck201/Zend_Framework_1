@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,9 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Feed_Reader
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -26,15 +27,14 @@ require_once 'Zend/Feed/Reader/Extension/EntryAbstract.php';
 
 /**
  * @category   Zend
- * @package    Zend_Feed_Reader
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Feed_Reader_Extension_Thread_Entry
-    extends Zend_Feed_Reader_Extension_EntryAbstract
+class Zend_Feed_Reader_Extension_Thread_Entry extends Zend_Feed_Reader_Extension_EntryAbstract
 {
     /**
-     * Get the "in-reply-to" value
+     * Get the "in-reply-to" value.
      *
      * @return string
      */
@@ -46,7 +46,7 @@ class Zend_Feed_Reader_Extension_Thread_Entry
     // TODO: Implement "replies" and "updated" constructs from standard
 
     /**
-     * Get the total number of threaded responses (i.e comments)
+     * Get the total number of threaded responses (i.e comments).
      *
      * @return int|null
      */
@@ -56,10 +56,11 @@ class Zend_Feed_Reader_Extension_Thread_Entry
     }
 
     /**
-     * Get the entry data specified by name
+     * Get the entry data specified by name.
      *
-     * @param  string $name
-     * @param  string $type
+     * @param string $name
+     * @param string $type
+     *
      * @return mixed|null
      */
     protected function _getData($name)
@@ -80,7 +81,7 @@ class Zend_Feed_Reader_Extension_Thread_Entry
     }
 
     /**
-     * Register Atom Thread Extension 1.0 namespace
+     * Register Atom Thread Extension 1.0 namespace.
      *
      * @return void
      */

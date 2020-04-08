@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Db
- * @subpackage Statement
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -32,14 +32,12 @@ require_once 'Zend/Db/Statement.php';
  * are re-thrown as Zend_Db_Statement_Exception.
  *
  * @category   Zend
- * @package    Zend_Db
- * @subpackage Statement
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Db_Statement_Pdo extends Zend_Db_Statement implements IteratorAggregate
 {
-
     /**
      * @var int
      */
@@ -49,7 +47,9 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement implements IteratorAggrega
      * Prepare a string SQL statement and create a statement object.
      *
      * @param string $sql
+     *
      * @return void
+     *
      * @throws Zend_Db_Statement_Exception
      */
     protected function _prepare($sql)
@@ -67,9 +67,11 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement implements IteratorAggrega
      *
      * @param string $column Name the column in the result set, either by
      *                       position or by name.
-     * @param mixed  $param  Reference to the PHP variable containing the value.
-     * @param mixed  $type   OPTIONAL
+     * @param mixed $param Reference to the PHP variable containing the value.
+     * @param mixed $type OPTIONAL
+     *
      * @return bool
+     *
      * @throws Zend_Db_Statement_Exception
      */
     public function bindColumn($column, &$param, $type = null)
@@ -90,11 +92,13 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement implements IteratorAggrega
      * Binds a parameter to the specified variable name.
      *
      * @param mixed $parameter Name the parameter, either integer or string.
-     * @param mixed $variable  Reference to PHP variable containing the value.
-     * @param mixed $type      OPTIONAL Datatype of SQL parameter.
-     * @param mixed $length    OPTIONAL Length of SQL parameter.
-     * @param mixed $options   OPTIONAL Other options.
+     * @param mixed $variable Reference to PHP variable containing the value.
+     * @param mixed $type OPTIONAL Datatype of SQL parameter.
+     * @param mixed $length OPTIONAL Length of SQL parameter.
+     * @param mixed $options OPTIONAL Other options.
+     *
      * @return bool
+     *
      * @throws Zend_Db_Statement_Exception
      */
     protected function _bindParam($parameter, &$variable, $type = null, $length = null, $options = null)
@@ -111,6 +115,7 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement implements IteratorAggrega
                     $type = PDO::PARAM_STR;
                 }
             }
+
             return $this->_stmt->bindParam($parameter, $variable, $type, $length, $options);
         } catch (PDOException $e) {
             require_once 'Zend/Db/Statement/Exception.php';
@@ -122,9 +127,11 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement implements IteratorAggrega
      * Binds a value to a parameter.
      *
      * @param mixed $parameter Name the parameter, either integer or string.
-     * @param mixed $value     Scalar value to bind to the parameter.
-     * @param mixed $type      OPTIONAL Datatype of the parameter.
+     * @param mixed $value Scalar value to bind to the parameter.
+     * @param mixed $type OPTIONAL Datatype of the parameter.
+     *
      * @return bool
+     *
      * @throws Zend_Db_Statement_Exception
      */
     public function bindValue($parameter, $value, $type = null)
@@ -151,6 +158,7 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement implements IteratorAggrega
      * Closes the cursor, allowing the statement to be executed again.
      *
      * @return bool
+     *
      * @throws Zend_Db_Statement_Exception
      */
     public function closeCursor()
@@ -168,6 +176,7 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement implements IteratorAggrega
      * Returns null if the statement has no result set metadata.
      *
      * @return int The number of columns.
+     *
      * @throws Zend_Db_Statement_Exception
      */
     public function columnCount()
@@ -185,6 +194,7 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement implements IteratorAggrega
      * the statement handle.
      *
      * @return string error code.
+     *
      * @throws Zend_Db_Statement_Exception
      */
     public function errorCode()
@@ -202,6 +212,7 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement implements IteratorAggrega
      * last operation on the statement handle.
      *
      * @return array
+     *
      * @throws Zend_Db_Statement_Exception
      */
     public function errorInfo()
@@ -218,7 +229,9 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement implements IteratorAggrega
      * Executes a prepared statement.
      *
      * @param array $params OPTIONAL Values to bind to parameter placeholders.
+     *
      * @return bool
+     *
      * @throws Zend_Db_Statement_Exception
      */
     public function _execute(array $params = null)
@@ -239,10 +252,12 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement implements IteratorAggrega
     /**
      * Fetches a row from the result set.
      *
-     * @param int $style  OPTIONAL Fetch mode for this fetch operation.
+     * @param int $style OPTIONAL Fetch mode for this fetch operation.
      * @param int $cursor OPTIONAL Absolute, relative, or other.
      * @param int $offset OPTIONAL Number for absolute or relative cursors.
+     *
      * @return mixed Array, object, or scalar depending on fetch mode.
+     *
      * @throws Zend_Db_Statement_Exception
      */
     public function fetch($style = null, $cursor = null, $offset = null)
@@ -259,7 +274,7 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement implements IteratorAggrega
     }
 
     /**
-     * Required by IteratorAggregate interface
+     * Required by IteratorAggregate interface.
      *
      * @return IteratorIterator
      */
@@ -272,8 +287,10 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement implements IteratorAggrega
      * Returns an array containing all of the result set rows.
      *
      * @param int $style OPTIONAL Fetch mode.
-     * @param int $col   OPTIONAL Column number, if fetch mode is by column.
+     * @param int $col OPTIONAL Column number, if fetch mode is by column.
+     *
      * @return array Collection of rows, each in a format by the fetch mode.
+     *
      * @throws Zend_Db_Statement_Exception
      */
     public function fetchAll($style = null, $col = null)
@@ -286,6 +303,7 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement implements IteratorAggrega
                 if ($col === null) {
                     $col = 0;
                 }
+
                 return $this->_stmt->fetchAll($style, $col);
             } else {
                 return $this->_stmt->fetchAll($style);
@@ -300,7 +318,9 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement implements IteratorAggrega
      * Returns a single column from the next row of a result set.
      *
      * @param int $col OPTIONAL Position of the column to fetch.
+     *
      * @return string
+     *
      * @throws Zend_Db_Statement_Exception
      */
     public function fetchColumn($col = 0)
@@ -316,12 +336,14 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement implements IteratorAggrega
     /**
      * Fetches the next row and returns it as an object.
      *
-     * @param string $class  OPTIONAL Name of the class to create.
-     * @param array  $config OPTIONAL Constructor arguments for the class.
+     * @param string $class OPTIONAL Name of the class to create.
+     * @param array $config OPTIONAL Constructor arguments for the class.
+     *
      * @return mixed One object instance of the specified class.
+     *
      * @throws Zend_Db_Statement_Exception
      */
-    public function fetchObject($class = 'stdClass', array $config = array())
+    public function fetchObject($class = 'stdClass', array $config = [])
     {
         try {
             return $this->_stmt->fetchObject($class, $config);
@@ -334,8 +356,10 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement implements IteratorAggrega
     /**
      * Retrieve a statement attribute.
      *
-     * @param integer $key Attribute name.
-     * @return mixed      Attribute value.
+     * @param int $key Attribute name.
+     *
+     * @return mixed Attribute value.
+     *
      * @throws Zend_Db_Statement_Exception
      */
     public function getAttribute($key)
@@ -352,7 +376,9 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement implements IteratorAggrega
      * Returns metadata for a column in a result set.
      *
      * @param int $column
+     *
      * @return mixed
+     *
      * @throws Zend_Db_Statement_Exception
      */
     public function getColumnMeta($column)
@@ -371,6 +397,7 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement implements IteratorAggrega
      * the results of multiple queries.
      *
      * @return bool
+     *
      * @throws Zend_Db_Statement_Exception
      */
     public function nextRowset()
@@ -388,7 +415,8 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement implements IteratorAggrega
      * last INSERT, DELETE, or UPDATE statement executed by this
      * statement object.
      *
-     * @return int     The number of rows affected.
+     * @return int The number of rows affected.
+     *
      * @throws Zend_Db_Statement_Exception
      */
     public function rowCount()
@@ -405,8 +433,10 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement implements IteratorAggrega
      * Set a statement attribute.
      *
      * @param string $key Attribute name.
-     * @param mixed  $val Attribute value.
+     * @param mixed $val Attribute value.
+     *
      * @return bool
+     *
      * @throws Zend_Db_Statement_Exception
      */
     public function setAttribute($key, $val)
@@ -422,8 +452,10 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement implements IteratorAggrega
     /**
      * Set the default fetch mode for this statement.
      *
-     * @param int   $mode The fetch mode.
+     * @param int $mode The fetch mode.
+     *
      * @return bool
+     *
      * @throws Zend_Db_Statement_Exception
      */
     public function setFetchMode($mode)
@@ -436,5 +468,4 @@ class Zend_Db_Statement_Pdo extends Zend_Db_Statement implements IteratorAggrega
             throw new Zend_Db_Statement_Exception($e->getMessage(), $e->getCode(), $e);
         }
     }
-
 }

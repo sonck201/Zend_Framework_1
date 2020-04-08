@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Db
- * @subpackage Statement
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -28,14 +28,11 @@ require_once 'Zend/Db/Statement.php';
 /**
  * Extends for DB2 native adapter.
  *
- * @package    Zend_Db
- * @subpackage Statement
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Db_Statement_Db2 extends Zend_Db_Statement
 {
-
     /**
      * Column names.
      */
@@ -50,7 +47,9 @@ class Zend_Db_Statement_Db2 extends Zend_Db_Statement
      * Prepare a statement handle.
      *
      * @param string $sql
+     *
      * @return void
+     *
      * @throws Zend_Db_Statement_Db2_Exception
      */
     public function _prepare($sql)
@@ -66,10 +65,7 @@ class Zend_Db_Statement_Db2 extends Zend_Db_Statement
              * @see Zend_Db_Statement_Db2_Exception
              */
             require_once 'Zend/Db/Statement/Db2/Exception.php';
-            throw new Zend_Db_Statement_Db2_Exception(
-                db2_stmt_errormsg(),
-                db2_stmt_error()
-            );
+            throw new Zend_Db_Statement_Db2_Exception(db2_stmt_errormsg(), db2_stmt_error());
         }
     }
 
@@ -77,11 +73,13 @@ class Zend_Db_Statement_Db2 extends Zend_Db_Statement
      * Binds a parameter to the specified variable name.
      *
      * @param mixed $parameter Name the parameter, either integer or string.
-     * @param mixed $variable  Reference to PHP variable containing the value.
-     * @param mixed $type      OPTIONAL Datatype of SQL parameter.
-     * @param mixed $length    OPTIONAL Length of SQL parameter.
-     * @param mixed $options   OPTIONAL Other options.
+     * @param mixed $variable Reference to PHP variable containing the value.
+     * @param mixed $type OPTIONAL Datatype of SQL parameter.
+     * @param mixed $length OPTIONAL Length of SQL parameter.
+     * @param mixed $options OPTIONAL Other options.
+     *
      * @return bool
+     *
      * @throws Zend_Db_Statement_Db2_Exception
      */
     public function _bindParam($parameter, &$variable, $type = null, $length = null, $options = null)
@@ -96,15 +94,12 @@ class Zend_Db_Statement_Db2 extends Zend_Db_Statement
             $datatype = DB2_CHAR;
         }
 
-        if (!db2_bind_param($this->_stmt, $parameter, "variable", $type, $datatype)) {
+        if (!db2_bind_param($this->_stmt, $parameter, 'variable', $type, $datatype)) {
             /**
              * @see Zend_Db_Statement_Db2_Exception
              */
             require_once 'Zend/Db/Statement/Db2/Exception.php';
-            throw new Zend_Db_Statement_Db2_Exception(
-                db2_stmt_errormsg(),
-                db2_stmt_error()
-            );
+            throw new Zend_Db_Statement_Db2_Exception(db2_stmt_errormsg(), db2_stmt_error());
         }
 
         return true;
@@ -122,9 +117,9 @@ class Zend_Db_Statement_Db2 extends Zend_Db_Statement
         }
         db2_free_stmt($this->_stmt);
         $this->_stmt = false;
+
         return true;
     }
-
 
     /**
      * Returns the number of columns in the result set.
@@ -137,6 +132,7 @@ class Zend_Db_Statement_Db2 extends Zend_Db_Statement
         if (!$this->_stmt) {
             return false;
         }
+
         return db2_num_fields($this->_stmt);
     }
 
@@ -169,7 +165,7 @@ class Zend_Db_Statement_Db2 extends Zend_Db_Statement
     public function errorInfo()
     {
         $error = $this->errorCode();
-        if ($error === false){
+        if ($error === false) {
             return false;
         }
 
@@ -177,18 +173,20 @@ class Zend_Db_Statement_Db2 extends Zend_Db_Statement
          * Return three-valued array like PDO.  But DB2 does not distinguish
          * between SQLCODE and native RDBMS error code, so repeat the SQLCODE.
          */
-        return array(
+        return [
             $error,
             $error,
-            db2_stmt_errormsg()
-        );
+            db2_stmt_errormsg(),
+        ];
     }
 
     /**
      * Executes a prepared statement.
      *
      * @param array $params OPTIONAL Values to bind to parameter placeholders.
+     *
      * @return bool
+     *
      * @throws Zend_Db_Statement_Db2_Exception
      */
     public function _execute(array $params = null)
@@ -209,20 +207,18 @@ class Zend_Db_Statement_Db2 extends Zend_Db_Statement
              * @see Zend_Db_Statement_Db2_Exception
              */
             require_once 'Zend/Db/Statement/Db2/Exception.php';
-            throw new Zend_Db_Statement_Db2_Exception(
-                db2_stmt_errormsg(),
-                db2_stmt_error());
+            throw new Zend_Db_Statement_Db2_Exception(db2_stmt_errormsg(), db2_stmt_error());
         }
 
-        $this->_keys = array();
+        $this->_keys = [];
         if ($field_num = $this->columnCount()) {
-            for ($i = 0; $i < $field_num; $i++) {
+            for ($i = 0; $i < $field_num; ++$i) {
                 $name = db2_field_name($this->_stmt, $i);
                 $this->_keys[] = $name;
             }
         }
 
-        $this->_values = array();
+        $this->_values = [];
         if ($this->_keys) {
             $this->_values = array_fill(0, count($this->_keys), null);
         }
@@ -233,10 +229,12 @@ class Zend_Db_Statement_Db2 extends Zend_Db_Statement
     /**
      * Fetches a row from the result set.
      *
-     * @param int $style  OPTIONAL Fetch mode for this fetch operation.
+     * @param int $style OPTIONAL Fetch mode for this fetch operation.
      * @param int $cursor OPTIONAL Absolute, relative, or other.
      * @param int $offset OPTIONAL Number for absolute or relative cursors.
+     *
      * @return mixed Array, object, or scalar depending on fetch mode.
+     *
      * @throws Zend_Db_Statement_Db2_Exception
      */
     public function fetch($style = null, $cursor = null, $offset = null)
@@ -250,16 +248,16 @@ class Zend_Db_Statement_Db2 extends Zend_Db_Statement
         }
 
         switch ($style) {
-            case Zend_Db::FETCH_NUM :
+            case Zend_Db::FETCH_NUM:
                 $row = db2_fetch_array($this->_stmt);
                 break;
-            case Zend_Db::FETCH_ASSOC :
+            case Zend_Db::FETCH_ASSOC:
                 $row = db2_fetch_assoc($this->_stmt);
                 break;
-            case Zend_Db::FETCH_BOTH :
+            case Zend_Db::FETCH_BOTH:
                 $row = db2_fetch_both($this->_stmt);
                 break;
-            case Zend_Db::FETCH_OBJ :
+            case Zend_Db::FETCH_OBJ:
                 $row = db2_fetch_object($this->_stmt);
                 break;
             case Zend_Db::FETCH_BOUND:
@@ -283,13 +281,15 @@ class Zend_Db_Statement_Db2 extends Zend_Db_Statement
     /**
      * Fetches the next row and returns it as an object.
      *
-     * @param string $class  OPTIONAL Name of the class to create.
-     * @param array  $config OPTIONAL Constructor arguments for the class.
+     * @param string $class OPTIONAL Name of the class to create.
+     * @param array $config OPTIONAL Constructor arguments for the class.
+     *
      * @return mixed One object instance of the specified class.
      */
-    public function fetchObject($class = 'stdClass', array $config = array())
+    public function fetchObject($class = 'stdClass', array $config = [])
     {
         $obj = $this->fetch(Zend_Db::FETCH_OBJ);
+
         return $obj;
     }
 
@@ -299,6 +299,7 @@ class Zend_Db_Statement_Db2 extends Zend_Db_Statement
      * the results of multiple queries.
      *
      * @return bool
+     *
      * @throws Zend_Db_Statement_Db2_Exception
      */
     public function nextRowset()
@@ -315,7 +316,7 @@ class Zend_Db_Statement_Db2 extends Zend_Db_Statement
      * last INSERT, DELETE, or UPDATE statement executed by this
      * statement object.
      *
-     * @return int     The number of rows affected.
+     * @return int The number of rows affected.
      */
     public function rowCount()
     {
@@ -332,11 +333,12 @@ class Zend_Db_Statement_Db2 extends Zend_Db_Statement
         return $num;
     }
 
-     /**
+    /**
      * Returns an array containing all of the result set rows.
      *
      * @param int $style OPTIONAL Fetch mode.
-     * @param int $col   OPTIONAL Column number, if fetch mode is by column.
+     * @param int $col OPTIONAL Column number, if fetch mode is by column.
+     *
      * @return array Collection of rows, each in a format by the fetch mode.
      *
      * Behaves like parent, but if limit()
@@ -346,7 +348,7 @@ class Zend_Db_Statement_Db2 extends Zend_Db_Statement
     public function fetchAll($style = null, $col = null)
     {
         $data = parent::fetchAll($style, $col);
-        $results = array();
+        $results = [];
         $remove = $this->_adapter->foldCase('ZEND_DB_ROWNUM');
 
         foreach ($data as $row) {
@@ -355,6 +357,7 @@ class Zend_Db_Statement_Db2 extends Zend_Db_Statement
             }
             $results[] = $row;
         }
+
         return $results;
     }
 }

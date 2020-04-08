@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,9 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Feed_Writer
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -58,23 +59,21 @@ require_once 'Zend/Feed/Writer/Feed/FeedAbstract.php';
 
 /**
  * @category   Zend
- * @package    Zend_Feed_Writer
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Feed_Writer_Feed extends Zend_Feed_Writer_Feed_FeedAbstract
-implements Iterator, Countable
+class Zend_Feed_Writer_Feed extends Zend_Feed_Writer_Feed_FeedAbstract implements Iterator, Countable
 {
-
     /**
-     * Contains all entry objects
+     * Contains all entry objects.
      *
      * @var array
      */
-    protected $_entries = array();
+    protected $_entries = [];
 
     /**
-     * A pointer for the iterator to keep track of the entries array
+     * A pointer for the iterator to keep track of the entries array.
      *
      * @var int
      */
@@ -89,11 +88,12 @@ implements Iterator, Countable
      */
     public function createEntry()
     {
-        $entry = new Zend_Feed_Writer_Entry;
+        $entry = new Zend_Feed_Writer_Entry();
         if ($this->getEncoding()) {
             $entry->setEncoding($this->getEncoding());
         }
         $entry->setType($this->getType());
+
         return $entry;
     }
 
@@ -117,11 +117,12 @@ implements Iterator, Countable
      */
     public function createTombstone()
     {
-        $deleted = new Zend_Feed_Writer_Deleted;
+        $deleted = new Zend_Feed_Writer_Deleted();
         if ($this->getEncoding()) {
             $deleted->setEncoding($this->getEncoding());
         }
         $deleted->setType($this->getType());
+
         return $deleted;
     }
 
@@ -178,10 +179,10 @@ implements Iterator, Countable
     public function orderByDate()
     {
         /**
-         * Could do with some improvement for performance perhaps
+         * Could do with some improvement for performance perhaps.
          */
         $timestamp = time();
-        $entries = array();
+        $entries = [];
         foreach ($this->_entries as $entry) {
             if ($entry->getDateModified()) {
                 $timestamp = (int) $entry->getDateModified()->get(Zend_Date::TIMESTAMP);
@@ -206,7 +207,7 @@ implements Iterator, Countable
     }
 
     /**
-     * Return the current entry
+     * Return the current entry.
      *
      * @return Zend_Feed_Reader_Entry_Interface
      */
@@ -216,7 +217,7 @@ implements Iterator, Countable
     }
 
     /**
-     * Return the current feed key
+     * Return the current feed key.
      *
      * @return unknown
      */
@@ -226,7 +227,7 @@ implements Iterator, Countable
     }
 
     /**
-     * Move the feed pointer forward
+     * Move the feed pointer forward.
      *
      * @return void
      */
@@ -236,7 +237,7 @@ implements Iterator, Countable
     }
 
     /**
-     * Reset the pointer in the feed object
+     * Reset the pointer in the feed object.
      *
      * @return void
      */
@@ -246,9 +247,9 @@ implements Iterator, Countable
     }
 
     /**
-     * Check to see if the iterator is still valid
+     * Check to see if the iterator is still valid.
      *
-     * @return boolean
+     * @return bool
      */
     public function valid()
     {
@@ -256,10 +257,11 @@ implements Iterator, Countable
     }
 
     /**
-     * Attempt to build and return the feed resulting from the data set
+     * Attempt to build and return the feed resulting from the data set.
      *
-     * @param string $type             The feed type "rss" or "atom" to export as
-		 * @param bool   $ignoreExceptions
+     * @param string $type The feed type "rss" or "atom" to export as
+     * @param bool $ignoreExceptions
+     *
      * @return string
      */
     public function export($type, $ignoreExceptions = false)
@@ -268,15 +270,14 @@ implements Iterator, Countable
         $type = ucfirst($this->getType());
         if ($type !== 'Rss' && $type !== 'Atom') {
             require_once 'Zend/Feed/Exception.php';
-            throw new Zend_Feed_Exception('Invalid feed type specified: ' . $type . '.'
-            . ' Should be one of "rss" or "atom".');
+            throw new Zend_Feed_Exception('Invalid feed type specified: ' . $type . '.' . ' Should be one of "rss" or "atom".');
         }
         $renderClass = 'Zend_Feed_Writer_Renderer_Feed_' . $type;
         $renderer = new $renderClass($this);
         if ($ignoreExceptions) {
             $renderer->ignoreExceptions();
         }
+
         return $renderer->render()->saveXml();
     }
-
 }

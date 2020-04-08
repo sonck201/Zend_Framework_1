@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_View
- * @subpackage Helper
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -24,11 +24,10 @@
 require_once 'Zend/View/Helper/FormElement.php';
 
 /**
- * Form label helper
+ * Form label helper.
  *
  * @category   Zend
- * @package    Zend_View
- * @subpackage Helper
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -37,9 +36,10 @@ class Zend_View_Helper_FormLabel extends Zend_View_Helper_FormElement
     /**
      * Generates a 'label' element.
      *
-     * @param  string $name The form element name for which the label is being generated
-     * @param  string $value The label text
-     * @param  array $attribs Form element attributes (used to determine if disabled)
+     * @param string $name The form element name for which the label is being generated
+     * @param string $value The label text
+     * @param array $attribs Form element attributes (used to determine if disabled)
+     *
      * @return string The element XHTML.
      */
     public function formLabel($name, $value = null, array $attribs = null)
@@ -54,7 +54,7 @@ class Zend_View_Helper_FormLabel extends Zend_View_Helper_FormElement
         }
 
         $value = ($escape) ? $this->view->escape($value) : $value;
-        $for   = (empty($attribs['disableFor']) || !$attribs['disableFor'])
+        $for = (empty($attribs['disableFor']) || !$attribs['disableFor'])
                ? ' for="' . $this->view->escape($id) . '"'
                : '';
         if (array_key_exists('disableFor', $attribs)) {

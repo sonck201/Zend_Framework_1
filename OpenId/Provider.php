@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,74 +14,72 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_OpenId
- * @subpackage Zend_OpenId_Provider
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
 /**
  * @see Zend_OpenId
  */
-require_once "Zend/OpenId.php";
+require_once 'Zend/OpenId.php';
 
 /**
  * @see Zend_OpenId_Extension
  */
-require_once "Zend/OpenId/Extension.php";
+require_once 'Zend/OpenId/Extension.php';
 
 /**
- * OpenID provider (server) implementation
+ * OpenID provider (server) implementation.
  *
  * @category   Zend
- * @package    Zend_OpenId
- * @subpackage Zend_OpenId_Provider
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_OpenId_Provider
 {
-
     /**
-     * Reference to an implementation of storage object
+     * Reference to an implementation of storage object.
      *
-     * @var Zend_OpenId_Provider_Storage $_storage
+     * @var Zend_OpenId_Provider_Storage
      */
     private $_storage;
 
     /**
-     * Reference to an implementation of user object
+     * Reference to an implementation of user object.
      *
-     * @var Zend_OpenId_Provider_User $_user
+     * @var Zend_OpenId_Provider_User
      */
     private $_user;
 
     /**
-     * Time to live of association session in secconds
+     * Time to live of association session in secconds.
      *
-     * @var integer $_sessionTtl
+     * @var int
      */
     private $_sessionTtl;
 
     /**
-     * URL to peform interactive user login
+     * URL to peform interactive user login.
      *
-     * @var string $_loginUrl
+     * @var string
      */
     private $_loginUrl;
 
     /**
-     * URL to peform interactive validation of consumer by user
+     * URL to peform interactive validation of consumer by user.
      *
-     * @var string $_trustUrl
+     * @var string
      */
     private $_trustUrl;
 
     /**
-     * The OP Endpoint URL
+     * The OP Endpoint URL.
      *
-     * @var string $_opEndpoint
+     * @var string
      */
     private $_opEndpoint;
 
@@ -89,20 +87,20 @@ class Zend_OpenId_Provider
      * Constructs a Zend_OpenId_Provider object with given parameters.
      *
      * @param string $loginUrl is an URL that provides login screen for
-     *  end-user (by default it is the same URL with additional GET variable
-     *  openid.action=login)
+     *                         end-user (by default it is the same URL with additional GET variable
+     *                         openid.action=login)
      * @param string $trustUrl is an URL that shows a question if end-user
-     *  trust to given consumer (by default it is the same URL with additional
-     *  GET variable openid.action=trust)
+     *                         trust to given consumer (by default it is the same URL with additional
+     *                         GET variable openid.action=trust)
      * @param Zend_OpenId_Provider_User $user is an object for communication
-     *  with User-Agent and store information about logged-in user (it is a
-     *  Zend_OpenId_Provider_User_Session object by default)
+     *                                        with User-Agent and store information about logged-in user (it is a
+     *                                        Zend_OpenId_Provider_User_Session object by default)
      * @param Zend_OpenId_Provider_Storage $storage is an object for keeping
-     *  persistent database (it is a Zend_OpenId_Provider_Storage_File object
-     *  by default)
-     * @param integer $sessionTtl is a default time to live for association
-     *   session in seconds (1 hour by default). Consumer must reestablish
-     *   association after that time.
+     *                                              persistent database (it is a Zend_OpenId_Provider_Storage_File object
+     *                                              by default)
+     * @param int $sessionTtl is a default time to live for association
+     *                        session in seconds (1 hour by default). Consumer must reestablish
+     *                        association after that time.
      */
     public function __construct($loginUrl = null,
                                 $trustUrl = null,
@@ -123,13 +121,13 @@ class Zend_OpenId_Provider
         }
         $this->_trustUrl = $trustUrl;
         if ($user === null) {
-            require_once "Zend/OpenId/Provider/User/Session.php";
+            require_once 'Zend/OpenId/Provider/User/Session.php';
             $this->_user = new Zend_OpenId_Provider_User_Session();
         } else {
             $this->_user = $user;
         }
         if ($storage === null) {
-            require_once "Zend/OpenId/Provider/Storage/File.php";
+            require_once 'Zend/OpenId/Provider/Storage/File.php';
             $this->_storage = new Zend_OpenId_Provider_Storage_File();
         } else {
             $this->_storage = $storage;
@@ -138,9 +136,10 @@ class Zend_OpenId_Provider
     }
 
     /**
-     * Sets the OP Endpoint URL
+     * Sets the OP Endpoint URL.
      *
      * @param string $url the OP Endpoint URL
+     *
      * @return null
      */
     public function setOpEndpoint($url)
@@ -151,10 +150,11 @@ class Zend_OpenId_Provider
     /**
      * Registers a new user with given $id and $password
      * Returns true in case of success and false if user with given $id already
-     * exists
+     * exists.
      *
      * @param string $id user identity URL
      * @param string $password encoded user password
+     *
      * @return bool
      */
     public function register($id, $password)
@@ -162,28 +162,33 @@ class Zend_OpenId_Provider
         if (!Zend_OpenId::normalize($id) || empty($id)) {
             return false;
         }
-        return $this->_storage->addUser($id, md5($id.$password));
+
+        return $this->_storage->addUser($id, md5($id . $password));
     }
 
     /**
-     * Returns true if user with given $id exists and false otherwise
+     * Returns true if user with given $id exists and false otherwise.
      *
      * @param string $id user identity URL
+     *
      * @return bool
      */
-    public function hasUser($id) {
+    public function hasUser($id)
+    {
         if (!Zend_OpenId::normalize($id)) {
             return false;
         }
+
         return $this->_storage->hasUser($id);
     }
 
     /**
      * Performs login of user with given $id and $password
-     * Returns true in case of success and false otherwise
+     * Returns true in case of success and false otherwise.
      *
      * @param string $id user identity URL
      * @param string $password user password
+     *
      * @return bool
      */
     public function login($id, $password)
@@ -191,10 +196,11 @@ class Zend_OpenId_Provider
         if (!Zend_OpenId::normalize($id)) {
             return false;
         }
-        if (!$this->_storage->checkUser($id, md5($id.$password))) {
+        if (!$this->_storage->checkUser($id, md5($id . $password))) {
             return false;
         }
         $this->_user->setLoggedInUser($id);
+
         return true;
     }
 
@@ -206,23 +212,26 @@ class Zend_OpenId_Provider
     public function logout()
     {
         $this->_user->delLoggedInUser();
+
         return true;
     }
 
     /**
-     * Returns identity URL of current logged in user or false
+     * Returns identity URL of current logged in user or false.
      *
      * @return mixed
      */
-    public function getLoggedInUser() {
+    public function getLoggedInUser()
+    {
         return $this->_user->getLoggedInUser();
     }
 
     /**
      * Retrieve consumer's root URL from request query.
-     * Returns URL or false in case of failure
+     * Returns URL or false in case of failure.
      *
      * @param array $params query arguments
+     *
      * @return mixed
      */
     public function getSiteRoot($params)
@@ -234,9 +243,9 @@ class Zend_OpenId_Provider
         }
         if ($version >= 2.0 && isset($params['openid_realm'])) {
             $root = $params['openid_realm'];
-        } else if ($version < 2.0 && isset($params['openid_trust_root'])) {
+        } elseif ($version < 2.0 && isset($params['openid_trust_root'])) {
             $root = $params['openid_trust_root'];
-        } else if (isset($params['openid_return_to'])) {
+        } elseif (isset($params['openid_return_to'])) {
             $root = $params['openid_return_to'];
         } else {
             return false;
@@ -244,6 +253,7 @@ class Zend_OpenId_Provider
         if (Zend_OpenId::normalizeUrl($root) && !empty($root)) {
             return $root;
         }
+
         return false;
     }
 
@@ -253,21 +263,23 @@ class Zend_OpenId_Provider
      *
      * @param string $root root URL
      * @param mixed $extensions extension object or array of extensions objects
+     *
      * @return bool
      */
-    public function allowSite($root, $extensions=null)
+    public function allowSite($root, $extensions = null)
     {
         $id = $this->getLoggedInUser();
         if ($id === false) {
             return false;
         }
         if ($extensions !== null) {
-            $data = array();
+            $data = [];
             Zend_OpenId_Extension::forAll($extensions, 'getTrustData', $data);
         } else {
             $data = true;
         }
         $this->_storage->addSite($id, $root, $data);
+
         return true;
     }
 
@@ -276,6 +288,7 @@ class Zend_OpenId_Provider
      * in user. Returns true on success and false on error.
      *
      * @param string $root root URL
+     *
      * @return bool
      */
     public function denySite($root)
@@ -285,6 +298,7 @@ class Zend_OpenId_Provider
             return false;
         }
         $this->_storage->addSite($id, $root, false);
+
         return true;
     }
 
@@ -295,6 +309,7 @@ class Zend_OpenId_Provider
      * Returns true on success and false on error.
      *
      * @param string $root root URL
+     *
      * @return bool
      */
     public function delSite($root)
@@ -304,6 +319,7 @@ class Zend_OpenId_Provider
             return false;
         }
         $this->_storage->addSite($id, $root, null);
+
         return true;
     }
 
@@ -319,27 +335,29 @@ class Zend_OpenId_Provider
         if ($id === false) {
             return false;
         }
+
         return $this->_storage->getTrustedSites($id);
     }
 
     /**
-     * Handles HTTP request from consumer
+     * Handles HTTP request from consumer.
      *
      * @param array $params GET or POST variables. If this parameter is omited
-     *  or set to null, then $_GET or $_POST superglobal variable is used
-     *  according to REQUEST_METHOD.
+     *                      or set to null, then $_GET or $_POST superglobal variable is used
+     *                      according to REQUEST_METHOD.
      * @param mixed $extensions extension object or array of extensions objects
      * @param Zend_Controller_Response_Abstract $response an optional response
-     *  object to perform HTTP or HTML form redirection
+     *                                                    object to perform HTTP or HTML form redirection
+     *
      * @return mixed
      */
-    public function handle($params=null, $extensions=null,
+    public function handle($params = null, $extensions = null,
                            Zend_Controller_Response_Abstract $response = null)
     {
         if ($params === null) {
-            if ($_SERVER["REQUEST_METHOD"] == "GET") {
+            if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 $params = $_GET;
-            } else if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $params = $_POST;
             } else {
                 return false;
@@ -357,49 +375,60 @@ class Zend_OpenId_Provider
                 foreach ($response as $key => $val) {
                     $ret .= $key . ':' . $val . "\n";
                 }
+
                 return $ret;
-            } else if ($params['openid_mode'] == 'checkid_immediate') {
+            } elseif ($params['openid_mode'] == 'checkid_immediate') {
                 $ret = $this->_checkId($version, $params, 1, $extensions, $response);
-                if (is_bool($ret)) return $ret;
+                if (is_bool($ret)) {
+                    return $ret;
+                }
                 if (!empty($params['openid_return_to'])) {
                     Zend_OpenId::redirect($params['openid_return_to'], $ret, $response);
                 }
+
                 return true;
-            } else if ($params['openid_mode'] == 'checkid_setup') {
+            } elseif ($params['openid_mode'] == 'checkid_setup') {
                 $ret = $this->_checkId($version, $params, 0, $extensions, $response);
-                if (is_bool($ret)) return $ret;
+                if (is_bool($ret)) {
+                    return $ret;
+                }
                 if (!empty($params['openid_return_to'])) {
                     Zend_OpenId::redirect($params['openid_return_to'], $ret, $response);
                 }
+
                 return true;
-            } else if ($params['openid_mode'] == 'check_authentication') {
+            } elseif ($params['openid_mode'] == 'check_authentication') {
                 $response = $this->_checkAuthentication($version, $params);
                 $ret = '';
                 foreach ($response as $key => $val) {
                     $ret .= $key . ':' . $val . "\n";
                 }
+
                 return $ret;
             }
         }
+
         return false;
     }
 
     /**
      * Generates a secret key for given hash function, returns RAW key or false
-     * if function is not supported
+     * if function is not supported.
      *
      * @param string $func hash function (sha1 or sha256)
+     *
      * @return mixed
      */
     protected function _genSecret($func)
     {
         if ($func == 'sha1') {
             $macLen = 20; /* 160 bit */
-        } else if ($func == 'sha256') {
+        } elseif ($func == 'sha256') {
             $macLen = 32; /* 256 bit */
         } else {
             return false;
         }
+
         return Zend_OpenId::randomBytes($macLen);
     }
 
@@ -410,11 +439,12 @@ class Zend_OpenId_Provider
      *
      * @param float $version OpenID version
      * @param array $params GET or POST request variables
+     *
      * @return array
      */
     protected function _associate($version, $params)
     {
-        $ret = array();
+        $ret = [];
 
         if ($version >= 2.0) {
             $ret['ns'] = Zend_OpenId::NS_2_0;
@@ -423,13 +453,14 @@ class Zend_OpenId_Provider
         if (isset($params['openid_assoc_type']) &&
             $params['openid_assoc_type'] == 'HMAC-SHA1') {
             $macFunc = 'sha1';
-        } else if (isset($params['openid_assoc_type']) &&
+        } elseif (isset($params['openid_assoc_type']) &&
             $params['openid_assoc_type'] == 'HMAC-SHA256' &&
             $version >= 2.0) {
             $macFunc = 'sha256';
         } else {
             $ret['error'] = 'Wrong "openid.assoc_type"';
             $ret['error-code'] = 'unsupported-type';
+
             return $ret;
         }
 
@@ -440,16 +471,17 @@ class Zend_OpenId_Provider
         if (empty($params['openid_session_type']) ||
             $params['openid_session_type'] == 'no-encryption') {
             $ret['mac_key'] = base64_encode($secret);
-        } else if (isset($params['openid_session_type']) &&
+        } elseif (isset($params['openid_session_type']) &&
             $params['openid_session_type'] == 'DH-SHA1') {
             $dhFunc = 'sha1';
-        } else if (isset($params['openid_session_type']) &&
+        } elseif (isset($params['openid_session_type']) &&
             $params['openid_session_type'] == 'DH-SHA256' &&
             $version >= 2.0) {
             $dhFunc = 'sha256';
         } else {
             $ret['error'] = 'Wrong "openid.session_type"';
             $ret['error-code'] = 'unsupported-type';
+
             return $ret;
         }
 
@@ -460,6 +492,7 @@ class Zend_OpenId_Provider
         if (isset($dhFunc)) {
             if (empty($params['openid_dh_consumer_public'])) {
                 $ret['error'] = 'Wrong "openid.dh_consumer_public"';
+
                 return $ret;
             }
             if (empty($params['openid_dh_gen'])) {
@@ -481,12 +514,13 @@ class Zend_OpenId_Provider
             if ($sec === false) {
                 $ret['error'] = 'Wrong "openid.session_type"';
                 $ret['error-code'] = 'unsupported-type';
+
                 return $ret;
             }
             $sec = Zend_OpenId::digest($dhFunc, $sec);
             $ret['dh_server_public'] = base64_encode(
                 Zend_OpenId::btwoc($dh_details['pub_key']));
-            $ret['enc_mac_key']      = base64_encode($secret ^ $sec);
+            $ret['enc_mac_key'] = base64_encode($secret ^ $sec);
         }
 
         $handle = uniqid();
@@ -509,12 +543,13 @@ class Zend_OpenId_Provider
      * @param bool $immediate enables or disables interaction with user
      * @param mixed $extensions extension object or array of extensions objects
      * @param Zend_Controller_Response_Abstract $response
+     *
      * @return array
      */
-    protected function _checkId($version, $params, $immediate, $extensions=null,
+    protected function _checkId($version, $params, $immediate, $extensions = null,
         Zend_Controller_Response_Abstract $response = null)
     {
-        $ret = array();
+        $ret = [];
 
         if ($version >= 2.0) {
             $ret['openid.ns'] = Zend_OpenId::NS_2_0;
@@ -526,40 +561,44 @@ class Zend_OpenId_Provider
 
         if (isset($params['openid_identity']) &&
             !$this->_storage->hasUser($params['openid_identity'])) {
-            $ret['openid.mode'] = ($immediate && $version >= 2.0) ? 'setup_needed': 'cancel';
+            $ret['openid.mode'] = ($immediate && $version >= 2.0) ? 'setup_needed' : 'cancel';
+
             return $ret;
         }
 
         /* Check if user already logged in into the server */
         if (!isset($params['openid_identity']) ||
             $this->_user->getLoggedInUser() !== $params['openid_identity']) {
-            $params2 = array();
+            $params2 = [];
             foreach ($params as $key => $val) {
                 if (strpos($key, 'openid_ns_') === 0) {
                     $key = 'openid.ns.' . substr($key, strlen('openid_ns_'));
-                } else if (strpos($key, 'openid_sreg_') === 0) {
+                } elseif (strpos($key, 'openid_sreg_') === 0) {
                     $key = 'openid.sreg.' . substr($key, strlen('openid_sreg_'));
-                } else if (strpos($key, 'openid_') === 0) {
+                } elseif (strpos($key, 'openid_') === 0) {
                     $key = 'openid.' . substr($key, strlen('openid_'));
                 }
                 $params2[$key] = $val;
             }
             if ($immediate) {
                 $params2['openid.mode'] = 'checkid_setup';
-                $ret['openid.mode'] = ($version >= 2.0) ? 'setup_needed': 'id_res';
+                $ret['openid.mode'] = ($version >= 2.0) ? 'setup_needed' : 'id_res';
                 $ret['openid.user_setup_url'] = $this->_loginUrl
                     . (strpos($this->_loginUrl, '?') === false ? '?' : '&')
                     . Zend_OpenId::paramsToQuery($params2);
+
                 return $ret;
             } else {
                 /* Redirect to Server Login Screen */
                 Zend_OpenId::redirect($this->_loginUrl, $params2, $response);
+
                 return true;
             }
         }
 
         if (!Zend_OpenId_Extension::forAll($extensions, 'parseRequest', $params)) {
-            $ret['openid.mode'] = ($immediate && $version >= 2.0) ? 'setup_needed': 'cancel';
+            $ret['openid.mode'] = ($immediate && $version >= 2.0) ? 'setup_needed' : 'cancel';
+
             return $ret;
         }
 
@@ -581,9 +620,9 @@ class Zend_OpenId_Provider
                     $n = strpos($site, '://*.');
                     if ($n != false) {
                         $regex = '/^'
-                               . preg_quote(substr($site, 0, $n+3), '/')
+                               . preg_quote(substr($site, 0, $n + 3), '/')
                                . '[A-Za-z1-9_\.]+?'
-                               . preg_quote(substr($site, $n+4), '/')
+                               . preg_quote(substr($site, $n + 4), '/')
                                . '/';
                         if (preg_match($regex, $root)) {
                             $trusted = $t;
@@ -602,29 +641,32 @@ class Zend_OpenId_Provider
 
         if ($trusted === false) {
             $ret['openid.mode'] = 'cancel';
+
             return $ret;
-        } else if ($trusted === null) {
+        } elseif ($trusted === null) {
             /* Redirect to Server Trust Screen */
-            $params2 = array();
+            $params2 = [];
             foreach ($params as $key => $val) {
                 if (strpos($key, 'openid_ns_') === 0) {
                     $key = 'openid.ns.' . substr($key, strlen('openid_ns_'));
-                } else if (strpos($key, 'openid_sreg_') === 0) {
+                } elseif (strpos($key, 'openid_sreg_') === 0) {
                     $key = 'openid.sreg.' . substr($key, strlen('openid_sreg_'));
-                } else if (strpos($key, 'openid_') === 0) {
+                } elseif (strpos($key, 'openid_') === 0) {
                     $key = 'openid.' . substr($key, strlen('openid_'));
                 }
                 $params2[$key] = $val;
             }
             if ($immediate) {
                 $params2['openid.mode'] = 'checkid_setup';
-                $ret['openid.mode'] = ($version >= 2.0) ? 'setup_needed': 'id_res';
+                $ret['openid.mode'] = ($version >= 2.0) ? 'setup_needed' : 'id_res';
                 $ret['openid.user_setup_url'] = $this->_trustUrl
                     . (strpos($this->_trustUrl, '?') === false ? '?' : '&')
                     . Zend_OpenId::paramsToQuery($params2);
+
                 return $ret;
             } else {
                 Zend_OpenId::redirect($this->_trustUrl, $params2, $response);
+
                 return true;
             }
         }
@@ -634,15 +676,16 @@ class Zend_OpenId_Provider
 
     /**
      * Perepares information to send back to consumer's authentication request,
-     * signs it using shared secret and send back through HTTP redirection
+     * signs it using shared secret and send back through HTTP redirection.
      *
      * @param array $params GET or POST request variables
      * @param mixed $extensions extension object or array of extensions objects
      * @param Zend_Controller_Response_Abstract $response an optional response
-     *  object to perform HTTP or HTML form redirection
+     *                                                    object to perform HTTP or HTML form redirection
+     *
      * @return bool
      */
-    public function respondToConsumer($params, $extensions=null,
+    public function respondToConsumer($params, $extensions = null,
                            Zend_Controller_Response_Abstract $response = null)
     {
         $version = 1.1;
@@ -650,7 +693,7 @@ class Zend_OpenId_Provider
             $params['openid_ns'] == Zend_OpenId::NS_2_0) {
             $version = 2.0;
         }
-        $ret = array();
+        $ret = [];
         if ($version >= 2.0) {
             $ret['openid.ns'] = Zend_OpenId::NS_2_0;
         }
@@ -658,6 +701,7 @@ class Zend_OpenId_Provider
         if (!empty($params['openid_return_to'])) {
             Zend_OpenId::redirect($params['openid_return_to'], $ret, $response);
         }
+
         return true;
     }
 
@@ -669,9 +713,10 @@ class Zend_OpenId_Provider
      * @param array $ret arguments to be send back to consumer
      * @param array $params GET or POST request variables
      * @param mixed $extensions extension object or array of extensions objects
+     *
      * @return array
      */
-    protected function _respond($version, $ret, $params, $extensions=null)
+    protected function _respond($version, $ret, $params, $extensions = null)
     {
         if (empty($params['openid_assoc_handle']) ||
             !$this->_storage->getAssociation($params['openid_assoc_handle'],
@@ -741,11 +786,12 @@ class Zend_OpenId_Provider
      *
      * @param float $version OpenID version
      * @param array $params GET or POST request variables
+     *
      * @return array
      */
     protected function _checkAuthentication($version, $params)
     {
-        $ret = array();
+        $ret = [];
         if ($version >= 2.0) {
             $ret['ns'] = Zend_OpenId::NS_2_0;
         }
@@ -757,6 +803,7 @@ class Zend_OpenId_Provider
             !$this->_storage->getAssociation($params['openid_assoc_handle'],
                 $macFunc, $secret, $expires)) {
             $ret['is_valid'] = 'false';
+
             return $ret;
         }
 
@@ -767,7 +814,7 @@ class Zend_OpenId_Provider
             if ($key == 'mode') {
                 $data .= "id_res\n";
             } else {
-                $data .= $params['openid_' . strtr($key,'.','_')]."\n";
+                $data .= $params['openid_' . strtr($key, '.', '_')] . "\n";
             }
         }
         if ($this->_secureStringCompare(base64_decode($params['openid_sig']),
@@ -776,6 +823,7 @@ class Zend_OpenId_Provider
         } else {
             $ret['is_valid'] = 'false';
         }
+
         return $ret;
     }
 
@@ -787,6 +835,7 @@ class Zend_OpenId_Provider
      *
      * @param string $a
      * @param string $b
+     *
      * @return bool
      */
     protected function _secureStringCompare($a, $b)
@@ -795,9 +844,10 @@ class Zend_OpenId_Provider
             return false;
         }
         $result = 0;
-        for ($i = 0; $i < strlen($a); $i++) {
+        for ($i = 0; $i < strlen($a); ++$i) {
             $result |= ord($a[$i]) ^ ord($b[$i]);
         }
+
         return $result == 0;
     }
 }

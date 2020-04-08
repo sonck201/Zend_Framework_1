@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,23 +13,21 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Pdf
- * @subpackage Fonts
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
-
 /** Internally used classes */
 require_once 'Zend/Pdf/Element/Name.php';
-
 
 /** Zend_Pdf_Resource_Font */
 require_once 'Zend/Pdf/Resource/Font.php';
 
 /**
- * Adobe PDF Simple fonts implementation
+ * Adobe PDF Simple fonts implementation.
  *
  * PDF simple fonts functionality is presented by Adobe Type 1
  * (including standard PDF Type1 built-in fonts) and TrueType fonts support.
@@ -54,8 +52,6 @@ require_once 'Zend/Pdf/Resource/Font.php';
  * Font objects should be normally be obtained from the factory methods
  * {@link Zend_Pdf_Font::fontWithName} and {@link Zend_Pdf_Font::fontWithPath}.
  *
- * @package    Zend_Pdf
- * @subpackage Fonts
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -63,6 +59,7 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
 {
     /**
      * Object representing the font's cmap (character to glyph map).
+     *
      * @var Zend_Pdf_Cmap
      */
     protected $_cmap = null;
@@ -80,7 +77,7 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
     protected $_glyphWidths = null;
 
     /**
-     * Width for glyphs missed in the font
+     * Width for glyphs missed in the font.
      *
      * Note: Adobe PDF specfication (V1.4 - V1.6) doesn't define behavior for rendering
      * characters missed in the standard PDF fonts (such us 0x7F (DEL) Windows ANSI code)
@@ -88,25 +85,22 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
      * We provide character width as "0" for this case, but actually it depends on PDF viewer
      * implementation.
      *
-     * @var integer
+     * @var int
      */
     protected $_missingGlyphWidth = 0;
 
-
     /**** Public Interface ****/
 
-
-  /* Object Lifecycle */
+    /* Object Lifecycle */
 
     /**
-     * Object constructor
-     *
+     * Object constructor.
      */
     public function __construct()
     {
         parent::__construct();
 
-        /**
+        /*
          * @todo
          * It's easy to add other encodings support now (Standard-Encoding, MacRomanEncoding,
          * PDFDocEncoding, MacExpertEncoding, Symbol, and ZapfDingbats).
@@ -129,6 +123,7 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
      * See also {@link glyphNumberForCharacter()}.
      *
      * @param array $characterCodes Array of Unicode character codes (code points).
+     *
      * @return array Array of glyph numbers.
      */
     public function glyphNumbersForCharacters($characterCodes)
@@ -145,8 +140,9 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
      * See also {@link glyphNumbersForCharacters()} which is optimized for bulk
      * operations.
      *
-     * @param integer $characterCode Unicode character code (code point).
-     * @return integer Glyph number.
+     * @param int $characterCode Unicode character code (code point).
+     *
+     * @return int Glyph number.
      */
     public function glyphNumberForCharacter($characterCode)
     {
@@ -168,7 +164,8 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
      *
      * @param string $string
      * @param string $charEncoding (optional) Character encoding of source text.
-     *   If omitted, uses 'current locale'.
+     *                             If omitted, uses 'current locale'.
+     *
      * @return float
      */
     public function getCoveredPercentage($string, $charEncoding = '')
@@ -195,7 +192,7 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
          */
         $score = 0;
         $maxIndex = strlen($string);
-        for ($i = 0; $i < $maxIndex; $i++) {
+        for ($i = 0; $i < $maxIndex; ++$i) {
             /**
              * @todo Properly handle characters encoded as surrogate pairs.
              */
@@ -203,9 +200,10 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
             /* This could probably be optimized a bit with a binary search...
              */
             if (in_array($charCode, $coveredCharacters)) {
-                $score++;
+                ++$score;
             }
         }
+
         return $score / $charCount;
     }
 
@@ -218,11 +216,12 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
      * See also {@link widthForGlyph()}.
      *
      * @param array &$glyphNumbers Array of glyph numbers.
+     *
      * @return array Array of glyph widths (integers).
      */
     public function widthsForGlyphs($glyphNumbers)
     {
-        $widths = array();
+        $widths = [];
         foreach ($glyphNumbers as $key => $glyphNumber) {
             if (!isset($this->_glyphWidths[$glyphNumber])) {
                 $widths[$key] = $this->_missingGlyphWidth;
@@ -230,6 +229,7 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
                 $widths[$key] = $this->_glyphWidths[$glyphNumber];
             }
         }
+
         return $widths;
     }
 
@@ -238,14 +238,16 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
      *
      * Like {@link widthsForGlyphs()} but used for one glyph at a time.
      *
-     * @param integer $glyphNumber
-     * @return integer
+     * @param int $glyphNumber
+     *
+     * @return int
      */
     public function widthForGlyph($glyphNumber)
     {
         if (!isset($this->_glyphWidths[$glyphNumber])) {
             return $this->_missingGlyphWidth;
         }
+
         return $this->_glyphWidths[$glyphNumber];
     }
 
@@ -256,6 +258,7 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
      *
      * @param string $string
      * @param string $charEncoding Character encoding of source text.
+     *
      * @return string
      */
     public function encodeString($string, $charEncoding)
@@ -274,6 +277,7 @@ abstract class Zend_Pdf_Resource_Font_Simple extends Zend_Pdf_Resource_Font
      *
      * @param string $string
      * @param string $charEncoding Character encoding of resulting text.
+     *
      * @return string
      */
     public function decodeString($string, $charEncoding)

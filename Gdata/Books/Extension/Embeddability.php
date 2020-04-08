@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Books
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -27,17 +27,15 @@
 require_once 'Zend/Gdata/Extension.php';
 
 /**
- * Describes an embeddability
+ * Describes an embeddability.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Books
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Books_Extension_Embeddability extends Zend_Gdata_Extension
 {
-
     protected $_rootNamespace = 'gbs';
     protected $_rootElement = 'embeddability';
     protected $_value = null;
@@ -47,7 +45,7 @@ class Zend_Gdata_Books_Extension_Embeddability extends Zend_Gdata_Extension
      * Describes an embeddability.
      *
      * @param string|null $value A programmatic value representing the book's
-     *        embeddability.
+     *                           embeddability.
      */
     public function __construct($value = null)
     {
@@ -63,8 +61,11 @@ class Zend_Gdata_Books_Extension_Embeddability extends Zend_Gdata_Extension
      * for application storage/persistance.
      *
      * @param DOMDocument $doc The DOMDocument used to construct DOMElements
+     * @param mixed $majorVersion
+     * @param mixed|null $minorVersion
+     *
      * @return DOMElement The DOMElement representing this element and all
-     * child properties.
+     *                    child properties.
      */
     public function getDOM($doc = null, $majorVersion = 1, $minorVersion = null)
     {
@@ -72,6 +73,7 @@ class Zend_Gdata_Books_Extension_Embeddability extends Zend_Gdata_Extension
         if ($this->_value !== null) {
             $element->setAttribute('value', $this->_value);
         }
+
         return $element;
     }
 
@@ -94,7 +96,7 @@ class Zend_Gdata_Books_Extension_Embeddability extends Zend_Gdata_Extension
 
     /**
      * Returns the programmatic value that describes the embeddability of a
-     * volume in Google Book Search
+     * volume in Google Book Search.
      *
      * @return string|null The value
      */
@@ -105,18 +107,18 @@ class Zend_Gdata_Books_Extension_Embeddability extends Zend_Gdata_Extension
 
     /**
      * Sets the programmatic value that describes the embeddability of a
-     * volume in Google Book Search
+     * volume in Google Book Search.
      *
      * @param string|null $value Programmatic value that describes the
-     *        embeddability of a volume in Google Book Search
+     *                           embeddability of a volume in Google Book Search
+     *
      * @return Zend_Gdata_Books_Extension_Embeddability Provides a fluent
-     *     interface
+     *                                                  interface
      */
     public function setValue($value)
     {
         $this->_value = $value;
+
         return $this;
     }
-
 }
-

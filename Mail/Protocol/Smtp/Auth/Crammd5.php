@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,26 +13,23 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Mail
- * @subpackage Protocol
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
-
 
 /**
  * @see Zend_Mail_Protocol_Smtp
  */
 require_once 'Zend/Mail/Protocol/Smtp.php';
 
-
 /**
- * Performs CRAM-MD5 authentication
+ * Performs CRAM-MD5 authentication.
  *
  * @category   Zend
- * @package    Zend_Mail
- * @subpackage Protocol
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -41,9 +38,10 @@ class Zend_Mail_Protocol_Smtp_Auth_Crammd5 extends Zend_Mail_Protocol_Smtp
     /**
      * Constructor.
      *
-     * @param  string $host   (Default: 127.0.0.1)
-     * @param  int    $port   (Default: null)
-     * @param  array  $config Auth-specific parameters
+     * @param string $host (Default: 127.0.0.1)
+     * @param int $port (Default: null)
+     * @param array $config Auth-specific parameters
+     *
      * @return void
      */
     public function __construct($host = '127.0.0.1', $port = null, $config = null)
@@ -59,7 +57,6 @@ class Zend_Mail_Protocol_Smtp_Auth_Crammd5 extends Zend_Mail_Protocol_Smtp
 
         parent::__construct($host, $port, $config);
     }
-
 
     /**
      * @todo Perform CRAM-MD5 authentication with supplied credentials
@@ -80,13 +77,13 @@ class Zend_Mail_Protocol_Smtp_Auth_Crammd5 extends Zend_Mail_Protocol_Smtp
         $this->_auth = true;
     }
 
-
     /**
-     * Prepare CRAM-MD5 response to server's ticket
+     * Prepare CRAM-MD5 response to server's ticket.
      *
-     * @param  string $key   Challenge key (usually password)
-     * @param  string $data  Challenge data
-     * @param  string $block Length of blocks
+     * @param string $key Challenge key (usually password)
+     * @param string $data Challenge data
+     * @param string $block Length of blocks
+     *
      * @return string
      */
     protected function _hmacMd5($key, $data, $block = 64)

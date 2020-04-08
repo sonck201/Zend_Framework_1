@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Tool
- * @subpackage Framework
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -27,19 +27,17 @@ require_once 'Zend/Tool/Project/Provider/Abstract.php';
 
 /**
  * @category   Zend
- * @package    Zend_Tool
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Tool_Project_Provider_Project
-    extends Zend_Tool_Project_Provider_Abstract
+class Zend_Tool_Project_Provider_Project extends Zend_Tool_Project_Provider_Abstract
     //implements Zend_Tool_Framework_Provider_DocblockManifestInterface
 {
-
-    protected $_specialties = array('Info');
+    protected $_specialties = ['Info'];
 
     /**
-     * create()
+     * create().
      *
      * @param string $path
      * @param string $nameOfProfile shortName=n
@@ -83,26 +81,26 @@ class Zend_Tool_Project_Provider_Project
             $profileData = $this->_getDefaultProfile();
         }
 
-        $newProfile = new Zend_Tool_Project_Profile(array(
+        $newProfile = new Zend_Tool_Project_Profile([
             'projectDirectory' => $path,
-            'profileData' => $profileData
-            ));
+            'profileData' => $profileData,
+        ]);
 
         $newProfile->loadFromData();
 
         $response = $this->_registry->getResponse();
 
         $response->appendContent('Creating project at ' . $path);
-        $response->appendContent('Note: ', array('separator' => false, 'color' => 'yellow'));
+        $response->appendContent('Note: ', ['separator' => false, 'color' => 'yellow']);
         $response->appendContent(
             'This command created a web project, '
             . 'for more information setting up your VHOST, please see docs/README');
 
         if (!Zend_Tool_Project_Provider_Test::isPHPUnitAvailable()) {
-            $response->appendContent('Testing Note: ', array('separator' => false, 'color' => 'yellow'));
+            $response->appendContent('Testing Note: ', ['separator' => false, 'color' => 'yellow']);
             $response->appendContent('PHPUnit was not found in your include_path, therefore no testing actions will be created.');
         }
-            
+
         foreach ($newProfile->getIterator() as $resource) {
             $resource->create();
         }
@@ -110,7 +108,7 @@ class Zend_Tool_Project_Provider_Project
 
     public function show()
     {
-        $this->_registry->getResponse()->appendContent('You probably meant to run "show project.info".', array('color' => 'yellow'));
+        $this->_registry->getResponse()->appendContent('You probably meant to run "show project.info".', ['color' => 'yellow']);
     }
 
     public function showInfo()
@@ -129,7 +127,7 @@ class Zend_Tool_Project_Provider_Project
         if (Zend_Tool_Project_Provider_Test::isPHPUnitAvailable()) {
             $testAction = '                    	<testApplicationActionMethod forActionName="index" />';
         }
-        
+
         $version = Zend_Version::VERSION;
 
         $data = <<<EOS
@@ -204,6 +202,7 @@ $testAction
     </projectDirectory>
 </projectProfile>
 EOS;
+
         return $data;
     }
 

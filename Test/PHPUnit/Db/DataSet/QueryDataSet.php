@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,30 +13,30 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Test
- * @subpackage PHPUnit
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
 /**
  * @see Zend_Test_PHPUnit_Db_DataSet_QueryTable
  */
-require_once "Zend/Test/PHPUnit/Db/DataSet/QueryTable.php";
+require_once 'Zend/Test/PHPUnit/Db/DataSet/QueryTable.php';
 
 /**
  * @see Zend_Db_Select
  */
-require_once "Zend/Db/Select.php";
+require_once 'Zend/Db/Select.php';
 
 /**
  * Uses several query strings or Zend_Db_Select objects to form a dataset of tables for assertion with other datasets.
  *
  * @uses       PHPUnit_Extensions_Database_DataSet_QueryDataSet
+ *
  * @category   Zend
- * @package    Zend_Test
- * @subpackage PHPUnit
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -49,9 +49,9 @@ class Zend_Test_PHPUnit_Db_DataSet_QueryDataSet extends PHPUnit_Extensions_Datab
      */
     public function __construct(PHPUnit_Extensions_Database_DB_IDatabaseConnection $databaseConnection)
     {
-        if( !($databaseConnection instanceof Zend_Test_PHPUnit_Db_Connection) ) {
-            require_once "Zend/Test/PHPUnit/Db/Exception.php";
-            throw new Zend_Test_PHPUnit_Db_Exception("Zend_Test_PHPUnit_Db_DataSet_QueryDataSet only works with Zend_Test_PHPUnit_Db_Connection connections-");
+        if (!($databaseConnection instanceof Zend_Test_PHPUnit_Db_Connection)) {
+            require_once 'Zend/Test/PHPUnit/Db/Exception.php';
+            throw new Zend_Test_PHPUnit_Db_Exception('Zend_Test_PHPUnit_Db_DataSet_QueryDataSet only works with Zend_Test_PHPUnit_Db_Connection connections-');
         }
         $this->databaseConnection = $databaseConnection;
     }
@@ -61,17 +61,17 @@ class Zend_Test_PHPUnit_Db_DataSet_QueryDataSet extends PHPUnit_Extensions_Datab
      *
      * By default a select * will be done on the given tablename.
      *
-     * @param string                $tableName
+     * @param string $tableName
      * @param string|Zend_Db_Select $query
      */
-    public function addTable($tableName, $query = NULL)
+    public function addTable($tableName, $query = null)
     {
-        if ($query === NULL) {
+        if ($query === null) {
             $query = $this->databaseConnection->getConnection()->select();
             $query->from($tableName, Zend_Db_Select::SQL_WILDCARD);
         }
 
-        if($query instanceof Zend_Db_Select) {
+        if ($query instanceof Zend_Db_Select) {
             $query = $query->__toString();
         }
 

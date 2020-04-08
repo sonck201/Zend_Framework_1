@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,9 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Reflection
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -26,7 +27,7 @@ require_once 'Zend/Reflection/Docblock/Tag.php';
 
 /**
  * @category   Zend
- * @package    Zend_Reflection
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -41,7 +42,7 @@ class Zend_Reflection_Docblock implements Reflector
      * @var int
      */
     protected $_startLine = null;
-    protected $_endLine   = null;
+    protected $_endLine = null;
     /**#@-*/
 
     /**
@@ -67,46 +68,47 @@ class Zend_Reflection_Docblock implements Reflector
     /**
      * @var array
      */
-    protected $_tags = array();
+    protected $_tags = [];
 
     /**
-     * Export reflection
+     * Export reflection.
      *
      * Reqired by the Reflector interface.
      *
      * @todo   What should this do?
+     *
      * @return void
      */
     public static function export()
     {
-
     }
 
     /**
-     * Serialize to string
+     * Serialize to string.
      *
      * Required by the Reflector interface
      *
      * @todo   What should this return?
+     *
      * @return string
      */
     public function __toString()
     {
-        $str = "Docblock [ /* Docblock */ ] {".PHP_EOL.PHP_EOL;
-        $str .= "  - Tags [".count($this->_tags)."] {".PHP_EOL;
+        $str = 'Docblock [ /* Docblock */ ] {' . PHP_EOL . PHP_EOL;
+        $str .= '  - Tags [' . count($this->_tags) . '] {' . PHP_EOL;
 
-        foreach($this->_tags AS $tag) {
-            $str .= "    ".$tag;
+        foreach ($this->_tags as $tag) {
+            $str .= '    ' . $tag;
         }
 
-        $str .= "  }".PHP_EOL;
-        $str .= "}".PHP_EOL;
+        $str .= '  }' . PHP_EOL;
+        $str .= '}' . PHP_EOL;
 
         return $str;
     }
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param Reflector|string $commentOrReflector
      */
@@ -123,8 +125,7 @@ class Zend_Reflection_Docblock implements Reflector
             $lineCount = substr_count($docComment, "\n");
 
             $this->_startLine = $this->_reflector->getStartLine() - $lineCount - 1;
-            $this->_endLine   = $this->_reflector->getStartLine() - 1;
-
+            $this->_endLine = $this->_reflector->getStartLine() - 1;
         } elseif (is_string($commentOrReflector)) {
             $docComment = $commentOrReflector;
         } else {
@@ -142,7 +143,7 @@ class Zend_Reflection_Docblock implements Reflector
     }
 
     /**
-     * Retrieve contents of docblock
+     * Retrieve contents of docblock.
      *
      * @return string
      */
@@ -152,7 +153,7 @@ class Zend_Reflection_Docblock implements Reflector
     }
 
     /**
-     * Get start line (position) of docblock
+     * Get start line (position) of docblock.
      *
      * @return int
      */
@@ -162,7 +163,7 @@ class Zend_Reflection_Docblock implements Reflector
     }
 
     /**
-     * Get last line (position) of docblock
+     * Get last line (position) of docblock.
      *
      * @return int
      */
@@ -172,7 +173,7 @@ class Zend_Reflection_Docblock implements Reflector
     }
 
     /**
-     * Get docblock short description
+     * Get docblock short description.
      *
      * @return string
      */
@@ -182,7 +183,7 @@ class Zend_Reflection_Docblock implements Reflector
     }
 
     /**
-     * Get docblock long description
+     * Get docblock long description.
      *
      * @return string
      */
@@ -194,7 +195,8 @@ class Zend_Reflection_Docblock implements Reflector
     /**
      * Does the docblock contain the given annotation tag?
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return bool
      */
     public function hasTag($name)
@@ -204,13 +206,15 @@ class Zend_Reflection_Docblock implements Reflector
                 return true;
             }
         }
+
         return false;
     }
 
     /**
-     * Retrieve the given docblock tag
+     * Retrieve the given docblock tag.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return Zend_Reflection_Docblock_Tag|false
      */
     public function getTag($name)
@@ -225,9 +229,10 @@ class Zend_Reflection_Docblock implements Reflector
     }
 
     /**
-     * Get all docblock annotation tags
+     * Get all docblock annotation tags.
      *
      * @param string $filter
+     *
      * @return array Array of Zend_Reflection_Docblock_Tag
      */
     public function getTags($filter = null)
@@ -236,17 +241,18 @@ class Zend_Reflection_Docblock implements Reflector
             return $this->_tags;
         }
 
-        $returnTags = array();
+        $returnTags = [];
         foreach ($this->_tags as $tag) {
             if ($tag->getName() == $filter) {
                 $returnTags[] = $tag;
             }
         }
+
         return $returnTags;
     }
 
     /**
-     * Parse the docblock
+     * Parse the docblock.
      *
      * @return void
      */
@@ -264,10 +270,10 @@ class Zend_Reflection_Docblock implements Reflector
         $parsedDocComment = $docComment;
         $lineNumber = $firstBlandLineEncountered = 0;
         while (($newlinePos = strpos($parsedDocComment, "\n")) !== false) {
-            $lineNumber++;
+            ++$lineNumber;
             $line = substr($parsedDocComment, 0, $newlinePos);
 
-            $matches = array();
+            $matches = [];
 
             if ((strpos($line, '@') === 0) && (preg_match('#^(@\w+.*?)(\n)(?:@|\r?\n|$)#s', $parsedDocComment, $matches))) {
                 $this->_tags[] = Zend_Reflection_Docblock_Tag::factory($matches[1]);
@@ -285,10 +291,9 @@ class Zend_Reflection_Docblock implements Reflector
 
                 $parsedDocComment = substr($parsedDocComment, $newlinePos + 1);
             }
-
         }
 
         $this->_shortDescription = rtrim($this->_shortDescription);
-        $this->_longDescription  = rtrim($this->_longDescription);
+        $this->_longDescription = rtrim($this->_longDescription);
     }
 }

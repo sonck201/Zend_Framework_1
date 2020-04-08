@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,19 +13,18 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_XmlRpc
- * @subpackage Server
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
 /**
- * XML-RPC system.* methods
+ * XML-RPC system.* methods.
  *
  * @category   Zend
- * @package    Zend_XmlRpc
- * @subpackage Server
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -37,9 +36,10 @@ class Zend_XmlRpc_Server_System
     protected $_server;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param  Zend_XmlRpc_Server $server
+     * @param Zend_XmlRpc_Server $server
+     *
      * @return void
      */
     public function __construct(Zend_XmlRpc_Server $server)
@@ -48,7 +48,7 @@ class Zend_XmlRpc_Server_System
     }
 
     /**
-     * List all available XMLRPC methods
+     * List all available XMLRPC methods.
      *
      * Returns an array of methods.
      *
@@ -57,13 +57,15 @@ class Zend_XmlRpc_Server_System
     public function listMethods()
     {
         $table = $this->_server->getDispatchTable()->getMethods();
+
         return array_keys($table);
     }
 
     /**
-     * Display help message for an XMLRPC method
+     * Display help message for an XMLRPC method.
      *
      * @param string $method
+     *
      * @return string
      */
     public function methodHelp($method)
@@ -78,9 +80,10 @@ class Zend_XmlRpc_Server_System
     }
 
     /**
-     * Return a method signature
+     * Return a method signature.
      *
      * @param string $method
+     *
      * @return array
      */
     public function methodSignature($method)
@@ -91,6 +94,7 @@ class Zend_XmlRpc_Server_System
             throw new Zend_XmlRpc_Server_Exception('Method "' . $method . '" does not exist', 640);
         }
         $method = $table->getMethod($method)->toArray();
+
         return $method['prototypes'];
     }
 
@@ -108,12 +112,14 @@ class Zend_XmlRpc_Server_System
      * struct with a fault response.
      *
      * @see http://www.xmlrpc.com/discuss/msgReader$1208
-     * @param  array $methods
+     *
+     * @param array $methods
+     *
      * @return array
      */
     public function multicall($methods)
     {
-        $responses = array();
+        $responses = [];
         foreach ($methods as $method) {
             $fault = false;
             if (!is_array($method)) {
@@ -150,10 +156,10 @@ class Zend_XmlRpc_Server_System
             }
 
             if ($fault) {
-                $responses[] = array(
-                    'faultCode'   => $fault->getCode(),
-                    'faultString' => $fault->getMessage()
-                );
+                $responses[] = [
+                    'faultCode' => $fault->getCode(),
+                    'faultString' => $fault->getMessage(),
+                ];
             }
         }
 

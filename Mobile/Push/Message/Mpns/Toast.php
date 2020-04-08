@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,8 +13,7 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Mobile
- * @subpackage Zend_Mobile_Push
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -23,18 +22,17 @@
 require_once 'Zend/Mobile/Push/Message/Mpns.php';
 
 /**
- * Mpns Toast Message
+ * Mpns Toast Message.
  *
  * @category   Zend
- * @package    Zend_Mobile
- * @subpackage Zend_Mobile_Push
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Mobile_Push_Message_Mpns_Toast extends Zend_Mobile_Push_Message_Mpns
 {
     /**
-     * Mpns delays
+     * Mpns delays.
      *
      * @var int
      */
@@ -43,28 +41,28 @@ class Zend_Mobile_Push_Message_Mpns_Toast extends Zend_Mobile_Push_Message_Mpns
     const DELAY_900S = 22;
 
     /**
-     * Title
+     * Title.
      *
      * @var string
      */
     protected $_title;
 
     /**
-     * Message
+     * Message.
      *
      * @var string
      */
     protected $_msg;
 
     /**
-     * Params
+     * Params.
      *
      * @var string
      */
     protected $_params;
 
     /**
-     * Get Title
+     * Get Title.
      *
      * @return string
      */
@@ -74,10 +72,12 @@ class Zend_Mobile_Push_Message_Mpns_Toast extends Zend_Mobile_Push_Message_Mpns
     }
 
     /**
-     * Set Title
+     * Set Title.
      *
      * @param string $title
+     *
      * @return Zend_Mobile_Push_Message_Mpns_Toast
+     *
      * @throws Zend_Mobile_Push_Message_Exception
      */
     public function setTitle($title)
@@ -86,11 +86,12 @@ class Zend_Mobile_Push_Message_Mpns_Toast extends Zend_Mobile_Push_Message_Mpns
             throw new Zend_Mobile_Push_Message_Exception('$title must be a string');
         }
         $this->_title = $title;
+
         return $this;
     }
 
     /**
-     * Get Message
+     * Get Message.
      *
      * @return string
      */
@@ -100,10 +101,12 @@ class Zend_Mobile_Push_Message_Mpns_Toast extends Zend_Mobile_Push_Message_Mpns
     }
 
     /**
-     * Set Message
+     * Set Message.
      *
      * @param string $msg
+     *
      * @return Zend_Mobile_Push_Message_Mpns_Toast
+     *
      * @throws Zend_Mobile_Push_Message_Exception
      */
     public function setMessage($msg)
@@ -112,11 +115,12 @@ class Zend_Mobile_Push_Message_Mpns_Toast extends Zend_Mobile_Push_Message_Mpns
             throw new Zend_Mobile_Push_Message_Exception('$msg must be a string');
         }
         $this->_msg = $msg;
+
         return $this;
     }
 
     /**
-     * Get Params
+     * Get Params.
      *
      * @return string
      */
@@ -126,10 +130,12 @@ class Zend_Mobile_Push_Message_Mpns_Toast extends Zend_Mobile_Push_Message_Mpns
     }
 
     /**
-     * Set Params
+     * Set Params.
      *
      * @param string $params
+     *
      * @return Zend_Mobile_Push_Message_Mpns_Toast
+     *
      * @throws Zend_Mobile_Push_Message_Exception
      */
     public function setParams($params)
@@ -138,11 +144,12 @@ class Zend_Mobile_Push_Message_Mpns_Toast extends Zend_Mobile_Push_Message_Mpns
             throw new Zend_Mobile_Push_Message_Exception('$params must be a string');
         }
         $this->_params = $params;
+
         return $this;
     }
 
     /**
-     * Get Delay
+     * Get Delay.
      *
      * @return int
      */
@@ -151,31 +158,35 @@ class Zend_Mobile_Push_Message_Mpns_Toast extends Zend_Mobile_Push_Message_Mpns
         if (!$this->_delay) {
             return self::DELAY_IMMEDIATE;
         }
+
         return $this->_delay;
     }
 
     /**
-     * Set Delay
+     * Set Delay.
      *
      * @param int $delay
+     *
      * @return Zend_Mobile_Push_Message_Mpns_Toast
+     *
      * @throws Zend_Mobile_Push_Message_Exception
      */
     public function setDelay($delay)
     {
-        if (!in_array($delay, array(
+        if (!in_array($delay, [
             self::DELAY_IMMEDIATE,
             self::DELAY_450S,
-            self::DELAY_900S
-        ))) {
+            self::DELAY_900S,
+        ])) {
             throw new Zend_Mobile_Push_Message_Exception('$delay must be one of the DELAY_* constants');
         }
         $this->_delay = $delay;
+
         return $this;
     }
 
     /**
-     * Get Notification Type
+     * Get Notification Type.
      *
      * @return string
      */
@@ -185,7 +196,7 @@ class Zend_Mobile_Push_Message_Mpns_Toast extends Zend_Mobile_Push_Message_Mpns
     }
 
     /**
-     * Get XML Payload
+     * Get XML Payload.
      *
      * @return string
      */
@@ -201,13 +212,14 @@ class Zend_Mobile_Push_Message_Mpns_Toast extends Zend_Mobile_Push_Message_Mpns
         }
         $ret .= '</wp:Toast>'
             . '</wp:Notification>';
+
         return $ret;
     }
 
     /**
-     * Validate proper mpns message
+     * Validate proper mpns message.
      *
-     * @return boolean
+     * @return bool
      */
     public function validate()
     {
@@ -220,6 +232,7 @@ class Zend_Mobile_Push_Message_Mpns_Toast extends Zend_Mobile_Push_Message_Mpns
         if (empty($this->_msg)) {
             return false;
         }
+
         return parent::validate();
     }
 }

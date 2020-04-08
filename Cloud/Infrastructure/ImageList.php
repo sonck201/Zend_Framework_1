@@ -1,20 +1,15 @@
 <?php
 /**
  * @category   Zend
- * @package    Zend_Cloud
- * @subpackage Infrastructure
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-
-
 require_once 'Zend/Cloud/Infrastructure/Image.php';
 
 /**
- * List of images
+ * List of images.
  *
- * @package    Zend_Cloud
- * @subpackage Infrastructure
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -23,7 +18,7 @@ class Zend_Cloud_Infrastructure_ImageList implements Countable, Iterator, ArrayA
     /**
      * @var array Array of Zend_Cloud_Infrastructure_Image
      */
-    protected $images = array();
+    protected $images = [];
 
     /**
      * @var int Iterator key
@@ -31,18 +26,20 @@ class Zend_Cloud_Infrastructure_ImageList implements Countable, Iterator, ArrayA
     protected $iteratorKey = 0;
 
     /**
-     * The Image adapter (if exists)
-     * 
+     * The Image adapter (if exists).
+     *
      * @var object
      */
     protected $adapter;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param  array $list
-     * @param  null|object $adapter
-     * @return boolean
+     * @param array $list
+     * @param object|null $adapter
+     * @param mixed $images
+     *
+     * @return bool
      */
     public function __construct($images, $adapter = null)
     {
@@ -56,9 +53,10 @@ class Zend_Cloud_Infrastructure_ImageList implements Countable, Iterator, ArrayA
     }
 
     /**
-     * Transforms the Array to array of Instances
+     * Transforms the Array to array of Instances.
      *
-     * @param  array $list
+     * @param array $list
+     *
      * @return void
      */
     protected function constructFromArray(array $list)
@@ -69,19 +67,21 @@ class Zend_Cloud_Infrastructure_ImageList implements Countable, Iterator, ArrayA
     }
 
     /**
-     * Add an image
+     * Add an image.
      *
      * @param  Image
+     *
      * @return ImageList
      */
     protected function addImage(Zend_Cloud_Infrastructure_Image $image)
     {
         $this->images[] = $image;
+
         return $this;
     }
 
     /**
-     * Return number of images
+     * Return number of images.
      *
      * Implement Countable::count()
      *
@@ -93,7 +93,7 @@ class Zend_Cloud_Infrastructure_ImageList implements Countable, Iterator, ArrayA
     }
 
     /**
-     * Return the current element
+     * Return the current element.
      *
      * Implement Iterator::current()
      *
@@ -105,7 +105,7 @@ class Zend_Cloud_Infrastructure_ImageList implements Countable, Iterator, ArrayA
     }
 
     /**
-     * Return the key of the current element
+     * Return the key of the current element.
      *
      * Implement Iterator::key()
      *
@@ -117,7 +117,7 @@ class Zend_Cloud_Infrastructure_ImageList implements Countable, Iterator, ArrayA
     }
 
     /**
-     * Move forward to next element
+     * Move forward to next element.
      *
      * Implement Iterator::next()
      *
@@ -125,11 +125,11 @@ class Zend_Cloud_Infrastructure_ImageList implements Countable, Iterator, ArrayA
      */
     public function next()
     {
-        $this->iteratorKey++;
+        ++$this->iteratorKey;
     }
 
     /**
-     * Rewind the Iterator to the first element
+     * Rewind the Iterator to the first element.
      *
      * Implement Iterator::rewind()
      *
@@ -141,7 +141,7 @@ class Zend_Cloud_Infrastructure_ImageList implements Countable, Iterator, ArrayA
     }
 
     /**
-     * Check if there is a current element after calls to rewind() or next()
+     * Check if there is a current element after calls to rewind() or next().
      *
      * Implement Iterator::valid()
      *
@@ -153,30 +153,34 @@ class Zend_Cloud_Infrastructure_ImageList implements Countable, Iterator, ArrayA
         if ($numItems > 0 && $this->iteratorKey < $numItems) {
             return true;
         }
+
         return false;
     }
 
     /**
-     * Whether the offset exists
+     * Whether the offset exists.
      *
      * Implement ArrayAccess::offsetExists()
      *
-     * @param   int     $offset
-     * @return  bool
+     * @param int $offset
+     *
+     * @return bool
      */
     public function offsetExists($offset)
     {
-        return ($offset < $this->count());
+        return $offset < $this->count();
     }
 
     /**
-     * Return value at given offset
+     * Return value at given offset.
      *
      * Implement ArrayAccess::offsetGet()
      *
-     * @param   int     $offset
-     * @throws  Zend_Cloud_Infrastructure_Exception
-     * @return  Image
+     * @param int $offset
+     *
+     * @throws Zend_Cloud_Infrastructure_Exception
+     *
+     * @return Image
      */
     public function offsetGet($offset)
     {
@@ -184,17 +188,19 @@ class Zend_Cloud_Infrastructure_ImageList implements Countable, Iterator, ArrayA
             require_once 'Zend/Cloud/Infrastructure/Exception.php';
             throw new Zend_Cloud_Infrastructure_Exception('Illegal index');
         }
+
         return $this->images[$offset];
     }
 
     /**
-     * Throws exception because all values are read-only
+     * Throws exception because all values are read-only.
      *
      * Implement ArrayAccess::offsetSet()
      *
-     * @param   int     $offset
-     * @param   string  $value
-     * @throws  Zend_Cloud_Infrastructure_Exception
+     * @param int $offset
+     * @param string $value
+     *
+     * @throws Zend_Cloud_Infrastructure_Exception
      */
     public function offsetSet($offset, $value)
     {
@@ -203,12 +209,13 @@ class Zend_Cloud_Infrastructure_ImageList implements Countable, Iterator, ArrayA
     }
 
     /**
-     * Throws exception because all values are read-only
+     * Throws exception because all values are read-only.
      *
      * Implement ArrayAccess::offsetUnset()
      *
-     * @param   int     $offset
-     * @throws  Zend_Cloud_Infrastructure_Exception
+     * @param int $offset
+     *
+     * @throws Zend_Cloud_Infrastructure_Exception
      */
     public function offsetUnset($offset)
     {

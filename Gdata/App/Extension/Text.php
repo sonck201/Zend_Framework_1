@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage App
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -31,14 +31,12 @@ require_once 'Zend/Gdata/App/Extension.php';
  * title, summary, etc.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage App
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Gdata_App_Extension_Text extends Zend_Gdata_App_Extension
 {
-
     protected $_rootElement = null;
     protected $_type = 'text';
 
@@ -55,6 +53,7 @@ abstract class Zend_Gdata_App_Extension_Text extends Zend_Gdata_App_Extension
         if ($this->_type !== null) {
             $element->setAttribute('type', $this->_type);
         }
+
         return $element;
     }
 
@@ -84,7 +83,7 @@ abstract class Zend_Gdata_App_Extension_Text extends Zend_Gdata_App_Extension
     public function setType($value)
     {
         $this->_type = $value;
+
         return $this;
     }
-
 }

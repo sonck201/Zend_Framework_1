@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,16 +13,16 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Crypt
- * @subpackage Rsa
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
 /**
  * @category   Zend
- * @package    Zend_Crypt
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -34,21 +34,21 @@ class Zend_Crypt_Rsa_Key implements Countable
     protected $_pemString = null;
 
     /**
-     * Bits, key string and type of key
+     * Bits, key string and type of key.
      *
      * @var array
      */
-    protected $_details = array();
+    protected $_details = [];
 
     /**
-     * Key Resource
+     * Key Resource.
      *
      * @var resource
      */
     protected $_opensslKeyResource = null;
 
     /**
-     * Retrieves key resource
+     * Retrieves key resource.
      *
      * @return resource
      */
@@ -59,6 +59,7 @@ class Zend_Crypt_Rsa_Key implements Countable
 
     /**
      * @return string
+     *
      * @throws Zend_Crypt_Exception
      */
     public function toString()

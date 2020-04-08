@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Calendar
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -52,17 +52,15 @@ require_once 'Zend/Gdata/Calendar/Extension/Link.php';
 require_once 'Zend/Gdata/Calendar/Extension/QuickAdd.php';
 
 /**
- * Data model class for a Google Calendar Event Entry
+ * Data model class for a Google Calendar Event Entry.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Calendar
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Calendar_EventEntry extends Zend_Gdata_Kind_EventEntry
 {
-
     protected $_entryClassName = 'Zend_Gdata_Calendar_EventEntry';
     protected $_sendEventNotifications = null;
     protected $_timezone = null;
@@ -86,6 +84,7 @@ class Zend_Gdata_Calendar_EventEntry extends Zend_Gdata_Kind_EventEntry
         if ($this->_quickadd != null) {
             $element->appendChild($this->_quickadd->getDOM($element->ownerDocument));
         }
+
         return $element;
     }
 
@@ -94,22 +93,22 @@ class Zend_Gdata_Calendar_EventEntry extends Zend_Gdata_Kind_EventEntry
         $absoluteNodeName = $child->namespaceURI . ':' . $child->localName;
 
         switch ($absoluteNodeName) {
-            case $this->lookupNamespace('gCal') . ':' . 'sendEventNotifications';
+            case $this->lookupNamespace('gCal') . ':' . 'sendEventNotifications':
                 $sendEventNotifications = new Zend_Gdata_Calendar_Extension_SendEventNotifications();
                 $sendEventNotifications->transferFromDOM($child);
                 $this->_sendEventNotifications = $sendEventNotifications;
                 break;
-            case $this->lookupNamespace('gCal') . ':' . 'timezone';
+            case $this->lookupNamespace('gCal') . ':' . 'timezone':
                 $timezone = new Zend_Gdata_Calendar_Extension_Timezone();
                 $timezone->transferFromDOM($child);
                 $this->_timezone = $timezone;
                 break;
-            case $this->lookupNamespace('atom') . ':' . 'link';
+            case $this->lookupNamespace('atom') . ':' . 'link':
                 $link = new Zend_Gdata_Calendar_Extension_Link();
                 $link->transferFromDOM($child);
                 $this->_link[] = $link;
                 break;
-            case $this->lookupNamespace('gCal') . ':' . 'quickadd';
+            case $this->lookupNamespace('gCal') . ':' . 'quickadd':
                 $quickadd = new Zend_Gdata_Calendar_Extension_QuickAdd();
                 $quickadd->transferFromDOM($child);
                 $this->_quickadd = $quickadd;
@@ -128,6 +127,7 @@ class Zend_Gdata_Calendar_EventEntry extends Zend_Gdata_Kind_EventEntry
     public function setSendEventNotifications($value)
     {
         $this->_sendEventNotifications = $value;
+
         return $this;
     }
 
@@ -138,11 +138,13 @@ class Zend_Gdata_Calendar_EventEntry extends Zend_Gdata_Kind_EventEntry
 
     /**
      * @param Zend_Gdata_Calendar_Extension_Timezone $value
+     *
      * @return Zend_Gdata_Extension_EventEntry Provides a fluent interface
      */
     public function setTimezone($value)
     {
         $this->_timezone = $value;
+
         return $this;
     }
 
@@ -153,12 +155,13 @@ class Zend_Gdata_Calendar_EventEntry extends Zend_Gdata_Kind_EventEntry
 
     /**
      * @param Zend_Gdata_Calendar_Extension_QuickAdd $value
+     *
      * @return Zend_Gdata_Extension_ListEntry Provides a fluent interface
      */
     public function setQuickAdd($value)
     {
         $this->_quickadd = $value;
+
         return $this;
     }
-
 }

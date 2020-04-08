@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,11 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Dojo
- * @subpackage View
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ *
  * @version    $Id$
+ *
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
@@ -24,11 +25,8 @@
 require_once 'Zend/Dojo.php';
 
 /**
- * Container for  Dojo View Helper
+ * Container for  Dojo View Helper.
  *
- *
- * @package    Zend_Dojo
- * @subpackage View
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -40,135 +38,157 @@ class Zend_Dojo_View_Helper_Dojo_Container
     public $view;
 
     /**
-     * addOnLoad capture lock
+     * addOnLoad capture lock.
+     *
      * @var bool
      */
     protected $_captureLock = false;
 
     /**
-     * addOnLoad object on which to apply lambda
+     * addOnLoad object on which to apply lambda.
+     *
      * @var string
      */
     protected $_captureObj;
 
     /**
-     * Base CDN url to utilize
+     * Base CDN url to utilize.
+     *
      * @var string
      */
     protected $_cdnBase = Zend_Dojo::CDN_BASE_GOOGLE;
 
     /**
-     * Path segment following version string of CDN path
+     * Path segment following version string of CDN path.
+     *
      * @var string
      */
     protected $_cdnDojoPath = Zend_Dojo::CDN_DOJO_PATH_GOOGLE;
 
     /**
-     * Dojo version to use from CDN
+     * Dojo version to use from CDN.
+     *
      * @var string
      */
     protected $_cdnVersion = '1.5.0';
 
     /**
      * Has the dijit loader been registered?
+     *
      * @var bool
      */
     protected $_dijitLoaderRegistered = false;
 
     /**
-     * Registered programmatic dijits
+     * Registered programmatic dijits.
+     *
      * @var array
      */
-    protected $_dijits = array();
+    protected $_dijits = [];
 
     /**
-     * Dojo configuration
+     * Dojo configuration.
+     *
      * @var array
      */
-    protected $_djConfig = array();
+    protected $_djConfig = [];
 
     /**
-     * Whether or not dojo is enabled
+     * Whether or not dojo is enabled.
+     *
      * @var bool
      */
     protected $_enabled = false;
 
     /**
      * Are we rendering as XHTML?
+     *
      * @var bool
      */
     protected $_isXhtml = false;
 
     /**
-     * Arbitrary javascript to include in dojo script
+     * Arbitrary javascript to include in dojo script.
+     *
      * @var array
      */
-    protected $_javascriptStatements = array();
+    protected $_javascriptStatements = [];
 
     /**
-     * Dojo layers (custom builds) to use
+     * Dojo layers (custom builds) to use.
+     *
      * @var array
      */
-    protected $_layers = array();
+    protected $_layers = [];
 
     /**
-     * Relative path to dojo
+     * Relative path to dojo.
+     *
      * @var string
      */
     protected $_localPath = null;
 
     /**
-     * Root of dojo where all dojo files are installed
+     * Root of dojo where all dojo files are installed.
+     *
      * @var string
      */
     protected $_localRelativePath = null;
 
     /**
-     * Modules to require
+     * Modules to require.
+     *
      * @var array
      */
-    protected $_modules = array();
+    protected $_modules = [];
 
     /**
-     * Registered module paths
+     * Registered module paths.
+     *
      * @var array
      */
-    protected $_modulePaths = array();
+    protected $_modulePaths = [];
 
     /**
-     * Actions to perform on window load
+     * Actions to perform on window load.
+     *
      * @var array
      */
-    protected $_onLoadActions = array();
+    protected $_onLoadActions = [];
 
     /**
      * Register the Dojo stylesheet?
+     *
      * @var bool
      */
     protected $_registerDojoStylesheet = false;
 
     /**
-     * Style sheet modules to load
-     * @var array
-     */
-    protected $_stylesheetModules = array();
-
-    /**
-     * Local stylesheets
-     * @var array
-     */
-    protected $_stylesheets = array();
-
-    /**
-     * Array of onLoad events specific to Zend_Dojo integration operations
-     * @var array
-     */
-    protected $_zendLoadActions = array();
-
-    /**
-     * Set view object
+     * Style sheet modules to load.
      *
-     * @param  Zend_Dojo_View_Interface $view
+     * @var array
+     */
+    protected $_stylesheetModules = [];
+
+    /**
+     * Local stylesheets.
+     *
+     * @var array
+     */
+    protected $_stylesheets = [];
+
+    /**
+     * Array of onLoad events specific to Zend_Dojo integration operations.
+     *
+     * @var array
+     */
+    protected $_zendLoadActions = [];
+
+    /**
+     * Set view object.
+     *
+     * @param Zend_Dojo_View_Interface $view
+     *
      * @return void
      */
     public function setView(Zend_View_Interface $view)
@@ -177,24 +197,26 @@ class Zend_Dojo_View_Helper_Dojo_Container
     }
 
     /**
-     * Enable dojo
+     * Enable dojo.
      *
      * @return Zend_Dojo_View_Helper_Dojo_Container
      */
     public function enable()
     {
         $this->_enabled = true;
+
         return $this;
     }
 
     /**
-     * Disable dojo
+     * Disable dojo.
      *
      * @return Zend_Dojo_View_Helper_Dojo_Container
      */
     public function disable()
     {
         $this->_enabled = false;
+
         return $this;
     }
 
@@ -209,31 +231,33 @@ class Zend_Dojo_View_Helper_Dojo_Container
     }
 
     /**
-     * Add options for the Dojo Container to use
+     * Add options for the Dojo Container to use.
      *
      * @param array|Zend_Config Array or Zend_Config object with options to use
+     * @param mixed $options
+     *
      * @return Zend_Dojo_View_Helper_Dojo_Container
      */
     public function setOptions($options)
     {
-        if($options instanceof Zend_Config) {
+        if ($options instanceof Zend_Config) {
             $options = $options->toArray();
         }
 
-        foreach($options as $key => $value) {
+        foreach ($options as $key => $value) {
             $key = strtolower($key);
-            switch($key) {
+            switch ($key) {
                 case 'requiremodules':
                     $this->requireModule($value);
                     break;
                 case 'modulepaths':
-                    foreach($value as $module => $path) {
+                    foreach ($value as $module => $path) {
                         $this->registerModulePath($module, $path);
                     }
                     break;
                 case 'layers':
                     $value = (array) $value;
-                    foreach($value as $layer) {
+                    foreach ($value as $layer) {
                         $this->addLayer($layer);
                     }
                     break;
@@ -254,13 +278,13 @@ class Zend_Dojo_View_Helper_Dojo_Container
                     break;
                 case 'stylesheetmodules':
                     $value = (array) $value;
-                    foreach($value as $module) {
+                    foreach ($value as $module) {
                         $this->addStylesheetModule($module);
                     }
                     break;
                 case 'stylesheets':
                     $value = (array) $value;
-                    foreach($value as $stylesheet) {
+                    foreach ($value as $stylesheet) {
                         $this->addStylesheet($stylesheet);
                     }
                     break;
@@ -268,7 +292,7 @@ class Zend_Dojo_View_Helper_Dojo_Container
                     $this->registerDojoStylesheet($value);
                     break;
                 case 'enable':
-                    if($value) {
+                    if ($value) {
                         $this->enable();
                     } else {
                         $this->disable();
@@ -280,9 +304,10 @@ class Zend_Dojo_View_Helper_Dojo_Container
     }
 
     /**
-     * Specify one or multiple modules to require
+     * Specify one or multiple modules to require.
      *
-     * @param  string|array $modules
+     * @param string|array $modules
+     *
      * @return Zend_Dojo_View_Helper_Dojo_Container
      */
     public function requireModule($modules)
@@ -309,7 +334,7 @@ class Zend_Dojo_View_Helper_Dojo_Container
     }
 
     /**
-     * Retrieve list of modules to require
+     * Retrieve list of modules to require.
      *
      * @return array
      */
@@ -319,10 +344,11 @@ class Zend_Dojo_View_Helper_Dojo_Container
     }
 
     /**
-     * Register a module path
+     * Register a module path.
      *
-     * @param  string $module The module to register a path for
-     * @param  string $path The path to register for the module
+     * @param string $module The module to register a path for
+     * @param string $path The path to register for the module
+     *
      * @return Zend_Dojo_View_Helper_Dojo_Container
      */
     public function registerModulePath($module, $path)
@@ -336,7 +362,7 @@ class Zend_Dojo_View_Helper_Dojo_Container
     }
 
     /**
-     * List registered module paths
+     * List registered module paths.
      *
      * @return array
      */
@@ -346,9 +372,10 @@ class Zend_Dojo_View_Helper_Dojo_Container
     }
 
     /**
-     * Add layer (custom build) path
+     * Add layer (custom build) path.
      *
-     * @param  string $path
+     * @param string $path
+     *
      * @return Zend_Dojo_View_Helper_Dojo_Container
      */
     public function addLayer($path)
@@ -362,7 +389,7 @@ class Zend_Dojo_View_Helper_Dojo_Container
     }
 
     /**
-     * Get registered layers
+     * Get registered layers.
      *
      * @return array
      */
@@ -372,9 +399,10 @@ class Zend_Dojo_View_Helper_Dojo_Container
     }
 
     /**
-     * Remove a registered layer
+     * Remove a registered layer.
      *
-     * @param  string $path
+     * @param string $path
+     *
      * @return Zend_Dojo_View_Helper_Dojo_Container
      */
     public function removeLayer($path)
@@ -385,34 +413,38 @@ class Zend_Dojo_View_Helper_Dojo_Container
             unset($layers[$path]);
             $this->_layers = array_keys($layers);
         }
+
         return $this;
     }
 
     /**
-     * Clear all registered layers
+     * Clear all registered layers.
      *
      * @return Zend_Dojo_View_Helper_Dojo_Container
      */
     public function clearLayers()
     {
-        $this->_layers = array();
+        $this->_layers = [];
+
         return $this;
     }
 
     /**
-     * Set CDN base path
+     * Set CDN base path.
      *
-     * @param  string $url
+     * @param string $url
+     *
      * @return Zend_Dojo_View_Helper_Dojo_Container
      */
     public function setCdnBase($url)
     {
         $this->_cdnBase = (string) $url;
+
         return $this;
     }
 
     /**
-     * Return CDN base URL
+     * Return CDN base URL.
      *
      * @return string
      */
@@ -422,9 +454,10 @@ class Zend_Dojo_View_Helper_Dojo_Container
     }
 
     /**
-     * Use CDN, using version specified
+     * Use CDN, using version specified.
      *
-     * @param  string $version
+     * @param string $version
+     *
      * @return Zend_Dojo_View_Helper_Dojo_Container
      */
     public function setCdnVersion($version = null)
@@ -433,11 +466,12 @@ class Zend_Dojo_View_Helper_Dojo_Container
         if (preg_match('/^[1-9]\.[0-9]{1,2}(\.[0-9]{1,2})?$/', $version)) {
             $this->_cdnVersion = $version;
         }
+
         return $this;
     }
 
     /**
-     * Get CDN version
+     * Get CDN version.
      *
      * @return string
      */
@@ -447,19 +481,21 @@ class Zend_Dojo_View_Helper_Dojo_Container
     }
 
     /**
-     * Set CDN path to dojo (relative to CDN base + version)
+     * Set CDN path to dojo (relative to CDN base + version).
      *
-     * @param  string $path
+     * @param string $path
+     *
      * @return Zend_Dojo_View_Helper_Dojo_Container
      */
     public function setCdnDojoPath($path)
     {
         $this->_cdnDojoPath = (string) $path;
+
         return $this;
     }
 
     /**
-     * Get CDN path to dojo (relative to CDN base + version)
+     * Get CDN path to dojo (relative to CDN base + version).
      *
      * @return string
      */
@@ -479,20 +515,22 @@ class Zend_Dojo_View_Helper_Dojo_Container
     }
 
     /**
-     * Set path to local dojo
+     * Set path to local dojo.
      *
-     * @param  string $path
+     * @param string $path
+     *
      * @return Zend_Dojo_View_Helper_Dojo_Container
      */
     public function setLocalPath($path)
     {
         $this->enable();
         $this->_localPath = (string) $path;
+
         return $this;
     }
 
     /**
-     * Get local path to dojo
+     * Get local path to dojo.
      *
      * @return string
      */
@@ -512,34 +550,38 @@ class Zend_Dojo_View_Helper_Dojo_Container
     }
 
     /**
-     * Set Dojo configuration
+     * Set Dojo configuration.
      *
-     * @param  string $option
-     * @param  mixed $value
+     * @param string $option
+     * @param mixed $value
+     *
      * @return Zend_Dojo_View_Helper_Dojo_Container
      */
     public function setDjConfig(array $config)
     {
         $this->_djConfig = $config;
+
         return $this;
     }
 
     /**
-     * Set Dojo configuration option
+     * Set Dojo configuration option.
      *
-     * @param  string $option
-     * @param  mixed $value
+     * @param string $option
+     * @param mixed $value
+     *
      * @return Zend_Dojo_View_Helper_Dojo_Container
      */
     public function setDjConfigOption($option, $value)
     {
         $option = (string) $option;
         $this->_djConfig[$option] = $value;
+
         return $this;
     }
 
     /**
-     * Retrieve dojo configuration values
+     * Retrieve dojo configuration values.
      *
      * @return array
      */
@@ -549,10 +591,11 @@ class Zend_Dojo_View_Helper_Dojo_Container
     }
 
     /**
-     * Get dojo configuration value
+     * Get dojo configuration value.
      *
-     * @param  string $option
-     * @param  mixed $default
+     * @param string $option
+     * @param mixed $default
+     *
      * @return mixed
      */
     public function getDjConfigOption($option, $default = null)
@@ -561,13 +604,15 @@ class Zend_Dojo_View_Helper_Dojo_Container
         if (array_key_exists($option, $this->_djConfig)) {
             return $this->_djConfig[$option];
         }
+
         return $default;
     }
 
     /**
-     * Add a stylesheet by module name
+     * Add a stylesheet by module name.
      *
-     * @param  string $module
+     * @param string $module
+     *
      * @return Zend_Dojo_View_Helper_Dojo_Container
      */
     public function addStylesheetModule($module)
@@ -579,11 +624,12 @@ class Zend_Dojo_View_Helper_Dojo_Container
         if (!in_array($module, $this->_stylesheetModules)) {
             $this->_stylesheetModules[] = $module;
         }
+
         return $this;
     }
 
     /**
-     * Get all stylesheet modules currently registered
+     * Get all stylesheet modules currently registered.
      *
      * @return array
      */
@@ -593,9 +639,10 @@ class Zend_Dojo_View_Helper_Dojo_Container
     }
 
     /**
-     * Add a stylesheet
+     * Add a stylesheet.
      *
-     * @param  string $path
+     * @param string $path
+     *
      * @return Zend_Dojo_View_Helper_Dojo_Container
      */
     public function addStylesheet($path)
@@ -604,6 +651,7 @@ class Zend_Dojo_View_Helper_Dojo_Container
         if (!in_array($path, $this->_stylesheets)) {
             $this->_stylesheets[] = (string) $path;
         }
+
         return $this;
     }
 
@@ -613,21 +661,23 @@ class Zend_Dojo_View_Helper_Dojo_Container
      * With no arguments, returns the status of the flag; with arguments, sets
      * the flag and returns the object.
      *
-     * @param  null|bool $flag
+     * @param bool|null $flag
+     *
      * @return Zend_Dojo_View_Helper_Dojo_Container|bool
      */
     public function registerDojoStylesheet($flag = null)
     {
         if (null === $flag) {
-             return $this->_registerDojoStylesheet;
+            return $this->_registerDojoStylesheet;
         }
 
         $this->_registerDojoStylesheet = (bool) $flag;
+
         return $this;
     }
 
     /**
-     * Retrieve registered stylesheets
+     * Retrieve registered stylesheets.
      *
      * @return array
      */
@@ -637,13 +687,14 @@ class Zend_Dojo_View_Helper_Dojo_Container
     }
 
     /**
-     * Add a script to execute onLoad
+     * Add a script to execute onLoad.
      *
      * dojo.addOnLoad accepts:
      * - function name
      * - lambda
      *
-     * @param  string $callback Lambda
+     * @param string $callback Lambda
+     *
      * @return Zend_Dojo_View_Helper_Dojo_Container
      */
     public function addOnLoad($callback)
@@ -651,13 +702,15 @@ class Zend_Dojo_View_Helper_Dojo_Container
         if (!in_array($callback, $this->_onLoadActions, true)) {
             $this->_onLoadActions[] = $callback;
         }
+
         return $this;
     }
 
     /**
-     * Prepend an onLoad event to the list of onLoad actions
+     * Prepend an onLoad event to the list of onLoad actions.
      *
-     * @param  string $callback Lambda
+     * @param string $callback Lambda
+     *
      * @return Zend_Dojo_View_Helper_Dojo_Container
      */
     public function prependOnLoad($callback)
@@ -665,11 +718,12 @@ class Zend_Dojo_View_Helper_Dojo_Container
         if (!in_array($callback, $this->_onLoadActions, true)) {
             array_unshift($this->_onLoadActions, $callback);
         }
+
         return $this;
     }
 
     /**
-     * Retrieve all registered onLoad actions
+     * Retrieve all registered onLoad actions.
      *
      * @return array
      */
@@ -679,7 +733,7 @@ class Zend_Dojo_View_Helper_Dojo_Container
     }
 
     /**
-     * Start capturing routines to run onLoad
+     * Start capturing routines to run onLoad.
      *
      * @return bool
      */
@@ -692,28 +746,31 @@ class Zend_Dojo_View_Helper_Dojo_Container
 
         $this->_captureLock = true;
         ob_start();
+
         return;
     }
 
     /**
-     * Stop capturing routines to run onLoad
+     * Stop capturing routines to run onLoad.
      *
      * @return bool
      */
     public function onLoadCaptureEnd()
     {
-        $data               = ob_get_clean();
+        $data = ob_get_clean();
         $this->_captureLock = false;
 
         $this->addOnLoad($data);
+
         return true;
     }
 
     /**
-     * Add a programmatic dijit
+     * Add a programmatic dijit.
      *
-     * @param  string $id
-     * @param  array $params
+     * @param string $id
+     * @param array $params
+     *
      * @return Zend_Dojo_View_Helper_Dojo_Container
      */
     public function addDijit($id, array $params)
@@ -723,33 +780,36 @@ class Zend_Dojo_View_Helper_Dojo_Container
             throw new Zend_Dojo_View_Exception(sprintf('Duplicate dijit with id "%s" already registered', $id));
         }
 
-        $this->_dijits[$id] = array(
-            'id'     => $id,
+        $this->_dijits[$id] = [
+            'id' => $id,
             'params' => $params,
-        );
+        ];
 
         return $this;
     }
 
     /**
-     * Set a programmatic dijit (overwrites)
+     * Set a programmatic dijit (overwrites).
      *
-     * @param  string $id
-     * @param  array $params
+     * @param string $id
+     * @param array $params
+     *
      * @return Zend_Dojo_View_Helper_Dojo_Container
      */
     public function setDijit($id, array $params)
     {
         $this->removeDijit($id);
+
         return $this->addDijit($id, $params);
     }
 
     /**
-     * Add multiple dijits at once
+     * Add multiple dijits at once.
      *
      * Expects an array of id => array $params pairs
      *
-     * @param  array $dijits
+     * @param array $dijits
+     *
      * @return Zend_Dojo_View_Helper_Dojo_Container
      */
     public function addDijits(array $dijits)
@@ -757,27 +817,31 @@ class Zend_Dojo_View_Helper_Dojo_Container
         foreach ($dijits as $id => $params) {
             $this->addDijit($id, $params);
         }
+
         return $this;
     }
 
     /**
-     * Set multiple dijits at once (overwrites)
+     * Set multiple dijits at once (overwrites).
      *
      * Expects an array of id => array $params pairs
      *
-     * @param  array $dijits
+     * @param array $dijits
+     *
      * @return Zend_Dojo_View_Helper_Dojo_Container
      */
     public function setDijits(array $dijits)
     {
         $this->clearDijits();
+
         return $this->addDijits($dijits);
     }
 
     /**
      * Is the given programmatic dijit already registered?
      *
-     * @param  string $id
+     * @param string $id
+     *
      * @return bool
      */
     public function hasDijit($id)
@@ -786,9 +850,10 @@ class Zend_Dojo_View_Helper_Dojo_Container
     }
 
     /**
-     * Retrieve a dijit by id
+     * Retrieve a dijit by id.
      *
-     * @param  string $id
+     * @param string $id
+     *
      * @return array|null
      */
     public function getDijit($id)
@@ -796,11 +861,12 @@ class Zend_Dojo_View_Helper_Dojo_Container
         if ($this->hasDijit($id)) {
             return $this->_dijits[$id]['params'];
         }
+
         return null;
     }
 
     /**
-     * Retrieve all dijits
+     * Retrieve all dijits.
      *
      * Returns dijits as an array of assoc arrays
      *
@@ -812,9 +878,10 @@ class Zend_Dojo_View_Helper_Dojo_Container
     }
 
     /**
-     * Remove a programmatic dijit if it exists
+     * Remove a programmatic dijit if it exists.
      *
-     * @param  string $id
+     * @param string $id
+     *
      * @return Zend_Dojo_View_Helper_Dojo_Container
      */
     public function removeDijit($id)
@@ -827,36 +894,38 @@ class Zend_Dojo_View_Helper_Dojo_Container
     }
 
     /**
-     * Clear all dijits
+     * Clear all dijits.
      *
      * @return Zend_Dojo_View_Helper_Dojo_Container
      */
     public function clearDijits()
     {
-        $this->_dijits = array();
+        $this->_dijits = [];
+
         return $this;
     }
 
     /**
-     * Render dijits as JSON structure
+     * Render dijits as JSON structure.
      *
      * @return string
      */
     public function dijitsToJson()
     {
         require_once 'Zend/Json.php';
-        return Zend_Json::encode($this->getDijits(), false, array('enableJsonExprFinder' => true));
+
+        return Zend_Json::encode($this->getDijits(), false, ['enableJsonExprFinder' => true]);
     }
 
     /**
-     * Create dijit loader functionality
+     * Create dijit loader functionality.
      *
      * @return void
      */
     public function registerDijitLoader()
     {
         if (!$this->_dijitLoaderRegistered) {
-            $js =<<<EOJ
+            $js = <<<EOJ
 function() {
     dojo.forEach(zendDijits, function(info) {
         var n = dojo.byId(info.id);
@@ -875,15 +944,16 @@ EOJ;
     }
 
     /**
-     * Add arbitrary javascript to execute in dojo JS container
+     * Add arbitrary javascript to execute in dojo JS container.
      *
-     * @param  string $js
+     * @param string $js
+     *
      * @return Zend_Dojo_View_Helper_Dojo_Container
      */
     public function addJavascript($js)
     {
         $js = trim($js);
-        if (!in_array(substr($js, -1), array(';', '}'))) {
+        if (!in_array(substr($js, -1), [';', '}'])) {
             $js .= ';';
         }
 
@@ -892,11 +962,12 @@ EOJ;
         }
 
         $this->_javascriptStatements[] = $js;
+
         return $this;
     }
 
     /**
-     * Return all registered javascript statements
+     * Return all registered javascript statements.
      *
      * @return array
      */
@@ -906,18 +977,19 @@ EOJ;
     }
 
     /**
-     * Clear arbitrary javascript stack
+     * Clear arbitrary javascript stack.
      *
      * @return Zend_Dojo_View_Helper_Dojo_Container
      */
     public function clearJavascript()
     {
-        $this->_javascriptStatements = array();
+        $this->_javascriptStatements = [];
+
         return $this;
     }
 
     /**
-     * Capture arbitrary javascript to include in dojo script
+     * Capture arbitrary javascript to include in dojo script.
      *
      * @return void
      */
@@ -930,25 +1002,27 @@ EOJ;
 
         $this->_captureLock = true;
         ob_start();
+
         return;
     }
 
     /**
-     * Finish capturing arbitrary javascript to include in dojo script
+     * Finish capturing arbitrary javascript to include in dojo script.
      *
      * @return true
      */
     public function javascriptCaptureEnd()
     {
-        $data               = ob_get_clean();
+        $data = ob_get_clean();
         $this->_captureLock = false;
 
         $this->addJavascript($data);
+
         return true;
     }
 
     /**
-     * String representation of dojo environment
+     * String representation of dojo environment.
      *
      * @return string
      */
@@ -970,16 +1044,17 @@ EOJ;
             $this->registerDijitLoader();
         }
 
-        $html  = $this->_renderStylesheets() . PHP_EOL
+        $html = $this->_renderStylesheets() . PHP_EOL
                . $this->_renderDjConfig() . PHP_EOL
                . $this->_renderDojoScriptTag() . PHP_EOL
                . $this->_renderLayers() . PHP_EOL
                . $this->_renderExtras();
+
         return $html;
     }
 
     /**
-     * Retrieve local path to dojo resources for building relative paths
+     * Retrieve local path to dojo resources for building relative paths.
      *
      * @return string
      */
@@ -990,11 +1065,12 @@ EOJ;
             $localPath = preg_replace('|[/\\\\]dojo[/\\\\]dojo.js[^/\\\\]*$|i', '', $localPath);
             $this->_localRelativePath = $localPath;
         }
+
         return $this->_localRelativePath;
     }
 
     /**
-     * Render dojo stylesheets
+     * Render dojo stylesheets.
      *
      * @return string
      */
@@ -1009,8 +1085,8 @@ EOJ;
 
         $registeredStylesheets = $this->getStylesheetModules();
         foreach ($registeredStylesheets as $stylesheet) {
-            $themeName     = substr($stylesheet, strrpos($stylesheet, '.') + 1);
-            $stylesheet    = str_replace('.', '/', $stylesheet);
+            $themeName = substr($stylesheet, strrpos($stylesheet, '.') + 1);
+            $stylesheet = str_replace('.', '/', $stylesheet);
             $stylesheets[] = $base . '/' . $stylesheet . '/' . $themeName . '.css';
         }
 
@@ -1039,7 +1115,7 @@ EOJ;
     }
 
     /**
-     * Render DjConfig values
+     * Render DjConfig values.
      *
      * @return string
      */
@@ -1061,7 +1137,7 @@ EOJ;
     }
 
     /**
-     * Render dojo script tag
+     * Render dojo script tag.
      *
      * Renders Dojo script tag by utilizing either local path provided or the
      * CDN. If any djConfig values were set, they will be serialized and passed
@@ -1080,11 +1156,12 @@ EOJ;
         }
 
         $scriptTag = '<script type="text/javascript" src="' . $source . '"></script>';
+
         return $scriptTag;
     }
 
     /**
-     * Render layers (custom builds) as script tags
+     * Render layers (custom builds) as script tags.
      *
      * @return string
      */
@@ -1102,7 +1179,7 @@ EOJ;
             $enc = $this->view->getEncoding();
         }
 
-        $html = array();
+        $html = [];
         foreach ($layers as $path) {
             $html[] = sprintf(
                 '<script type="text/javascript" src="%s"></script>',
@@ -1114,17 +1191,17 @@ EOJ;
     }
 
     /**
-     * Render dojo module paths and requires
+     * Render dojo module paths and requires.
      *
      * @return string
      */
     protected function _renderExtras()
     {
-        $js = array();
+        $js = [];
         $modulePaths = $this->getModulePaths();
         if (!empty($modulePaths)) {
             foreach ($modulePaths as $module => $path) {
-                $js[] =  'dojo.registerModulePath("' . $this->view->escape($module) . '", "' . $this->view->escape($path) . '");';
+                $js[] = 'dojo.registerModulePath("' . $this->view->escape($module) . '", "' . $this->view->escape($path) . '");';
             }
         }
 
@@ -1135,7 +1212,7 @@ EOJ;
             }
         }
 
-        $onLoadActions = array();
+        $onLoadActions = [];
         // Get Zend specific onLoad actions; these will always be first to
         // ensure that dijits are created in the correct order
         foreach ($this->_getZendLoadActions() as $callback) {
@@ -1171,18 +1248,20 @@ EOJ;
               . $content
               . (($this->_isXhtml) ? '//]]>' : '//-->') . PHP_EOL
               . PHP_EOL . '</script>';
+
         return $html;
     }
 
     /**
-     * Add an onLoad action related to ZF dijit creation
+     * Add an onLoad action related to ZF dijit creation.
      *
      * This method is public, but prefixed with an underscore to indicate that
      * it should not normally be called by userland code. It is pertinent to
      * ensuring that the correct order of operations occurs during dijit
      * creation.
      *
-     * @param  string $callback
+     * @param string $callback
+     *
      * @return Zend_Dojo_View_Helper_Dojo_Container
      */
     public function _addZendLoad($callback)
@@ -1190,11 +1269,12 @@ EOJ;
         if (!in_array($callback, $this->_zendLoadActions, true)) {
             $this->_zendLoadActions[] = $callback;
         }
+
         return $this;
     }
 
     /**
-     * Retrieve all ZF dijit callbacks
+     * Retrieve all ZF dijit callbacks.
      *
      * @return array
      */

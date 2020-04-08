@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage App
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -40,15 +40,14 @@ require_once 'Zend/Gdata/MediaMimeStream.php';
  * Concrete class for working with Atom entries containing multi-part data.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage App
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_App_MediaEntry extends Zend_Gdata_App_Entry
 {
     /**
-     * The attached MediaSource/file
+     * The attached MediaSource/file.
      *
      * @var Zend_Gdata_App_MediaSource
      */
@@ -56,10 +55,11 @@ class Zend_Gdata_App_MediaEntry extends Zend_Gdata_App_Entry
 
     /**
      * Constructs a new MediaEntry, representing XML data and optional
-     * file to upload
+     * file to upload.
      *
      * @param DOMElement $element (optional) DOMElement from which this
-     *          object should be constructed.
+     *                            object should be constructed.
+     * @param mixed|null $mediaSource
      */
     public function __construct($element = null, $mediaSource = null)
     {
@@ -71,8 +71,8 @@ class Zend_Gdata_App_MediaEntry extends Zend_Gdata_App_Entry
      * Return the MIME multipart representation of this MediaEntry.
      *
      * @return string|Zend_Gdata_MediaMimeStream The MIME multipart
-     *         representation of this MediaEntry. If the entry consisted only
-     *         of XML, a string is returned.
+     *                                           representation of this MediaEntry. If the entry consisted only
+     *                                           of XML, a string is returned.
      */
     public function encode()
     {
@@ -99,9 +99,10 @@ class Zend_Gdata_App_MediaEntry extends Zend_Gdata_App_Entry
     }
 
     /**
-     * Set the MediaSource object (file) for this MediaEntry
+     * Set the MediaSource object (file) for this MediaEntry.
      *
      * @param Zend_Gdata_App_MediaSource $value The attached MediaSource/file
+     *
      * @return Zend_Gdata_App_MediaEntry Provides a fluent interface
      */
     public function setMediaSource($value)
@@ -110,10 +111,9 @@ class Zend_Gdata_App_MediaEntry extends Zend_Gdata_App_Entry
             $this->_mediaSource = $value;
         } else {
             require_once 'Zend/Gdata/App/InvalidArgumentException.php';
-            throw new Zend_Gdata_App_InvalidArgumentException(
-                    'You must specify the media data as a class that conforms to Zend_Gdata_App_MediaSource.');
+            throw new Zend_Gdata_App_InvalidArgumentException('You must specify the media data as a class that conforms to Zend_Gdata_App_MediaSource.');
         }
+
         return $this;
     }
-
 }

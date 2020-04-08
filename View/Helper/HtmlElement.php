@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_View
- * @subpackage Helper
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -27,27 +27,26 @@ require_once 'Zend/View/Helper/Abstract.php';
 
 /**
  * @category   Zend
- * @package    Zend_View
- * @subpackage Helper
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_View_Helper_HtmlElement extends Zend_View_Helper_Abstract
 {
     /**
-     * EOL character
+     * EOL character.
      */
     const EOL = "\n";
 
     /**
-     * The tag closing bracket
+     * The tag closing bracket.
      *
      * @var string
      */
     protected $_closingBracket = null;
 
     /**
-     * Get the tag closing bracket
+     * Get the tag closing bracket.
      *
      * @return string
      */
@@ -67,43 +66,44 @@ abstract class Zend_View_Helper_HtmlElement extends Zend_View_Helper_Abstract
     /**
      * Is doctype XHTML?
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isXhtml()
     {
         $doctype = $this->view->doctype();
+
         return $doctype->isXhtml();
     }
 
     /**
      * Is doctype HTML5?
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isHtml5()
     {
         $doctype = $this->view->doctype();
+
         return $doctype->isHtml5();
     }
 
     /**
      * Is doctype strict?
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isStrictDoctype()
     {
         $doctype = $this->view->doctype();
+
         return $doctype->isStrict();
     }
-    
+
     /**
      * Converts an associative array to a string of tag attributes.
      *
-     * @access public
-     *
      * @param array $attribs From this array, each key-value pair is
-     * converted to an attribute name and value.
+     *                       converted to an attribute name and value.
      *
      * @return string The XHTML for the attributes.
      */
@@ -141,15 +141,16 @@ abstract class Zend_View_Helper_HtmlElement extends Zend_View_Helper_Abstract
             } else {
                 $xhtml .= " $key=\"$val\"";
             }
-
         }
+
         return $xhtml;
     }
 
     /**
-     * Normalize an ID
+     * Normalize an ID.
      *
-     * @param  string $value
+     * @param string $value
+     *
      * @return string
      */
     protected function _normalizeId($value)
@@ -162,6 +163,7 @@ abstract class Zend_View_Helper_HtmlElement extends Zend_View_Helper_Abstract
             $value = str_replace('][', '-', $value);
             $value = str_replace('[', '-', $value);
         }
+
         return $value;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Books
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -27,21 +27,18 @@
 require_once 'Zend/Gdata/Books/Extension/BooksLink.php';
 
 /**
- * Describes an annotation link
+ * Describes an annotation link.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Books
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Gdata_Books_Extension_AnnotationLink extends
-    Zend_Gdata_Books_Extension_BooksLink
+class Zend_Gdata_Books_Extension_AnnotationLink extends Zend_Gdata_Books_Extension_BooksLink
 {
-
     /**
      * Constructor for Zend_Gdata_Books_Extension_AnnotationLink which
-     * Describes an annotation link
+     * Describes an annotation link.
      *
      * @param string|null $href Linked resource URI
      * @param string|null $rel Forward relationship
@@ -50,7 +47,7 @@ class Zend_Gdata_Books_Extension_AnnotationLink extends
      * @param string|null $title Human-readable resource title
      * @param string|null $length Resource length in octets
      * @param DOMElement $element (optional) DOMElement from which this
-     *          object should be constructed.
+     *                            object should be constructed.
      */
     public function __construct($href = null, $rel = null, $type = null,
             $hrefLang = null, $title = null, $length = null)
@@ -58,6 +55,4 @@ class Zend_Gdata_Books_Extension_AnnotationLink extends
         $this->registerAllNamespaces(Zend_Gdata_Books::$namespaces);
         parent::__construct($href, $rel, $type, $hrefLang, $title, $length);
     }
-
 }
-

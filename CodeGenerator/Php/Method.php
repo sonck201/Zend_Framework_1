@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_CodeGenerator
- * @subpackage PHP
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -37,7 +37,7 @@ require_once 'Zend/CodeGenerator/Php/Parameter.php';
 
 /**
  * @category   Zend
- * @package    Zend_CodeGenerator
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -56,7 +56,7 @@ class Zend_CodeGenerator_Php_Method extends Zend_CodeGenerator_Php_Member_Abstra
     /**
      * @var array
      */
-    protected $_parameters = array();
+    protected $_parameters = [];
 
     /**
      * @var string
@@ -64,9 +64,10 @@ class Zend_CodeGenerator_Php_Method extends Zend_CodeGenerator_Php_Member_Abstra
     protected $_body = null;
 
     /**
-     * fromReflection()
+     * fromReflection().
      *
      * @param Zend_Reflection_Method $reflectionMethod
+     *
      * @return Zend_CodeGenerator_Php_Method
      */
     public static function fromReflection(Zend_Reflection_Method $reflectionMethod)
@@ -104,7 +105,7 @@ class Zend_CodeGenerator_Php_Method extends Zend_CodeGenerator_Php_Member_Abstra
     }
 
     /**
-     * setFinal()
+     * setFinal().
      *
      * @param bool $isFinal
      */
@@ -114,23 +115,26 @@ class Zend_CodeGenerator_Php_Method extends Zend_CodeGenerator_Php_Member_Abstra
     }
 
     /**
-     * setParameters()
+     * setParameters().
      *
      * @param array $parameters
+     *
      * @return Zend_CodeGenerator_Php_Method
      */
-    public function setParameters(Array $parameters)
+    public function setParameters(array $parameters)
     {
         foreach ($parameters as $parameter) {
             $this->setParameter($parameter);
         }
+
         return $this;
     }
 
     /**
-     * setParameter()
+     * setParameter().
      *
      * @param Zend_CodeGenerator_Php_Parameter|array $parameter
+     *
      * @return Zend_CodeGenerator_Php_Method
      */
     public function setParameter($parameter)
@@ -146,11 +150,12 @@ class Zend_CodeGenerator_Php_Method extends Zend_CodeGenerator_Php_Member_Abstra
         }
 
         $this->_parameters[$parameterName] = $parameter;
+
         return $this;
     }
 
     /**
-     * getParameters()
+     * getParameters().
      *
      * @return array Array of Zend_CodeGenerator_Php_Parameter
      */
@@ -160,19 +165,21 @@ class Zend_CodeGenerator_Php_Method extends Zend_CodeGenerator_Php_Member_Abstra
     }
 
     /**
-     * setBody()
+     * setBody().
      *
      * @param string $body
+     *
      * @return Zend_CodeGenerator_Php_Method
      */
     public function setBody($body)
     {
         $this->_body = $body;
+
         return $this;
     }
 
     /**
-     * getBody()
+     * getBody().
      *
      * @return string
      */
@@ -182,7 +189,7 @@ class Zend_CodeGenerator_Php_Method extends Zend_CodeGenerator_Php_Member_Abstra
     }
 
     /**
-     * generate()
+     * generate().
      *
      * @return string
      */
@@ -222,8 +229,8 @@ class Zend_CodeGenerator_Php_Method extends Zend_CodeGenerator_Php_Member_Abstra
 
         if ($this->_body && $this->isSourceDirty()) {
             $output .= '        '
-                    .  str_replace(self::LINE_FEED, self::LINE_FEED . $indent . $indent, trim($this->_body))
-                    .  self::LINE_FEED;
+                    . str_replace(self::LINE_FEED, self::LINE_FEED . $indent . $indent, trim($this->_body))
+                    . self::LINE_FEED;
         } elseif ($this->_body) {
             $output .= $this->_body . self::LINE_FEED;
         }
@@ -232,5 +239,4 @@ class Zend_CodeGenerator_Php_Method extends Zend_CodeGenerator_Php_Member_Abstra
 
         return $output;
     }
-
 }

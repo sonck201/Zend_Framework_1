@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,52 +13,49 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Search_Lucene
- * @subpackage Index
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
 /** Zend_Search_Lucene_Index_TermsStream_Interface */
 require_once 'Zend/Search/Lucene/Index/TermsStream/Interface.php';
 
-
 /**
  * @category   Zend
- * @package    Zend_Search_Lucene
- * @subpackage Index
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Search_Lucene_TermStreamsPriorityQueue implements Zend_Search_Lucene_Index_TermsStream_Interface
 {
     /**
-     * Array of term streams (Zend_Search_Lucene_Index_TermsStream_Interface objects)
+     * Array of term streams (Zend_Search_Lucene_Index_TermsStream_Interface objects).
      *
      * @var array
      */
     protected $_termStreams;
 
     /**
-     * Terms stream queue
+     * Terms stream queue.
      *
      * @var Zend_Search_Lucene_Index_TermsPriorityQueue
      */
     protected $_termsStreamQueue = null;
 
     /**
-     * Last Term in a terms stream
+     * Last Term in a terms stream.
      *
      * @var Zend_Search_Lucene_Index_Term
      */
     protected $_lastTerm = null;
 
-
     /**
-     * Object constructor
+     * Object constructor.
      *
-     * @param array $termStreams  array of term streams (Zend_Search_Lucene_Index_TermsStream_Interface objects)
+     * @param array $termStreams array of term streams (Zend_Search_Lucene_Index_TermsStream_Interface objects)
      */
     public function __construct(array $termStreams)
     {
@@ -112,7 +109,7 @@ class Zend_Search_Lucene_TermStreamsPriorityQueue implements Zend_Search_Lucene_
     }
 
     /**
-     * Scans term streams and returns next term
+     * Scans term streams and returns next term.
      *
      * @return Zend_Search_Lucene_Index_Term|null
      */
@@ -146,7 +143,7 @@ class Zend_Search_Lucene_TermStreamsPriorityQueue implements Zend_Search_Lucene_
     }
 
     /**
-     * Returns term in current position
+     * Returns term in current position.
      *
      * @return Zend_Search_Lucene_Index_Term|null
      */
@@ -156,7 +153,7 @@ class Zend_Search_Lucene_TermStreamsPriorityQueue implements Zend_Search_Lucene_
     }
 
     /**
-     * Close terms stream
+     * Close terms stream.
      *
      * Should be used for resources clean up if stream is not read up to the end
      */
@@ -167,6 +164,6 @@ class Zend_Search_Lucene_TermStreamsPriorityQueue implements Zend_Search_Lucene_
         }
 
         $this->_termsStreamQueue = null;
-        $this->_lastTerm         = null;
+        $this->_lastTerm = null;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage App
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -27,17 +27,15 @@
 require_once 'Zend/Gdata/Extension.php';
 
 /**
- * Data model for representing an atom:link element
+ * Data model for representing an atom:link element.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage App
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_App_Extension_Link extends Zend_Gdata_App_Extension
 {
-
     protected $_rootElement = 'link';
     protected $_href = null;
     protected $_rel = null;
@@ -79,6 +77,7 @@ class Zend_Gdata_App_Extension_Link extends Zend_Gdata_App_Extension
         if ($this->_length !== null) {
             $element->setAttribute('length', $this->_length);
         }
+
         return $element;
     }
 
@@ -118,11 +117,13 @@ class Zend_Gdata_App_Extension_Link extends Zend_Gdata_App_Extension
 
     /**
      * @param string|null $value
+     *
      * @return Zend_Gdata_App_Entry Provides a fluent interface
      */
     public function setHref($value)
     {
         $this->_href = $value;
+
         return $this;
     }
 
@@ -136,11 +137,13 @@ class Zend_Gdata_App_Extension_Link extends Zend_Gdata_App_Extension
 
     /**
      * @param string|null $value
+     *
      * @return Zend_Gdata_App_Entry Provides a fluent interface
      */
     public function setRel($value)
     {
         $this->_rel = $value;
+
         return $this;
     }
 
@@ -154,11 +157,13 @@ class Zend_Gdata_App_Extension_Link extends Zend_Gdata_App_Extension
 
     /**
      * @param string|null $value
+     *
      * @return Zend_Gdata_App_Entry Provides a fluent interface
      */
     public function setType($value)
     {
         $this->_type = $value;
+
         return $this;
     }
 
@@ -172,11 +177,13 @@ class Zend_Gdata_App_Extension_Link extends Zend_Gdata_App_Extension
 
     /**
      * @param string|null $value
+     *
      * @return Zend_Gdata_App_Entry Provides a fluent interface
      */
     public function setHrefLang($value)
     {
         $this->_hrefLang = $value;
+
         return $this;
     }
 
@@ -190,11 +197,13 @@ class Zend_Gdata_App_Extension_Link extends Zend_Gdata_App_Extension
 
     /**
      * @param string|null $value
+     *
      * @return Zend_Gdata_App_Entry Provides a fluent interface
      */
     public function setTitle($value)
     {
         $this->_title = $value;
+
         return $this;
     }
 
@@ -208,12 +217,13 @@ class Zend_Gdata_App_Extension_Link extends Zend_Gdata_App_Extension
 
     /**
      * @param string|null $value
+     *
      * @return Zend_Gdata_App_Entry Provides a fluent interface
      */
     public function setLength($value)
     {
         $this->_length = $value;
+
         return $this;
     }
-
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Tool
- * @subpackage Framework
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -31,16 +31,15 @@ require_once 'Zend/Tool/Project/Profile/Resource/Container.php';
 require_once 'Zend/Tool/Project/Context/Repository.php';
 
 /**
- * This class is an iterator that will iterate only over enabled resources
+ * This class is an iterator that will iterate only over enabled resources.
  *
  * @category   Zend
- * @package    Zend_Tool
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Tool_Project_Profile_Resource extends Zend_Tool_Project_Profile_Resource_Container
 {
-
     /**
      * @var Zend_Tool_Project_Profile
      */
@@ -66,7 +65,7 @@ class Zend_Tool_Project_Profile_Resource extends Zend_Tool_Project_Profile_Resou
     /**
      * @var array
      */
-    protected $_attributes = array();
+    protected $_attributes = [];
 
     /**
      * @var bool
@@ -74,7 +73,7 @@ class Zend_Tool_Project_Profile_Resource extends Zend_Tool_Project_Profile_Resou
     protected $_isContextInitialized = false;
 
     /**
-     * __construct()
+     * __construct().
      *
      * @param string|Zend_Tool_Project_Context_Interface $context
      */
@@ -84,19 +83,21 @@ class Zend_Tool_Project_Profile_Resource extends Zend_Tool_Project_Profile_Resou
     }
 
     /**
-     * setContext()
+     * setContext().
      *
      * @param string|Zend_Tool_Project_Context_Interface $context
+     *
      * @return Zend_Tool_Project_Profile_Resource
      */
     public function setContext($context)
     {
         $this->_context = $context;
+
         return $this;
     }
 
     /**
-     * getContext()
+     * getContext().
      *
      * @return Zend_Tool_Project_Context_Interface
      */
@@ -106,7 +107,7 @@ class Zend_Tool_Project_Profile_Resource extends Zend_Tool_Project_Profile_Resou
     }
 
     /**
-     * getName() - Get the resource name
+     * getName() - Get the resource name.
      *
      * Name is derived from the context name
      *
@@ -124,19 +125,21 @@ class Zend_Tool_Project_Profile_Resource extends Zend_Tool_Project_Profile_Resou
     }
 
     /**
-     * setProfile()
+     * setProfile().
      *
      * @param Zend_Tool_Project_Profile $profile
+     *
      * @return Zend_Tool_Project_Profile_Resource
      */
     public function setProfile(Zend_Tool_Project_Profile $profile)
     {
         $this->_profile = $profile;
+
         return $this;
     }
 
     /**
-     * getProfile
+     * getProfile.
      *
      * @return Zend_Tool_Project_Profile
      */
@@ -146,7 +149,7 @@ class Zend_Tool_Project_Profile_Resource extends Zend_Tool_Project_Profile_Resou
     }
 
     /**
-     * getPersistentAttributes()
+     * getPersistentAttributes().
      *
      * @return array
      */
@@ -156,24 +159,26 @@ class Zend_Tool_Project_Profile_Resource extends Zend_Tool_Project_Profile_Resou
             return $this->_context->getPersistentAttributes();
         }
 
-        return array();
+        return [];
     }
 
     /**
-     * setEnabled()
+     * setEnabled().
      *
      * @param bool $enabled
+     *
      * @return Zend_Tool_Project_Profile_Resource
      */
     public function setEnabled($enabled = true)
     {
         // convert fuzzy types to bool
-        $this->_enabled = (!in_array($enabled, array('false', 'disabled', 0, -1, false), true)) ? true : false;
+        $this->_enabled = (!in_array($enabled, ['false', 'disabled', 0, -1, false], true)) ? true : false;
+
         return $this;
     }
 
     /**
-     * isEnabled()
+     * isEnabled().
      *
      * @return bool
      */
@@ -183,19 +188,21 @@ class Zend_Tool_Project_Profile_Resource extends Zend_Tool_Project_Profile_Resou
     }
 
     /**
-     * setDeleted()
+     * setDeleted().
      *
      * @param bool $deleted
+     *
      * @return Zend_Tool_Project_Profile_Resource
      */
     public function setDeleted($deleted = true)
     {
         $this->_deleted = (bool) $deleted;
+
         return $this;
     }
 
     /**
-     * isDeleted()
+     * isDeleted().
      *
      * @return Zend_Tool_Project_Profile_Resource
      */
@@ -205,7 +212,7 @@ class Zend_Tool_Project_Profile_Resource extends Zend_Tool_Project_Profile_Resou
     }
 
     /**
-     * initializeContext()
+     * initializeContext().
      *
      * @return Zend_Tool_Project_Profile_Resource
      */
@@ -227,11 +234,12 @@ class Zend_Tool_Project_Profile_Resource extends Zend_Tool_Project_Profile_Resou
         }
 
         $this->_isContextInitialized = true;
+
         return $this;
     }
 
     /**
-     * __toString()
+     * __toString().
      *
      * @return string
      */
@@ -241,10 +249,11 @@ class Zend_Tool_Project_Profile_Resource extends Zend_Tool_Project_Profile_Resou
     }
 
     /**
-     * __call()
+     * __call().
      *
      * @param string $method
      * @param array $arguments
+     *
      * @return Zend_Tool_Project_Profile_Resource
      */
     public function __call($method, $arguments)
@@ -253,10 +262,10 @@ class Zend_Tool_Project_Profile_Resource extends Zend_Tool_Project_Profile_Resou
             if (!$this->isEnabled()) {
                 $this->setEnabled(true);
             }
-            return call_user_func_array(array($this->_context, $method), $arguments);
+
+            return call_user_func_array([$this->_context, $method], $arguments);
         } else {
             throw new Zend_Tool_Project_Profile_Exception('cannot call ' . $method);
         }
     }
-
 }

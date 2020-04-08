@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,12 +13,13 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Translate
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ *
  * @version    $Id$
+ *
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-
 
 /** Zend_Locale */
 require_once 'Zend/Locale.php';
@@ -34,36 +35,39 @@ require_once 'Zend/Xml/Exception.php';
 
 /**
  * @category   Zend
- * @package    Zend_Translate
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Translate_Adapter_Qt extends Zend_Translate_Adapter {
+class Zend_Translate_Adapter_Qt extends Zend_Translate_Adapter
+{
     // Internal variables
-    private $_file        = false;
-    private $_cleared     = array();
-    private $_transunit   = null;
-    private $_source      = null;
-    private $_target      = null;
-    private $_scontent    = null;
-    private $_tcontent    = null;
-    private $_stag        = false;
-    private $_ttag        = true;
-    private $_data        = array();
+    private $_file = false;
+    private $_cleared = [];
+    private $_transunit = null;
+    private $_source = null;
+    private $_target = null;
+    private $_scontent = null;
+    private $_tcontent = null;
+    private $_stag = false;
+    private $_ttag = true;
+    private $_data = [];
 
     /**
-     * Load translation data (QT file reader)
+     * Load translation data (QT file reader).
      *
-     * @param  string  $locale    Locale/Language to add data for, identical with locale identifier,
-     *                            see Zend_Locale for more information
-     * @param  string  $filename  QT file to add, full path must be given for access
-     * @param  array   $option    OPTIONAL Options to use
+     * @param string $locale Locale/Language to add data for, identical with locale identifier,
+     *                       see Zend_Locale for more information
+     * @param string $filename QT file to add, full path must be given for access
+     * @param array $option OPTIONAL Options to use
+     *
      * @throws Zend_Translation_Exception
+     *
      * @return array
      */
-    protected function _loadTranslationData($filename, $locale, array $options = array())
+    protected function _loadTranslationData($filename, $locale, array $options = [])
     {
-        $this->_data = array();
+        $this->_data = [];
         if (!is_readable($filename)) {
             require_once 'Zend/Translate/Exception.php';
             throw new Zend_Translate_Exception('Translation file \'' . $filename . '\' is not readable.');
@@ -75,16 +79,14 @@ class Zend_Translate_Adapter_Qt extends Zend_Translate_Adapter {
         $this->_file = xml_parser_create($encoding);
         xml_set_object($this->_file, $this);
         xml_parser_set_option($this->_file, XML_OPTION_CASE_FOLDING, 0);
-        xml_set_element_handler($this->_file, "_startElement", "_endElement");
-        xml_set_character_data_handler($this->_file, "_contentElement");
-        
+        xml_set_element_handler($this->_file, '_startElement', '_endElement');
+        xml_set_character_data_handler($this->_file, '_contentElement');
+
         try {
             Zend_Xml_Security::scanFile($filename);
         } catch (Zend_Xml_Exception $e) {
             require_once 'Zend/Translate/Exception.php';
-            throw new Zend_Translate_Exception(
-                $e->getMessage()
-            );
+            throw new Zend_Translate_Exception($e->getMessage());
         }
 
         if (!xml_parse($this->_file, file_get_contents($filename))) {
@@ -102,7 +104,7 @@ class Zend_Translate_Adapter_Qt extends Zend_Translate_Adapter {
 
     private function _startElement($file, $name, $attrib)
     {
-        switch(strtolower($name)) {
+        switch (strtolower($name)) {
             case 'message':
                 $this->_source = null;
                 $this->_stag = false;
@@ -155,21 +157,23 @@ class Zend_Translate_Adapter_Qt extends Zend_Translate_Adapter {
     private function _findEncoding($filename)
     {
         $file = file_get_contents($filename, null, null, 0, 100);
-        if (strpos($file, "encoding") !== false) {
-            $encoding = substr($file, strpos($file, "encoding") + 9);
+        if (strpos($file, 'encoding') !== false) {
+            $encoding = substr($file, strpos($file, 'encoding') + 9);
             $encoding = substr($encoding, 1, strpos($encoding, $encoding[0], 1) - 1);
+
             return $encoding;
         }
+
         return 'UTF-8';
     }
 
     /**
-     * Returns the adapter name
+     * Returns the adapter name.
      *
      * @return string
      */
     public function toString()
     {
-        return "Qt";
+        return 'Qt';
     }
 }

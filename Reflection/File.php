@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,9 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Reflection
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -31,7 +32,7 @@ require_once 'Zend/Reflection/Function.php';
 
 /**
  * @category   Zend
- * @package    Zend_Reflection
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -40,53 +41,54 @@ class Zend_Reflection_File implements Reflector
     /**
      * @var string
      */
-    protected $_filepath        = null;
+    protected $_filepath = null;
 
     /**
      * @var string
      */
-    protected $_docComment      = null;
+    protected $_docComment = null;
 
     /**
      * @var int
      */
-    protected $_startLine       = 1;
+    protected $_startLine = 1;
 
     /**
      * @var int
      */
-    protected $_endLine         = null;
+    protected $_endLine = null;
 
     /**
      * @var string[]
      */
-    protected $_requiredFiles   = array();
+    protected $_requiredFiles = [];
 
     /**
      * @var Zend_Reflection_Class[]
      */
-    protected $_classes         = array();
+    protected $_classes = [];
 
     /**
      * @var Zend_Reflection_Function[]
      */
-    protected $_functions       = array();
+    protected $_functions = [];
 
     /**
      * @var string
      */
-    protected $_contents        = null;
+    protected $_contents = null;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param  string $file
+     * @param string $file
+     *
      * @return void
      */
     public function __construct($file)
     {
         $fileName = $file;
-        
+
         $fileRealpath = realpath($fileName);
         if ($fileRealpath) {
             // realpath() doesn't return false if Suhosin is included
@@ -95,7 +97,7 @@ class Zend_Reflection_File implements Reflector
                 $fileRealpath = false;
             }
         }
-        
+
         if ($fileRealpath === false) {
             $fileRealpath = self::findRealpathInIncludePath($file);
         }
@@ -111,9 +113,10 @@ class Zend_Reflection_File implements Reflector
     }
 
     /**
-     * Find realpath of file based on include_path
+     * Find realpath of file based on include_path.
      *
-     * @param  string $fileName
+     * @param string $fileName
+     *
      * @return string
      */
     public static function findRealpathInIncludePath($fileName)
@@ -123,7 +126,7 @@ class Zend_Reflection_File implements Reflector
         while (count($includePaths) > 0) {
             $filePath = array_shift($includePaths) . DIRECTORY_SEPARATOR . $fileName;
 
-            if ( ($foundRealpath = realpath($filePath)) !== false) {
+            if (($foundRealpath = realpath($filePath)) !== false) {
                 break;
             }
         }
@@ -132,11 +135,12 @@ class Zend_Reflection_File implements Reflector
     }
 
     /**
-     * Export
+     * Export.
      *
      * Required by the Reflector interface.
      *
      * @todo   What should this do?
+     *
      * @return null
      */
     public static function export()
@@ -145,7 +149,7 @@ class Zend_Reflection_File implements Reflector
     }
 
     /**
-     * Return the file name of the reflected file
+     * Return the file name of the reflected file.
      *
      * @return string
      */
@@ -155,7 +159,7 @@ class Zend_Reflection_File implements Reflector
     }
 
     /**
-     * Get the start line - Always 1, staying consistent with the Reflection API
+     * Get the start line - Always 1, staying consistent with the Reflection API.
      *
      * @return int
      */
@@ -165,7 +169,7 @@ class Zend_Reflection_File implements Reflector
     }
 
     /**
-     * Get the end line / number of lines
+     * Get the end line / number of lines.
      *
      * @return int
      */
@@ -175,7 +179,7 @@ class Zend_Reflection_File implements Reflector
     }
 
     /**
-     * Return the doc comment
+     * Return the doc comment.
      *
      * @return string
      */
@@ -185,9 +189,10 @@ class Zend_Reflection_File implements Reflector
     }
 
     /**
-     * Return the docblock
+     * Return the docblock.
      *
-     * @param  string $reflectionClass Reflection class to use
+     * @param string $reflectionClass Reflection class to use
+     *
      * @return Zend_Reflection_Docblock
      */
     public function getDocblock($reflectionClass = 'Zend_Reflection_Docblock')
@@ -197,18 +202,20 @@ class Zend_Reflection_File implements Reflector
             require_once 'Zend/Reflection/Exception.php';
             throw new Zend_Reflection_Exception('Invalid reflection class specified; must extend Zend_Reflection_Docblock');
         }
+
         return $instance;
     }
 
     /**
-     * Return the reflection classes of the classes found inside this file
+     * Return the reflection classes of the classes found inside this file.
      *
-     * @param  string $reflectionClass Name of reflection class to use for instances
+     * @param string $reflectionClass Name of reflection class to use for instances
+     *
      * @return array Array of Zend_Reflection_Class instances
      */
     public function getClasses($reflectionClass = 'Zend_Reflection_Class')
     {
-        $classes = array();
+        $classes = [];
         foreach ($this->_classes as $class) {
             $instance = new $reflectionClass($class);
             if (!$instance instanceof Zend_Reflection_Class) {
@@ -217,18 +224,20 @@ class Zend_Reflection_File implements Reflector
             }
             $classes[] = $instance;
         }
+
         return $classes;
     }
 
     /**
-     * Return the reflection functions of the functions found inside this file
+     * Return the reflection functions of the functions found inside this file.
      *
-     * @param  string $reflectionClass Name of reflection class to use for instances
+     * @param string $reflectionClass Name of reflection class to use for instances
+     *
      * @return array Array of Zend_Reflection_Functions
      */
     public function getFunctions($reflectionClass = 'Zend_Reflection_Function')
     {
-        $functions = array();
+        $functions = [];
         foreach ($this->_functions as $function) {
             $instance = new $reflectionClass($function);
             if (!$instance instanceof Zend_Reflection_Function) {
@@ -237,15 +246,18 @@ class Zend_Reflection_File implements Reflector
             }
             $functions[] = $instance;
         }
+
         return $functions;
     }
 
     /**
-     * Retrieve the reflection class of a given class found in this file
+     * Retrieve the reflection class of a given class found in this file.
      *
-     * @param  null|string $name
-     * @param  string $reflectionClass Reflection class to use when creating reflection instance
+     * @param string|null $name
+     * @param string $reflectionClass Reflection class to use when creating reflection instance
+     *
      * @return Zend_Reflection_Class
+     *
      * @throws Zend_Reflection_Exception for invalid class name or invalid reflection class
      */
     public function getClass($name = null, $reflectionClass = 'Zend_Reflection_Class')
@@ -258,6 +270,7 @@ class Zend_Reflection_File implements Reflector
                 require_once 'Zend/Reflection/Exception.php';
                 throw new Zend_Reflection_Exception('Invalid reflection class given; must extend Zend_Reflection_Class');
             }
+
             return $instance;
         }
 
@@ -267,6 +280,7 @@ class Zend_Reflection_File implements Reflector
                 require_once 'Zend/Reflection/Exception.php';
                 throw new Zend_Reflection_Exception('Invalid reflection class given; must extend Zend_Reflection_Class');
             }
+
             return $instance;
         }
 
@@ -275,7 +289,7 @@ class Zend_Reflection_File implements Reflector
     }
 
     /**
-     * Return the full contents of file
+     * Return the full contents of file.
      *
      * @return string
      */
@@ -285,11 +299,12 @@ class Zend_Reflection_File implements Reflector
     }
 
     /**
-     * Serialize to string
+     * Serialize to string.
      *
      * Required by the Reflector interface
      *
      * @todo   What should this serialization look like?
+     *
      * @return string
      */
     public function __toString()
@@ -298,7 +313,7 @@ class Zend_Reflection_File implements Reflector
     }
 
     /**
-     * This method does the work of "reflecting" the file
+     * This method does the work of "reflecting" the file.
      *
      * Uses PHP's tokenizer to perform file reflection.
      *
@@ -307,13 +322,13 @@ class Zend_Reflection_File implements Reflector
     protected function _reflect()
     {
         $contents = $this->_contents;
-        $tokens   = token_get_all($contents);
+        $tokens = token_get_all($contents);
 
-        $functionTrapped           = false;
-        $classTrapped              = false;
-        $requireTrapped            = false;
-        $embeddedVariableTrapped   = false;
-        $openBraces                = 0;
+        $functionTrapped = false;
+        $classTrapped = false;
+        $requireTrapped = false;
+        $embeddedVariableTrapped = false;
+        $openBraces = 0;
 
         $this->_checkFileDocBlock($tokens);
 
@@ -331,19 +346,19 @@ class Zend_Reflection_File implements Reflector
              */
 
             if (is_array($token)) {
-                $type    = $token[0];
-                $value   = $token[1];
+                $type = $token[0];
+                $value = $token[1];
                 $lineNum = $token[2];
             } else {
                 // It's a symbol
                 // Maintain the count of open braces
                 if ($token == '{') {
-                    $openBraces++;
-                } else if ($token == '}') {
-                    if ( $embeddedVariableTrapped ) {
+                    ++$openBraces;
+                } elseif ($token == '}') {
+                    if ($embeddedVariableTrapped) {
                         $embeddedVariableTrapped = false;
                     } else {
-                        $openBraces--;
+                        --$openBraces;
                     }
                 }
 
@@ -371,7 +386,7 @@ class Zend_Reflection_File implements Reflector
                 // Required file names are T_CONSTANT_ENCAPSED_STRING
                 case T_CONSTANT_ENCAPSED_STRING:
                     if ($requireTrapped) {
-                        $this->_requiredFiles[] = $value ."\n";
+                        $this->_requiredFiles[] = $value . "\n";
                         $requireTrapped = false;
                     }
                     continue;
@@ -407,21 +422,24 @@ class Zend_Reflection_File implements Reflector
     }
 
     /**
-     * Validate / check a file level docblock
+     * Validate / check a file level docblock.
      *
-     * @param  array $tokens Array of tokenizer tokens
+     * @param array $tokens Array of tokenizer tokens
+     *
      * @return void
      */
-    protected function _checkFileDocBlock($tokens) {
+    protected function _checkFileDocBlock($tokens)
+    {
         foreach ($tokens as $token) {
-            $type    = $token[0];
-            $value   = $token[1];
+            $type = $token[0];
+            $value = $token[1];
             $lineNum = $token[2];
-            if(($type == T_OPEN_TAG) || ($type == T_WHITESPACE)) {
+            if (($type == T_OPEN_TAG) || ($type == T_WHITESPACE)) {
                 continue;
             } elseif ($type == T_DOC_COMMENT) {
                 $this->_docComment = $value;
-                $this->_startLine  = $lineNum + substr_count($value, "\n") + 1;
+                $this->_startLine = $lineNum + substr_count($value, "\n") + 1;
+
                 return;
             } else {
                 // Only whitespace is allowed before file docblocks

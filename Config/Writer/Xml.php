@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,9 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Config
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -31,7 +32,7 @@ require_once 'Zend/Config/Xml.php';
 
 /**
  * @category   Zend
- * @package    Zend_Config
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -41,12 +42,13 @@ class Zend_Config_Writer_Xml extends Zend_Config_Writer_FileAbstract
      * Render a Zend_Config into a XML config string.
      *
      * @since 1.10
+     *
      * @return string
      */
     public function render()
     {
-        $xml         = new SimpleXMLElement('<zend-config xmlns:zf="' . Zend_Config_Xml::XML_NAMESPACE . '"/>');
-        $extends     = $this->_config->getExtends();
+        $xml = new SimpleXMLElement('<zend-config xmlns:zf="' . Zend_Config_Xml::XML_NAMESPACE . '"/>');
+        $extends = $this->_config->getExtends();
         $sectionName = $this->_config->getSectionName();
 
         if (is_string($sectionName)) {
@@ -78,11 +80,12 @@ class Zend_Config_Writer_Xml extends Zend_Config_Writer_FileAbstract
     }
 
     /**
-     * Add a branch to an XML object recursively
+     * Add a branch to an XML object recursively.
      *
-     * @param  Zend_Config      $config
-     * @param  SimpleXMLElement $xml
-     * @param  SimpleXMLElement $parent
+     * @param Zend_Config $config
+     * @param SimpleXMLElement $xml
+     * @param SimpleXMLElement $parent
+     *
      * @return void
      */
     protected function _addBranch(Zend_Config $config, SimpleXMLElement $xml, SimpleXMLElement $parent)
@@ -94,13 +97,13 @@ class Zend_Config_Writer_Xml extends Zend_Config_Writer_FileAbstract
                 if (is_numeric($key)) {
                     $branchType = 'numeric';
                     $branchName = $xml->getName();
-                    $xml        = $parent;
+                    $xml = $parent;
 
                     unset($parent->{$branchName});
                 } else {
                     $branchType = 'string';
                 }
-            } else if ($branchType !== (is_numeric($key) ? 'numeric' : 'string')) {
+            } elseif ($branchType !== (is_numeric($key) ? 'numeric' : 'string')) {
                 require_once 'Zend/Config/Exception.php';
                 throw new Zend_Config_Exception('Mixing of string and numeric keys is not allowed');
             }

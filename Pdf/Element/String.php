@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,76 +13,75 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Pdf
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
-
 
 /** Zend_Pdf_Element */
 require_once 'Zend/Pdf/Element.php';
 
 /**
- * PDF file 'string' element implementation
+ * PDF file 'string' element implementation.
  *
  * @category   Zend
- * @package    Zend_Pdf
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Pdf_Element_String extends Zend_Pdf_Element
 {
     /**
-     * Object value
+     * Object value.
      *
      * @var string
      */
     public $value;
 
     /**
-     * Object constructor
+     * Object constructor.
      *
      * @param string $val
      */
     public function __construct($val)
     {
-        $this->value   = (string)$val;
+        $this->value = (string) $val;
     }
-
 
     /**
      * Return type of the element.
      *
-     * @return integer
+     * @return int
      */
     public function getType()
     {
         return Zend_Pdf_Element::TYPE_STRING;
     }
 
-
     /**
-     * Return object as string
+     * Return object as string.
      *
      * @param Zend_Pdf_Factory $factory
+     *
      * @return string
      */
     public function toString($factory = null)
     {
-        return '(' . self::escape((string)$this->value) . ')';
+        return '(' . self::escape((string) $this->value) . ')';
     }
 
-
     /**
-     * Escape string according to the PDF rules
+     * Escape string according to the PDF rules.
      *
      * @param string $str
+     *
      * @return string
      */
     public static function escape($str)
     {
-        $outEntries = array();
+        $outEntries = [];
 
         foreach (str_split($str, 128) as $chunk) {
             // Collect sequence of unescaped characters
@@ -158,22 +157,22 @@ class Zend_Pdf_Element_String extends Zend_Pdf_Element
         return implode("\\\n", $outEntries);
     }
 
-
     /**
-     * Unescape string according to the PDF rules
+     * Unescape string according to the PDF rules.
      *
      * @param string $str
+     *
      * @return string
      */
     public static function unescape($str)
     {
-        $outEntries = array();
+        $outEntries = [];
 
         $offset = 0;
         while ($offset < strlen($str)) {
             // Searche for the next escaped character/sequence
             $escapeCharOffset = strpos($str, '\\', $offset);
-            if ($escapeCharOffset === false  ||  $escapeCharOffset == strlen($str) - 1) {
+            if ($escapeCharOffset === false || $escapeCharOffset == strlen($str) - 1) {
                 // There are no escaped characters or '\' char has came at the end of string
                 $outEntries[] = substr($str, $offset);
                 break;
@@ -228,7 +227,7 @@ class Zend_Pdf_Element_String extends Zend_Pdf_Element
                     case "\n":
                         // skip new line symbol
                         if ($str[$offset + 1] == "\r") {
-                            $offset++;
+                            ++$offset;
                         }
                         break;
 
@@ -253,11 +252,10 @@ class Zend_Pdf_Element_String extends Zend_Pdf_Element
                         break;
                 }
 
-                $offset++;
+                ++$offset;
             }
         }
 
         return implode($outEntries);
     }
-
 }

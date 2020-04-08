@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage App
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -60,14 +60,12 @@ require_once 'Zend/Gdata/App/Extension/Control.php';
  * Concrete class for working with Atom entries.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage App
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_App_Entry extends Zend_Gdata_App_FeedEntryParent
 {
-
     /**
      * Root XML element for Atom entries.
      *
@@ -76,49 +74,49 @@ class Zend_Gdata_App_Entry extends Zend_Gdata_App_FeedEntryParent
     protected $_rootElement = 'entry';
 
     /**
-     * Class name for each entry in this feed*
+     * Class name for each entry in this feed*.
      *
      * @var string
      */
     protected $_entryClassName = 'Zend_Gdata_App_Entry';
 
     /**
-     * atom:content element
+     * atom:content element.
      *
      * @var Zend_Gdata_App_Extension_Content
      */
     protected $_content = null;
 
     /**
-     * atom:published element
+     * atom:published element.
      *
      * @var Zend_Gdata_App_Extension_Published
      */
     protected $_published = null;
 
     /**
-     * atom:source element
+     * atom:source element.
      *
      * @var Zend_Gdata_App_Extension_Source
      */
     protected $_source = null;
 
     /**
-     * atom:summary element
+     * atom:summary element.
      *
      * @var Zend_Gdata_App_Extension_Summary
      */
     protected $_summary = null;
 
     /**
-     * app:control element
+     * app:control element.
      *
      * @var Zend_Gdata_App_Extension_Control
      */
     protected $_control = null;
 
     /**
-     * app:edited element
+     * app:edited element.
      *
      * @var Zend_Gdata_App_Extension_Edited
      */
@@ -145,6 +143,7 @@ class Zend_Gdata_App_Entry extends Zend_Gdata_App_FeedEntryParent
         if ($this->_edited != null) {
             $element->appendChild($this->_edited->getDOM($element->ownerDocument));
         }
+
         return $element;
     }
 
@@ -189,19 +188,21 @@ class Zend_Gdata_App_Entry extends Zend_Gdata_App_FeedEntryParent
     }
 
     /**
-     * Uploads changes in this entry to the server using Zend_Gdata_App
+     * Uploads changes in this entry to the server using Zend_Gdata_App.
      *
      * @param string|null $uri The URI to send requests to, or null if $data
-     *        contains the URI.
+     *                         contains the URI.
      * @param string|null $className The name of the class that should we
-     *        deserializing the server response. If null, then
-     *        'Zend_Gdata_App_Entry' will be used.
+     *                               deserializing the server response. If null, then
+     *                               'Zend_Gdata_App_Entry' will be used.
      * @param array $extraHeaders Extra headers to add to the request, as an
-     *        array of string-based key/value pairs.
+     *                            array of string-based key/value pairs.
+     *
      * @return Zend_Gdata_App_Entry The updated entry.
+     *
      * @throws Zend_Gdata_App_Exception
      */
-    public function save($uri = null, $className = null, $extraHeaders = array())
+    public function save($uri = null, $className = null, $extraHeaders = [])
     {
         return $this->getService()->updateEntry($this,
                                                 $uri,
@@ -215,6 +216,7 @@ class Zend_Gdata_App_Entry extends Zend_Gdata_App_FeedEntryParent
      * entry's link collection.
      *
      * @return void
+     *
      * @throws Zend_Gdata_App_Exception
      */
     public function delete()
@@ -228,17 +230,21 @@ class Zend_Gdata_App_Entry extends Zend_Gdata_App_FeedEntryParent
      * modify the current entry instance.
      *
      * @param string|null The URI to send requests to, or null if $data
-     *        contains the URI.
+     *                                                                  contains the URI.
      * @param string|null The name of the class that should we deserializing
      *        the server response. If null, then 'Zend_Gdata_App_Entry' will
      *        be used.
      * @param array $extraHeaders Extra headers to add to the request, as an
-     *        array of string-based key/value pairs.
+     *                            array of string-based key/value pairs.
+     * @param mixed|null $uri
+     * @param mixed|null $className
+     *
      * @return mixed A new instance of the current entry with updated data, or
-     *         null if the server reports that no changes have been made.
+     *               null if the server reports that no changes have been made.
+     *
      * @throws Zend_Gdata_App_Exception
      */
-    public function reload($uri = null, $className = null, $extraHeaders = array())
+    public function reload($uri = null, $className = null, $extraHeaders = [])
     {
         // Get URI
         $editLink = $this->getEditLink();
@@ -265,15 +271,16 @@ class Zend_Gdata_App_Entry extends Zend_Gdata_App_FeedEntryParent
         try {
             $result = $this->service->importUrl($uri, $className, $extraHeaders);
         } catch (Zend_Gdata_App_HttpException $e) {
-            if ($e->getResponse()->getStatus() != '304')
+            if ($e->getResponse()->getStatus() != '304') {
                 throw $e;
+            }
         }
 
         return $result;
     }
 
     /**
-     * Gets the value of the atom:content element
+     * Gets the value of the atom:content element.
      *
      * @return Zend_Gdata_App_Extension_Content
      */
@@ -283,20 +290,22 @@ class Zend_Gdata_App_Entry extends Zend_Gdata_App_FeedEntryParent
     }
 
     /**
-     * Sets the value of the atom:content element
+     * Sets the value of the atom:content element.
      *
      * @param Zend_Gdata_App_Extension_Content $value
+     *
      * @return Zend_Gdata_App_Entry Provides a fluent interface
      */
     public function setContent($value)
     {
         $this->_content = $value;
+
         return $this;
     }
 
     /**
      * Sets the value of the atom:published element
-     * This represents the publishing date for an entry
+     * This represents the publishing date for an entry.
      *
      * @return Zend_Gdata_App_Extension_Published
      */
@@ -307,19 +316,21 @@ class Zend_Gdata_App_Entry extends Zend_Gdata_App_FeedEntryParent
 
     /**
      * Sets the value of the atom:published element
-     * This represents the publishing date for an entry
+     * This represents the publishing date for an entry.
      *
      * @param Zend_Gdata_App_Extension_Published $value
+     *
      * @return Zend_Gdata_App_Entry Provides a fluent interface
      */
     public function setPublished($value)
     {
         $this->_published = $value;
+
         return $this;
     }
 
     /**
-     * Gets the value of the atom:source element
+     * Gets the value of the atom:source element.
      *
      * @return Zend_Gdata_App_Extension_Source
      */
@@ -329,20 +340,22 @@ class Zend_Gdata_App_Entry extends Zend_Gdata_App_FeedEntryParent
     }
 
     /**
-     * Sets the value of the atom:source element
+     * Sets the value of the atom:source element.
      *
      * @param Zend_Gdata_App_Extension_Source $value
+     *
      * @return Zend_Gdata_App_Entry Provides a fluent interface
      */
     public function setSource($value)
     {
         $this->_source = $value;
+
         return $this;
     }
 
     /**
      * Gets the value of the atom:summary element
-     * This represents a textual summary of this entry's content
+     * This represents a textual summary of this entry's content.
      *
      * @return Zend_Gdata_App_Extension_Summary
      */
@@ -353,19 +366,21 @@ class Zend_Gdata_App_Entry extends Zend_Gdata_App_FeedEntryParent
 
     /**
      * Sets the value of the atom:summary element
-     * This represents a textual summary of this entry's content
+     * This represents a textual summary of this entry's content.
      *
      * @param Zend_Gdata_App_Extension_Summary $value
+     *
      * @return Zend_Gdata_App_Entry Provides a fluent interface
      */
     public function setSummary($value)
     {
         $this->_summary = $value;
+
         return $this;
     }
 
     /**
-     * Gets the value of the app:control element
+     * Gets the value of the app:control element.
      *
      * @return Zend_Gdata_App_Extension_Control
      */
@@ -375,15 +390,16 @@ class Zend_Gdata_App_Entry extends Zend_Gdata_App_FeedEntryParent
     }
 
     /**
-     * Sets the value of the app:control element
+     * Sets the value of the app:control element.
      *
      * @param Zend_Gdata_App_Extension_Control $value
+     *
      * @return Zend_Gdata_App_Entry Provides a fluent interface
      */
     public function setControl($value)
     {
         $this->_control = $value;
+
         return $this;
     }
-
 }

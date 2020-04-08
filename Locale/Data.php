@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,15 +13,15 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Locale
- * @subpackage Data
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
 /**
- * include needed classes
+ * include needed classes.
  */
 require_once 'Zend/Locale.php';
 
@@ -29,53 +29,52 @@ require_once 'Zend/Locale.php';
 require_once 'Zend/Xml/Security.php';
 
 /**
- * Locale data reader, handles the CLDR
+ * Locale data reader, handles the CLDR.
  *
  * @category   Zend
- * @package    Zend_Locale
- * @subpackage Data
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Locale_Data
 {
     /**
-     * Locale files
+     * Locale files.
      *
      * @var array
      */
-    private static $_ldml = array();
+    private static $_ldml = [];
 
     /**
-     * List of values which are collected
+     * List of values which are collected.
      *
      * @var array
      */
-    private static $_list = array();
+    private static $_list = [];
 
     /**
-     * Internal cache for ldml values
+     * Internal cache for ldml values.
      *
      * @var Zend_Cache_Core
      */
     private static $_cache = null;
 
     /**
-     * Internal value to remember if cache supports tags
+     * Internal value to remember if cache supports tags.
      *
-     * @var boolean
+     * @var bool
      */
     private static $_cacheTags = false;
 
     /**
-     * Internal option, cache disabled
+     * Internal option, cache disabled.
      *
-     * @var boolean
+     * @var bool
      */
     private static $_cacheDisabled = false;
 
     /**
-     * Read the content from locale
+     * Read the content from locale.
      *
      * Can be called like:
      * <ldml>
@@ -91,11 +90,12 @@ class Zend_Locale_Data
      * Case 3: _readFile('ar','/ldml/delimiter',,'right')    -> returns [right] = test
      * Case 4: _readFile('ar','/ldml/third','type','myone')  -> returns [myone] = mythird
      *
-     * @param  string $locale
-     * @param  string $path
-     * @param  string $attribute
-     * @param  string $value
-     * @access private
+     * @param string $locale
+     * @param string $path
+     * @param string $attribute
+     * @param string $value
+     * @param mixed $temp
+     *
      * @return array
      */
     private static function _readFile($locale, $path, $attribute, $value, $temp)
@@ -103,23 +103,18 @@ class Zend_Locale_Data
         // without attribute - read all values
         // with attribute    - read only this value
         if (!empty(self::$_ldml[(string) $locale])) {
-
             $result = self::$_ldml[(string) $locale]->xpath($path);
             if (!empty($result)) {
                 foreach ($result as &$found) {
-
                     if (empty($value)) {
-
                         if (empty($attribute)) {
                             // Case 1
                             $temp[] = (string) $found;
-                        } else if (empty($temp[(string) $found[$attribute]])){
+                        } elseif (empty($temp[(string) $found[$attribute]])) {
                             // Case 2
                             $temp[(string) $found[$attribute]] = (string) $found;
                         }
-
-                    } else if (empty ($temp[$value])) {
-
+                    } elseif (empty($temp[$value])) {
                         if (empty($attribute)) {
                             // Case 3
                             $temp[$value] = (string) $found;
@@ -127,23 +122,25 @@ class Zend_Locale_Data
                             // Case 4
                             $temp[$value] = (string) $found[$attribute];
                         }
-
                     }
                 }
             }
         }
+
         return $temp;
     }
 
     /**
-     * Find possible routing to other path or locale
+     * Find possible routing to other path or locale.
      *
-     * @param  string $locale
-     * @param  string $path
-     * @param  string $attribute
-     * @param  string $value
-     * @param  array  $temp
+     * @param string $locale
+     * @param string $path
+     * @param string $attribute
+     * @param string $value
+     * @param array $temp
+     *
      * @return bool
+     *
      * @throws Zend_Locale_Exception
      */
     private static function _findRoute($locale, $path, $attribute, $value, &$temp)
@@ -167,7 +164,7 @@ class Zend_Locale_Data
         // parse the complete path
         if (!empty(self::$_ldml[(string) $locale])) {
             while ($tok !== false) {
-                $search .=  '/' . $tok;
+                $search .= '/' . $tok;
                 if (strpos($search, '[@') !== false) {
                     while (strrpos($search, '[@') > strrpos($search, ']')) {
                         $tok = strtok('/');
@@ -181,7 +178,6 @@ class Zend_Locale_Data
 
                 // alias found
                 if (!empty($result)) {
-
                     $source = $result[0]['source'];
                     $newpath = $result[0]['path'];
 
@@ -189,14 +185,14 @@ class Zend_Locale_Data
                     if ($newpath != '//ldml') {
                         // other path - parse to make real path
 
-                        while (substr($newpath,0,3) == '../') {
+                        while (substr($newpath, 0, 3) == '../') {
                             $newpath = substr($newpath, 3);
                             $search = substr($search, 0, strrpos($search, '/'));
                         }
 
                         // truncate ../ to realpath otherwise problems with alias
                         $path = $search . '/' . $newpath;
-                        while (($tok = strtok('/'))!== false) {
+                        while (($tok = strtok('/')) !== false) {
                             $path = $path . '/' . $tok;
                         }
                     }
@@ -207,27 +203,31 @@ class Zend_Locale_Data
                     }
 
                     $temp = self::_getFile($locale, $path, $attribute, $value, $temp);
+
                     return false;
                 }
 
                 $tok = strtok('/');
             }
         }
+
         return true;
     }
 
     /**
-     * Read the right LDML file
+     * Read the right LDML file.
      *
-     * @param  string      $locale
-     * @param  string      $path
-     * @param  string|bool $attribute
-     * @param  string|bool $value
-     * @param  array       $temp
+     * @param string $locale
+     * @param string $path
+     * @param string|bool $attribute
+     * @param string|bool $value
+     * @param array $temp
+     *
      * @return array
+     *
      * @throws Zend_Locale_Exception
      */
-    private static function _getFile($locale, $path, $attribute = false, $value = false, $temp = array())
+    private static function _getFile($locale, $path, $attribute = false, $value = false, $temp = [])
     {
         $result = self::_findRoute($locale, $path, $attribute, $value, $temp);
         if ($result) {
@@ -256,19 +256,21 @@ class Zend_Locale_Data
                 $temp = self::_getFile('root', $path, $attribute, $value, $temp);
             }
         }
+
         return $temp;
     }
 
     /**
-     * Find the details for supplemental calendar datas
+     * Find the details for supplemental calendar datas.
      *
-     * @param  string $locale Locale for Detaildata
-     * @param  array  $list   List to search
-     * @return string         Key for Detaildata
+     * @param string $locale Locale for Detaildata
+     * @param array $list List to search
+     *
+     * @return string Key for Detaildata
      */
     private static function _calendarDetail($locale, $list)
     {
-        $ret = "001";
+        $ret = '001';
         foreach ($list as $key => $value) {
             if (strpos($locale, '_') !== false) {
                 $locale = substr($locale, strpos($locale, '_') + 1);
@@ -278,14 +280,17 @@ class Zend_Locale_Data
                 break;
             }
         }
+
         return $ret;
     }
 
     /**
-     * Internal function for checking the locale
+     * Internal function for checking the locale.
      *
-     * @param  string|Zend_Locale $locale Locale to check
+     * @param string|Zend_Locale $locale Locale to check
+     *
      * @return string
+     *
      * @throws Zend_Locale_Exception
      */
     private static function _checkLocale($locale)
@@ -296,23 +301,26 @@ class Zend_Locale_Data
 
         if (!(Zend_Locale::isLocale((string) $locale, null, false))) {
             require_once 'Zend/Locale/Exception.php';
-            throw new Zend_Locale_Exception("Locale (" . (string) $locale . ") is a unknown locale");
+            throw new Zend_Locale_Exception('Locale (' . (string) $locale . ') is a unknown locale');
         }
 
         if (Zend_Locale::isAlias($locale)) {
             // Return a valid CLDR locale so that the XML file can be loaded.
             return Zend_Locale::getAlias($locale);
         }
+
         return (string) $locale;
     }
 
     /**
-     * Read the LDML file, get a array of multipath defined value
+     * Read the LDML file, get a array of multipath defined value.
      *
-     * @param  string      $locale
-     * @param  string      $path
-     * @param  bool|string $value
+     * @param string $locale
+     * @param string $path
+     * @param bool|string $value
+     *
      * @return array
+     *
      * @throws Zend_Locale_Exception
      */
     public static function getList($locale, $path, $value = false)
@@ -324,23 +332,23 @@ class Zend_Locale_Data
             self::$_cache = Zend_Cache::factory(
                 'Core',
                 'File',
-                array('automatic_serialization' => true),
-                array());
+                ['automatic_serialization' => true],
+                []);
         }
 
         $val = $value;
         if (is_array($value)) {
-            $val = implode('_' , $value);
+            $val = implode('_', $value);
         }
 
         $val = urlencode($val);
-        $id  = self::_filterCacheId('Zend_LocaleL_' . $locale . '_' . $path . '_' . $val);
+        $id = self::_filterCacheId('Zend_LocaleL_' . $locale . '_' . $path . '_' . $val);
         if (!self::$_cacheDisabled && ($result = self::$_cache->load($id))) {
             return unserialize($result);
         }
 
-        $temp = array();
-        switch(strtolower($path)) {
+        $temp = [];
+        switch (strtolower($path)) {
             case 'language':
                 $temp = self::_getFile($locale, '/ldml/localeDisplayNames/languages/language', 'type');
                 break;
@@ -352,13 +360,13 @@ class Zend_Locale_Data
             case 'territory':
                 $temp = self::_getFile($locale, '/ldml/localeDisplayNames/territories/territory', 'type');
                 if ($value === 1) {
-                    foreach($temp as $key => $value) {
+                    foreach ($temp as $key => $value) {
                         if ((is_numeric($key) === false) and ($key != 'QO') and ($key != 'EU')) {
                             unset($temp[$key]);
                         }
                     }
-                } else if ($value === 2) {
-                    foreach($temp as $key => $value) {
+                } elseif ($value === 2) {
+                    foreach ($temp as $key => $value) {
                         if (is_numeric($key) or ($key == 'QO') or ($key == 'EU')) {
                             unset($temp[$key]);
                         }
@@ -389,7 +397,7 @@ class Zend_Locale_Data
                 break;
 
             case 'layout':
-                $temp  = self::_getFile($locale, '/ldml/layout/orientation/characterOrder', '', 'characterOrder');
+                $temp = self::_getFile($locale, '/ldml/layout/orientation/characterOrder', '', 'characterOrder');
                 $temp += self::_getFile($locale, '/ldml/layout/orientation/lineOrder', '', 'lineOrder');
                 break;
 
@@ -397,107 +405,107 @@ class Zend_Locale_Data
                 if (empty($value)) {
                     $value = 'uiListOrMenu';
                 }
-                $temp = self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'languages\']/contextTransform[@type=\''.$value.'\']', '', 'languages');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'day-format-except-narrow\']/contextTransform[@type=\''.$value.'\']', '', 'day-format-except-narrow');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'day-standalone-except-narrow\']/contextTransform[@type=\''.$value.'\']', '', 'day-standalone-except-narrow');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'day-narrow\']/contextTransform[@type=\''.$value.'\']', '', 'day-narrow');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'month-format-except-narrow\']/contextTransform[@type=\''.$value.'\']', '', 'month-format-except-narrow');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'month-standalone-except-narrow\']/contextTransform[@type=\''.$value.'\']', '', 'month-standalone-except-narrow');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'month-narrow\']/contextTransform[@type=\''.$value.'\']', '', 'month-narrow');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'script\']/contextTransform[@type=\''.$value.'\']', '', 'script');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'territory\']/contextTransform[@type=\''.$value.'\']', '', 'territory');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'variant\']/contextTransform[@type=\''.$value.'\']', '', 'variant');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'key\']/contextTransform[@type=\''.$value.'\']', '', 'key');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'type\']/contextTransform[@type=\''.$value.'\']', '', 'type');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'era-name\']/contextTransform[@type=\''.$value.'\']', '', 'era-name');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'era-abbr\']/contextTransform[@type=\''.$value.'\']', '', 'era-abbr');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'era-narrow\']/contextTransform[@type=\''.$value.'\']', '', 'era-narrow');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'quater-format-wide\']/contextTransform[@type=\''.$value.'\']', '', 'quater-format-wide');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'quater-standalone-wide\']/contextTransform[@type=\''.$value.'\']', '', 'quater-standalone-wide');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'quater-abbreviated\']/contextTransform[@type=\''.$value.'\']', '', 'quater-abbreviated');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'quater-narrow\']/contextTransform[@type=\''.$value.'\']', '', 'quater-narrow');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'calendar-field\']/contextTransform[@type=\''.$value.'\']', '', 'calendar-field');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'symbol\']/contextTransform[@type=\''.$value.'\']', '', 'symbol');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'tense\']/contextTransform[@type=\''.$value.'\']', '', 'tense');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'zone-exemplarCity\']/contextTransform[@type=\''.$value.'\']', '', 'zone-exemplarCity');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'zone-long\']/contextTransform[@type=\''.$value.'\']', '', 'zone-long');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'zone-short\']/contextTransform[@type=\''.$value.'\']', '', 'zone-short');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'metazone-long\']/contextTransform[@type=\''.$value.'\']', '', 'metazone-long');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'metazone-short\']/contextTransform[@type=\''.$value.'\']', '', 'metazone-short');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'displayName-count\']/contextTransform[@type=\''.$value.'\']', '', 'displayName-count');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'displayName\']/contextTransform[@type=\''.$value.'\']', '', 'displayName');
-                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'unit-pattern\']/contextTransform[@type=\''.$value.'\']', '', 'unit-pattern');
+                $temp = self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'languages\']/contextTransform[@type=\'' . $value . '\']', '', 'languages');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'day-format-except-narrow\']/contextTransform[@type=\'' . $value . '\']', '', 'day-format-except-narrow');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'day-standalone-except-narrow\']/contextTransform[@type=\'' . $value . '\']', '', 'day-standalone-except-narrow');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'day-narrow\']/contextTransform[@type=\'' . $value . '\']', '', 'day-narrow');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'month-format-except-narrow\']/contextTransform[@type=\'' . $value . '\']', '', 'month-format-except-narrow');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'month-standalone-except-narrow\']/contextTransform[@type=\'' . $value . '\']', '', 'month-standalone-except-narrow');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'month-narrow\']/contextTransform[@type=\'' . $value . '\']', '', 'month-narrow');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'script\']/contextTransform[@type=\'' . $value . '\']', '', 'script');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'territory\']/contextTransform[@type=\'' . $value . '\']', '', 'territory');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'variant\']/contextTransform[@type=\'' . $value . '\']', '', 'variant');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'key\']/contextTransform[@type=\'' . $value . '\']', '', 'key');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'type\']/contextTransform[@type=\'' . $value . '\']', '', 'type');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'era-name\']/contextTransform[@type=\'' . $value . '\']', '', 'era-name');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'era-abbr\']/contextTransform[@type=\'' . $value . '\']', '', 'era-abbr');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'era-narrow\']/contextTransform[@type=\'' . $value . '\']', '', 'era-narrow');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'quater-format-wide\']/contextTransform[@type=\'' . $value . '\']', '', 'quater-format-wide');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'quater-standalone-wide\']/contextTransform[@type=\'' . $value . '\']', '', 'quater-standalone-wide');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'quater-abbreviated\']/contextTransform[@type=\'' . $value . '\']', '', 'quater-abbreviated');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'quater-narrow\']/contextTransform[@type=\'' . $value . '\']', '', 'quater-narrow');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'calendar-field\']/contextTransform[@type=\'' . $value . '\']', '', 'calendar-field');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'symbol\']/contextTransform[@type=\'' . $value . '\']', '', 'symbol');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'tense\']/contextTransform[@type=\'' . $value . '\']', '', 'tense');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'zone-exemplarCity\']/contextTransform[@type=\'' . $value . '\']', '', 'zone-exemplarCity');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'zone-long\']/contextTransform[@type=\'' . $value . '\']', '', 'zone-long');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'zone-short\']/contextTransform[@type=\'' . $value . '\']', '', 'zone-short');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'metazone-long\']/contextTransform[@type=\'' . $value . '\']', '', 'metazone-long');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'metazone-short\']/contextTransform[@type=\'' . $value . '\']', '', 'metazone-short');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'displayName-count\']/contextTransform[@type=\'' . $value . '\']', '', 'displayName-count');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'displayName\']/contextTransform[@type=\'' . $value . '\']', '', 'displayName');
+                $temp += self::_getFile($locale, '/ldml/contextTransforms/contextTransformUsage[@type=\'unit-pattern\']/contextTransform[@type=\'' . $value . '\']', '', 'unit-pattern');
                 break;
 
             case 'characters':
-                $temp  = self::_getFile($locale, '/ldml/characters/exemplarCharacters',                           '', 'characters');
-                $temp += self::_getFile($locale, '/ldml/characters/exemplarCharacters[@type=\'auxiliary\']',      '', 'auxiliary');
+                $temp = self::_getFile($locale, '/ldml/characters/exemplarCharacters', '', 'characters');
+                $temp += self::_getFile($locale, '/ldml/characters/exemplarCharacters[@type=\'auxiliary\']', '', 'auxiliary');
                 // $temp += self::_getFile($locale, '/ldml/characters/exemplarCharacters[@type=\'currencySymbol\']', '', 'currencySymbol');
                 break;
 
             case 'delimiters':
-                $temp  = self::_getFile($locale, '/ldml/delimiters/quotationStart',          '', 'quoteStart');
-                $temp += self::_getFile($locale, '/ldml/delimiters/quotationEnd',            '', 'quoteEnd');
+                $temp = self::_getFile($locale, '/ldml/delimiters/quotationStart', '', 'quoteStart');
+                $temp += self::_getFile($locale, '/ldml/delimiters/quotationEnd', '', 'quoteEnd');
                 $temp += self::_getFile($locale, '/ldml/delimiters/alternateQuotationStart', '', 'quoteStartAlt');
-                $temp += self::_getFile($locale, '/ldml/delimiters/alternateQuotationEnd',   '', 'quoteEndAlt');
+                $temp += self::_getFile($locale, '/ldml/delimiters/alternateQuotationEnd', '', 'quoteEndAlt');
                 break;
 
             case 'measurement':
-                $temp  = self::_getFile('supplementalData', '/supplementalData/measurementData/measurementSystem[@type=\'metric\']', 'territories', 'metric');
-                $temp += self::_getFile('supplementalData', '/supplementalData/measurementData/measurementSystem[@type=\'US\']',     'territories', 'US');
-                $temp += self::_getFile('supplementalData', '/supplementalData/measurementData/paperSize[@type=\'A4\']',             'territories', 'A4');
-                $temp += self::_getFile('supplementalData', '/supplementalData/measurementData/paperSize[@type=\'US-Letter\']',      'territories', 'US-Letter');
+                $temp = self::_getFile('supplementalData', '/supplementalData/measurementData/measurementSystem[@type=\'metric\']', 'territories', 'metric');
+                $temp += self::_getFile('supplementalData', '/supplementalData/measurementData/measurementSystem[@type=\'US\']', 'territories', 'US');
+                $temp += self::_getFile('supplementalData', '/supplementalData/measurementData/paperSize[@type=\'A4\']', 'territories', 'A4');
+                $temp += self::_getFile('supplementalData', '/supplementalData/measurementData/paperSize[@type=\'US-Letter\']', 'territories', 'US-Letter');
                 break;
 
             case 'months':
                 if (empty($value)) {
-                    $value = "gregorian";
+                    $value = 'gregorian';
                 }
-                $temp['context'] = "format";
-                $temp['default'] = "wide";
+                $temp['context'] = 'format';
+                $temp['default'] = 'wide';
                 $temp['format']['abbreviated'] = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/months/monthContext[@type=\'format\']/monthWidth[@type=\'abbreviated\']/month', 'type');
-                $temp['format']['narrow']      = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/months/monthContext[@type=\'format\']/monthWidth[@type=\'narrow\']/month', 'type');
-                $temp['format']['wide']        = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/months/monthContext[@type=\'format\']/monthWidth[@type=\'wide\']/month', 'type');
-                $temp['stand-alone']['abbreviated']  = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/months/monthContext[@type=\'stand-alone\']/monthWidth[@type=\'abbreviated\']/month', 'type');
-                $temp['stand-alone']['narrow']       = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/months/monthContext[@type=\'stand-alone\']/monthWidth[@type=\'narrow\']/month', 'type');
-                $temp['stand-alone']['wide']         = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/months/monthContext[@type=\'stand-alone\']/monthWidth[@type=\'wide\']/month', 'type');
+                $temp['format']['narrow'] = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/months/monthContext[@type=\'format\']/monthWidth[@type=\'narrow\']/month', 'type');
+                $temp['format']['wide'] = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/months/monthContext[@type=\'format\']/monthWidth[@type=\'wide\']/month', 'type');
+                $temp['stand-alone']['abbreviated'] = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/months/monthContext[@type=\'stand-alone\']/monthWidth[@type=\'abbreviated\']/month', 'type');
+                $temp['stand-alone']['narrow'] = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/months/monthContext[@type=\'stand-alone\']/monthWidth[@type=\'narrow\']/month', 'type');
+                $temp['stand-alone']['wide'] = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/months/monthContext[@type=\'stand-alone\']/monthWidth[@type=\'wide\']/month', 'type');
                 break;
 
             case 'month':
                 if (empty($value)) {
-                    $value = array("gregorian", "format", "wide");
+                    $value = ['gregorian', 'format', 'wide'];
                 }
                 $temp = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value[0] . '\']/months/monthContext[@type=\'' . $value[1] . '\']/monthWidth[@type=\'' . $value[2] . '\']/month', 'type');
                 break;
 
             case 'days':
                 if (empty($value)) {
-                    $value = "gregorian";
+                    $value = 'gregorian';
                 }
-                $temp['context'] = "format";
-                $temp['default'] = "wide";
+                $temp['context'] = 'format';
+                $temp['default'] = 'wide';
                 $temp['format']['abbreviated'] = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/days/dayContext[@type=\'format\']/dayWidth[@type=\'abbreviated\']/day', 'type');
-                $temp['format']['narrow']      = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/days/dayContext[@type=\'format\']/dayWidth[@type=\'narrow\']/day', 'type');
-                $temp['format']['wide']        = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/days/dayContext[@type=\'format\']/dayWidth[@type=\'wide\']/day', 'type');
-                $temp['stand-alone']['abbreviated']  = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/days/dayContext[@type=\'stand-alone\']/dayWidth[@type=\'abbreviated\']/day', 'type');
-                $temp['stand-alone']['narrow']       = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/days/dayContext[@type=\'stand-alone\']/dayWidth[@type=\'narrow\']/day', 'type');
-                $temp['stand-alone']['wide']         = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/days/dayContext[@type=\'stand-alone\']/dayWidth[@type=\'wide\']/day', 'type');
+                $temp['format']['narrow'] = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/days/dayContext[@type=\'format\']/dayWidth[@type=\'narrow\']/day', 'type');
+                $temp['format']['wide'] = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/days/dayContext[@type=\'format\']/dayWidth[@type=\'wide\']/day', 'type');
+                $temp['stand-alone']['abbreviated'] = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/days/dayContext[@type=\'stand-alone\']/dayWidth[@type=\'abbreviated\']/day', 'type');
+                $temp['stand-alone']['narrow'] = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/days/dayContext[@type=\'stand-alone\']/dayWidth[@type=\'narrow\']/day', 'type');
+                $temp['stand-alone']['wide'] = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/days/dayContext[@type=\'stand-alone\']/dayWidth[@type=\'wide\']/day', 'type');
                 break;
 
             case 'day':
                 if (empty($value)) {
-                    $value = array("gregorian", "format", "wide");
+                    $value = ['gregorian', 'format', 'wide'];
                 }
                 $temp = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value[0] . '\']/days/dayContext[@type=\'' . $value[1] . '\']/dayWidth[@type=\'' . $value[2] . '\']/day', 'type');
                 break;
 
             case 'week':
-                $minDays   = self::_calendarDetail($locale, self::_getFile('supplementalData', '/supplementalData/weekData/minDays', 'territories'));
-                $firstDay  = self::_calendarDetail($locale, self::_getFile('supplementalData', '/supplementalData/weekData/firstDay', 'territories'));
+                $minDays = self::_calendarDetail($locale, self::_getFile('supplementalData', '/supplementalData/weekData/minDays', 'territories'));
+                $firstDay = self::_calendarDetail($locale, self::_getFile('supplementalData', '/supplementalData/weekData/firstDay', 'territories'));
                 $weekStart = self::_calendarDetail($locale, self::_getFile('supplementalData', '/supplementalData/weekData/weekendStart', 'territories'));
-                $weekEnd   = self::_calendarDetail($locale, self::_getFile('supplementalData', '/supplementalData/weekData/weekendEnd', 'territories'));
+                $weekEnd = self::_calendarDetail($locale, self::_getFile('supplementalData', '/supplementalData/weekData/weekendEnd', 'territories'));
 
-                $temp  = self::_getFile('supplementalData', "/supplementalData/weekData/minDays[@territories='" . $minDays . "']", 'count', 'minDays');
+                $temp = self::_getFile('supplementalData', "/supplementalData/weekData/minDays[@territories='" . $minDays . "']", 'count', 'minDays');
                 $temp += self::_getFile('supplementalData', "/supplementalData/weekData/firstDay[@territories='" . $firstDay . "']", 'day', 'firstDay');
                 $temp += self::_getFile('supplementalData', "/supplementalData/weekData/weekendStart[@territories='" . $weekStart . "']", 'day', 'weekendStart');
                 $temp += self::_getFile('supplementalData', "/supplementalData/weekData/weekendEnd[@territories='" . $weekEnd . "']", 'day', 'weekendEnd');
@@ -505,44 +513,44 @@ class Zend_Locale_Data
 
             case 'quarters':
                 if (empty($value)) {
-                    $value = "gregorian";
+                    $value = 'gregorian';
                 }
                 $temp['format']['abbreviated'] = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/quarters/quarterContext[@type=\'format\']/quarterWidth[@type=\'abbreviated\']/quarter', 'type');
-                $temp['format']['narrow']      = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/quarters/quarterContext[@type=\'format\']/quarterWidth[@type=\'narrow\']/quarter', 'type');
-                $temp['format']['wide']        = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/quarters/quarterContext[@type=\'format\']/quarterWidth[@type=\'wide\']/quarter', 'type');
-                $temp['stand-alone']['abbreviated']  = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/quarters/quarterContext[@type=\'stand-alone\']/quarterWidth[@type=\'abbreviated\']/quarter', 'type');
-                $temp['stand-alone']['narrow']       = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/quarters/quarterContext[@type=\'stand-alone\']/quarterWidth[@type=\'narrow\']/quarter', 'type');
-                $temp['stand-alone']['wide']         = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/quarters/quarterContext[@type=\'stand-alone\']/quarterWidth[@type=\'wide\']/quarter', 'type');
+                $temp['format']['narrow'] = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/quarters/quarterContext[@type=\'format\']/quarterWidth[@type=\'narrow\']/quarter', 'type');
+                $temp['format']['wide'] = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/quarters/quarterContext[@type=\'format\']/quarterWidth[@type=\'wide\']/quarter', 'type');
+                $temp['stand-alone']['abbreviated'] = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/quarters/quarterContext[@type=\'stand-alone\']/quarterWidth[@type=\'abbreviated\']/quarter', 'type');
+                $temp['stand-alone']['narrow'] = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/quarters/quarterContext[@type=\'stand-alone\']/quarterWidth[@type=\'narrow\']/quarter', 'type');
+                $temp['stand-alone']['wide'] = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/quarters/quarterContext[@type=\'stand-alone\']/quarterWidth[@type=\'wide\']/quarter', 'type');
                 break;
 
             case 'quarter':
                 if (empty($value)) {
-                    $value = array("gregorian", "format", "wide");
+                    $value = ['gregorian', 'format', 'wide'];
                 }
                 $temp = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value[0] . '\']/quarters/quarterContext[@type=\'' . $value[1] . '\']/quarterWidth[@type=\'' . $value[2] . '\']/quarter', 'type');
                 break;
 
             case 'eras':
                 if (empty($value)) {
-                    $value = "gregorian";
+                    $value = 'gregorian';
                 }
-                $temp['names']       = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/eras/eraNames/era', 'type');
+                $temp['names'] = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/eras/eraNames/era', 'type');
                 $temp['abbreviated'] = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/eras/eraAbbr/era', 'type');
-                $temp['narrow']      = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/eras/eraNarrow/era', 'type');
+                $temp['narrow'] = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/eras/eraNarrow/era', 'type');
                 break;
 
             case 'era':
                 if (empty($value)) {
-                    $value = array("gregorian", "Abbr");
+                    $value = ['gregorian', 'Abbr'];
                 }
                 $temp = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value[0] . '\']/eras/era' . $value[1] . '/era', 'type');
                 break;
 
             case 'date':
                 if (empty($value)) {
-                    $value = "gregorian";
+                    $value = 'gregorian';
                 }
-                $temp  = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/dateFormats/dateFormatLength[@type=\'full\']/dateFormat/pattern', '', 'full');
+                $temp = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/dateFormats/dateFormatLength[@type=\'full\']/dateFormat/pattern', '', 'full');
                 $temp += self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/dateFormats/dateFormatLength[@type=\'long\']/dateFormat/pattern', '', 'long');
                 $temp += self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/dateFormats/dateFormatLength[@type=\'medium\']/dateFormat/pattern', '', 'medium');
                 $temp += self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/dateFormats/dateFormatLength[@type=\'short\']/dateFormat/pattern', '', 'short');
@@ -550,9 +558,9 @@ class Zend_Locale_Data
 
             case 'time':
                 if (empty($value)) {
-                    $value = "gregorian";
+                    $value = 'gregorian';
                 }
-                $temp  = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/timeFormats/timeFormatLength[@type=\'full\']/timeFormat/pattern', '', 'full');
+                $temp = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/timeFormats/timeFormatLength[@type=\'full\']/timeFormat/pattern', '', 'full');
                 $temp += self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/timeFormats/timeFormatLength[@type=\'long\']/timeFormat/pattern', '', 'long');
                 $temp += self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/timeFormats/timeFormatLength[@type=\'medium\']/timeFormat/pattern', '', 'medium');
                 $temp += self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/timeFormats/timeFormatLength[@type=\'short\']/timeFormat/pattern', '', 'short');
@@ -560,7 +568,7 @@ class Zend_Locale_Data
 
             case 'datetime':
                 if (empty($value)) {
-                    $value = "gregorian";
+                    $value = 'gregorian';
                 }
 
                 $timefull = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/timeFormats/timeFormatLength[@type=\'full\']/timeFormat/pattern', '', 'full');
@@ -578,35 +586,35 @@ class Zend_Locale_Data
                 $medi = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/dateTimeFormats/dateTimeFormatLength[@type=\'medium\']/dateTimeFormat/pattern', '', 'medi');
                 $shor = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/dateTimeFormats/dateTimeFormatLength[@type=\'short\']/dateTimeFormat/pattern', '', 'shor');
 
-                $temp['full']   = str_replace(array('{0}', '{1}'), array($timefull['full'], $datefull['full']), $full['full']);
-                $temp['long']   = str_replace(array('{0}', '{1}'), array($timelong['long'], $datelong['long']), $long['long']);
-                $temp['medium'] = str_replace(array('{0}', '{1}'), array($timemedi['medi'], $datemedi['medi']), $medi['medi']);
-                $temp['short']  = str_replace(array('{0}', '{1}'), array($timeshor['shor'], $dateshor['shor']), $shor['shor']);
+                $temp['full'] = str_replace(['{0}', '{1}'], [$timefull['full'], $datefull['full']], $full['full']);
+                $temp['long'] = str_replace(['{0}', '{1}'], [$timelong['long'], $datelong['long']], $long['long']);
+                $temp['medium'] = str_replace(['{0}', '{1}'], [$timemedi['medi'], $datemedi['medi']], $medi['medi']);
+                $temp['short'] = str_replace(['{0}', '{1}'], [$timeshor['shor'], $dateshor['shor']], $shor['shor']);
                 break;
 
             case 'dateitem':
                 if (empty($value)) {
-                    $value = "gregorian";
+                    $value = 'gregorian';
                 }
                 $_temp = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/dateTimeFormats/availableFormats/dateFormatItem', 'id');
-                foreach($_temp as $key => $found) {
+                foreach ($_temp as $key => $found) {
                     $temp += self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/dateTimeFormats/availableFormats/dateFormatItem[@id=\'' . $key . '\']', '', $key);
                 }
                 break;
 
             case 'dateinterval':
                 if (empty($value)) {
-                    $value = "gregorian";
+                    $value = 'gregorian';
                 }
                 $_temp = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/dateTimeFormats/intervalFormats/intervalFormatItem', 'id');
-                foreach($_temp as $key => $found) {
+                foreach ($_temp as $key => $found) {
                     $temp[$key] = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/dateTimeFormats/intervalFormats/intervalFormatItem[@id=\'' . $key . '\']/greatestDifference', 'id');
                 }
                 break;
 
             case 'field':
                 if (empty($value)) {
-                    $value = "gregorian";
+                    $value = 'gregorian';
                 }
                 $temp2 = self::_getFile($locale, '/ldml/dates/fields/field', 'type');
                 // $temp2 = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value . '\']/fields/field', 'type');
@@ -618,24 +626,24 @@ class Zend_Locale_Data
 
             case 'relative':
                 if (empty($value)) {
-                    $value = "day";
+                    $value = 'day';
                 }
                 $temp = self::_getFile($locale, '/ldml/dates/fields/field[@type=\'' . $value . '\']/relative', 'type');
                 break;
 
             case 'symbols':
-                $temp  = self::_getFile($locale, '/ldml/numbers/symbols/decimal',         '', 'decimal');
-                $temp += self::_getFile($locale, '/ldml/numbers/symbols/group',           '', 'group');
-                $temp += self::_getFile($locale, '/ldml/numbers/symbols/list',            '', 'list');
-                $temp += self::_getFile($locale, '/ldml/numbers/symbols/percentSign',     '', 'percent');
+                $temp = self::_getFile($locale, '/ldml/numbers/symbols/decimal', '', 'decimal');
+                $temp += self::_getFile($locale, '/ldml/numbers/symbols/group', '', 'group');
+                $temp += self::_getFile($locale, '/ldml/numbers/symbols/list', '', 'list');
+                $temp += self::_getFile($locale, '/ldml/numbers/symbols/percentSign', '', 'percent');
                 $temp += self::_getFile($locale, '/ldml/numbers/symbols/nativeZeroDigit', '', 'zero');
-                $temp += self::_getFile($locale, '/ldml/numbers/symbols/patternDigit',    '', 'pattern');
-                $temp += self::_getFile($locale, '/ldml/numbers/symbols/plusSign',        '', 'plus');
-                $temp += self::_getFile($locale, '/ldml/numbers/symbols/minusSign',       '', 'minus');
-                $temp += self::_getFile($locale, '/ldml/numbers/symbols/exponential',     '', 'exponent');
-                $temp += self::_getFile($locale, '/ldml/numbers/symbols/perMille',        '', 'mille');
-                $temp += self::_getFile($locale, '/ldml/numbers/symbols/infinity',        '', 'infinity');
-                $temp += self::_getFile($locale, '/ldml/numbers/symbols/nan',             '', 'nan');
+                $temp += self::_getFile($locale, '/ldml/numbers/symbols/patternDigit', '', 'pattern');
+                $temp += self::_getFile($locale, '/ldml/numbers/symbols/plusSign', '', 'plus');
+                $temp += self::_getFile($locale, '/ldml/numbers/symbols/minusSign', '', 'minus');
+                $temp += self::_getFile($locale, '/ldml/numbers/symbols/exponential', '', 'exponent');
+                $temp += self::_getFile($locale, '/ldml/numbers/symbols/perMille', '', 'mille');
+                $temp += self::_getFile($locale, '/ldml/numbers/symbols/infinity', '', 'infinity');
+                $temp += self::_getFile($locale, '/ldml/numbers/symbols/nan', '', 'nan');
                 break;
 
             case 'nametocurrency':
@@ -655,7 +663,7 @@ class Zend_Locale_Data
                     if (!isset($temp[$val[$key]])) {
                         $temp[$val[$key]] = $key;
                     } else {
-                        $temp[$val[$key]] .= " " . $key;
+                        $temp[$val[$key]] .= ' ' . $key;
                     }
                 }
                 break;
@@ -668,8 +676,8 @@ class Zend_Locale_Data
                 break;
 
             case 'question':
-                $temp  = self::_getFile($locale, '/ldml/posix/messages/yesstr',  '', 'yes');
-                $temp += self::_getFile($locale, '/ldml/posix/messages/nostr',   '', 'no');
+                $temp = self::_getFile($locale, '/ldml/posix/messages/yesstr', '', 'yes');
+                $temp += self::_getFile($locale, '/ldml/posix/messages/nostr', '', 'no');
                 break;
 
             case 'currencyfraction':
@@ -703,7 +711,7 @@ class Zend_Locale_Data
                     if (!isset($temp[$val[$key]])) {
                         $temp[$val[$key]] = $key;
                     } else {
-                        $temp[$val[$key]] .= " " . $key;
+                        $temp[$val[$key]] .= ' ' . $key;
                     }
                 }
                 break;
@@ -717,17 +725,17 @@ class Zend_Locale_Data
 
             case 'territorytoregion':
                 $_temp2 = self::_getFile('supplementalData', '/supplementalData/territoryContainment/group', 'type');
-                $_temp = array();
+                $_temp = [];
                 foreach ($_temp2 as $key => $found) {
                     $_temp += self::_getFile('supplementalData', '/supplementalData/territoryContainment/group[@type=\'' . $key . '\']', 'contains', $key);
                 }
-                foreach($_temp as $key => $found) {
-                    $_temp3 = explode(" ", $found);
-                    foreach($_temp3 as $found3) {
+                foreach ($_temp as $key => $found) {
+                    $_temp3 = explode(' ', $found);
+                    foreach ($_temp3 as $found3) {
                         if (!isset($temp[$found3])) {
                             $temp[$found3] = (string) $key;
                         } else {
-                            $temp[$found3] .= " " . $key;
+                            $temp[$found3] .= ' ' . $key;
                         }
                     }
                 }
@@ -745,20 +753,20 @@ class Zend_Locale_Data
 
             case 'languagetoscript':
                 $_temp2 = self::_getFile('supplementalData', '/supplementalData/languageData/language', 'type');
-                $_temp = array();
+                $_temp = [];
                 foreach ($_temp2 as $key => $found) {
                     $_temp += self::_getFile('supplementalData', '/supplementalData/languageData/language[@type=\'' . $key . '\']', 'scripts', $key);
                 }
-                foreach($_temp as $key => $found) {
-                    $_temp3 = explode(" ", $found);
-                    foreach($_temp3 as $found3) {
+                foreach ($_temp as $key => $found) {
+                    $_temp3 = explode(' ', $found);
+                    foreach ($_temp3 as $found3) {
                         if (empty($found3)) {
                             continue;
                         }
                         if (!isset($temp[$found3])) {
                             $temp[$found3] = (string) $key;
                         } else {
-                            $temp[$found3] .= " " . $key;
+                            $temp[$found3] .= ' ' . $key;
                         }
                     }
                 }
@@ -776,20 +784,20 @@ class Zend_Locale_Data
 
             case 'languagetoterritory':
                 $_temp2 = self::_getFile('supplementalData', '/supplementalData/languageData/language', 'type');
-                $_temp = array();
+                $_temp = [];
                 foreach ($_temp2 as $key => $found) {
                     $_temp += self::_getFile('supplementalData', '/supplementalData/languageData/language[@type=\'' . $key . '\']', 'territories', $key);
                 }
-                foreach($_temp as $key => $found) {
-                    $_temp3 = explode(" ", $found);
-                    foreach($_temp3 as $found3) {
+                foreach ($_temp as $key => $found) {
+                    $_temp3 = explode(' ', $found);
+                    foreach ($_temp3 as $found3) {
                         if (empty($found3)) {
                             continue;
                         }
                         if (!isset($temp[$found3])) {
                             $temp[$found3] = (string) $key;
                         } else {
-                            $temp[$found3] .= " " . $key;
+                            $temp[$found3] .= ' ' . $key;
                         }
                     }
                 }
@@ -805,7 +813,7 @@ class Zend_Locale_Data
             case 'windowstotimezone':
                 $_temp = self::_getFile('windowsZones', '/supplementalData/windowsZones/mapTimezones/mapZone', 'type');
                 foreach ($_temp as $key => $found) {
-                    $temp += self::_getFile('windowsZones', '/supplementalData/windowsZones/mapTimezones/mapZone[@type=\'' .$key . '\']', 'other', $key);
+                    $temp += self::_getFile('windowsZones', '/supplementalData/windowsZones/mapTimezones/mapZone[@type=\'' . $key . '\']', 'other', $key);
                 }
                 break;
 
@@ -825,15 +833,15 @@ class Zend_Locale_Data
 
             case 'citytotimezone':
                 $_temp = self::_getFile($locale, '/ldml/dates/timeZoneNames/zone', 'type');
-                foreach($_temp as $key => $found) {
+                foreach ($_temp as $key => $found) {
                     $temp += self::_getFile($locale, '/ldml/dates/timeZoneNames/zone[@type=\'' . $key . '\']/exemplarCity', '', $key);
                 }
                 break;
 
             case 'timezonetocity':
-                $_temp  = self::_getFile($locale, '/ldml/dates/timeZoneNames/zone', 'type');
-                $temp = array();
-                foreach($_temp as $key => $found) {
+                $_temp = self::_getFile($locale, '/ldml/dates/timeZoneNames/zone', 'type');
+                $temp = [];
+                foreach ($_temp as $key => $found) {
                     $temp += self::_getFile($locale, '/ldml/dates/timeZoneNames/zone[@type=\'' . $key . '\']/exemplarCity', '', $key);
                     if (!empty($temp[$key])) {
                         $temp[$temp[$key]] = $key;
@@ -859,7 +867,7 @@ class Zend_Locale_Data
                     if (!isset($temp[$val[$key]])) {
                         $temp[$val[$key]] = $key;
                     } else {
-                        $temp[$val[$key]] .= " " . $key;
+                        $temp[$val[$key]] .= ' ' . $key;
                     }
                 }
                 break;
@@ -933,13 +941,13 @@ class Zend_Locale_Data
 
             case 'unit':
                 $_temp = self::_getFile($locale, '/ldml/units/unitLength/unit', 'type');
-                foreach($_temp as $key => $keyvalue) {
+                foreach ($_temp as $key => $keyvalue) {
                     $_temp2 = self::_getFile($locale, '/ldml/units/unitLength/unit[@type=\'' . $key . '\']/unitPattern', 'count');
                     $temp[$key] = $_temp2;
                 }
                 break;
 
-            default :
+            default:
                 require_once 'Zend/Locale/Exception.php';
                 throw new Zend_Locale_Exception("Unknown list ($path) for parsing locale data.");
                 break;
@@ -947,9 +955,9 @@ class Zend_Locale_Data
 
         if (isset(self::$_cache)) {
             if (self::$_cacheTags) {
-                self::$_cache->save( serialize($temp), $id, array('Zend_Locale'));
+                self::$_cache->save(serialize($temp), $id, ['Zend_Locale']);
             } else {
-                self::$_cache->save( serialize($temp), $id);
+                self::$_cache->save(serialize($temp), $id);
             }
         }
 
@@ -957,12 +965,14 @@ class Zend_Locale_Data
     }
 
     /**
-     * Read the LDML file, get a single path defined value
+     * Read the LDML file, get a single path defined value.
      *
-     * @param  string      $locale
-     * @param  string      $path
-     * @param  bool|string $value
+     * @param string $locale
+     * @param string $path
+     * @param bool|string $value
+     *
      * @return string
+     *
      * @throws Zend_Locale_Exception
      */
     public static function getContent($locale, $path, $value = false)
@@ -974,21 +984,21 @@ class Zend_Locale_Data
             self::$_cache = Zend_Cache::factory(
                 'Core',
                 'File',
-                array('automatic_serialization' => true),
-                array());
+                ['automatic_serialization' => true],
+                []);
         }
 
         $val = $value;
         if (is_array($value)) {
-            $val = implode('_' , $value);
+            $val = implode('_', $value);
         }
         $val = urlencode($val);
-        $id  = self::_filterCacheId('Zend_LocaleC_' . $locale . '_' . $path . '_' . $val);
+        $id = self::_filterCacheId('Zend_LocaleC_' . $locale . '_' . $path . '_' . $val);
         if (!self::$_cacheDisabled && ($result = self::$_cache->load($id))) {
             return unserialize($result);
         }
 
-        switch(strtolower($path)) {
+        switch (strtolower($path)) {
             case 'language':
                 $temp = self::_getFile($locale, '/ldml/localeDisplayNames/languages/language[@type=\'' . $value . '\']', 'type');
                 break;
@@ -1045,7 +1055,7 @@ class Zend_Locale_Data
             case 'month':
                 if (!is_array($value)) {
                     $temp = $value;
-                    $value = array("gregorian", "format", "wide", $temp);
+                    $value = ['gregorian', 'format', 'wide', $temp];
                 }
                 $temp = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value[0] . '\']/months/monthContext[@type=\'' . $value[1] . '\']/monthWidth[@type=\'' . $value[2] . '\']/month[@type=\'' . $value[3] . '\']', 'type');
                 break;
@@ -1073,7 +1083,7 @@ class Zend_Locale_Data
             case 'day':
                 if (!is_array($value)) {
                     $temp = $value;
-                    $value = array("gregorian", "format", "wide", $temp);
+                    $value = ['gregorian', 'format', 'wide', $temp];
                 }
                 $temp = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value[0] . '\']/days/dayContext[@type=\'' . $value[1] . '\']/dayWidth[@type=\'' . $value[2] . '\']/day[@type=\'' . $value[3] . '\']', 'type');
                 break;
@@ -1081,29 +1091,29 @@ class Zend_Locale_Data
             case 'quarter':
                 if (!is_array($value)) {
                     $temp = $value;
-                    $value = array("gregorian", "format", "wide", $temp);
+                    $value = ['gregorian', 'format', 'wide', $temp];
                 }
                 $temp = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value[0] . '\']/quarters/quarterContext[@type=\'' . $value[1] . '\']/quarterWidth[@type=\'' . $value[2] . '\']/quarter[@type=\'' . $value[3] . '\']', 'type');
                 break;
 
             case 'am':
                 if (empty($value)) {
-                    $value = array("gregorian", "format", "wide");
+                    $value = ['gregorian', 'format', 'wide'];
                 }
                 if (!is_array($value)) {
                     $temp = $value;
-                    $value = array($temp, "format", "wide");
+                    $value = [$temp, 'format', 'wide'];
                 }
                 $temp = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value[0] . '\']/dayPeriods/dayPeriodContext[@type=\'' . $value[1] . '\']/dayPeriodWidth[@type=\'' . $value[2] . '\']/dayPeriod[@type=\'am\']', '', 'dayPeriod');
                 break;
 
             case 'pm':
                 if (empty($value)) {
-                    $value = array("gregorian", "format", "wide");
+                    $value = ['gregorian', 'format', 'wide'];
                 }
                 if (!is_array($value)) {
                     $temp = $value;
-                    $value = array($temp, "format", "wide");
+                    $value = [$temp, 'format', 'wide'];
                 }
                 $temp = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value[0] . '\']/dayPeriods/dayPeriodContext[@type=\'' . $value[1] . '\']/dayPeriodWidth[@type=\'' . $value[2] . '\']/dayPeriod[@type=\'pm\']', '', 'dayPeriod');
                 break;
@@ -1111,7 +1121,7 @@ class Zend_Locale_Data
             case 'era':
                 if (!is_array($value)) {
                     $temp = $value;
-                    $value = array("gregorian", "Abbr", $temp);
+                    $value = ['gregorian', 'Abbr', $temp];
                 }
                 $temp = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value[0] . '\']/eras/era' . $value[1] . '/era[@type=\'' . $value[2] . '\']', 'type');
                 break;
@@ -1128,11 +1138,11 @@ class Zend_Locale_Data
 
             case 'date':
                 if (empty($value)) {
-                    $value = array("gregorian", "medium");
+                    $value = ['gregorian', 'medium'];
                 }
                 if (!is_array($value)) {
                     $temp = $value;
-                    $value = array("gregorian", $temp);
+                    $value = ['gregorian', $temp];
                 }
                 $temp = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value[0] . '\']/dateFormats/dateFormatLength[@type=\'' . $value[1] . '\']/dateFormat/pattern', '', 'pattern');
                 break;
@@ -1149,48 +1159,48 @@ class Zend_Locale_Data
 
             case 'time':
                 if (empty($value)) {
-                    $value = array("gregorian", "medium");
+                    $value = ['gregorian', 'medium'];
                 }
                 if (!is_array($value)) {
                     $temp = $value;
-                    $value = array("gregorian", $temp);
+                    $value = ['gregorian', $temp];
                 }
                 $temp = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value[0] . '\']/timeFormats/timeFormatLength[@type=\'' . $value[1] . '\']/timeFormat/pattern', '', 'pattern');
                 break;
 
             case 'datetime':
                 if (empty($value)) {
-                    $value = array("gregorian", "medium");
+                    $value = ['gregorian', 'medium'];
                 }
                 if (!is_array($value)) {
                     $temp = $value;
-                    $value = array("gregorian", $temp);
+                    $value = ['gregorian', $temp];
                 }
 
-                $date     = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value[0] . '\']/dateFormats/dateFormatLength[@type=\'' . $value[1] . '\']/dateFormat/pattern', '', 'pattern');
-                $time     = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value[0] . '\']/timeFormats/timeFormatLength[@type=\'' . $value[1] . '\']/timeFormat/pattern', '', 'pattern');
+                $date = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value[0] . '\']/dateFormats/dateFormatLength[@type=\'' . $value[1] . '\']/dateFormat/pattern', '', 'pattern');
+                $time = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value[0] . '\']/timeFormats/timeFormatLength[@type=\'' . $value[1] . '\']/timeFormat/pattern', '', 'pattern');
                 $datetime = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value[0] . '\']/dateTimeFormats/dateTimeFormatLength[@type=\'' . $value[1] . '\']/dateTimeFormat/pattern', '', 'pattern');
-                $temp = str_replace(array('{0}', '{1}'), array(current($time), current($date)), current($datetime));
+                $temp = str_replace(['{0}', '{1}'], [current($time), current($date)], current($datetime));
                 break;
 
             case 'dateitem':
                 if (empty($value)) {
-                    $value = array("gregorian", "yyMMdd");
+                    $value = ['gregorian', 'yyMMdd'];
                 }
                 if (!is_array($value)) {
                     $temp = $value;
-                    $value = array("gregorian", $temp);
+                    $value = ['gregorian', $temp];
                 }
                 $temp = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value[0] . '\']/dateTimeFormats/availableFormats/dateFormatItem[@id=\'' . $value[1] . '\']', '');
                 break;
 
             case 'dateinterval':
                 if (empty($value)) {
-                    $value = array("gregorian", "yMd", "y");
+                    $value = ['gregorian', 'yMd', 'y'];
                 }
                 if (!is_array($value)) {
                     $temp = $value;
-                    $value = array("gregorian", $temp, $temp[0]);
+                    $value = ['gregorian', $temp, $temp[0]];
                 }
                 $temp = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value[0] . '\']/dateTimeFormats/intervalFormats/intervalFormatItem[@id=\'' . $value[1] . '\']/greatestDifference[@id=\'' . $value[2] . '\']', '');
                 break;
@@ -1198,7 +1208,7 @@ class Zend_Locale_Data
             case 'field':
                 if (!is_array($value)) {
                     $temp = $value;
-                    $value = array("gregorian", $temp);
+                    $value = ['gregorian', $temp];
                 }
                 $temp = self::_getFile($locale, '/ldml/dates/fields/field[@type=\'' . $value[1] . '\']/displayName', '', $value[1]);
                 break;
@@ -1206,7 +1216,7 @@ class Zend_Locale_Data
             case 'relative':
                 if (!is_array($value)) {
                     $temp = $value;
-                    $value = array("gregorian", $temp);
+                    $value = ['gregorian', $temp];
                 }
                 $temp = self::_getFile($locale, '/ldml/dates/fields/field[@type=\'day\']/relative[@type=\'' . $value[1] . '\']', '', $value[1]);
                 // $temp = self::_getFile($locale, '/ldml/dates/calendars/calendar[@type=\'' . $value[0] . '\']/fields/field/relative[@type=\'' . $value[1] . '\']', '', $value[1]);
@@ -1239,7 +1249,7 @@ class Zend_Locale_Data
             case 'currencytoname':
                 $temp = self::_getFile($locale, '/ldml/numbers/currencies/currency[@type=\'' . $value . '\']/displayName', '', $value);
                 $_temp = self::_getFile($locale, '/ldml/numbers/currencies/currency', 'type');
-                $temp = array();
+                $temp = [];
                 foreach ($_temp as $key => $keyvalue) {
                     $val = self::_getFile($locale, '/ldml/numbers/currencies/currency[@type=\'' . $key . '\']/displayName', '', $key);
                     if (!isset($val[$key]) or ($val[$key] != $value)) {
@@ -1248,7 +1258,7 @@ class Zend_Locale_Data
                     if (!isset($temp[$val[$key]])) {
                         $temp[$val[$key]] = $key;
                     } else {
-                        $temp[$val[$key]] .= " " . $key;
+                        $temp[$val[$key]] .= ' ' . $key;
                     }
                 }
                 break;
@@ -1258,19 +1268,19 @@ class Zend_Locale_Data
                 break;
 
             case 'question':
-                $temp = self::_getFile($locale, '/ldml/posix/messages/' . $value . 'str',  '', $value);
+                $temp = self::_getFile($locale, '/ldml/posix/messages/' . $value . 'str', '', $value);
                 break;
 
             case 'currencyfraction':
                 if (empty($value)) {
-                    $value = "DEFAULT";
+                    $value = 'DEFAULT';
                 }
                 $temp = self::_getFile('supplementalData', '/supplementalData/currencyData/fractions/info[@iso4217=\'' . $value . '\']', 'digits', 'digits');
                 break;
 
             case 'currencyrounding':
                 if (empty($value)) {
-                    $value = "DEFAULT";
+                    $value = 'DEFAULT';
                 }
                 $temp = self::_getFile('supplementalData', '/supplementalData/currencyData/fractions/info[@iso4217=\'' . $value . '\']', 'rounding', 'rounding');
                 break;
@@ -1281,7 +1291,7 @@ class Zend_Locale_Data
 
             case 'regiontocurrency':
                 $_temp = self::_getFile('supplementalData', '/supplementalData/currencyData/region', 'iso3166');
-                $temp = array();
+                $temp = [];
                 foreach ($_temp as $key => $keyvalue) {
                     $val = self::_getFile('supplementalData', '/supplementalData/currencyData/region[@iso3166=\'' . $key . '\']/currency', 'iso4217', $key);
                     if (!isset($val[$key]) or ($val[$key] != $value)) {
@@ -1290,7 +1300,7 @@ class Zend_Locale_Data
                     if (!isset($temp[$val[$key]])) {
                         $temp[$val[$key]] = $key;
                     } else {
-                        $temp[$val[$key]] .= " " . $key;
+                        $temp[$val[$key]] .= ' ' . $key;
                     }
                 }
                 break;
@@ -1301,21 +1311,21 @@ class Zend_Locale_Data
 
             case 'territorytoregion':
                 $_temp2 = self::_getFile('supplementalData', '/supplementalData/territoryContainment/group', 'type');
-                $_temp = array();
+                $_temp = [];
                 foreach ($_temp2 as $key => $found) {
                     $_temp += self::_getFile('supplementalData', '/supplementalData/territoryContainment/group[@type=\'' . $key . '\']', 'contains', $key);
                 }
-                $temp = array();
-                foreach($_temp as $key => $found) {
-                    $_temp3 = explode(" ", $found);
-                    foreach($_temp3 as $found3) {
+                $temp = [];
+                foreach ($_temp as $key => $found) {
+                    $_temp3 = explode(' ', $found);
+                    foreach ($_temp3 as $found3) {
                         if ($found3 !== $value) {
                             continue;
                         }
                         if (!isset($temp[$found3])) {
                             $temp[$found3] = (string) $key;
                         } else {
-                            $temp[$found3] .= " " . $key;
+                            $temp[$found3] .= ' ' . $key;
                         }
                     }
                 }
@@ -1327,21 +1337,21 @@ class Zend_Locale_Data
 
             case 'languagetoscript':
                 $_temp2 = self::_getFile('supplementalData', '/supplementalData/languageData/language', 'type');
-                $_temp = array();
+                $_temp = [];
                 foreach ($_temp2 as $key => $found) {
                     $_temp += self::_getFile('supplementalData', '/supplementalData/languageData/language[@type=\'' . $key . '\']', 'scripts', $key);
                 }
-                $temp = array();
-                foreach($_temp as $key => $found) {
-                    $_temp3 = explode(" ", $found);
-                    foreach($_temp3 as $found3) {
+                $temp = [];
+                foreach ($_temp as $key => $found) {
+                    $_temp3 = explode(' ', $found);
+                    foreach ($_temp3 as $found3) {
                         if ($found3 !== $value) {
                             continue;
                         }
                         if (!isset($temp[$found3])) {
                             $temp[$found3] = (string) $key;
                         } else {
-                            $temp[$found3] .= " " . $key;
+                            $temp[$found3] .= ' ' . $key;
                         }
                     }
                 }
@@ -1353,32 +1363,32 @@ class Zend_Locale_Data
 
             case 'languagetoterritory':
                 $_temp2 = self::_getFile('supplementalData', '/supplementalData/languageData/language', 'type');
-                $_temp = array();
+                $_temp = [];
                 foreach ($_temp2 as $key => $found) {
                     $_temp += self::_getFile('supplementalData', '/supplementalData/languageData/language[@type=\'' . $key . '\']', 'territories', $key);
                 }
-                $temp = array();
-                foreach($_temp as $key => $found) {
-                    $_temp3 = explode(" ", $found);
-                    foreach($_temp3 as $found3) {
+                $temp = [];
+                foreach ($_temp as $key => $found) {
+                    $_temp3 = explode(' ', $found);
+                    foreach ($_temp3 as $found3) {
                         if ($found3 !== $value) {
                             continue;
                         }
                         if (!isset($temp[$found3])) {
                             $temp[$found3] = (string) $key;
                         } else {
-                            $temp[$found3] .= " " . $key;
+                            $temp[$found3] .= ' ' . $key;
                         }
                     }
                 }
                 break;
 
             case 'timezonetowindows':
-                $temp = self::_getFile('windowsZones', '/supplementalData/windowsZones/mapTimezones/mapZone[@other=\''.$value.'\']', 'type', $value);
+                $temp = self::_getFile('windowsZones', '/supplementalData/windowsZones/mapTimezones/mapZone[@other=\'' . $value . '\']', 'type', $value);
                 break;
 
             case 'windowstotimezone':
-                $temp = self::_getFile('windowsZones', '/supplementalData/windowsZones/mapTimezones/mapZone[@type=\''.$value.'\']', 'other', $value);
+                $temp = self::_getFile('windowsZones', '/supplementalData/windowsZones/mapTimezones/mapZone[@type=\'' . $value . '\']', 'other', $value);
                 break;
 
             case 'territorytotimezone':
@@ -1394,9 +1404,9 @@ class Zend_Locale_Data
                 break;
 
             case 'timezonetocity':
-                $_temp  = self::_getFile($locale, '/ldml/dates/timeZoneNames/zone', 'type');
-                $temp = array();
-                foreach($_temp as $key => $found) {
+                $_temp = self::_getFile($locale, '/ldml/dates/timeZoneNames/zone', 'type');
+                $temp = [];
+                foreach ($_temp as $key => $found) {
                     $temp += self::_getFile($locale, '/ldml/dates/timeZoneNames/zone[@type=\'' . $key . '\']/exemplarCity', '', $key);
                     if (!empty($temp[$key])) {
                         if ($temp[$key] == $value) {
@@ -1413,40 +1423,40 @@ class Zend_Locale_Data
 
             case 'territorytophone':
                 $_temp2 = self::_getFile('telephoneCodeData', '/supplementalData/telephoneCodeData/codesByTerritory', 'territory');
-                $_temp = array();
+                $_temp = [];
                 foreach ($_temp2 as $key => $found) {
                     $_temp += self::_getFile('telephoneCodeData', '/supplementalData/telephoneCodeData/codesByTerritory[@territory=\'' . $key . '\']/telephoneCountryCode', 'code', $key);
                 }
-                $temp = array();
-                foreach($_temp as $key => $found) {
-                    $_temp3 = explode(" ", $found);
-                    foreach($_temp3 as $found3) {
+                $temp = [];
+                foreach ($_temp as $key => $found) {
+                    $_temp3 = explode(' ', $found);
+                    foreach ($_temp3 as $found3) {
                         if ($found3 !== $value) {
                             continue;
                         }
                         if (!isset($temp[$found3])) {
                             $temp[$found3] = (string) $key;
                         } else {
-                            $temp[$found3] .= " " . $key;
+                            $temp[$found3] .= ' ' . $key;
                         }
                     }
                 }
                 break;
 
             case 'numerictoterritory':
-                $temp = self::_getFile('supplementalData', '/supplementalData/codeMappings/territoryCodes[@type=\''.$value.'\']', 'numeric', $value);
+                $temp = self::_getFile('supplementalData', '/supplementalData/codeMappings/territoryCodes[@type=\'' . $value . '\']', 'numeric', $value);
                 break;
 
             case 'territorytonumeric':
-                $temp = self::_getFile('supplementalData', '/supplementalData/codeMappings/territoryCodes[@numeric=\''.$value.'\']', 'type', $value);
+                $temp = self::_getFile('supplementalData', '/supplementalData/codeMappings/territoryCodes[@numeric=\'' . $value . '\']', 'type', $value);
                 break;
 
             case 'alpha3toterritory':
-                $temp = self::_getFile('supplementalData', '/supplementalData/codeMappings/territoryCodes[@type=\''.$value.'\']', 'alpha3', $value);
+                $temp = self::_getFile('supplementalData', '/supplementalData/codeMappings/territoryCodes[@type=\'' . $value . '\']', 'alpha3', $value);
                 break;
 
             case 'territorytoalpha3':
-                $temp = self::_getFile('supplementalData', '/supplementalData/codeMappings/territoryCodes[@alpha3=\''.$value.'\']', 'type', $value);
+                $temp = self::_getFile('supplementalData', '/supplementalData/codeMappings/territoryCodes[@alpha3=\'' . $value . '\']', 'type', $value);
                 break;
 
             case 'postaltoterritory':
@@ -1489,7 +1499,7 @@ class Zend_Locale_Data
                 $temp = self::_getFile('supplementalData', "/supplementalData/parentLocales/parentLocale[contains(@locales, '" . $value . "')]", 'parent', 'parent');
                 break;
 
-            default :
+            default:
                 require_once 'Zend/Locale/Exception.php';
                 throw new Zend_Locale_Exception("Unknown detail ($path) for parsing locale data.");
                 break;
@@ -1500,9 +1510,9 @@ class Zend_Locale_Data
         }
         if (isset(self::$_cache)) {
             if (self::$_cacheTags) {
-                self::$_cache->save( serialize($temp), $id, array('Zend_Locale'));
+                self::$_cache->save(serialize($temp), $id, ['Zend_Locale']);
             } else {
-                self::$_cache->save( serialize($temp), $id);
+                self::$_cache->save(serialize($temp), $id);
             }
         }
 
@@ -1510,7 +1520,7 @@ class Zend_Locale_Data
     }
 
     /**
-     * Returns the set cache
+     * Returns the set cache.
      *
      * @return Zend_Cache_Core The set cache
      */
@@ -1520,7 +1530,7 @@ class Zend_Locale_Data
     }
 
     /**
-     * Set a cache for Zend_Locale_Data
+     * Set a cache for Zend_Locale_Data.
      *
      * @param Zend_Cache_Core $cache A cache frontend
      */
@@ -1531,9 +1541,9 @@ class Zend_Locale_Data
     }
 
     /**
-     * Returns true when a cache is set
+     * Returns true when a cache is set.
      *
-     * @return boolean
+     * @return bool
      */
     public static function hasCache()
     {
@@ -1545,7 +1555,7 @@ class Zend_Locale_Data
     }
 
     /**
-     * Removes any set cache
+     * Removes any set cache.
      *
      * @return void
      */
@@ -1555,31 +1565,31 @@ class Zend_Locale_Data
     }
 
     /**
-     * Clears all set cache data
+     * Clears all set cache data.
      *
      * @return void
      */
     public static function clearCache()
     {
         if (self::$_cacheTags) {
-            self::$_cache->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array('Zend_Locale'));
+            self::$_cache->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, ['Zend_Locale']);
         } else {
             self::$_cache->clean(Zend_Cache::CLEANING_MODE_ALL);
         }
     }
 
     /**
-     * Disables the cache
+     * Disables the cache.
      *
      * @param bool $flag
      */
     public static function disableCache($flag)
     {
-        self::$_cacheDisabled = (boolean) $flag;
+        self::$_cacheDisabled = (bool) $flag;
     }
 
     /**
-     * Internal method to check if the given cache supports tags
+     * Internal method to check if the given cache supports tags.
      *
      * @return bool
      */
@@ -1597,21 +1607,22 @@ class Zend_Locale_Data
     }
 
     /**
-     * Filter an ID to only allow valid variable characters
+     * Filter an ID to only allow valid variable characters.
      *
-     * @param  string $value
+     * @param string $value
+     *
      * @return string
      */
     protected static function _filterCacheId($value)
     {
         return strtr(
             $value,
-            array(
+            [
                 '-' => '_',
                 '%' => '_',
                 '+' => '_',
                 '.' => '_',
-            )
+            ]
         );
     }
 }

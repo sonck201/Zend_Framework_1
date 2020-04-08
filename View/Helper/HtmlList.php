@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,38 +13,38 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_View
- * @subpackage Helper
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
-
 /**
- * Zend_View_Helper_FormELement
+ * Zend_View_Helper_FormELement.
  */
 require_once 'Zend/View/Helper/FormElement.php';
 
 /**
- * Helper for ordered and unordered lists
+ * Helper for ordered and unordered lists.
  *
  * @uses Zend_View_Helper_FormElement
+ *
  * @category   Zend
- * @package    Zend_View
- * @subpackage Helper
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_View_Helper_HtmlList extends Zend_View_Helper_FormElement
 {
-
     /**
      * Generates a 'List' element.
      *
-     * @param array   $items   Array with the elements of the list
-     * @param boolean $ordered Specifies ordered/unordered list; default unordered
-     * @param array   $attribs Attributes for the ol/ul tag.
+     * @param array $items Array with the elements of the list
+     * @param bool $ordered Specifies ordered/unordered list; default unordered
+     * @param array $attribs Attributes for the ol/ul tag.
+     * @param mixed $escape
+     *
      * @return string The list XHTML.
      */
     public function htmlList(array $items, $ordered = false, $attribs = false, $escape = true)

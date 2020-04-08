@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,13 +14,12 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Service
- * @subpackage Delicious
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
-
 
 /**
  * @see Zend_Date
@@ -32,20 +31,18 @@ require_once 'Zend/Date.php';
  */
 require_once 'Zend/Service/Delicious/SimplePost.php';
 
-
 /**
- * Zend_Service_Delicious_Post represents a post of a user that can be edited
+ * Zend_Service_Delicious_Post represents a post of a user that can be edited.
  *
  * @category   Zend
- * @package    Zend_Service
- * @subpackage Delicious
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Service_Delicious_Post extends Zend_Service_Delicious_SimplePost
 {
     /**
-     * Service that has downloaded the post
+     * Service that has downloaded the post.
      *
      * @var Zend_Service_Delicious
      */
@@ -72,11 +69,13 @@ class Zend_Service_Delicious_Post extends Zend_Service_Delicious_SimplePost
     protected $_hash;
 
     /**
-     * Constructs a new del.icio.us post
+     * Constructs a new del.icio.us post.
      *
-     * @param  Zend_Service_Delicious $service Service that has downloaded the post
-     * @param  DOMElement|array       $values  Post content
+     * @param Zend_Service_Delicious $service Service that has downloaded the post
+     * @param DOMElement|array $values Post content
+     *
      * @throws Zend_Service_Delicious_Exception
+     *
      * @return void
      */
     public function __construct(Zend_Service_Delicious $service, $values)
@@ -92,29 +91,29 @@ class Zend_Service_Delicious_Post extends Zend_Service_Delicious_SimplePost
              * @see Zend_Service_Delicious_Exception
              */
             require_once 'Zend/Service/Delicious/Exception.php';
-            throw new Zend_Service_Delicious_Exception("Second argument must be array with at least 2 keys ('url' and"
-                                                     . " 'title')");
+            throw new Zend_Service_Delicious_Exception("Second argument must be array with at least 2 keys ('url' and" . " 'title')");
         }
 
-        if (isset($values['date']) && ! $values['date'] instanceof Zend_Date) {
+        if (isset($values['date']) && !$values['date'] instanceof Zend_Date) {
             /**
              * @see Zend_Service_Delicious_Exception
              */
             require_once 'Zend/Service/Delicious/Exception.php';
-            throw new Zend_Service_Delicious_Exception("Date has to be an instance of Zend_Date");
+            throw new Zend_Service_Delicious_Exception('Date has to be an instance of Zend_Date');
         }
 
-        foreach (array('url', 'title', 'notes', 'others', 'tags', 'date', 'shared', 'hash') as $key) {
+        foreach (['url', 'title', 'notes', 'others', 'tags', 'date', 'shared', 'hash'] as $key) {
             if (isset($values[$key])) {
-                $this->{"_$key"}  = $values[$key];
+                $this->{"_$key"} = $values[$key];
             }
         }
     }
 
     /**
-     * Setter for title
+     * Setter for title.
      *
-     * @param  string $newTitle
+     * @param string $newTitle
+     *
      * @return Zend_Service_Delicious_Post
      */
     public function setTitle($newTitle)
@@ -125,9 +124,10 @@ class Zend_Service_Delicious_Post extends Zend_Service_Delicious_SimplePost
     }
 
     /**
-     * Setter for notes
+     * Setter for notes.
      *
-     * @param  string $newNotes
+     * @param string $newNotes
+     *
      * @return Zend_Service_Delicious_Post
      */
     public function setNotes($newNotes)
@@ -138,9 +138,10 @@ class Zend_Service_Delicious_Post extends Zend_Service_Delicious_SimplePost
     }
 
     /**
-     * Setter for tags
+     * Setter for tags.
      *
-     * @param  array $tags
+     * @param array $tags
+     *
      * @return Zend_Service_Delicious_Post
      */
     public function setTags(array $tags)
@@ -151,9 +152,10 @@ class Zend_Service_Delicious_Post extends Zend_Service_Delicious_SimplePost
     }
 
     /**
-     * Add a tag
+     * Add a tag.
      *
-     * @param  string $tag
+     * @param string $tag
+     *
      * @return Zend_Service_Delicious_Post
      */
     public function addTag($tag)
@@ -164,20 +166,21 @@ class Zend_Service_Delicious_Post extends Zend_Service_Delicious_SimplePost
     }
 
     /**
-     * Remove a tag
+     * Remove a tag.
      *
-     * @param  string $tag
+     * @param string $tag
+     *
      * @return Zend_Service_Delicious_Post
      */
     public function removeTag($tag)
     {
-        $this->_tags = array_diff($this->_tags, array((string) $tag));
+        $this->_tags = array_diff($this->_tags, [(string) $tag]);
 
         return $this;
     }
 
     /**
-     * Getter for date
+     * Getter for date.
      *
      * @return Zend_Date
      */
@@ -187,7 +190,7 @@ class Zend_Service_Delicious_Post extends Zend_Service_Delicious_SimplePost
     }
 
     /**
-     * Getter for others
+     * Getter for others.
      *
      * This property is only populated when posts are retrieved
      * with getPosts() method. The getAllPosts() and getRecentPosts()
@@ -201,7 +204,7 @@ class Zend_Service_Delicious_Post extends Zend_Service_Delicious_SimplePost
     }
 
     /**
-     * Getter for hash
+     * Getter for hash.
      *
      * @return string
      */
@@ -211,7 +214,7 @@ class Zend_Service_Delicious_Post extends Zend_Service_Delicious_SimplePost
     }
 
     /**
-     * Getter for shared
+     * Getter for shared.
      *
      * @return bool
      */
@@ -221,9 +224,10 @@ class Zend_Service_Delicious_Post extends Zend_Service_Delicious_SimplePost
     }
 
     /**
-     * Setter for shared
+     * Setter for shared.
      *
-     * @param  bool $isShared
+     * @param bool $isShared
+     *
      * @return Zend_Service_Delicious_Post
      */
     public function setShared($isShared)
@@ -234,7 +238,7 @@ class Zend_Service_Delicious_Post extends Zend_Service_Delicious_SimplePost
     }
 
     /**
-     * Deletes post
+     * Deletes post.
      *
      * @return Zend_Service_Delicious
      */
@@ -244,20 +248,20 @@ class Zend_Service_Delicious_Post extends Zend_Service_Delicious_SimplePost
     }
 
     /**
-     * Saves post
+     * Saves post.
      *
      * @return DOMDocument
      */
     public function save()
     {
-        $parms = array(
-            'url'        => $this->_url,
-            'description'=> $this->_title,
-            'extended'   => $this->_notes,
-            'shared'     => ($this->_shared ? 'yes' : 'no'),
-            'tags'       => implode(' ', (array) $this->_tags),
-            'replace'    => 'yes'
-        );
+        $parms = [
+            'url' => $this->_url,
+            'description' => $this->_title,
+            'extended' => $this->_notes,
+            'shared' => ($this->_shared ? 'yes' : 'no'),
+            'tags' => implode(' ', (array) $this->_tags),
+            'replace' => 'yes',
+        ];
         /*
         if ($this->_date instanceof Zend_Date) {
             $parms['dt'] = $this->_date->get('Y-m-d\TH:i:s\Z');
@@ -268,25 +272,26 @@ class Zend_Service_Delicious_Post extends Zend_Service_Delicious_SimplePost
     }
 
     /**
-     * Extracts content from the DOM element of a post
+     * Extracts content from the DOM element of a post.
      *
-     * @param  DOMElement $node
+     * @param DOMElement $node
+     *
      * @return array
      */
     protected static function _parsePostNode(DOMElement $node)
     {
-        return array(
-            'url'    => $node->getAttribute('href'),
-            'title'  => $node->getAttribute('description'),
-            'notes'  => $node->getAttribute('extended'),
+        return [
+            'url' => $node->getAttribute('href'),
+            'title' => $node->getAttribute('description'),
+            'notes' => $node->getAttribute('extended'),
             'others' => (int) $node->getAttribute('others'),
-            'tags'   => explode(' ', $node->getAttribute('tag')),
-            /**
+            'tags' => explode(' ', $node->getAttribute('tag')),
+            /*
              * @todo replace strtotime() with Zend_Date equivalent
              */
-            'date'   => new Zend_Date(strtotime($node->getAttribute('time'))),
+            'date' => new Zend_Date(strtotime($node->getAttribute('time'))),
             'shared' => ($node->getAttribute('shared') == 'no' ? false : true),
-            'hash'   => $node->getAttribute('hash')
-        );
+            'hash' => $node->getAttribute('hash'),
+        ];
     }
 }

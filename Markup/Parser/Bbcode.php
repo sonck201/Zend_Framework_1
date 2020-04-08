@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Markup
- * @subpackage Parser
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -32,125 +32,124 @@ require_once 'Zend/Markup/Parser/ParserInterface.php';
 
 /**
  * @category   Zend
- * @package    Zend_Markup
- * @subpackage Parser
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
 {
-    const NEWLINE   = "[newline\0]";
+    const NEWLINE = "[newline\0]";
 
     // there is a parsing difference between the default tags and single tags
     const TYPE_DEFAULT = 'default';
-    const TYPE_SINGLE  = 'single';
+    const TYPE_SINGLE = 'single';
 
     const NAME_CHARSET = '^\[\]=\s';
 
-    const STATE_SCAN       = 0;
-    const STATE_SCANATTRS  = 1;
+    const STATE_SCAN = 0;
+    const STATE_SCANATTRS = 1;
     const STATE_PARSEVALUE = 2;
 
     /**
-     * Token tree
+     * Token tree.
      *
      * @var Zend_Markup_TokenList
      */
     protected $_tree;
 
     /**
-     * Current token
+     * Current token.
      *
      * @var Zend_Markup_Token
      */
     protected $_current;
 
     /**
-     * Source to tokenize
+     * Source to tokenize.
      *
      * @var string
      */
     protected $_value = '';
 
     /**
-     * Length of the value
+     * Length of the value.
      *
      * @var int
      */
     protected $_valueLen = 0;
 
     /**
-     * Current pointer
+     * Current pointer.
      *
      * @var int
      */
     protected $_pointer = 0;
 
     /**
-     * The buffer
+     * The buffer.
      *
      * @var string
      */
     protected $_buffer = '';
 
     /**
-     * Temporary tag storage
+     * Temporary tag storage.
      *
      * @var array
      */
     protected $_temp;
 
     /**
-     * Stoppers that we are searching for
+     * Stoppers that we are searching for.
      *
      * @var array
      */
-    protected $_searchedStoppers = array();
+    protected $_searchedStoppers = [];
 
     /**
-     * Tag information
+     * Tag information.
      *
      * @var array
      */
-    protected $_tags = array(
-        'Zend_Markup_Root' => array(
-            'type'     => self::TYPE_DEFAULT,
-            'stoppers' => array(),
-        ),
-        '*' => array(
-            'type'     => self::TYPE_DEFAULT,
-            'stoppers' => array(self::NEWLINE, '[/*]', '[/]'),
-        ),
-        'hr' => array(
-            'type'     => self::TYPE_SINGLE,
-            'stoppers' => array(),
-        ),
-        'code' => array(
-            'type'         => self::TYPE_DEFAULT,
-            'stoppers'     => array('[/code]', '[/]'),
-            'parse_inside' => false
-        )
-    );
+    protected $_tags = [
+        'Zend_Markup_Root' => [
+            'type' => self::TYPE_DEFAULT,
+            'stoppers' => [],
+        ],
+        '*' => [
+            'type' => self::TYPE_DEFAULT,
+            'stoppers' => [self::NEWLINE, '[/*]', '[/]'],
+        ],
+        'hr' => [
+            'type' => self::TYPE_SINGLE,
+            'stoppers' => [],
+        ],
+        'code' => [
+            'type' => self::TYPE_DEFAULT,
+            'stoppers' => ['[/code]', '[/]'],
+            'parse_inside' => false,
+        ],
+    ];
 
     /**
-     * Token array
+     * Token array.
      *
      * @var array
      */
-    protected $_tokens = array();
+    protected $_tokens = [];
 
     /**
-     * State
+     * State.
      *
      * @var int
      */
     protected $_state = self::STATE_SCAN;
 
-
     /**
-     * Prepare the parsing of a bbcode string, the real parsing is done in {@link _parse()}
+     * Prepare the parsing of a bbcode string, the real parsing is done in {@link _parse()}.
      *
-     * @param  string $value
+     * @param string $value
+     *
      * @return Zend_Markup_TokenList
      */
     public function parse($value)
@@ -171,22 +170,22 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
             throw new Zend_Markup_Parser_Exception('Value to parse cannot be left empty.');
         }
 
-        $this->_value = str_replace(array("\r\n", "\r", "\n"), self::NEWLINE, $value);
+        $this->_value = str_replace(["\r\n", "\r", "\n"], self::NEWLINE, $value);
 
         // variable initialization for tokenizer
-        $this->_valueLen         = strlen($this->_value);
-        $this->_pointer          = 0;
-        $this->_buffer           = '';
-        $this->_temp             = array();
-        $this->_state            = self::STATE_SCAN;
-        $this->_tokens           = array();
+        $this->_valueLen = strlen($this->_value);
+        $this->_pointer = 0;
+        $this->_buffer = '';
+        $this->_temp = [];
+        $this->_state = self::STATE_SCAN;
+        $this->_tokens = [];
 
         $this->_tokenize();
 
         // variable initialization for treebuilder
-        $this->_searchedStoppers = array();
-        $this->_tree             = new Zend_Markup_TokenList();
-        $this->_current          = new Zend_Markup_Token(
+        $this->_searchedStoppers = [];
+        $this->_tree = new Zend_Markup_TokenList();
+        $this->_current = new Zend_Markup_Token(
             '',
             Zend_Markup_Token::TYPE_NONE,
             'Zend_Markup_Root'
@@ -200,7 +199,7 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
     }
 
     /**
-     * Tokenize
+     * Tokenize.
      *
      * @param string $input
      *
@@ -213,8 +212,8 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
         while ($this->_pointer < $this->_valueLen) {
             switch ($this->_state) {
                 case self::STATE_SCAN:
-                    $matches = array();
-                    $regex   = '#\G(?<text>[^\[]*)(?<open>\[(?<name>[' . self::NAME_CHARSET . ']+)?)?#';
+                    $matches = [];
+                    $regex = '#\G(?<text>[^\[]*)(?<open>\[(?<name>[' . self::NAME_CHARSET . ']+)?)?#';
                     preg_match($regex, $this->_value, $matches, null, $this->_pointer);
 
                     $this->_pointer += strlen($matches[0]);
@@ -232,11 +231,11 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
                         break;
                     }
 
-                    $this->_temp = array(
-                        'tag'        => '[' . $matches['name'],
-                        'name'       => $matches['name'],
-                        'attributes' => array()
-                    );
+                    $this->_temp = [
+                        'tag' => '[' . $matches['name'],
+                        'name' => $matches['name'],
+                        'attributes' => [],
+                    ];
 
                     if ($this->_pointer >= $this->_valueLen) {
                         // damn, no tag
@@ -245,18 +244,18 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
                     }
 
                     if ($this->_value[$this->_pointer] == '=') {
-                        $this->_pointer++;
+                        ++$this->_pointer;
 
                         $this->_temp['tag'] .= '=';
-                        $this->_state        = self::STATE_PARSEVALUE;
-                        $attribute           = $this->_temp['name'];
+                        $this->_state = self::STATE_PARSEVALUE;
+                        $attribute = $this->_temp['name'];
                     } else {
                         $this->_state = self::STATE_SCANATTRS;
                     }
                     break;
                 case self::STATE_SCANATTRS:
-                    $matches = array();
-                    $regex   = '#\G((?<end>\s*\])|\s+(?<attribute>[' . self::NAME_CHARSET . ']+)(?<eq>=?))#';
+                    $matches = [];
+                    $regex = '#\G((?<end>\s*\])|\s+(?<attribute>[' . self::NAME_CHARSET . ']+)(?<eq>=?))#';
                     if (!preg_match($regex, $this->_value, $matches, null, $this->_pointer)) {
                         break 2;
                     }
@@ -265,17 +264,17 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
 
                     if (!empty($matches['end'])) {
                         if (!empty($this->_buffer)) {
-                            $this->_tokens[] = array(
+                            $this->_tokens[] = [
                                 'tag' => $this->_buffer,
-                                'type' => Zend_Markup_Token::TYPE_NONE
-                            );
+                                'type' => Zend_Markup_Token::TYPE_NONE,
+                            ];
                             $this->_buffer = '';
                         }
                         $this->_temp['tag'] .= $matches['end'];
                         $this->_temp['type'] = Zend_Markup_Token::TYPE_TAG;
 
                         $this->_tokens[] = $this->_temp;
-                        $this->_temp     = array();
+                        $this->_temp = [];
 
                         $this->_state = self::STATE_SCAN;
                     } else {
@@ -294,8 +293,8 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
                     }
                     break;
                 case self::STATE_PARSEVALUE:
-                    $matches = array();
-                    $regex   = '#\G((?<quote>"|\')(?<valuequote>.*?)\\2|(?<value>[^\]\s]+))#';
+                    $matches = [];
+                    $regex = '#\G((?<quote>"|\')(?<valuequote>.*?)\\2|(?<value>[^\]\s]+))#';
                     if (!preg_match($regex, $this->_value, $matches, null, $this->_pointer)) {
                         $this->_state = self::STATE_SCANATTRS;
                         break;
@@ -316,15 +315,15 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
         }
 
         if (!empty($this->_buffer)) {
-            $this->_tokens[] = array(
-                'tag'  => $this->_buffer,
-                'type' => Zend_Markup_Token::TYPE_NONE
-            );
+            $this->_tokens[] = [
+                'tag' => $this->_buffer,
+                'type' => Zend_Markup_Token::TYPE_NONE,
+            ];
         }
     }
 
     /**
-     * Parse the token array into a tree
+     * Parse the token array into a tree.
      *
      * @param array $tokens
      *
@@ -336,10 +335,10 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
             // first we want to know if this tag is a stopper, or at least a searched one
             if ($this->_isStopper($token['tag'])) {
                 // find the stopper
-                $oldItems = array();
+                $oldItems = [];
 
                 while (!in_array($token['tag'], $this->_tags[$this->_current->getName()]['stoppers'])) {
-                    $oldItems[]     = clone $this->_current;
+                    $oldItems[] = clone $this->_current;
                     $this->_current = $this->_current->getParent();
                 }
 
@@ -365,7 +364,7 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
                             "\n",
                             Zend_Markup_Token::TYPE_NONE,
                             '',
-                            array(),
+                            [],
                             $this->_current
                         ));
                     } elseif (isset($token['name']) && ($token['name'][0] == '/')) {
@@ -374,7 +373,7 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
                             $token['tag'],
                             Zend_Markup_Token::TYPE_NONE,
                             '',
-                            array(),
+                            [],
                             $this->_current
                         ));
                     } elseif (isset($this->_tags[$this->_current->getName()]['parse_inside'])
@@ -384,7 +383,7 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
                             $token['tag'],
                             Zend_Markup_Token::TYPE_NONE,
                             '',
-                            array(),
+                            [],
                             $this->_current
                         ));
                     } else {
@@ -411,7 +410,7 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
                         $token['tag'],
                         Zend_Markup_Token::TYPE_NONE,
                         '',
-                        array(),
+                        [],
                         $this->_current
                     ));
                 }
@@ -420,7 +419,7 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
     }
 
     /**
-     * Check if there is a tag declaration, and if it isnt there, add it
+     * Check if there is a tag declaration, and if it isnt there, add it.
      *
      * @param string $name
      *
@@ -429,19 +428,21 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
     protected function _checkTagDeclaration($name)
     {
         if (!isset($this->_tags[$name])) {
-            $this->_tags[$name] = array(
-                'type'     => self::TYPE_DEFAULT,
-                'stoppers' => array(
+            $this->_tags[$name] = [
+                'type' => self::TYPE_DEFAULT,
+                'stoppers' => [
                     '[/' . $name . ']',
-                    '[/]'
-                )
-            );
+                    '[/]',
+                ],
+            ];
         }
     }
+
     /**
-     * Check the tag's type
+     * Check the tag's type.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return string
      */
     protected function _getType($name)
@@ -452,9 +453,10 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
     }
 
     /**
-     * Check if the tag is a stopper
+     * Check if the tag is a stopper.
      *
-     * @param  string $tag
+     * @param string $tag
+     *
      * @return bool
      */
     protected function _isStopper($tag)
@@ -469,9 +471,10 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
     }
 
     /**
-     * Add to searched stoppers
+     * Add to searched stoppers.
      *
-     * @param  Zend_Markup_Token $token
+     * @param Zend_Markup_Token $token
+     *
      * @return void
      */
     protected function _addToSearchedStoppers(Zend_Markup_Token $token)
@@ -487,9 +490,10 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
     }
 
     /**
-     * Remove from searched stoppers
+     * Remove from searched stoppers.
      *
-     * @param  Zend_Markup_Token $token
+     * @param Zend_Markup_Token $token
+     *
      * @return void
      */
     protected function _removeFromSearchedStoppers(Zend_Markup_Token $token)
@@ -500,5 +504,4 @@ class Zend_Markup_Parser_Bbcode implements Zend_Markup_Parser_ParserInterface
             --$this->_searchedStoppers[$stopper];
         }
     }
-
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Tool
- * @subpackage Framework
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -40,13 +40,12 @@ require_once 'Zend/Tool/Framework/Action/Base.php';
  * callable signatures from the provided provider.
  *
  * @category   Zend
- * @package    Zend_Tool
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Registry_EnabledInterface
 {
-
     /**
      * @var Zend_Tool_Framework_Registry
      */
@@ -65,17 +64,17 @@ class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Regi
     /**
      * @var array
      */
-    protected $_specialties = array();
+    protected $_specialties = [];
 
     /**
      * @var array
      */
-    protected $_actionableMethods = array();
+    protected $_actionableMethods = [];
 
     /**
      * @var unknown_type
      */
-    protected $_actions = array();
+    protected $_actions = [];
 
     /**
      * @var Zend_Reflection_Class
@@ -88,7 +87,7 @@ class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Regi
     protected $_isProcessed = false;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param Zend_Tool_Framework_Provider_Interface $provider
      */
@@ -99,14 +98,16 @@ class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Regi
     }
 
     /**
-     * setRegistry()
+     * setRegistry().
      *
      * @param Zend_Tool_Framework_Registry_Interface $registry
+     *
      * @return Zend_Tool_Framework_Provider_Signature
      */
     public function setRegistry(Zend_Tool_Framework_Registry_Interface $registry)
     {
         $this->_registry = $registry;
+
         return $this;
     }
 
@@ -120,7 +121,7 @@ class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Regi
     }
 
     /**
-     * getName() of the provider
+     * getName() of the provider.
      *
      * @return unknown
      */
@@ -130,7 +131,7 @@ class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Regi
     }
 
     /**
-     * Get the provider for this signature
+     * Get the provider for this signature.
      *
      * @return Zend_Tool_Framework_Provider_Interface
      */
@@ -140,7 +141,7 @@ class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Regi
     }
 
     /**
-     * getProviderReflection()
+     * getProviderReflection().
      *
      * @return Zend_Reflection_Class
      */
@@ -150,7 +151,7 @@ class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Regi
     }
 
     /**
-     * getSpecialities()
+     * getSpecialities().
      *
      * @return array
      */
@@ -160,7 +161,7 @@ class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Regi
     }
 
     /**
-     * getActions()
+     * getActions().
      *
      * @return array Array of Actions
      */
@@ -170,7 +171,7 @@ class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Regi
     }
 
     /**
-     * getActionableMethods()
+     * getActionableMethods().
      *
      * @return array
      */
@@ -181,9 +182,10 @@ class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Regi
 
     /**
      * getActionableMethod() - Get an actionable method by name, this will return an array of
-     * useful information about what can be exectued on this provider
+     * useful information about what can be exectued on this provider.
      *
      * @param string $methodName
+     *
      * @return array
      */
     public function getActionableMethod($methodName)
@@ -197,9 +199,11 @@ class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Regi
 
     /**
      * getActionableMethodByActionName() - Get an actionable method by its action name, this
-     * will return an array of useful information about what can be exectued on this provider
+     * will return an array of useful information about what can be exectued on this provider.
      *
      * @param string $actionName
+     * @param mixed $specialtyName
+     *
      * @return array
      */
     public function getActionableMethodByActionName($actionName, $specialtyName = '_Global')
@@ -216,8 +220,7 @@ class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Regi
 
     /**
      * _process() is called at construction time and is what will build the signature information
-     * for determining what is actionable
-     *
+     * for determining what is actionable.
      */
     protected function _process()
     {
@@ -228,8 +231,7 @@ class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Regi
     }
 
     /**
-     * _processName();
-     *
+     * _processName();.
      */
     protected function _processName()
     {
@@ -241,7 +243,7 @@ class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Regi
             $className = get_class($this->_provider);
             $name = $className;
             if (strpos($name, '_')) {
-                $name = substr($name, strrpos($name, '_')+1);
+                $name = substr($name, strrpos($name, '_') + 1);
             }
             $name = preg_replace('#(Provider|Manifest)$#', '', $name);
             $this->_name = $name;
@@ -249,54 +251,44 @@ class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Regi
     }
 
     /**
-     * _processSpecialties() - Break out the specialty names for this provider
-     *
+     * _processSpecialties() - Break out the specialty names for this provider.
      */
     protected function _processSpecialties()
     {
-        $specialties = array();
+        $specialties = [];
 
         if ($this->_providerReflection->hasMethod('getSpecialties')) {
             $specialties = $this->_provider->getSpecialties();
             if (!is_array($specialties)) {
                 require_once 'Zend/Tool/Framework/Provider/Exception.php';
-                throw new Zend_Tool_Framework_Provider_Exception(
-                    'Provider ' . get_class($this->_provider) . ' must return an array for method getSpecialties().'
-                    );
+                throw new Zend_Tool_Framework_Provider_Exception('Provider ' . get_class($this->_provider) . ' must return an array for method getSpecialties().');
             }
         } else {
             $defaultProperties = $this->_providerReflection->getDefaultProperties();
-            $specialties = (isset($defaultProperties['_specialties'])) ? $defaultProperties['_specialties'] : array();
+            $specialties = (isset($defaultProperties['_specialties'])) ? $defaultProperties['_specialties'] : [];
             if (!is_array($specialties)) {
                 require_once 'Zend/Tool/Framework/Provider/Exception.php';
-                throw new Zend_Tool_Framework_Provider_Exception(
-                    'Provider ' . get_class($this->_provider) . '\'s property $_specialties must be an array.'
-                    );
+                throw new Zend_Tool_Framework_Provider_Exception('Provider ' . get_class($this->_provider) . '\'s property $_specialties must be an array.');
             }
         }
 
-        $this->_specialties = array_merge(array('_Global'), $specialties);
-
+        $this->_specialties = array_merge(['_Global'], $specialties);
     }
 
     /**
      * _processActionableMethods() - process all methods that can be called on this provider.
-     *
      */
     protected function _processActionableMethods()
     {
-
         $specialtyRegex = '#(.*)(' . implode('|', $this->_specialties) . ')$#i';
-
 
         $methods = $this->_providerReflection->getMethods();
 
-        $actionableMethods = array();
+        $actionableMethods = [];
         foreach ($methods as $method) {
-
             $methodName = $method->getName();
 
-            /**
+            /*
              * the following will determine what methods are actually actionable
              * public, non-static, non-underscore prefixed, classes that dont
              * contain the name "
@@ -305,12 +297,12 @@ class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Regi
                 || !$method->isPublic()
                 || $methodName[0] == '_'
                 || $method->isStatic()
-                || in_array($methodName, array('getContextClasses', 'getName')) // other protected public methods will nee to go here
+                || in_array($methodName, ['getContextClasses', 'getName']) // other protected public methods will nee to go here
                 ) {
                 continue;
             }
 
-            /**
+            /*
              * check to see if the method was a required method by a Zend_Tool_* interface
              */
             foreach ($method->getDeclaringClass()->getInterfaces() as $methodDeclaringClassInterface) {
@@ -349,27 +341,25 @@ class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Regi
                 $this->_actions[] = $actionableMethods[$methodName]['action'];
             }
 
-            $parameterInfo = array();
+            $parameterInfo = [];
             $position = 1;
             foreach ($method->getParameters() as $parameter) {
                 $currentParam = $parameter->getName();
-                $parameterInfo[$currentParam]['position']    = $position++;
-                $parameterInfo[$currentParam]['optional']    = $parameter->isOptional();
-                $parameterInfo[$currentParam]['default']     = ($parameter->isOptional()) ? $parameter->getDefaultValue() : null;
-                $parameterInfo[$currentParam]['name']        = $currentParam;
-                $parameterInfo[$currentParam]['type']        = 'string';
+                $parameterInfo[$currentParam]['position'] = $position++;
+                $parameterInfo[$currentParam]['optional'] = $parameter->isOptional();
+                $parameterInfo[$currentParam]['default'] = ($parameter->isOptional()) ? $parameter->getDefaultValue() : null;
+                $parameterInfo[$currentParam]['name'] = $currentParam;
+                $parameterInfo[$currentParam]['type'] = 'string';
                 $parameterInfo[$currentParam]['description'] = null;
             }
 
             $matches = null;
             if (($docComment = $method->getDocComment()) != '' &&
-                (preg_match_all('/@param\s+(\w+)+\s+(\$\S+)\s+(.*?)(?=(?:\*\s*@)|(?:\*\/))/s', $docComment, $matches)))
-            {
-                for ($i=0; $i <= count($matches[0])-1; $i++) {
+                (preg_match_all('/@param\s+(\w+)+\s+(\$\S+)\s+(.*?)(?=(?:\*\s*@)|(?:\*\/))/s', $docComment, $matches))) {
+                for ($i = 0; $i <= count($matches[0]) - 1; ++$i) {
                     $currentParam = ltrim($matches[2][$i], '$');
 
                     if ($currentParam != '' && isset($parameterInfo[$currentParam])) {
-
                         $parameterInfo[$currentParam]['type'] = $matches[1][$i];
 
                         $descriptionSource = $matches[3][$i];
@@ -377,18 +367,13 @@ class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Regi
                         if ($descriptionSource != '') {
                             $parameterInfo[$currentParam]['description'] = trim($descriptionSource);
                         }
-
                     }
-
                 }
-
             }
 
             $actionableMethods[$methodName]['parameterInfo'] = $parameterInfo;
-
         }
 
         $this->_actionableMethods = $actionableMethods;
     }
-
 }

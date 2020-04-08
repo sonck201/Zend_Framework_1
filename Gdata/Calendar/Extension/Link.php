@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Calendar
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -30,25 +30,30 @@ require_once 'Zend/Gdata/App/Extension/Link.php';
  */
 require_once 'Zend/Gdata/Calendar/Extension/WebContent.php';
 
-
 /**
  * Specialized Link class for use with Calendar. Enables use of gCal extension elements.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Calendar
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Calendar_Extension_Link extends Zend_Gdata_App_Extension_Link
 {
-
     protected $_webContent = null;
 
     /**
      * Constructs a new Zend_Gdata_Calendar_Extension_Link object.
+     *
      * @see Zend_Gdata_App_Extension_Link#__construct
+     *
      * @param Zend_Gdata_Calendar_Extension_Webcontent $webContent
+     * @param mixed|null $href
+     * @param mixed|null $rel
+     * @param mixed|null $type
+     * @param mixed|null $hrefLang
+     * @param mixed|null $title
+     * @param mixed|null $length
      */
     public function __construct($href = null, $rel = null, $type = null,
             $hrefLang = null, $title = null, $length = null, $webContent = null)
@@ -65,8 +70,11 @@ class Zend_Gdata_Calendar_Extension_Link extends Zend_Gdata_App_Extension_Link
      * for application storage/persistence.
      *
      * @param DOMDocument $doc The DOMDocument used to construct DOMElements
+     * @param mixed $majorVersion
+     * @param mixed|null $minorVersion
+     *
      * @return DOMElement The DOMElement representing this element and all
-     * child properties.
+     *                    child properties.
      */
     public function getDOM($doc = null, $majorVersion = 1, $minorVersion = null)
     {
@@ -74,6 +82,7 @@ class Zend_Gdata_Calendar_Extension_Link extends Zend_Gdata_App_Extension_Link
         if ($this->_webContent != null) {
             $element->appendChild($this->_webContent->getDOM($element->ownerDocument));
         }
+
         return $element;
     }
 
@@ -112,14 +121,13 @@ class Zend_Gdata_Calendar_Extension_Link extends Zend_Gdata_App_Extension_Link
      * Set the value for this element's WebContent attribute.
      *
      * @param Zend_Gdata_Calendar_Extension_WebContent $value The desired value for this attribute.
+     *
      * @return Zend_Calendar_Extension_Link The element being modified.  Provides a fluent interface.
      */
     public function setWebContent($value)
     {
         $this->_webContent = $value;
+
         return $this;
     }
-
-
 }
-

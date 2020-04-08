@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Tool
- * @subpackage Framework
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -26,19 +26,18 @@
 require_once 'Zend/Tool/Project/Context/Filesystem/File.php';
 
 /**
- * This class is the front most class for utilizing Zend_Tool_Project
+ * This class is the front most class for utilizing Zend_Tool_Project.
  *
  * A profile is a hierarchical set of resources that keep track of
  * items within a specific project.
  *
  * @category   Zend
- * @package    Zend_Tool
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Tool_Project_Context_Zf_ApplicationConfigFile extends Zend_Tool_Project_Context_Filesystem_File
 {
-
     /**
      * @var string
      */
@@ -50,7 +49,7 @@ class Zend_Tool_Project_Context_Zf_ApplicationConfigFile extends Zend_Tool_Proje
     protected $_content = null;
 
     /**
-     * getName()
+     * getName().
      *
      * @return string
      */
@@ -60,7 +59,7 @@ class Zend_Tool_Project_Context_Zf_ApplicationConfigFile extends Zend_Tool_Proje
     }
 
     /**
-     * init()
+     * init().
      *
      * @return Zend_Tool_Project_Context_Zf_ApplicationConfigFile
      */
@@ -68,21 +67,22 @@ class Zend_Tool_Project_Context_Zf_ApplicationConfigFile extends Zend_Tool_Proje
     {
         $this->_type = $this->_resource->getAttribute('type');
         parent::init();
+
         return $this;
     }
 
     /**
-     * getPersistentAttributes()
+     * getPersistentAttributes().
      *
      * @return array
      */
     public function getPersistentAttributes()
     {
-        return array('type' => $this->_type);
+        return ['type' => $this->_type];
     }
 
     /**
-     * getContents()
+     * getContents().
      *
      * @return string
      */
@@ -94,7 +94,6 @@ class Zend_Tool_Project_Context_Zf_ApplicationConfigFile extends Zend_Tool_Proje
             } else {
                 $this->_content = $this->_getDefaultContents();
             }
-
         }
 
         return $this->_content;
@@ -106,12 +105,13 @@ class Zend_Tool_Project_Context_Zf_ApplicationConfigFile extends Zend_Tool_Proje
     }
 
     /**
-     * addStringItem()
+     * addStringItem().
      *
      * @param string $key
      * @param string $value
      * @param string $section
-     * @param bool   $quoteValue
+     * @param bool $quoteValue
+     *
      * @return Zend_Tool_Project_Context_Zf_ApplicationConfigFile
      */
     public function addStringItem($key, $value, $section = 'production', $quoteValue = true)
@@ -127,11 +127,10 @@ class Zend_Tool_Project_Context_Zf_ApplicationConfigFile extends Zend_Tool_Proje
 
         $contentLines = preg_split('#[\n\r]#', $this->getContents());
 
-        $newLines = array();
+        $newLines = [];
         $insideSection = false;
 
         foreach ($contentLines as $contentLineIndex => $contentLine) {
-
             if ($insideSection === false && preg_match('#^\[' . $section . '#', $contentLine)) {
                 $insideSection = true;
             }
@@ -139,10 +138,10 @@ class Zend_Tool_Project_Context_Zf_ApplicationConfigFile extends Zend_Tool_Proje
             $newLines[] = $contentLine;
             if ($insideSection) {
                 // if its blank, or a section heading
-                if (isset($contentLines[$contentLineIndex + 1]{0}) && $contentLines[$contentLineIndex + 1]{0} == '[') {
+                if (isset($contentLines[$contentLineIndex + 1][0]) && $contentLines[$contentLineIndex + 1][0] == '[') {
                     $newLines[] = $key . ' = ' . $value;
                     $insideSection = null;
-                } else if (!isset($contentLines[$contentLineIndex + 1])){
+                } elseif (!isset($contentLines[$contentLineIndex + 1])) {
                     $newLines[] = $key . ' = ' . $value;
                     $insideSection = null;
                 }
@@ -150,21 +149,22 @@ class Zend_Tool_Project_Context_Zf_ApplicationConfigFile extends Zend_Tool_Proje
         }
 
         $this->_content = implode("\n", $newLines);
+
         return $this;
     }
 
     /**
-     *
      * @param array $item
      * @param string $section
      * @param bool $quoteValue
+     *
      * @return Zend_Tool_Project_Context_Zf_ApplicationConfigFile
      */
     public function addItem($item, $section = 'production', $quoteValue = true)
     {
-        $stringItems = array();
-        $stringValues = array();
-        $configKeyNames = array();
+        $stringItems = [];
+        $stringValues = [];
+        $configKeyNames = [];
 
         $rii = new RecursiveIteratorIterator(
             new RecursiveArrayIterator($item),
@@ -196,11 +196,10 @@ class Zend_Tool_Project_Context_Zf_ApplicationConfigFile extends Zend_Tool_Proje
     {
         $contentLines = file($this->getPath());
 
-        $newLines = array();
+        $newLines = [];
         $insideSection = false;
 
         foreach ($contentLines as $contentLineIndex => $contentLine) {
-
             if ($insideSection === false && preg_match('#^\[' . $section . '#', $contentLine)) {
                 $insideSection = true;
             }
@@ -222,9 +221,9 @@ class Zend_Tool_Project_Context_Zf_ApplicationConfigFile extends Zend_Tool_Proje
 
     public function removeItem($item, $section = 'production')
     {
-        $stringItems = array();
-        $stringValues = array();
-        $configKeyNames = array();
+        $stringItems = [];
+        $stringValues = [];
+        $configKeyNames = [];
 
         $rii = new RecursiveIteratorIterator(
             new RecursiveArrayIterator($item),
@@ -254,8 +253,7 @@ class Zend_Tool_Project_Context_Zf_ApplicationConfigFile extends Zend_Tool_Proje
 
     protected function _getDefaultContents()
     {
-
-        $contents =<<<EOS
+        $contents = <<<EOS
 [production]
 phpSettings.display_startup_errors = 0
 phpSettings.display_errors = 0
@@ -281,5 +279,4 @@ EOS;
 
         return $contents;
     }
-
 }

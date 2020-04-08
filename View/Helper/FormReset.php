@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,26 +13,23 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_View
- * @subpackage Helper
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
-
 /**
- * Abstract class for extension
+ * Abstract class for extension.
  */
 require_once 'Zend/View/Helper/FormElement.php';
 
-
 /**
- * Helper to generate a "reset" button
+ * Helper to generate a "reset" button.
  *
  * @category   Zend
- * @package    Zend_View
- * @subpackage Helper
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -41,14 +38,10 @@ class Zend_View_Helper_FormReset extends Zend_View_Helper_FormElement
     /**
      * Generates a 'reset' button.
      *
-     * @access public
-     *
      * @param string|array $name If a string, the element name.  If an
-     * array, all other parameters are ignored, and the array elements
-     * are extracted in place of added parameters.
-     *
+     *                           array, all other parameters are ignored, and the array elements
+     *                           are extracted in place of added parameters.
      * @param mixed $value The element value.
-     *
      * @param array $attribs Attributes for the element tag.
      *
      * @return string The element XHTML.
@@ -71,12 +64,13 @@ class Zend_View_Helper_FormReset extends Zend_View_Helper_FormElement
                . $disabled;
 
         // add a value if one is given
-        if (! empty($value)) {
+        if (!empty($value)) {
             $xhtml .= ' value="' . $this->view->escape($value) . '"';
         }
 
         // add attributes, close, and return
         $xhtml .= $this->_htmlAttribs($attribs) . $this->getClosingBracket();
+
         return $xhtml;
     }
 }

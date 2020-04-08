@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Exif
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -35,14 +35,12 @@ require_once 'Zend/Gdata/Exif.php';
  * Represents the exif:exposure element used by the Gdata Exif extensions.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Exif
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Exif_Extension_Exposure extends Zend_Gdata_Extension
 {
-
     protected $_rootNamespace = 'exif';
     protected $_rootElement = 'exposure';
 
@@ -57,5 +55,4 @@ class Zend_Gdata_Exif_Extension_Exposure extends Zend_Gdata_Extension
         parent::__construct();
         $this->setText($text);
     }
-
 }

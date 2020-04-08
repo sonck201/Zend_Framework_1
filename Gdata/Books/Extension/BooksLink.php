@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Books
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -27,20 +27,18 @@
 require_once 'Zend/Gdata/App/Extension/Link.php';
 
 /**
- * Extends the base Link class with Books extensions
+ * Extends the base Link class with Books extensions.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Books
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Books_Extension_BooksLink extends Zend_Gdata_App_Extension_Link
 {
-
     /**
      * Constructor for Zend_Gdata_Books_Extension_BooksLink which
-     * Extends the base Link class with Books extensions
+     * Extends the base Link class with Books extensions.
      *
      * @param string|null $href Linked resource URI
      * @param string|null $rel Forward relationship
@@ -55,7 +53,4 @@ class Zend_Gdata_Books_Extension_BooksLink extends Zend_Gdata_App_Extension_Link
         $this->registerAllNamespaces(Zend_Gdata_Books::$namespaces);
         parent::__construct($href, $rel, $type, $hrefLang, $title, $length);
     }
-
-
 }
-

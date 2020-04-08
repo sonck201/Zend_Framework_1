@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Spreadsheets
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -40,14 +40,12 @@ require_once 'Zend/Gdata/Spreadsheets/Extension/ColCount.php';
  * Concrete class for working with Worksheet entries.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Spreadsheets
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Spreadsheets_WorksheetEntry extends Zend_Gdata_Entry
 {
-
     protected $_entryClassName = 'Zend_Gdata_Spreadsheets_WorksheetEntry';
 
     protected $_rowCount = null;
@@ -71,8 +69,11 @@ class Zend_Gdata_Spreadsheets_WorksheetEntry extends Zend_Gdata_Entry
      * for application storage/persistence.
      *
      * @param DOMDocument $doc The DOMDocument used to construct DOMElements
+     * @param mixed $majorVersion
+     * @param mixed|null $minorVersion
+     *
      * @return DOMElement The DOMElement representing this element and all
-     * child properties.
+     *                    child properties.
      */
     public function getDOM($doc = null, $majorVersion = 1, $minorVersion = null)
     {
@@ -83,6 +84,7 @@ class Zend_Gdata_Spreadsheets_WorksheetEntry extends Zend_Gdata_Entry
         if ($this->_colCount != null) {
             $element->appendChild($this->_colCount->getDOM($element->ownerDocument));
         }
+
         return $element;
     }
 
@@ -96,12 +98,12 @@ class Zend_Gdata_Spreadsheets_WorksheetEntry extends Zend_Gdata_Entry
     {
         $absoluteNodeName = $child->namespaceURI . ':' . $child->localName;
         switch ($absoluteNodeName) {
-            case $this->lookupNamespace('gs') . ':' . 'rowCount';
+            case $this->lookupNamespace('gs') . ':' . 'rowCount':
                 $rowCount = new Zend_Gdata_Spreadsheets_Extension_RowCount();
                 $rowCount->transferFromDOM($child);
                 $this->_rowCount = $rowCount;
                 break;
-            case $this->lookupNamespace('gs') . ':' . 'colCount';
+            case $this->lookupNamespace('gs') . ':' . 'colCount':
                 $colCount = new Zend_Gdata_Spreadsheets_Extension_ColCount();
                 $colCount->transferFromDOM($child);
                 $this->_colCount = $colCount;
@@ -111,7 +113,6 @@ class Zend_Gdata_Spreadsheets_WorksheetEntry extends Zend_Gdata_Entry
                 break;
         }
     }
-
 
     /**
      * Gets the row count for this entry.
@@ -141,6 +142,7 @@ class Zend_Gdata_Spreadsheets_WorksheetEntry extends Zend_Gdata_Entry
     public function setRowCount($rowCount)
     {
         $this->_rowCount = $rowCount;
+
         return $this;
     }
 
@@ -152,17 +154,19 @@ class Zend_Gdata_Spreadsheets_WorksheetEntry extends Zend_Gdata_Entry
     public function setColumnCount($colCount)
     {
         $this->_colCount = $colCount;
+
         return $this;
     }
 
     /**
-     * Returns the content of all rows as an associative array
+     * Returns the content of all rows as an associative array.
      *
      * @return array An array of rows.  Each element of the array is an associative array of data
      */
     public function getContentsAsRows()
     {
         $service = new Zend_Gdata_Spreadsheets($this->getHttpClient());
+
         return $service->getSpreadsheetListFeedContents($this);
     }
 
@@ -172,16 +176,17 @@ class Zend_Gdata_Spreadsheets_WorksheetEntry extends Zend_Gdata_Entry
      * the array is an associative array with a 'value' and a 'function'.
      * Only non-empty cells are returned by default.  'range' is the
      * value of the 'range' query parameter specified at:
-     * http://code.google.com/apis/spreadsheets/reference.html#cells_Parameters
+     * http://code.google.com/apis/spreadsheets/reference.html#cells_Parameters.
      *
      * @param string $range The range of cells to retrieve
-     * @param boolean $empty Whether to retrieve empty cells
+     * @param bool $empty Whether to retrieve empty cells
+     *
      * @return array An associative array of cells
      */
     public function getContentsAsCells($range = null, $empty = false)
     {
         $service = new Zend_Gdata_Spreadsheets($this->getHttpClient());
+
         return $service->getSpreadsheetCellFeedContents($this, $range, $empty);
     }
-
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,61 +14,59 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Service
- * @subpackage Amazon
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
-
 
 /**
  * @see Zend_Service_Amazon_Item
  */
 require_once 'Zend/Service/Amazon/Item.php';
 
-
 /**
  * @category   Zend
- * @package    Zend_Service
- * @subpackage Amazon
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Service_Amazon_ResultSet implements SeekableIterator
 {
     /**
-     * A DOMNodeList of <Item> elements
+     * A DOMNodeList of <Item> elements.
      *
      * @var DOMNodeList
      */
     protected $_results = null;
 
     /**
-     * Amazon Web Service Return Document
+     * Amazon Web Service Return Document.
      *
      * @var DOMDocument
      */
     protected $_dom;
 
     /**
-     * XPath Object for $this->_dom
+     * XPath Object for $this->_dom.
      *
      * @var DOMXPath
      */
     protected $_xpath;
 
     /**
-     * Current index for SeekableIterator
+     * Current index for SeekableIterator.
      *
      * @var int
      */
     protected $_currentIndex = 0;
 
     /**
-     * Create an instance of Zend_Service_Amazon_ResultSet and create the necessary data objects
+     * Create an instance of Zend_Service_Amazon_ResultSet and create the necessary data objects.
      *
-     * @param  DOMDocument $dom
+     * @param DOMDocument $dom
+     *
      * @return void
      */
     public function __construct(DOMDocument $dom)
@@ -80,29 +78,31 @@ class Zend_Service_Amazon_ResultSet implements SeekableIterator
     }
 
     /**
-     * Total Number of results returned
+     * Total Number of results returned.
      *
      * @return int Total number of results returned
      */
     public function totalResults()
     {
         $result = $this->_xpath->query('//az:TotalResults/text()');
+
         return (int) $result->item(0)->data;
     }
 
     /**
-     * Total Number of pages returned
+     * Total Number of pages returned.
      *
      * @return int Total number of pages returned
      */
     public function totalPages()
     {
         $result = $this->_xpath->query('//az:TotalPages/text()');
+
         return (int) $result->item(0)->data;
     }
 
     /**
-     * Implement SeekableIterator::current()
+     * Implement SeekableIterator::current().
      *
      * @return Zend_Service_Amazon_Item
      */
@@ -112,7 +112,7 @@ class Zend_Service_Amazon_ResultSet implements SeekableIterator
     }
 
     /**
-     * Implement SeekableIterator::key()
+     * Implement SeekableIterator::key().
      *
      * @return int
      */
@@ -122,17 +122,17 @@ class Zend_Service_Amazon_ResultSet implements SeekableIterator
     }
 
     /**
-     * Implement SeekableIterator::next()
+     * Implement SeekableIterator::next().
      *
      * @return void
      */
     public function next()
     {
-        $this->_currentIndex += 1;
+        ++$this->_currentIndex;
     }
 
     /**
-     * Implement SeekableIterator::rewind()
+     * Implement SeekableIterator::rewind().
      *
      * @return void
      */
@@ -142,10 +142,12 @@ class Zend_Service_Amazon_ResultSet implements SeekableIterator
     }
 
     /**
-     * Implement SeekableIterator::seek()
+     * Implement SeekableIterator::seek().
      *
-     * @param  int $index
+     * @param int $index
+     *
      * @throws OutOfBoundsException
+     *
      * @return void
      */
     public function seek($index)
@@ -159,9 +161,9 @@ class Zend_Service_Amazon_ResultSet implements SeekableIterator
     }
 
     /**
-     * Implement SeekableIterator::valid()
+     * Implement SeekableIterator::valid().
      *
-     * @return boolean
+     * @return bool
      */
     public function valid()
     {

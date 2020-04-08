@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage App
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -32,17 +32,15 @@ require_once 'Zend/Gdata/App/Extension.php';
 require_once 'Zend/Gdata/App/Extension/Draft.php';
 
 /**
- * Represents the app:control element
+ * Represents the app:control element.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage App
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_App_Extension_Control extends Zend_Gdata_App_Extension
 {
-
     protected $_rootNamespace = 'app';
     protected $_rootElement = 'control';
     protected $_draft = null;
@@ -59,6 +57,7 @@ class Zend_Gdata_App_Extension_Control extends Zend_Gdata_App_Extension
         if ($this->_draft != null) {
             $element->appendChild($this->_draft->getDOM($element->ownerDocument));
         }
+
         return $element;
     }
 
@@ -87,12 +86,13 @@ class Zend_Gdata_App_Extension_Control extends Zend_Gdata_App_Extension
 
     /**
      * @param Zend_Gdata_App_Extension_Draft $value
+     *
      * @return Zend_Gdata_App_Entry Provides a fluent interface
      */
     public function setDraft($value)
     {
         $this->_draft = $value;
+
         return $this;
     }
-
 }

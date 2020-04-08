@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Service
- * @subpackage Ebay
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id: Histogram.php 22791 2010-08-04 16:11:47Z renanbr $
  */
 
@@ -27,10 +27,10 @@ require_once 'Zend/Service/Ebay/Finding/Category.php';
 
 /**
  * @category   Zend
- * @package    Zend_Service
- * @subpackage Ebay
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @uses       Zend_Service_Ebay_Finding_Category
  */
 class Zend_Service_Ebay_Finding_Category_Histogram extends Zend_Service_Ebay_Finding_Category
@@ -51,7 +51,7 @@ class Zend_Service_Ebay_Finding_Category_Histogram extends Zend_Service_Ebay_Fin
      * The total number of items in the associated category that match the
      * search criteria.
      *
-     * @var integer
+     * @var int
      */
     public $count;
 

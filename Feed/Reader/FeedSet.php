@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,9 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Feed_Reader
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -31,13 +32,12 @@ require_once 'Zend/Uri.php';
 
 /**
  * @category   Zend
- * @package    Zend_Feed_Reader
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Feed_Reader_FeedSet extends ArrayObject
 {
-
     public $rss = null;
 
     public $rdf = null;
@@ -58,6 +58,7 @@ class Zend_Feed_Reader_FeedSet extends ArrayObject
      *
      * @param DOMNodeList $links
      * @param string $uri
+     *
      * @return void
      */
     public function addLinks(DOMNodeList $links, $uri)
@@ -69,21 +70,24 @@ class Zend_Feed_Reader_FeedSet extends ArrayObject
             }
             if (!isset($this->rss) && $link->getAttribute('type') == 'application/rss+xml') {
                 $this->rss = $this->_absolutiseUri(trim($link->getAttribute('href')), $uri);
-            } elseif(!isset($this->atom) && $link->getAttribute('type') == 'application/atom+xml') {
+            } elseif (!isset($this->atom) && $link->getAttribute('type') == 'application/atom+xml') {
                 $this->atom = $this->_absolutiseUri(trim($link->getAttribute('href')), $uri);
-            } elseif(!isset($this->rdf) && $link->getAttribute('type') == 'application/rdf+xml') {
+            } elseif (!isset($this->rdf) && $link->getAttribute('type') == 'application/rdf+xml') {
                 $this->rdf = $this->_absolutiseUri(trim($link->getAttribute('href')), $uri);
             }
-            $this[] = new self(array(
+            $this[] = new self([
                 'rel' => 'alternate',
                 'type' => $link->getAttribute('type'),
                 'href' => $this->_absolutiseUri(trim($link->getAttribute('href')), $uri),
-            ));
+            ]);
         }
     }
 
     /**
-     *  Attempt to turn a relative URI into an absolute URI
+     *  Attempt to turn a relative URI into an absolute URI.
+     *
+     * @param mixed $link
+     * @param mixed|null $uri
      */
     protected function _absolutiseUri($link, $uri = null)
     {
@@ -101,16 +105,19 @@ class Zend_Feed_Reader_FeedSet extends ArrayObject
                 }
             }
         }
+
         return $link;
     }
 
     /**
-     *  Canonicalize relative path
+     *  Canonicalize relative path.
+     *
+     * @param mixed $path
      */
     protected function _canonicalizePath($path)
     {
         $parts = array_filter(explode('/', $path));
-        $absolutes = array();
+        $absolutes = [];
         foreach ($parts as $part) {
             if ('.' == $part) {
                 continue;
@@ -121,6 +128,7 @@ class Zend_Feed_Reader_FeedSet extends ArrayObject
                 $absolutes[] = $part;
             }
         }
+
         return implode('/', $absolutes);
     }
 
@@ -129,7 +137,9 @@ class Zend_Feed_Reader_FeedSet extends ArrayObject
      * delegates any other operations to the parent class.
      *
      * @param string $offset
+     *
      * @return mixed
+     *
      * @uses Zend_Feed_Reader
      */
     public function offsetGet($offset)
@@ -140,9 +150,10 @@ class Zend_Feed_Reader_FeedSet extends ArrayObject
             }
             $feed = Zend_Feed_Reader::import($this->offsetGet('href'));
             $this->offsetSet('feed', $feed);
+
             return $feed;
         }
+
         return parent::offsetGet($offset);
     }
-
 }

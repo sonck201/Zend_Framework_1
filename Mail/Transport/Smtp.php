@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,13 +13,12 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Mail
- * @subpackage Transport
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
-
 
 /**
  * @see Zend_Mime
@@ -36,24 +35,22 @@ require_once 'Zend/Mail/Protocol/Smtp.php';
  */
 require_once 'Zend/Mail/Transport/Abstract.php';
 
-
 /**
- * SMTP connection object
+ * SMTP connection object.
  *
  * Loads an instance of Zend_Mail_Protocol_Smtp and forwards smtp transactions
  *
  * @category   Zend
- * @package    Zend_Mail
- * @subpackage Transport
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Mail_Transport_Smtp extends Zend_Mail_Transport_Abstract
 {
     /**
-     * EOL character string used by transport
+     * EOL character string used by transport.
+     *
      * @var string
-     * @access public
      */
     public $EOL = "\n";
 
@@ -64,14 +61,12 @@ class Zend_Mail_Transport_Smtp extends Zend_Mail_Transport_Abstract
      */
     protected $_host;
 
-
     /**
-     * Port number
+     * Port number.
      *
-     * @var integer|null
+     * @var int|null
      */
     protected $_port;
-
 
     /**
      * Local client hostname or i.p.
@@ -80,42 +75,39 @@ class Zend_Mail_Transport_Smtp extends Zend_Mail_Transport_Abstract
      */
     protected $_name = 'localhost';
 
-
     /**
-     * Authentication type OPTIONAL
+     * Authentication type OPTIONAL.
      *
      * @var string
      */
     protected $_auth;
 
-
     /**
-     * Config options for authentication
+     * Config options for authentication.
      *
      * @var array
      */
     protected $_config;
 
-
     /**
-     * Instance of Zend_Mail_Protocol_Smtp
+     * Instance of Zend_Mail_Protocol_Smtp.
      *
      * @var Zend_Mail_Protocol_Smtp
      */
     protected $_connection;
 
-
     /**
      * Constructor.
      *
-     * @param  string $host OPTIONAL (Default: 127.0.0.1)
-     * @param  array|null $config OPTIONAL (Default: null)
+     * @param string $host OPTIONAL (Default: 127.0.0.1)
+     * @param array|null $config OPTIONAL (Default: null)
+     *
      * @return void
      *
      * @todo Someone please make this compatible
      *       with the SendMail transport class.
      */
-    public function __construct($host = '127.0.0.1', Array $config = array())
+    public function __construct($host = '127.0.0.1', array $config = [])
     {
         if (isset($config['name'])) {
             $this->_name = $config['name'];
@@ -131,9 +123,8 @@ class Zend_Mail_Transport_Smtp extends Zend_Mail_Transport_Abstract
         $this->_config = $config;
     }
 
-
     /**
-     * Class destructor to ensure all open connections are closed
+     * Class destructor to ensure all open connections are closed.
      *
      * @return void
      */
@@ -149,9 +140,8 @@ class Zend_Mail_Transport_Smtp extends Zend_Mail_Transport_Abstract
         }
     }
 
-
     /**
-     * Sets the connection protocol instance
+     * Sets the connection protocol instance.
      *
      * @param Zend_Mail_Protocol_Abstract $client
      *
@@ -162,9 +152,8 @@ class Zend_Mail_Transport_Smtp extends Zend_Mail_Transport_Abstract
         $this->_connection = $connection;
     }
 
-
     /**
-     * Gets the connection protocol instance
+     * Gets the connection protocol instance.
      *
      * @return Zend_Mail_Protocol|null
      */
@@ -174,12 +163,13 @@ class Zend_Mail_Transport_Smtp extends Zend_Mail_Transport_Abstract
     }
 
     /**
-     * Send an email via the SMTP connection protocol
+     * Send an email via the SMTP connection protocol.
      *
      * The connection via the protocol adapter is made just-in-time to allow a
      * developer to add a custom adapter if required before mail is sent.
      *
      * @return void
+     *
      * @todo Rename this to sendMail, it's a public method...
      */
     public function _sendMail()
@@ -216,14 +206,15 @@ class Zend_Mail_Transport_Smtp extends Zend_Mail_Transport_Abstract
     }
 
     /**
-     * Format and fix headers
+     * Format and fix headers.
      *
      * Some SMTP servers do not strip BCC headers. Most clients do it themselves as do we.
      *
-     * @access  protected
-     * @param   array $headers
-     * @return  void
-     * @throws  Zend_Transport_Exception
+     * @param array $headers
+     *
+     * @return void
+     *
+     * @throws Zend_Transport_Exception
      */
     protected function _prepareHeaders($headers)
     {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,62 +13,72 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Session
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
+ *
  * @since      Preview Release 0.2
  */
-
 
 /**
  * @see Zend_Exception
  */
 require_once 'Zend/Exception.php';
 
-
 /**
- * Zend_Session_Exception
+ * Zend_Session_Exception.
  *
  * @category   Zend
- * @package    Zend_Session
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Session_Exception extends Zend_Exception
 {
     /**
-     * sessionStartError
+     * sessionStartError.
      *
      * @see http://framework.zend.com/issues/browse/ZF-1325
+     *
      * @var string PHP Error Message
      */
-    static public $sessionStartError = null;
+    public static $sessionStartError = null;
 
     /**
-     * handleSessionStartError() - interface for set_error_handler()
+     * handleSessionStartError() - interface for set_error_handler().
      *
      * @see    http://framework.zend.com/issues/browse/ZF-1325
-     * @param  int    $errno
-     * @param  string $errstr
+     *
+     * @param int $errno
+     * @param string $errstr
+     * @param mixed $errfile
+     * @param mixed $errline
+     * @param mixed $errcontext
+     *
      * @return void
      */
-    static public function handleSessionStartError($errno, $errstr, $errfile, $errline, $errcontext)
+    public static function handleSessionStartError($errno, $errstr, $errfile, $errline, $errcontext)
     {
         self::$sessionStartError = $errfile . '(Line:' . $errline . '): Error #' . $errno . ' ' . $errstr;
     }
 
     /**
-     * handleSilentWriteClose() - interface for set_error_handler()
+     * handleSilentWriteClose() - interface for set_error_handler().
      *
      * @see    http://framework.zend.com/issues/browse/ZF-1325
-     * @param  int    $errno
-     * @param  string $errstr
+     *
+     * @param int $errno
+     * @param string $errstr
+     * @param mixed $errfile
+     * @param mixed $errline
+     * @param mixed $errcontext
+     *
      * @return void
      */
-    static public function handleSilentWriteClose($errno, $errstr, $errfile, $errline, $errcontext)
+    public static function handleSilentWriteClose($errno, $errstr, $errfile, $errline, $errcontext)
     {
         self::$sessionStartError .= PHP_EOL . $errfile . '(Line:' . $errline . '): Error #' . $errno . ' ' . $errstr;
     }
 }
-

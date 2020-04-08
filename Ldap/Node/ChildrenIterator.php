@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Ldap
- * @subpackage Node
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -29,15 +29,14 @@ require_once 'Zend/Ldap/Node.php';
  * Zend_Ldap_Node_ChildrenIterator provides an iterator to a collection of children nodes.
  *
  * @category   Zend
- * @package    Zend_Ldap
- * @subpackage Node
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Ldap_Node_ChildrenIterator implements Iterator, Countable, RecursiveIterator, ArrayAccess
 {
     /**
-     * An array of Zend_Ldap_Node objects
+     * An array of Zend_Ldap_Node objects.
      *
      * @var array
      */
@@ -46,7 +45,8 @@ class Zend_Ldap_Node_ChildrenIterator implements Iterator, Countable, RecursiveI
     /**
      * Constructor.
      *
-     * @param  array $data
+     * @param array $data
+     *
      * @return void
      */
     public function __construct(array $data)
@@ -56,7 +56,7 @@ class Zend_Ldap_Node_ChildrenIterator implements Iterator, Countable, RecursiveI
 
     /**
      * Returns the number of child nodes.
-     * Implements Countable
+     * Implements Countable.
      *
      * @return int
      */
@@ -67,7 +67,7 @@ class Zend_Ldap_Node_ChildrenIterator implements Iterator, Countable, RecursiveI
 
     /**
      * Return the current child.
-     * Implements Iterator
+     * Implements Iterator.
      *
      * @return Zend_Ldap_Node
      */
@@ -78,7 +78,7 @@ class Zend_Ldap_Node_ChildrenIterator implements Iterator, Countable, RecursiveI
 
     /**
      * Return the child'd RDN.
-     * Implements Iterator
+     * Implements Iterator.
      *
      * @return string
      */
@@ -89,7 +89,7 @@ class Zend_Ldap_Node_ChildrenIterator implements Iterator, Countable, RecursiveI
 
     /**
      * Move forward to next child.
-     * Implements Iterator
+     * Implements Iterator.
      */
     public function next()
     {
@@ -98,7 +98,7 @@ class Zend_Ldap_Node_ChildrenIterator implements Iterator, Countable, RecursiveI
 
     /**
      * Rewind the Iterator to the first child.
-     * Implements Iterator
+     * Implements Iterator.
      */
     public function rewind()
     {
@@ -108,20 +108,20 @@ class Zend_Ldap_Node_ChildrenIterator implements Iterator, Countable, RecursiveI
     /**
      * Check if there is a current child
      * after calls to rewind() or next().
-     * Implements Iterator
+     * Implements Iterator.
      *
-     * @return boolean
+     * @return bool
      */
     public function valid()
     {
-        return (current($this->_data)!==false);
+        return current($this->_data) !== false;
     }
 
     /**
      * Checks if current node has children.
      * Returns whether the current element has children.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasChildren()
     {
@@ -150,7 +150,8 @@ class Zend_Ldap_Node_ChildrenIterator implements Iterator, Countable, RecursiveI
      * Returns a child with a given RDN.
      * Implements ArrayAccess.
      *
-     * @param  string $rdn
+     * @param string $rdn
+     *
      * @return Zend_Ldap_node
      */
     public function offsetGet($rdn)
@@ -166,44 +167,52 @@ class Zend_Ldap_Node_ChildrenIterator implements Iterator, Countable, RecursiveI
      * Checks whether a given rdn exists.
      * Implements ArrayAccess.
      *
-     * @param  string $rdn
-     * @return boolean
+     * @param string $rdn
+     *
+     * @return bool
      */
     public function offsetExists($rdn)
     {
-        return (array_key_exists($rdn, $this->_data));
+        return array_key_exists($rdn, $this->_data);
     }
 
     /**
      * Does nothing.
      * Implements ArrayAccess.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return null
      */
-    public function offsetUnset($name) { }
+    public function offsetUnset($name)
+    {
+    }
 
     /**
      * Does nothing.
      * Implements ArrayAccess.
      *
-     * @param  string $name
-     * @param  mixed $value
+     * @param string $name
+     * @param mixed $value
+     *
      * @return null
      */
-    public function offsetSet($name, $value) { }
+    public function offsetSet($name, $value)
+    {
+    }
 
     /**
-     * Get all children as an array
+     * Get all children as an array.
      *
      * @return array
      */
     public function toArray()
     {
-        $data = array();
+        $data = [];
         foreach ($this as $rdn => $node) {
             $data[$rdn] = $node;
         }
+
         return $data;
     }
 }

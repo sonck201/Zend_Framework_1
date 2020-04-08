@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,16 +14,15 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Gapps
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
-
 /**
- * Zend_Gdata_App_Base
+ * Zend_Gdata_App_Base.
  */
 require_once 'Zend/Gdata/App/Base.php';
 
@@ -37,14 +36,12 @@ require_once 'Zend/Gdata/App/Base.php';
  * available at the time of this writing, see getErrorCode.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Gapps
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Gapps_Error extends Zend_Gdata_App_Base
 {
-
     // Error codes as defined at
     // http://code.google.com/apis/apps/gdata_provisioning_api_v2.0_reference.html#appendix_d
 
@@ -74,7 +71,8 @@ class Zend_Gdata_Gapps_Error extends Zend_Gdata_App_Base
     protected $_invalidInput = null;
 
     public function __construct($errorCode = null, $reason = null,
-            $invalidInput = null) {
+            $invalidInput = null)
+    {
         parent::__construct("Google Apps error received: $errorCode ($reason)");
         $this->_errorCode = $errorCode;
         $this->_reason = $reason;
@@ -86,15 +84,17 @@ class Zend_Gdata_Gapps_Error extends Zend_Gdata_App_Base
      * error codes, see getErrorCode.
      *
      * @see getErrorCode
-     * @param integer $value The new value for the error code.
+     *
+     * @param int $value The new value for the error code.
      */
-    public function setErrorCode($value) {
-       $this->_errorCode = $value;
+    public function setErrorCode($value)
+    {
+        $this->_errorCode = $value;
     }
 
     /**
      * Get the error code for this exception. Currently valid values are
-     * available as constants within this class. These values are:
+     * available as constants within this class. These values are:.
      *
      *   UNKNOWN_ERROR (1000)
      *   USER_DELETED_RECENTLY (1100)
@@ -124,11 +124,13 @@ class Zend_Gdata_Gapps_Error extends Zend_Gdata_App_Base
      * For more information about these codes and their meaning, please
      * see Appendix D of the Google Apps Provisioning API Reference.
      *
-     * @link http://code.google.com/apis/apps/gdata_provisioning_api_v2.0_reference.html#appendix_d Google Apps Provisioning API Reference: Appendix D - Gdata Error Codes
+     * @see http://code.google.com/apis/apps/gdata_provisioning_api_v2.0_reference.html#appendix_d Google Apps Provisioning API Reference: Appendix D - Gdata Error Codes
      * @see setErrorCode
-     * @return integer The error code returned by the Google Apps server.
+     *
+     * @return int The error code returned by the Google Apps server.
      */
-    public function getErrorCode() {
+    public function getErrorCode()
+    {
         return $this->_errorCode;
     }
 
@@ -136,40 +138,48 @@ class Zend_Gdata_Gapps_Error extends Zend_Gdata_App_Base
      * Set human-readable text describing the reason this exception occurred.
      *
      * @see getReason
+     *
      * @param string $value The reason this exception occurred.
      */
-    public function setReason($value) {
-       $this->_reason = $value;
+    public function setReason($value)
+    {
+        $this->_reason = $value;
     }
 
     /**
      * Get human-readable text describing the reason this exception occurred.
      *
      * @see setReason
+     *
      * @return string The reason this exception occurred.
      */
-    public function getReason() {
-       return $this->_reason;
+    public function getReason()
+    {
+        return $this->_reason;
     }
 
     /**
      * Set the invalid input which caused this exception.
      *
      * @see getInvalidInput
+     *
      * @param string $value The invalid input that triggered this exception.
      */
-    public function setInvalidInput($value) {
-       $this->_invalidInput = $value;
+    public function setInvalidInput($value)
+    {
+        $this->_invalidInput = $value;
     }
 
     /**
      * Set the invalid input which caused this exception.
      *
      * @see setInvalidInput
+     *
      * @return string The reason this exception occurred.
      */
-    public function getInvalidInput() {
-       return $this->_invalidInput;
+    public function getInvalidInput()
+    {
+        return $this->_invalidInput;
     }
 
     /**
@@ -178,8 +188,11 @@ class Zend_Gdata_Gapps_Error extends Zend_Gdata_App_Base
      * and eventually XML text for application storage/persistence.
      *
      * @param DOMDocument $doc The DOMDocument used to construct DOMElements
+     * @param mixed $majorVersion
+     * @param mixed|null $minorVersion
+     *
      * @return DOMElement The DOMElement representing this element and all
-     *          child properties.
+     *                    child properties.
      */
     public function getDOM($doc = null, $majorVersion = 1, $minorVersion = null)
     {
@@ -193,6 +206,7 @@ class Zend_Gdata_Gapps_Error extends Zend_Gdata_App_Base
         if ($this->_invalidInput !== null) {
             $element->setAttribute('invalidInput', $this->_invalidInput);
         }
+
         return $element;
     }
 
@@ -225,9 +239,9 @@ class Zend_Gdata_Gapps_Error extends Zend_Gdata_App_Base
      *
      * @return string
      */
-    public function __toString() {
-        return "Error " . $this->getErrorCode() . ": " . $this->getReason() .
-            "\n\tInvalid Input: \"" . $this->getInvalidInput() . "\"";
+    public function __toString()
+    {
+        return 'Error ' . $this->getErrorCode() . ': ' . $this->getReason() .
+            "\n\tInvalid Input: \"" . $this->getInvalidInput() . '"';
     }
-
 }

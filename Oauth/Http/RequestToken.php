@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,9 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Oauth
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -27,14 +28,14 @@ require_once 'Zend/Oauth/Token/Request.php';
 
 /**
  * @category   Zend
- * @package    Zend_Oauth
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Oauth_Http_RequestToken extends Zend_Oauth_Http
 {
     /**
-     * Singleton instance if required of the HTTP client
+     * Singleton instance if required of the HTTP client.
      *
      * @var Zend_Http_Client
      */
@@ -47,9 +48,10 @@ class Zend_Oauth_Http_RequestToken extends Zend_Oauth_Http
      */
     public function execute()
     {
-        $params   = $this->assembleParams();
+        $params = $this->assembleParams();
         $response = $this->startRequestCycle($params);
-        $return   = new Zend_Oauth_Token_Request($response);
+        $return = new Zend_Oauth_Token_Request($response);
+
         return $return;
     }
 
@@ -60,13 +62,13 @@ class Zend_Oauth_Http_RequestToken extends Zend_Oauth_Http
      */
     public function assembleParams()
     {
-        $params = array(
-            'oauth_consumer_key'     => $this->_consumer->getConsumerKey(),
-            'oauth_nonce'            => $this->_httpUtility->generateNonce(),
-            'oauth_timestamp'        => $this->_httpUtility->generateTimestamp(),
+        $params = [
+            'oauth_consumer_key' => $this->_consumer->getConsumerKey(),
+            'oauth_nonce' => $this->_httpUtility->generateNonce(),
+            'oauth_timestamp' => $this->_httpUtility->generateTimestamp(),
             'oauth_signature_method' => $this->_consumer->getSignatureMethod(),
-            'oauth_version'          => $this->_consumer->getVersion(),
-        );
+            'oauth_version' => $this->_consumer->getVersion(),
+        ];
 
         // indicates we support 1.0a
         if ($this->_consumer->getCallbackUrl()) {
@@ -96,6 +98,7 @@ class Zend_Oauth_Http_RequestToken extends Zend_Oauth_Http
      * specified by OAuth, for use in requesting a Request Token.
      *
      * @param array $params
+     *
      * @return Zend_Http_Client
      */
     public function getRequestSchemeHeaderClient(array $params)
@@ -111,6 +114,7 @@ class Zend_Oauth_Http_RequestToken extends Zend_Oauth_Http
             $client->setRawData($rawdata, 'application/x-www-form-urlencoded');
         }
         $client->setMethod($this->_preferredRequestMethod);
+
         return $client;
     }
 
@@ -118,7 +122,8 @@ class Zend_Oauth_Http_RequestToken extends Zend_Oauth_Http
      * Generate and return a HTTP Client configured for the POST Body Request
      * Scheme specified by OAuth, for use in requesting a Request Token.
      *
-     * @param  array $params
+     * @param array $params
+     *
      * @return Zend_Http_Client
      */
     public function getRequestSchemePostBodyClient(array $params)
@@ -133,6 +138,7 @@ class Zend_Oauth_Http_RequestToken extends Zend_Oauth_Http
             Zend_Http_Client::CONTENT_TYPE,
             Zend_Http_Client::ENC_URLENCODED
         );
+
         return $client;
     }
 
@@ -140,7 +146,8 @@ class Zend_Oauth_Http_RequestToken extends Zend_Oauth_Http
      * Attempt a request based on the current configured OAuth Request Scheme and
      * return the resulting HTTP Response.
      *
-     * @param  array $params
+     * @param array $params
+     *
      * @return Zend_Http_Response
      */
     protected function _attemptRequest(array $params)
@@ -157,6 +164,7 @@ class Zend_Oauth_Http_RequestToken extends Zend_Oauth_Http
                     $this->_consumer->getRequestTokenUrl());
                 break;
         }
+
         return $httpClient->request();
     }
 }

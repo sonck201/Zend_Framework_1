@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,29 +13,28 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Feed_Writer
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
-
 require_once 'Zend/Feed/Writer/Feed/FeedAbstract.php';
 
- /**
+/**
  * @category   Zend
- * @package    Zend_Feed_Writer
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Feed_Writer_Deleted
 {
-
     /**
      * Internal array containing all data associated with this entry or item.
      *
      * @var array
      */
-    protected $_data = array();
+    protected $_data = [];
 
     /**
      * Holds the value "atom" or "rss" depending on the feed type set when
@@ -46,9 +45,11 @@ class Zend_Feed_Writer_Deleted
     protected $_type = null;
 
     /**
-     * Set the feed character encoding
+     * Set the feed character encoding.
      *
      * @return string|null
+     *
+     * @param mixed $encoding
      */
     public function setEncoding($encoding)
     {
@@ -60,7 +61,7 @@ class Zend_Feed_Writer_Deleted
     }
 
     /**
-     * Get the feed character encoding
+     * Get the feed character encoding.
      *
      * @return string|null
      */
@@ -69,11 +70,12 @@ class Zend_Feed_Writer_Deleted
         if (!array_key_exists('encoding', $this->_data)) {
             return 'UTF-8';
         }
+
         return $this->_data['encoding'];
     }
 
     /**
-     * Unset a specific data point
+     * Unset a specific data point.
      *
      * @param string $name
      */
@@ -120,6 +122,7 @@ class Zend_Feed_Writer_Deleted
         if (!array_key_exists('reference', $this->_data)) {
             return null;
         }
+
         return $this->_data['reference'];
     }
 
@@ -127,10 +130,10 @@ class Zend_Feed_Writer_Deleted
     {
         $zdate = null;
         if ($date === null) {
-            $zdate = new Zend_Date;
+            $zdate = new Zend_Date();
         } elseif ($date instanceof Zend_Date) {
             $zdate = $date;
-        } elseif (ctype_digit((string)$date)) {
+        } elseif (ctype_digit((string) $date)) {
             $zdate = new Zend_Date($date, Zend_Date::TIMESTAMP);
         } else {
             require_once 'Zend/Feed/Exception.php';
@@ -144,12 +147,13 @@ class Zend_Feed_Writer_Deleted
         if (!array_key_exists('when', $this->_data)) {
             return null;
         }
+
         return $this->_data['when'];
     }
 
     public function setBy(array $by)
     {
-        $author = array();
+        $author = [];
         if (!array_key_exists('name', $by)
             || empty($by['name'])
             || !is_string($by['name'])
@@ -183,6 +187,7 @@ class Zend_Feed_Writer_Deleted
         if (!array_key_exists('by', $this->_data)) {
             return null;
         }
+
         return $this->_data['by'];
     }
 
@@ -196,7 +201,7 @@ class Zend_Feed_Writer_Deleted
         if (!array_key_exists('comment', $this->_data)) {
             return null;
         }
+
         return $this->_data['comment'];
     }
-
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,26 +13,23 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_View
- * @subpackage Helper
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
-
 /**
- * Abstract class for extension
+ * Abstract class for extension.
  */
 require_once 'Zend/View/Helper/FormElement.php';
 
-
 /**
- * Helper to generate "select" list of options
+ * Helper to generate "select" list of options.
  *
  * @category   Zend
- * @package    Zend_View
- * @subpackage Helper
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -41,26 +38,20 @@ class Zend_View_Helper_FormSelect extends Zend_View_Helper_FormElement
     /**
      * Generates 'select' list of options.
      *
-     * @access public
-     *
      * @param string|array $name If a string, the element name.  If an
-     * array, all other parameters are ignored, and the array elements
-     * are extracted in place of added parameters.
-     *
+     *                           array, all other parameters are ignored, and the array elements
+     *                           are extracted in place of added parameters.
      * @param mixed $value The option value to mark as 'selected'; if an
-     * array, will mark all values in the array as 'selected' (used for
-     * multiple-select elements).
-     *
+     *                     array, will mark all values in the array as 'selected' (used for
+     *                     multiple-select elements).
      * @param array|string $attribs Attributes added to the 'select' tag.
-     * the optional 'optionClasses' attribute is used to add a class to
-     * the options within the select (associative array linking the option
-     * value to the desired class)
-     *
+     *                              the optional 'optionClasses' attribute is used to add a class to
+     *                              the options within the select (associative array linking the option
+     *                              value to the desired class)
      * @param array $options An array of key-value pairs where the array
-     * key is the radio value, and the array value is the radio text.
-     *
+     *                       key is the radio value, and the array value is the radio text.
      * @param string $listsep When disabled, use this list separator string
-     * between list values.
+     *                        between list values.
      *
      * @return string The select tag and options XHTML.
      */
@@ -100,12 +91,12 @@ class Zend_View_Helper_FormSelect extends Zend_View_Helper_FormElement
         }
 
         // handle the options classes
-        $optionClasses = array();
+        $optionClasses = [];
         if (isset($attribs['optionClasses'])) {
             $optionClasses = $attribs['optionClasses'];
             unset($attribs['optionClasses']);
         }
-        
+
         // now start building the XHTML.
         $disabled = '';
         if (true === $disable) {
@@ -122,7 +113,7 @@ class Zend_View_Helper_FormSelect extends Zend_View_Helper_FormElement
                 . ">\n    ";
 
         // build the list of options
-        $list       = array();
+        $list = [];
         $translator = $this->getTranslator();
         foreach ((array) $options as $opt_value => $opt_label) {
             if (is_array($opt_label)) {
@@ -138,7 +129,7 @@ class Zend_View_Helper_FormSelect extends Zend_View_Helper_FormElement
                 $list[] = '<optgroup'
                         . $opt_disable
                         . $opt_id
-                        . ' label="' . $this->view->escape($opt_value) .'">';
+                        . ' label="' . $this->view->escape($opt_value) . '">';
                 foreach ($opt_label as $val => $lab) {
                     $list[] = $this->_build($val, $lab, $value, $disable, $optionClasses);
                 }
@@ -155,19 +146,20 @@ class Zend_View_Helper_FormSelect extends Zend_View_Helper_FormElement
     }
 
     /**
-     * Builds the actual <option> tag
+     * Builds the actual <option> tag.
      *
      * @param string $value Options Value
      * @param string $label Options Label
-     * @param array  $selected The option value(s) to mark as 'selected'
+     * @param array $selected The option value(s) to mark as 'selected'
      * @param array|bool $disable Whether the select is disabled, or individual options are
      * @param array $optionClasses The classes to associate with each option value
+     *
      * @return string Option Tag XHTML
      */
-    protected function _build($value, $label, $selected, $disable, $optionClasses = array())
+    protected function _build($value, $label, $selected, $disable, $optionClasses = [])
     {
         if (is_bool($disable)) {
-            $disable = array();
+            $disable = [];
         }
 
         $class = null;
@@ -175,13 +167,12 @@ class Zend_View_Helper_FormSelect extends Zend_View_Helper_FormElement
             $class = $optionClasses[$value];
         }
 
-
         $opt = '<option'
              . ' value="' . $this->view->escape($value) . '"';
 
-             if ($class) {
-             $opt .= ' class="' . $class . '"';
-         }
+        if ($class) {
+            $opt .= ' class="' . $class . '"';
+        }
         // selected?
         if (in_array((string) $value, $selected)) {
             $opt .= ' selected="selected"';
@@ -192,9 +183,8 @@ class Zend_View_Helper_FormSelect extends Zend_View_Helper_FormElement
             $opt .= ' disabled="disabled"';
         }
 
-        $opt .= '>' . $this->view->escape($label) . "</option>";
+        $opt .= '>' . $this->view->escape($label) . '</option>';
 
         return $opt;
     }
-
 }

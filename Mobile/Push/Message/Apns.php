@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Mobile
- * @subpackage Zend_Mobile_Push
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -24,54 +24,54 @@
 require_once 'Zend/Mobile/Push/Message/Abstract.php';
 
 /**
- * Apns Message
+ * Apns Message.
  *
  * @category   Zend
- * @package    Zend_Mobile
- * @subpackage Zend_Mobile_Push
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 class Zend_Mobile_Push_Message_Apns extends Zend_Mobile_Push_Message_Abstract
 {
     /**
-     * Badge Number
+     * Badge Number.
      *
      * @var int
      */
     protected $_badge;
 
     /**
-     * Alert
+     * Alert.
      *
      * @var array
      */
-    protected $_alert  = array();
+    protected $_alert = [];
 
     /**
-     * Expiration
+     * Expiration.
      *
      * @var int
      */
     protected $_expire;
 
     /**
-     * Sound
+     * Sound.
      *
      * @var string
      */
     protected $_sound = 'default';
 
     /**
-     * Custom Data
+     * Custom Data.
      *
      * @var array
      */
-    protected $_custom = array();
+    protected $_custom = [];
 
     /**
-     * Get Alert
+     * Get Alert.
      *
      * @return array
      */
@@ -81,17 +81,19 @@ class Zend_Mobile_Push_Message_Apns extends Zend_Mobile_Push_Message_Abstract
     }
 
     /**
-     * Set Alert
+     * Set Alert.
      *
-     * @param  string      $text
-     * @param  string|null $actionLocKey
-     * @param  string|null $locKey
-     * @param  array|null  $locArgs
-     * @param  string|null $launchImage
+     * @param string $text
+     * @param string|null $actionLocKey
+     * @param string|null $locKey
+     * @param array|null $locArgs
+     * @param string|null $launchImage
+     *
      * @throws Zend_Mobile_Push_Message_Exception
+     *
      * @return Zend_Mobile_Push_Message_Apns
      */
-    public function setAlert($text, $actionLocKey=null, $locKey=null, $locArgs=null, $launchImage=null)
+    public function setAlert($text, $actionLocKey = null, $locKey = null, $locArgs = null, $launchImage = null)
     {
         if ($text !== null && !is_string($text)) {
             throw new Zend_Mobile_Push_Message_Exception('$text must be a string');
@@ -121,18 +123,19 @@ class Zend_Mobile_Push_Message_Apns extends Zend_Mobile_Push_Message_Abstract
             throw new Zend_Mobile_Push_Message_Exception('$launchImage must be a string');
         }
 
-        $this->_alert = array(
-            'body'           => $text,
+        $this->_alert = [
+            'body' => $text,
             'action-loc-key' => $actionLocKey,
-            'loc-key'        => $locKey,
-            'loc-args'       => $locArgs,
-            'launch-image'   => $launchImage,
-        );
+            'loc-key' => $locKey,
+            'loc-args' => $locArgs,
+            'launch-image' => $launchImage,
+        ];
+
         return $this;
     }
 
     /**
-     * Get Badge
+     * Get Badge.
      *
      * @return int
      */
@@ -142,10 +145,12 @@ class Zend_Mobile_Push_Message_Apns extends Zend_Mobile_Push_Message_Abstract
     }
 
     /**
-     * Set Badge
+     * Set Badge.
      *
      * @param int $badge
+     *
      * @return Zend_Mobile_Push_Message_Apns
+     *
      * @throws Zend_Mobile_Push_Message_Exception
      */
     public function setBadge($badge)
@@ -160,7 +165,7 @@ class Zend_Mobile_Push_Message_Apns extends Zend_Mobile_Push_Message_Abstract
     }
 
     /**
-     * Get Expire
+     * Get Expire.
      *
      * @return int
      */
@@ -170,10 +175,12 @@ class Zend_Mobile_Push_Message_Apns extends Zend_Mobile_Push_Message_Abstract
     }
 
     /**
-     * Set Expire
+     * Set Expire.
      *
      * @param int $expire
+     *
      * @return Zend_Mobile_Push_Message_Apns
+     *
      * @throws Zend_Mobile_Push_Message_Exception
      */
     public function setExpire($expire)
@@ -182,11 +189,12 @@ class Zend_Mobile_Push_Message_Apns extends Zend_Mobile_Push_Message_Abstract
             throw new Zend_Mobile_Push_Message_Exception('$expire must be an integer');
         }
         $this->_expire = (int) $expire;
+
         return $this;
     }
 
     /**
-     * Get Sound
+     * Get Sound.
      *
      * @return string
      */
@@ -196,10 +204,12 @@ class Zend_Mobile_Push_Message_Apns extends Zend_Mobile_Push_Message_Abstract
     }
 
     /**
-     * Set Sound
+     * Set Sound.
      *
      * @param string $sound
+     *
      * @return Zend_Mobile_Push_Message_Apns
+     *
      * @throws Zend_Mobile_Push_Message_Exception
      */
     public function setSound($sound)
@@ -208,15 +218,18 @@ class Zend_Mobile_Push_Message_Apns extends Zend_Mobile_Push_Message_Abstract
             throw new Zend_Mobile_Push_Message_Exception('$sound must be a string');
         }
         $this->_sound = $sound;
+
         return $this;
     }
 
     /**
-     * Add Custom Data
+     * Add Custom Data.
      *
      * @param string $key
      * @param mixed $value
+     *
      * @return Zend_Mobile_Push_Message_Apns
+     *
      * @throws Zend_Mobile_Push_Message_Exception
      */
     public function addCustomData($key, $value)
@@ -231,34 +244,38 @@ class Zend_Mobile_Push_Message_Apns extends Zend_Mobile_Push_Message_Abstract
     }
 
     /**
-     * Clear Custom Data
+     * Clear Custom Data.
      *
      * @return throw new Zend_Mobile_Push_Message_Apns
      */
     public function clearCustomData()
     {
-        $this->_custom = array();
+        $this->_custom = [];
+
         return $this;
     }
 
     /**
-     * Set Custom Data
+     * Set Custom Data.
      *
-     * @param  array $array
+     * @param array $array
+     *
      * @throws Zend_Mobile_Push_Message_Exception
+     *
      * @return Zend_Mobile_Push_Message_Apns
      */
     public function setCustomData($array)
     {
-        $this->_custom = array();
+        $this->_custom = [];
         foreach ($array as $k => $v) {
             $this->addCustomData($k, $v);
         }
+
         return $this;
     }
 
     /**
-     * Get Custom Data
+     * Get Custom Data.
      *
      * @return array
      */
@@ -268,9 +285,9 @@ class Zend_Mobile_Push_Message_Apns extends Zend_Mobile_Push_Message_Abstract
     }
 
     /**
-     * Validate this is a proper Apns message
+     * Validate this is a proper Apns message.
      *
-     * @return boolean
+     * @return bool
      */
     public function validate()
     {
@@ -280,6 +297,7 @@ class Zend_Mobile_Push_Message_Apns extends Zend_Mobile_Push_Message_Abstract
         if (null != $this->_id && !is_numeric($this->_id)) {
             return false;
         }
+
         return true;
     }
 }

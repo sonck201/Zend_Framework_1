@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Gdata
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -32,17 +32,15 @@ require_once 'Zend/Gdata/Extension.php';
 require_once 'Zend/Gdata/Entry.php';
 
 /**
- * Represents the gd:entryLink element
+ * Represents the gd:entryLink element.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Gdata
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Extension_EntryLink extends Zend_Gdata_Extension
 {
-
     protected $_rootElement = 'entryLink';
     protected $_href = null;
     protected $_readOnly = null;
@@ -66,7 +64,7 @@ class Zend_Gdata_Extension_EntryLink extends Zend_Gdata_Extension
             $element->setAttribute('href', $this->_href);
         }
         if ($this->_readOnly !== null) {
-            $element->setAttribute('readOnly', ($this->_readOnly ? "true" : "false"));
+            $element->setAttribute('readOnly', ($this->_readOnly ? 'true' : 'false'));
         }
         if ($this->_rel !== null) {
             $element->setAttribute('rel', $this->_rel);
@@ -74,6 +72,7 @@ class Zend_Gdata_Extension_EntryLink extends Zend_Gdata_Extension
         if ($this->_entry !== null) {
             $element->appendChild($this->_entry->getDOM($element->ownerDocument));
         }
+
         return $element;
     }
 
@@ -81,7 +80,7 @@ class Zend_Gdata_Extension_EntryLink extends Zend_Gdata_Extension
     {
         $absoluteNodeName = $child->namespaceURI . ':' . $child->localName;
         switch ($absoluteNodeName) {
-            case $this->lookupNamespace('atom') . ':' . 'entry';
+            case $this->lookupNamespace('atom') . ':' . 'entry':
                 $entry = new Zend_Gdata_Entry();
                 $entry->transferFromDOM($child);
                 $this->_entry = $entry;
@@ -99,13 +98,11 @@ class Zend_Gdata_Extension_EntryLink extends Zend_Gdata_Extension
             $this->_href = $attribute->nodeValue;
             break;
         case 'readOnly':
-            if ($attribute->nodeValue == "true") {
+            if ($attribute->nodeValue == 'true') {
                 $this->_readOnly = true;
-            }
-            else if ($attribute->nodeValue == "false") {
+            } elseif ($attribute->nodeValue == 'false') {
                 $this->_readOnly = false;
-            }
-            else {
+            } else {
                 throw new Zend_Gdata_App_InvalidArgumentException("Expected 'true' or 'false' for gCal:selected#value.");
             }
             break;
@@ -128,6 +125,7 @@ class Zend_Gdata_Extension_EntryLink extends Zend_Gdata_Extension
     public function setHref($value)
     {
         $this->_href = $value;
+
         return $this;
     }
 
@@ -139,6 +137,7 @@ class Zend_Gdata_Extension_EntryLink extends Zend_Gdata_Extension
     public function setReadOnly($value)
     {
         $this->_readOnly = $value;
+
         return $this;
     }
 
@@ -150,6 +149,7 @@ class Zend_Gdata_Extension_EntryLink extends Zend_Gdata_Extension
     public function setRel($value)
     {
         $this->_rel = $value;
+
         return $this;
     }
 
@@ -161,7 +161,7 @@ class Zend_Gdata_Extension_EntryLink extends Zend_Gdata_Extension
     public function setEntry($value)
     {
         $this->_entry = $value;
+
         return $this;
     }
-
 }

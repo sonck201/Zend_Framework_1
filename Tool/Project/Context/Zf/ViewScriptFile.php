@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Tool
- * @subpackage Framework
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -40,21 +40,19 @@ require_once 'Zend/Filter/Word/CamelCaseToDash.php';
  */
 require_once 'Zend/Filter/StringToLower.php';
 
-
 /**
- * This class is the front most class for utilizing Zend_Tool_Project
+ * This class is the front most class for utilizing Zend_Tool_Project.
  *
  * A profile is a hierarchical set of resources that keep track of
  * items within a specific project.
  *
  * @category   Zend
- * @package    Zend_Tool
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Tool_Project_Context_Zf_ViewScriptFile extends Zend_Tool_Project_Context_Filesystem_File
 {
-
     /**
      * @var string
      */
@@ -71,7 +69,7 @@ class Zend_Tool_Project_Context_Zf_ViewScriptFile extends Zend_Tool_Project_Cont
     protected $_scriptName = null;
 
     /**
-     * getName()
+     * getName().
      *
      * @return string
      */
@@ -81,7 +79,7 @@ class Zend_Tool_Project_Context_Zf_ViewScriptFile extends Zend_Tool_Project_Cont
     }
 
     /**
-     * init()
+     * init().
      *
      * @return Zend_Tool_Project_Context_Zf_ViewScriptFile
      */
@@ -98,17 +96,18 @@ class Zend_Tool_Project_Context_Zf_ViewScriptFile extends Zend_Tool_Project_Cont
         }
 
         parent::init();
+
         return $this;
     }
 
     /**
-     * getPersistentAttributes()
+     * getPersistentAttributes().
      *
      * @return unknown
      */
     public function getPersistentAttributes()
     {
-        $attributes = array();
+        $attributes = [];
 
         if ($this->_forActionName) {
             $attributes['forActionName'] = $this->_forActionName;
@@ -122,7 +121,7 @@ class Zend_Tool_Project_Context_Zf_ViewScriptFile extends Zend_Tool_Project_Cont
     }
 
     /**
-     * getContents()
+     * getContents().
      *
      * @return string
      */
@@ -131,7 +130,7 @@ class Zend_Tool_Project_Context_Zf_ViewScriptFile extends Zend_Tool_Project_Cont
         $contents = '';
 
         $controllerName = $this->_resource->getParentResource()->getAttribute('forControllerName');
-        
+
         $viewsDirectoryResource = $this->_resource
             ->getParentResource() // view script
             ->getParentResource() // view controller dir
@@ -141,7 +140,7 @@ class Zend_Tool_Project_Context_Zf_ViewScriptFile extends Zend_Tool_Project_Cont
         } else {
             $moduleName = 'default';
         }
-        
+
         if ($this->_filesystemName == 'error.phtml') {  // should also check that the above directory is forController=error
             $contents .= <<<EOS
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -176,8 +175,7 @@ class Zend_Tool_Project_Context_Zf_ViewScriptFile extends Zend_Tool_Project_Cont
 
 EOS;
         } elseif ($this->_forActionName == 'index' && $controllerName == 'Index' && $moduleName == 'default') {
-
-            $contents =<<<EOS
+            $contents = <<<EOS
 <style>
     a:link,
     a:visited
@@ -222,7 +220,6 @@ EOS;
     </div>
 </div>
 EOS;
-
         } else {
             $controllerName = $this->_resource->getParentResource()->getAttribute('forControllerName');
             $actionName = $this->_forActionName;
@@ -233,6 +230,7 @@ EOS;
 </div>
 EOS;
         }
+
         return $contents;
     }
 
@@ -241,7 +239,7 @@ EOS;
         $filter = new Zend_Filter();
         $filter->addFilter(new Zend_Filter_Word_CamelCaseToDash())
             ->addFilter(new Zend_Filter_StringToLower());
+
         return $filter->filter($actionName);
     }
-
 }

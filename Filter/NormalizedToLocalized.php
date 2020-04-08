@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,9 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Filter
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -30,28 +31,29 @@ require_once 'Zend/Filter/Interface.php';
 require_once 'Zend/Locale/Format.php';
 
 /**
- * Localizes given normalized input
+ * Localizes given normalized input.
  *
  * @category   Zend
- * @package    Zend_Filter
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Filter_NormalizedToLocalized implements Zend_Filter_Interface
 {
     /**
-     * Set options
+     * Set options.
      */
-    protected $_options = array(
-        'locale'      => null,
+    protected $_options = [
+        'locale' => null,
         'date_format' => null,
-        'precision'   => null
-    );
+        'precision' => null,
+    ];
 
     /**
-     * Class constructor
+     * Class constructor.
      *
      * @param string|Zend_Locale $locale (Optional) Locale to set
+     * @param mixed|null $options
      */
     public function __construct($options = null)
     {
@@ -65,7 +67,7 @@ class Zend_Filter_NormalizedToLocalized implements Zend_Filter_Interface
     }
 
     /**
-     * Returns the set options
+     * Returns the set options.
      *
      * @return array
      */
@@ -75,23 +77,26 @@ class Zend_Filter_NormalizedToLocalized implements Zend_Filter_Interface
     }
 
     /**
-     * Sets options to use
+     * Sets options to use.
      *
-     * @param  array $options (Optional) Options to use
+     * @param array $options (Optional) Options to use
+     *
      * @return Zend_Filter_LocalizedToNormalized
      */
     public function setOptions(array $options = null)
     {
         $this->_options = $options + $this->_options;
+
         return $this;
     }
 
     /**
-     * Defined by Zend_Filter_Interface
+     * Defined by Zend_Filter_Interface.
      *
      * Normalizes the given input
      *
-     * @param  string $value Value to normalized
+     * @param string $value Value to normalized
+     *
      * @return string|array The normalized value
      */
     public function filter($value)
@@ -99,10 +104,11 @@ class Zend_Filter_NormalizedToLocalized implements Zend_Filter_Interface
         if (is_array($value)) {
             require_once 'Zend/Date.php';
             $date = new Zend_Date($value, $this->_options['locale']);
+
             return $date->toString($this->_options['date_format']);
-        } else if ($this->_options['precision'] === 0) {
+        } elseif ($this->_options['precision'] === 0) {
             return Zend_Locale_Format::toInteger($value, $this->_options);
-        } else if ($this->_options['precision'] === null) {
+        } elseif ($this->_options['precision'] === null) {
             return Zend_Locale_Format::toFloat($value, $this->_options);
         }
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Application
- * @subpackage Resource
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -25,13 +25,11 @@
  */
 require_once 'Zend/Application/Resource/ResourceAbstract.php';
 
-
 /**
- * Module bootstrapping resource
+ * Module bootstrapping resource.
  *
  * @category   Zend
- * @package    Zend_Application
- * @subpackage Resource
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -43,25 +41,26 @@ class Zend_Application_Resource_Modules extends Zend_Application_Resource_Resour
     protected $_bootstraps;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param  mixed $options
+     * @param mixed $options
      */
     public function __construct($options = null)
     {
-        $this->_bootstraps = new ArrayObject(array(), ArrayObject::ARRAY_AS_PROPS);
+        $this->_bootstraps = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
         parent::__construct($options);
     }
 
     /**
-     * Initialize modules
+     * Initialize modules.
      *
      * @return array
+     *
      * @throws Zend_Application_Resource_Exception When bootstrap class was not found
      */
     public function init()
     {
-        $bootstraps = array();
+        $bootstraps = [];
         $bootstrap = $this->getBootstrap();
         $bootstrap->bootstrap('FrontController');
         $front = $bootstrap->getResource('FrontController');
@@ -79,20 +78,12 @@ class Zend_Application_Resource_Modules extends Zend_Application_Resource_Resour
                     if (($default != $module)
                         && !class_exists($bootstrapClass, false)
                     ) {
-                        throw new Zend_Application_Resource_Exception(
-                            sprintf(
-                                $eMsgTpl, $module, $bootstrapClass
-                            )
-                        );
+                        throw new Zend_Application_Resource_Exception(sprintf($eMsgTpl, $module, $bootstrapClass));
                     } elseif ($default == $module) {
                         if (!class_exists($bootstrapClass, false)) {
                             $bootstrapClass = 'Bootstrap';
                             if (!class_exists($bootstrapClass, false)) {
-                                throw new Zend_Application_Resource_Exception(
-                                    sprintf(
-                                        $eMsgTpl, $module, $bootstrapClass
-                                    )
-                                );
+                                throw new Zend_Application_Resource_Exception(sprintf($eMsgTpl, $module, $bootstrapClass));
                             }
                         }
                     }
@@ -120,7 +111,7 @@ class Zend_Application_Resource_Modules extends Zend_Application_Resource_Resour
     protected function bootstrapBootstraps($bootstraps)
     {
         $bootstrap = $this->getBootstrap();
-        $out       = new ArrayObject(array(), ArrayObject::ARRAY_AS_PROPS);
+        $out = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
 
         foreach ($bootstraps as $module => $bootstrapClass) {
             $moduleBootstrap = new $bootstrapClass($bootstrap);
@@ -132,7 +123,7 @@ class Zend_Application_Resource_Modules extends Zend_Application_Resource_Resour
     }
 
     /**
-     * Get bootstraps that have been run
+     * Get bootstraps that have been run.
      *
      * @return ArrayObject
      */
@@ -142,17 +133,19 @@ class Zend_Application_Resource_Modules extends Zend_Application_Resource_Resour
     }
 
     /**
-     * Format a module name to the module class prefix
+     * Format a module name to the module class prefix.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return string
      */
     protected function _formatModuleName($name)
     {
         $name = strtolower($name);
-        $name = str_replace(array('-', '.'), ' ', $name);
+        $name = str_replace(['-', '.'], ' ', $name);
         $name = ucwords($name);
         $name = str_replace(' ', '', $name);
+
         return $name;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,8 +13,7 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Service_Amazon
- * @subpackage SimpleDb
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -29,8 +28,7 @@ require_once 'Zend/Xml/Security.php';
 
 /**
  * @category   Zend
- * @package    Zend_Service_Amazon
- * @subpackage SimpleDb
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -42,7 +40,7 @@ class Zend_Service_Amazon_SimpleDb_Response
     protected $_xmlNamespace = 'http://sdb.amazonaws.com/doc/2009-04-15/';
 
     /**
-     * The original HTTP response
+     * The original HTTP response.
      *
      * This contains the response body and headers.
      *
@@ -51,37 +49,38 @@ class Zend_Service_Amazon_SimpleDb_Response
     private $_httpResponse = null;
 
     /**
-     * The response document object
+     * The response document object.
      *
      * @var DOMDocument
      */
     private $_document = null;
 
     /**
-     * The response XPath
+     * The response XPath.
      *
      * @var DOMXPath
      */
     private $_xpath = null;
 
     /**
-     * Last error code
+     * Last error code.
      *
-     * @var integer
+     * @var int
      */
     private $_errorCode = 0;
 
     /**
-     * Last error message
+     * Last error message.
      *
      * @var string
      */
     private $_errorMessage = '';
 
     /**
-     * Creates a new high-level SimpleDB response object
+     * Creates a new high-level SimpleDB response object.
      *
-     * @param  Zend_Http_Response $httpResponse the HTTP response.
+     * @param Zend_Http_Response $httpResponse the HTTP response.
+     *
      * @return void
      */
     public function __construct(Zend_Http_Response $httpResponse)
@@ -90,7 +89,7 @@ class Zend_Service_Amazon_SimpleDb_Response
     }
 
     /**
-     * Gets the XPath object for this response
+     * Gets the XPath object for this response.
      *
      * @return DOMXPath the XPath object for response.
      */
@@ -111,7 +110,7 @@ class Zend_Service_Amazon_SimpleDb_Response
     }
 
     /**
-     * Gets the SimpleXML document object for this response
+     * Gets the SimpleXML document object for this response.
      *
      * @return SimpleXMLElement
      */
@@ -127,7 +126,7 @@ class Zend_Service_Amazon_SimpleDb_Response
     }
 
     /**
-     * Get HTTP response object
+     * Get HTTP response object.
      *
      * @return Zend_Http_Response
      */
@@ -137,7 +136,7 @@ class Zend_Service_Amazon_SimpleDb_Response
     }
 
     /**
-     * Gets the document object for this response
+     * Gets the document object for this response.
      *
      * @return DOMDocument the DOM Document for this response.
      */
@@ -179,7 +178,7 @@ class Zend_Service_Amazon_SimpleDb_Response
     }
 
     /**
-     * Set a new XML Namespace
+     * Set a new XML Namespace.
      *
      * @param string $namespace
      */

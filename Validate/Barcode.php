@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,9 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Validate
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -31,52 +32,53 @@ require_once 'Zend/Loader.php';
 
 /**
  * @category   Zend
- * @package    Zend_Validate
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Validate_Barcode extends Zend_Validate_Abstract
 {
-    const INVALID        = 'barcodeInvalid';
-    const FAILED         = 'barcodeFailed';
-    const INVALID_CHARS  = 'barcodeInvalidChars';
+    const INVALID = 'barcodeInvalid';
+    const FAILED = 'barcodeFailed';
+    const INVALID_CHARS = 'barcodeInvalidChars';
     const INVALID_LENGTH = 'barcodeInvalidLength';
 
-    protected $_messageTemplates = array(
-        self::FAILED         => "'%value%' failed checksum validation",
-        self::INVALID_CHARS  => "'%value%' contains invalid characters",
+    protected $_messageTemplates = [
+        self::FAILED => "'%value%' failed checksum validation",
+        self::INVALID_CHARS => "'%value%' contains invalid characters",
         self::INVALID_LENGTH => "'%value%' should have a length of %length% characters",
-        self::INVALID        => "Invalid type given. String expected",
-    );
+        self::INVALID => 'Invalid type given. String expected',
+    ];
 
     /**
-     * Additional variables available for validation failure messages
+     * Additional variables available for validation failure messages.
      *
      * @var array
      */
-    protected $_messageVariables = array(
-        'length' => '_length'
-    );
+    protected $_messageVariables = [
+        'length' => '_length',
+    ];
 
     /**
-     * Length for the set subtype
+     * Length for the set subtype.
      *
-     * @var integer
+     * @var int
      */
     protected $_length;
 
     /**
-     * Barcode adapter
+     * Barcode adapter.
      *
      * @var Zend_Validate_Barcode_BarcodeAdapter
      */
     protected $_adapter;
 
     /**
-     * Generates the standard validator object
+     * Generates the standard validator object.
      *
      * @param  string|Zend_Config|
      *         Zend_Validate_Barcode_BarcodeAdapter $adapter Barcode adapter to use
+     *
      * @throws Zend_Validate_Exception
      */
     public function __construct($adapter)
@@ -85,7 +87,7 @@ class Zend_Validate_Barcode extends Zend_Validate_Abstract
             $adapter = $adapter->toArray();
         }
 
-        $options  = null;
+        $options = null;
         $checksum = null;
         if (is_array($adapter)) {
             if (array_key_exists('options', $adapter)) {
@@ -111,7 +113,7 @@ class Zend_Validate_Barcode extends Zend_Validate_Abstract
     }
 
     /**
-     * Returns the set adapter
+     * Returns the set adapter.
      *
      * @return Zend_Validate_Barcode_BarcodeAdapter
      */
@@ -121,18 +123,20 @@ class Zend_Validate_Barcode extends Zend_Validate_Abstract
     }
 
     /**
-     * Sets a new barcode adapter
+     * Sets a new barcode adapter.
      *
-     * @param  string|Zend_Validate_Barcode $adapter Barcode adapter to use
-     * @param  array  $options Options for this adapter
+     * @param string|Zend_Validate_Barcode $adapter Barcode adapter to use
+     * @param array $options Options for this adapter
+     *
      * @return $this
+     *
      * @throws Zend_Validate_Exception
      */
     public function setAdapter($adapter, $options = null)
     {
         $adapter = ucfirst(strtolower($adapter));
         require_once 'Zend/Loader.php';
-        if (Zend_Loader::isReadable('Zend/Validate/Barcode/' . $adapter. '.php')) {
+        if (Zend_Loader::isReadable('Zend/Validate/Barcode/' . $adapter . '.php')) {
             $adapter = 'Zend_Validate_Barcode_' . $adapter;
         }
 
@@ -143,18 +147,16 @@ class Zend_Validate_Barcode extends Zend_Validate_Abstract
         $this->_adapter = new $adapter($options);
         if (!$this->_adapter instanceof Zend_Validate_Barcode_AdapterInterface) {
             require_once 'Zend/Validate/Exception.php';
-            throw new Zend_Validate_Exception(
-                "Adapter " . $adapter . " does not implement Zend_Validate_Barcode_AdapterInterface"
-            );
+            throw new Zend_Validate_Exception('Adapter ' . $adapter . ' does not implement Zend_Validate_Barcode_AdapterInterface');
         }
 
         return $this;
     }
 
     /**
-     * Returns the checksum option
+     * Returns the checksum option.
      *
-     * @return boolean
+     * @return bool
      */
     public function getChecksum()
     {
@@ -162,42 +164,46 @@ class Zend_Validate_Barcode extends Zend_Validate_Abstract
     }
 
     /**
-     * Sets the checksum option
+     * Sets the checksum option.
      *
-     * @param  boolean $checksum
+     * @param bool $checksum
+     *
      * @return Zend_Validate_Barcode
      */
     public function setChecksum($checksum)
     {
         $this->getAdapter()->setCheck($checksum);
+
         return $this;
     }
 
     /**
-     * Defined by Zend_Validate_Interface
+     * Defined by Zend_Validate_Interface.
      *
      * Returns true if and only if $value contains a valid barcode
      *
-     * @param  string $value
-     * @return boolean
+     * @param string $value
+     *
+     * @return bool
      */
     public function isValid($value)
     {
         if (!is_string($value)) {
             $this->_error(self::INVALID);
+
             return false;
         }
 
         $this->_setValue($value);
-        $adapter       = $this->getAdapter();
+        $adapter = $this->getAdapter();
         $this->_length = $adapter->getLength();
-        $result        = $adapter->checkLength($value);
+        $result = $adapter->checkLength($value);
         if (!$result) {
             if (is_array($this->_length)) {
                 $temp = $this->_length;
-                $this->_length = "";
-                foreach($temp as $length) {
-                    $this->_length .= "/";
+                $this->_length = '';
+                foreach ($temp as $length) {
+                    $this->_length .= '/';
                     $this->_length .= $length;
                 }
 
@@ -205,12 +211,14 @@ class Zend_Validate_Barcode extends Zend_Validate_Abstract
             }
 
             $this->_error(self::INVALID_LENGTH);
+
             return false;
         }
 
         $result = $adapter->checkChars($value);
         if (!$result) {
             $this->_error(self::INVALID_CHARS);
+
             return false;
         }
 
@@ -218,6 +226,7 @@ class Zend_Validate_Barcode extends Zend_Validate_Abstract
             $result = $adapter->checksum($value);
             if (!$result) {
                 $this->_error(self::FAILED);
+
                 return false;
             }
         }

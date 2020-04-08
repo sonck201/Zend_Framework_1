@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Tool
- * @subpackage Framework
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -31,28 +31,28 @@ require_once 'Zend/Tool/Project/Profile/FileParser/Xml.php';
 require_once 'Zend/Tool/Project/Profile/Resource/Container.php';
 
 /**
- * This class is the front most class for utilizing Zend_Tool_Project
+ * This class is the front most class for utilizing Zend_Tool_Project.
  *
  * A profile is a hierarchical set of resources that keep track of
  * items within a specific project.
  *
  * @category   Zend
- * @package    Zend_Tool
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Tool_Project_Profile extends Zend_Tool_Project_Profile_Resource_Container
 {
-
     /**
      * @var bool
      */
     protected static $_traverseEnabled = false;
 
     /**
-     * Constructor, standard usage would allow the setting of options
+     * Constructor, standard usage would allow the setting of options.
      *
      * @param array $options
+     *
      * @return bool
      */
     public function __construct($options = null)
@@ -66,17 +66,17 @@ class Zend_Tool_Project_Profile extends Zend_Tool_Project_Profile_Resource_Conta
 
     /**
      * Process options and either set a profile property or
-     * set a profile 'attribute'
+     * set a profile 'attribute'.
      *
      * @param array $options
      */
-    public function setOptions(Array $options)
+    public function setOptions(array $options)
     {
         $this->setAttributes($options);
     }
 
     /**
-     * getIterator() - reqruied by the RecursiveIterator interface
+     * getIterator() - reqruied by the RecursiveIterator interface.
      *
      * @return RecursiveIteratorIterator
      */
@@ -92,8 +92,7 @@ class Zend_Tool_Project_Profile extends Zend_Tool_Project_Profile_Resource_Conta
 
     /**
      * loadFromData() - Load a profile from data provided by the
-     * 'profilData' attribute
-     *
+     * 'profilData' attribute.
      */
     public function loadFromData()
     {
@@ -109,7 +108,7 @@ class Zend_Tool_Project_Profile extends Zend_Tool_Project_Profile_Resource_Conta
     }
 
     /**
-     * isLoadableFromFile() - can a profile be loaded from a file
+     * isLoadableFromFile() - can a profile be loaded from a file.
      *
      * wether or not a profile can be loaded from the
      * file in attribute 'projectProfileFile', or from a file named
@@ -139,12 +138,11 @@ class Zend_Tool_Project_Profile extends Zend_Tool_Project_Profile_Resource_Conta
     }
 
     /**
-     * loadFromFile() - Load data from file
+     * loadFromFile() - Load data from file.
      *
      * this attempts to load a project profile file from a variety of locations depending
      * on what information the user provided vie $options or attributes, specifically the
      * 'projectDirectory' or 'projectProfileFile'
-     *
      */
     public function loadFromFile()
     {
@@ -179,11 +177,10 @@ class Zend_Tool_Project_Profile extends Zend_Tool_Project_Profile_Resource_Conta
     }
 
     /**
-     * storeToFile() - store the current profile to file
+     * storeToFile() - store the current profile to file.
      *
      * This will store the profile in memory to a place on disk determined by the attributes
      * available, specifically if the key 'projectProfileFile' is available
-     *
      */
     public function storeToFile()
     {
@@ -204,7 +201,7 @@ class Zend_Tool_Project_Profile extends Zend_Tool_Project_Profile_Resource_Conta
     }
 
     /**
-     * storeToData() - create a string representation of the profile in memory
+     * storeToData() - create a string representation of the profile in memory.
      *
      * @return string
      */
@@ -212,6 +209,7 @@ class Zend_Tool_Project_Profile extends Zend_Tool_Project_Profile_Resource_Conta
     {
         $parser = new Zend_Tool_Project_Profile_FileParser_Xml();
         $xml = $parser->serialize($this);
+
         return $xml;
     }
 
@@ -227,11 +225,12 @@ class Zend_Tool_Project_Profile extends Zend_Tool_Project_Profile_Resource_Conta
             $string .= $resource->getName() . PHP_EOL;
             $rii = new RecursiveIteratorIterator($resource, RecursiveIteratorIterator::SELF_FIRST);
             foreach ($rii as $item) {
-                $string .= str_repeat('  ', $rii->getDepth()+1) . $item->getName()
+                $string .= str_repeat('  ', $rii->getDepth() + 1) . $item->getName()
                         . ((count($attributes = $item->getAttributes()) > 0) ? ' [' . http_build_query($attributes) . ']' : '')
                         . PHP_EOL;
             }
         }
+
         return $string;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,17 +14,17 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Gapps
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
 /**
  * @see Zend_Gdata_Gapps_Query
  */
-require_once('Zend/Gdata/Gapps/Query.php');
+require_once 'Zend/Gdata/Gapps/Query.php';
 
 /**
  * Assists in constructing queries for Google Apps user entries.
@@ -35,14 +35,12 @@ require_once('Zend/Gdata/Gapps/Query.php');
  * service class, Zend_Gdata_Gapps.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Gapps
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Gapps_UserQuery extends Zend_Gdata_Gapps_Query
 {
-
     /**
      * If not null, specifies the username of the user who should be
      * retrieved by this query.
@@ -55,11 +53,11 @@ class Zend_Gdata_Gapps_UserQuery extends Zend_Gdata_Gapps_Query
      * Create a new instance.
      *
      * @param string $domain (optional) The Google Apps-hosted domain to use
-     *          when constructing query URIs.
+     *                       when constructing query URIs.
      * @param string $username (optional) Value for the username
-     *          property.
+     *                         property.
      * @param string $startUsername (optional) Value for the
-     *          startUsername property.
+     *                              startUsername property.
      */
     public function __construct($domain = null, $username = null,
             $startUsername = null)
@@ -75,8 +73,9 @@ class Zend_Gdata_Gapps_UserQuery extends Zend_Gdata_Gapps_Query
      * null to disable filtering by username.
      *
      * @see getUsername
+     *
      * @param string $value The username to filter search results by, or null to
-     *              disable.
+     *                      disable.
      */
     public function setUsername($value)
     {
@@ -88,7 +87,7 @@ class Zend_Gdata_Gapps_UserQuery extends Zend_Gdata_Gapps_Query
      * returned.
      *
      * @param string $value The username to filter search results by, or
-     *          null if disabled.
+     *                      null if disabled.
      */
     public function getUsername()
     {
@@ -100,7 +99,7 @@ class Zend_Gdata_Gapps_UserQuery extends Zend_Gdata_Gapps_Query
      * a list of users.
      *
      * @param string $value The first username to be returned, or null to
-     *          disable.
+     *                      disable.
      */
     public function setStartUsername($value)
     {
@@ -116,8 +115,9 @@ class Zend_Gdata_Gapps_UserQuery extends Zend_Gdata_Gapps_Query
      * a list of users.
      *
      * @see setStartUsername
+     *
      * @return string The first username to be returned, or null if
-     *          disabled.
+     *                disabled.
      */
     public function getStartUsername()
     {
@@ -141,7 +141,7 @@ class Zend_Gdata_Gapps_UserQuery extends Zend_Gdata_Gapps_Query
             $uri .= '/' . $this->_username;
         }
         $uri .= $this->getQueryString();
+
         return $uri;
     }
-
 }

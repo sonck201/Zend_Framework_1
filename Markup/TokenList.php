@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,9 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Markup
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -26,22 +27,21 @@ require_once 'Zend/Markup/Token.php';
 
 /**
  * @category   Zend
- * @package    Zend_Markup
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Markup_TokenList implements RecursiveIterator
 {
-
     /**
-     * Array of tokens
+     * Array of tokens.
      *
      * @var array
      */
-    protected $_tokens = array();
+    protected $_tokens = [];
 
     /**
-     * Get the current token
+     * Get the current token.
      *
      * @return Zend_Markup_Token
      */
@@ -51,7 +51,7 @@ class Zend_Markup_TokenList implements RecursiveIterator
     }
 
     /**
-     * Get the children of the current token
+     * Get the children of the current token.
      *
      * @return Zend_Markup_TokenList
      */
@@ -61,7 +61,7 @@ class Zend_Markup_TokenList implements RecursiveIterator
     }
 
     /**
-     * Add a new child token
+     * Add a new child token.
      *
      * @param Zend_Markup_Token $child
      *
@@ -73,7 +73,7 @@ class Zend_Markup_TokenList implements RecursiveIterator
     }
 
     /**
-     * Check if the current token has children
+     * Check if the current token has children.
      *
      * @return bool
      */
@@ -83,7 +83,7 @@ class Zend_Markup_TokenList implements RecursiveIterator
     }
 
     /**
-     * Get the key of the current token
+     * Get the key of the current token.
      *
      * @return int
      */
@@ -93,7 +93,7 @@ class Zend_Markup_TokenList implements RecursiveIterator
     }
 
     /**
-     * Go to the next token
+     * Go to the next token.
      *
      * @return Zend_Markup_Token
      */
@@ -103,7 +103,7 @@ class Zend_Markup_TokenList implements RecursiveIterator
     }
 
     /**
-     * Rewind the iterator
+     * Rewind the iterator.
      *
      * @return void
      */
@@ -113,7 +113,7 @@ class Zend_Markup_TokenList implements RecursiveIterator
     }
 
     /**
-     * Check if the element is valid
+     * Check if the element is valid.
      *
      * @return void
      */

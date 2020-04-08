@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,9 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Oauth
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -24,7 +25,7 @@ require_once 'Zend/Oauth/Token.php';
 
 /**
  * @category   Zend
- * @package    Zend_Oauth
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -33,13 +34,14 @@ class Zend_Oauth_Token_AuthorizedRequest extends Zend_Oauth_Token
     /**
      * @var array
      */
-    protected $_data = array();
+    protected $_data = [];
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param  null|array $data
-     * @param  null|Zend_Oauth_Http_Utility $utility
+     * @param array|null $data
+     * @param Zend_Oauth_Http_Utility|null $utility
+     *
      * @return void
      */
     public function __construct(array $data = null, Zend_Oauth_Http_Utility $utility = null)
@@ -54,12 +56,12 @@ class Zend_Oauth_Token_AuthorizedRequest extends Zend_Oauth_Token
         if ($utility !== null) {
             $this->_httpUtility = $utility;
         } else {
-            $this->_httpUtility = new Zend_Oauth_Http_Utility;
+            $this->_httpUtility = new Zend_Oauth_Http_Utility();
         }
     }
 
     /**
-     * Retrieve token data
+     * Retrieve token data.
      *
      * @return array
      */
@@ -69,7 +71,7 @@ class Zend_Oauth_Token_AuthorizedRequest extends Zend_Oauth_Token
     }
 
     /**
-     * Indicate if token is valid
+     * Indicate if token is valid.
      *
      * @return bool
      */
@@ -80,23 +82,25 @@ class Zend_Oauth_Token_AuthorizedRequest extends Zend_Oauth_Token
         ) {
             return true;
         }
+
         return false;
     }
 
     /**
-     * Parse string data into array
+     * Parse string data into array.
      *
      * @return array
      */
     protected function _parseData()
     {
-        $params = array();
+        $params = [];
         if (empty($this->_data)) {
             return;
         }
         foreach ($this->_data as $key => $value) {
             $params[rawurldecode($key)] = rawurldecode($value);
         }
+
         return $params;
     }
 }

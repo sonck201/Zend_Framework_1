@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,24 +13,23 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Markup
- * @subpackage Parser
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
 /**
  * @category   Zend
- * @package    Zend_Markup
- * @subpackage Parser
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 interface Zend_Markup_Parser_ParserInterface
 {
     /**
-     * Parse a string
+     * Parse a string.
      *
      * This should output something like this:
      *
@@ -60,7 +59,8 @@ interface Zend_Markup_Parser_ParserInterface
      * )
      * </code>
      *
-     * @param  string $value
+     * @param string $value
+     *
      * @return array
      */
     public function parse($value);

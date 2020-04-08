@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,17 +14,17 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Photos
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
 /**
  * @see Zend_Gdata_Photos_UserQuery
  */
-require_once('Zend/Gdata/Photos/UserQuery.php');
+require_once 'Zend/Gdata/Photos/UserQuery.php';
 
 /**
  * Assists in constructing album queries for various entries.
@@ -35,14 +35,12 @@ require_once('Zend/Gdata/Photos/UserQuery.php');
  * class, Zend_Gdata_Photos.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Photos
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Photos_AlbumQuery extends Zend_Gdata_Photos_UserQuery
 {
-
     /**
      * The name of the album to query for. Mutually exclusive with AlbumId.
      *
@@ -67,20 +65,22 @@ class Zend_Gdata_Photos_AlbumQuery extends Zend_Gdata_Photos_UserQuery
      *
      * @param string $value The name of the album to retrieve, or null to
      *          clear.
+     *
      * @return Zend_Gdata_Photos_AlbumQuery The query object.
      */
-     public function setAlbumName($value)
-     {
-         $this->_albumId = null;
-         $this->_albumName = $value;
+    public function setAlbumName($value)
+    {
+        $this->_albumId = null;
+        $this->_albumName = $value;
 
-         return $this;
-     }
+        return $this;
+    }
 
     /**
      * Get the album name which is to be returned.
      *
      * @see setAlbumName
+     *
      * @return string The name of the album to retrieve.
      */
     public function getAlbumName()
@@ -98,20 +98,22 @@ class Zend_Gdata_Photos_AlbumQuery extends Zend_Gdata_Photos_UserQuery
      *
      * @param string $value The ID of the album to retrieve, or null to
      *          clear.
+     *
      * @return Zend_Gdata_Photos_AlbumQuery The query object.
      */
-     public function setAlbumId($value)
-     {
-         $this->_albumName = null;
-         $this->_albumId = $value;
+    public function setAlbumId($value)
+    {
+        $this->_albumName = null;
+        $this->_albumId = $value;
 
-         return $this;
-     }
+        return $this;
+    }
 
     /**
      * Get the album ID which is to be returned.
      *
      * @see setAlbum
+     *
      * @return string The ID of the album to retrieve.
      */
     public function getAlbumId()
@@ -124,7 +126,10 @@ class Zend_Gdata_Photos_AlbumQuery extends Zend_Gdata_Photos_UserQuery
      * parameters.
      *
      * @return string A URL generated based on the state of this query.
+     *
      * @throws Zend_Gdata_App_InvalidArgumentException
+     *
+     * @param mixed $incomingUri
      */
     public function getQueryUrl($incomingUri = '')
     {
@@ -135,15 +140,13 @@ class Zend_Gdata_Photos_AlbumQuery extends Zend_Gdata_Photos_UserQuery
             $uri .= '/albumid/' . $this->getAlbumId();
         } elseif ($this->getAlbumName() !== null && $this->getAlbumId() !== null) {
             require_once 'Zend/Gdata/App/InvalidArgumentException.php';
-            throw new Zend_Gdata_App_InvalidArgumentException(
-                    'AlbumName and AlbumId cannot both be non-null');
+            throw new Zend_Gdata_App_InvalidArgumentException('AlbumName and AlbumId cannot both be non-null');
         } else {
             require_once 'Zend/Gdata/App/InvalidArgumentException.php';
-            throw new Zend_Gdata_App_InvalidArgumentException(
-                    'AlbumName and AlbumId cannot both be null');
+            throw new Zend_Gdata_App_InvalidArgumentException('AlbumName and AlbumId cannot both be null');
         }
         $uri .= $incomingUri;
+
         return parent::getQueryUrl($uri);
     }
-
 }

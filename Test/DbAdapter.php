@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,22 +13,22 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Test
- * @subpackage PHPUnit
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
 /**
  * @see Zend_Db_Adapter_Abstract
  */
-require_once "Zend/Db/Adapter/Abstract.php";
+require_once 'Zend/Db/Adapter/Abstract.php';
 
 /**
  * @see Zend_Test_DbStatement
  */
-require_once "Zend/Test/DbStatement.php";
+require_once 'Zend/Test/DbStatement.php';
 
 /**
  * @see Zend_Db_Profiler
@@ -36,11 +36,10 @@ require_once "Zend/Test/DbStatement.php";
 require_once 'Zend/Db/Profiler.php';
 
 /**
- * Testing Database Adapter which acts as a stack for SQL Results
+ * Testing Database Adapter which acts as a stack for SQL Results.
  *
  * @category   Zend
- * @package    Zend_Test
- * @subpackage PHPUnit
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -49,27 +48,27 @@ class Zend_Test_DbAdapter extends Zend_Db_Adapter_Abstract
     /**
      * @var array
      */
-    protected $_statementStack = array();
+    protected $_statementStack = [];
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $_connected = false;
 
     /**
      * @var array
      */
-    protected $_listTables = array();
+    protected $_listTables = [];
 
     /**
      * @var array
      */
-    protected $_lastInsertIdStack = array();
+    protected $_lastInsertIdStack = [];
 
     /**
      * @var array
      */
-    protected $_describeTables = array();
+    protected $_describeTables = [];
 
     /**
      * @var string
@@ -89,29 +88,35 @@ class Zend_Test_DbAdapter extends Zend_Db_Adapter_Abstract
     /**
      * Append a new Statement to the SQL Result Stack.
      *
-     * @param  Zend_Test_DbStatement $stmt
+     * @param Zend_Test_DbStatement $stmt
+     *
      * @return Zend_Test_DbAdapter
      */
     public function appendStatementToStack(Zend_Test_DbStatement $stmt)
     {
         array_push($this->_statementStack, $stmt);
+
         return $this;
     }
 
     /**
      * Append a new Insert Id to the {@see lastInsertId}.
      *
-     * @param  int|string $id
+     * @param int|string $id
+     *
      * @return Zend_Test_DbAdapter
      */
     public function appendLastInsertIdToStack($id)
     {
         array_push($this->_lastInsertIdStack, $id);
+
         return $this;
     }
 
     /**
      * @var string
+     *
+     * @param mixed $symbol
      */
     public function setQuoteIdentifierSymbol($symbol)
     {
@@ -145,18 +150,19 @@ class Zend_Test_DbAdapter extends Zend_Db_Adapter_Abstract
      */
     public function listTables()
     {
-       return $this->_listTables;
+        return $this->_listTables;
     }
 
     /**
+     * @param string $table
+     * @param array $tableInfo
      *
-     * @param  string $table
-     * @param  array $tableInfo
      * @return Zend_Test_DbAdapter
      */
     public function setDescribeTable($table, $tableInfo)
     {
         $this->_describeTables[$table] = $tableInfo;
+
         return $this;
     }
 
@@ -185,14 +191,15 @@ class Zend_Test_DbAdapter extends Zend_Db_Adapter_Abstract
      *
      * @param string $tableName
      * @param string $schemaName OPTIONAL
+     *
      * @return array
      */
     public function describeTable($tableName, $schemaName = null)
     {
-        if(isset($this->_describeTables[$tableName])) {
+        if (isset($this->_describeTables[$tableName])) {
             return $this->_describeTables[$tableName];
         } else {
-            return array();
+            return [];
         }
     }
 
@@ -207,9 +214,9 @@ class Zend_Test_DbAdapter extends Zend_Db_Adapter_Abstract
     }
 
     /**
-     * Test if a connection is active
+     * Test if a connection is active.
      *
-     * @return boolean
+     * @return bool
      */
     public function isConnected()
     {
@@ -230,19 +237,20 @@ class Zend_Test_DbAdapter extends Zend_Db_Adapter_Abstract
      * Prepare a statement and return a PDOStatement-like object.
      *
      * @param string|Zend_Db_Select $sql SQL query
+     *
      * @return Zend_Db_Statment|PDOStatement
      */
     public function prepare($sql)
     {
         $queryId = $this->getProfiler()->queryStart($sql);
 
-        if(count($this->_statementStack)) {
+        if (count($this->_statementStack)) {
             $stmt = array_pop($this->_statementStack);
         } else {
             $stmt = new Zend_Test_DbStatement();
         }
 
-        if($this->getProfiler()->getEnabled() == true) {
+        if ($this->getProfiler()->getEnabled() == true) {
             $qp = $this->getProfiler()->getQueryProfile($queryId);
             $stmt->setQueryProfile($qp);
         }
@@ -260,13 +268,14 @@ class Zend_Test_DbAdapter extends Zend_Db_Adapter_Abstract
      * returns the last value generated for such a column, and the table name
      * argument is disregarded.
      *
-     * @param string $tableName   OPTIONAL Name of table.
-     * @param string $primaryKey  OPTIONAL Name of primary key column.
+     * @param string $tableName OPTIONAL Name of table.
+     * @param string $primaryKey OPTIONAL Name of primary key column.
+     *
      * @return string
      */
     public function lastInsertId($tableName = null, $primaryKey = null)
     {
-        if(count($this->_lastInsertIdStack)) {
+        if (count($this->_lastInsertIdStack)) {
             return array_pop($this->_lastInsertIdStack);
         } else {
             return false;
@@ -294,14 +303,15 @@ class Zend_Test_DbAdapter extends Zend_Db_Adapter_Abstract
      */
     protected function _rollBack()
     {
-
     }
 
     /**
      * Set the fetch mode.
      *
-     * @param integer $mode
+     * @param int $mode
+     *
      * @return void
+     *
      * @throws Zend_Db_Adapter_Exception
      */
     public function setFetchMode($mode)
@@ -313,8 +323,9 @@ class Zend_Test_DbAdapter extends Zend_Db_Adapter_Abstract
      * Adds an adapter-specific LIMIT clause to the SELECT statement.
      *
      * @param mixed $sql
-     * @param integer $count
-     * @param integer $offset
+     * @param int $count
+     * @param int $offset
+     *
      * @return string
      */
     public function limit($sql, $count, $offset = 0)
@@ -326,6 +337,7 @@ class Zend_Test_DbAdapter extends Zend_Db_Adapter_Abstract
      * Check if the adapter supports real SQL parameters.
      *
      * @param string $type 'positional' or 'named'
+     *
      * @return bool
      */
     public function supportsParameters($type)
@@ -334,12 +346,12 @@ class Zend_Test_DbAdapter extends Zend_Db_Adapter_Abstract
     }
 
     /**
-     * Retrieve server version in PHP style
+     * Retrieve server version in PHP style.
      *
      * @return string
      */
-    function getServerVersion()
+    public function getServerVersion()
     {
-        return "1.0.0";
+        return '1.0.0';
     }
 }

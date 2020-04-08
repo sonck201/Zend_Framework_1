@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Media
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -27,17 +27,15 @@
 require_once 'Zend/Gdata/App/Extension.php';
 
 /**
- * Represents the media:thumbnail element
+ * Represents the media:thumbnail element.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Media
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Media_Extension_MediaThumbnail extends Zend_Gdata_Extension
 {
-
     protected $_rootElement = 'thumbnail';
     protected $_rootNamespace = 'media';
 
@@ -62,7 +60,7 @@ class Zend_Gdata_Media_Extension_MediaThumbnail extends Zend_Gdata_Extension
     protected $_time = null;
 
     /**
-     * Constructs a new MediaThumbnail element
+     * Constructs a new MediaThumbnail element.
      *
      * @param string $url
      * @param int $width
@@ -77,7 +75,7 @@ class Zend_Gdata_Media_Extension_MediaThumbnail extends Zend_Gdata_Extension
         $this->_url = $url;
         $this->_width = $width;
         $this->_height = $height;
-        $this->_time = $time ;
+        $this->_time = $time;
     }
 
     /**
@@ -87,8 +85,11 @@ class Zend_Gdata_Media_Extension_MediaThumbnail extends Zend_Gdata_Extension
      * for application storage/persistence.
      *
      * @param DOMDocument $doc The DOMDocument used to construct DOMElements
+     * @param mixed $majorVersion
+     * @param mixed|null $minorVersion
+     *
      * @return DOMElement The DOMElement representing this element and all
-     * child properties.
+     *                    child properties.
      */
     public function getDOM($doc = null, $majorVersion = 1, $minorVersion = null)
     {
@@ -105,6 +106,7 @@ class Zend_Gdata_Media_Extension_MediaThumbnail extends Zend_Gdata_Extension
         if ($this->_time !== null) {
             $element->setAttribute('time', $this->_time);
         }
+
         return $element;
     }
 
@@ -145,11 +147,13 @@ class Zend_Gdata_Media_Extension_MediaThumbnail extends Zend_Gdata_Extension
 
     /**
      * @param string $value
+     *
      * @return Zend_Gdata_Media_Extension_MediaThumbnail Provides a fluent interface
      */
     public function setUrl($value)
     {
         $this->_url = $value;
+
         return $this;
     }
 
@@ -163,11 +167,13 @@ class Zend_Gdata_Media_Extension_MediaThumbnail extends Zend_Gdata_Extension
 
     /**
      * @param int $value
+     *
      * @return Zend_Gdata_Media_Extension_MediaThumbnail Provides a fluent interface
      */
     public function setWidth($value)
     {
         $this->_width = $value;
+
         return $this;
     }
 
@@ -181,11 +187,13 @@ class Zend_Gdata_Media_Extension_MediaThumbnail extends Zend_Gdata_Extension
 
     /**
      * @param int $value
+     *
      * @return Zend_Gdata_Media_Extension_MediaThumbnail Provides a fluent interface
      */
     public function setHeight($value)
     {
         $this->_height = $value;
+
         return $this;
     }
 
@@ -199,12 +207,13 @@ class Zend_Gdata_Media_Extension_MediaThumbnail extends Zend_Gdata_Extension
 
     /**
      * @param string $value
+     *
      * @return Zend_Gdata_Media_Extension_MediaThumbnail Provides a fluent interface
      */
     public function setTime($value)
     {
         $this->_time = $value;
+
         return $this;
     }
-
 }

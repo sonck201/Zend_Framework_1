@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Markup
- * @subpackage Parser
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -27,95 +27,96 @@ require_once 'Zend/Markup/TokenList.php';
 
 /**
  * @category   Zend
- * @package    Zend_Markup
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Markup_Token
 {
-    const TYPE_NONE    = 'none';
-    const TYPE_TAG     = 'tag';
+    const TYPE_NONE = 'none';
+    const TYPE_TAG = 'tag';
 
     /**
-     * Children of this token
+     * Children of this token.
      *
      * @var Zend_Markup_TokenList
      */
     protected $_children;
 
     /**
-     * The complete tag
+     * The complete tag.
      *
      * @var string
      */
     protected $_tag;
 
     /**
-     * The tag's type
+     * The tag's type.
      *
      * @var string
      */
     protected $_type;
 
     /**
-     * Tag name
+     * Tag name.
      *
      * @var string
      */
     protected $_name = '';
 
     /**
-     * Tag attributes
+     * Tag attributes.
      *
      * @var array
      */
-    protected $_attributes = array();
+    protected $_attributes = [];
 
     /**
-     * The used tag stopper (empty when none is found)
+     * The used tag stopper (empty when none is found).
      *
      * @var string
      */
     protected $_stopper = '';
 
     /**
-     * The parent token
+     * The parent token.
      *
      * @var Zend_Markup_Token
      */
     protected $_parent;
 
-
     /**
-     * Construct the token
+     * Construct the token.
      *
-     * @param  string $tag
-     * @param  string $type
-     * @param  string $name
-     * @param  array $attributes
-     * @param  Zend_Markup_Token $parent
+     * @param string $tag
+     * @param string $type
+     * @param string $name
+     * @param array $attributes
+     * @param Zend_Markup_Token $parent
+     *
      * @return void
      */
     public function __construct(
         $tag,
         $type,
         $name = '',
-        array $attributes = array(),
+        array $attributes = [],
         Zend_Markup_Token $parent = null
     ) {
-        $this->_tag        = $tag;
-        $this->_type       = $type;
-        $this->_name       = $name;
+        $this->_tag = $tag;
+        $this->_type = $type;
+        $this->_name = $name;
         $this->_attributes = $attributes;
-        $this->_parent     = $parent;
+        $this->_parent = $parent;
     }
 
     // accessors
 
     /**
-     * Set the stopper
+     * Set the stopper.
      *
      * @param string $stopper
+     *
      * @return Zend_Markup_Token
      */
     public function setStopper($stopper)
@@ -126,7 +127,7 @@ class Zend_Markup_Token
     }
 
     /**
-     * Get the stopper
+     * Get the stopper.
      *
      * @return string
      */
@@ -136,7 +137,7 @@ class Zend_Markup_Token
     }
 
     /**
-     * Get the token's name
+     * Get the token's name.
      *
      * @return string
      */
@@ -146,7 +147,7 @@ class Zend_Markup_Token
     }
 
     /**
-     * Get the token's type
+     * Get the token's type.
      *
      * @return string
      */
@@ -156,7 +157,7 @@ class Zend_Markup_Token
     }
 
     /**
-     * Get the complete tag
+     * Get the complete tag.
      *
      * @return string
      */
@@ -166,7 +167,7 @@ class Zend_Markup_Token
     }
 
     /**
-     * Get an attribute
+     * Get an attribute.
      *
      * @param string $name
      *
@@ -178,7 +179,7 @@ class Zend_Markup_Token
     }
 
     /**
-     * Check if the token has an attribute
+     * Check if the token has an attribute.
      *
      * @param string $name
      *
@@ -190,7 +191,7 @@ class Zend_Markup_Token
     }
 
     /**
-     * Get all the attributes
+     * Get all the attributes.
      *
      * @return array
      */
@@ -200,9 +201,12 @@ class Zend_Markup_Token
     }
 
     /**
-     * Add an attribute
+     * Add an attribute.
      *
      * @return Zend_Markup_Token
+     *
+     * @param mixed $name
+     * @param mixed $value
      */
     public function addAttribute($name, $value)
     {
@@ -212,7 +216,7 @@ class Zend_Markup_Token
     }
 
     /**
-     * Check if an attribute is empty
+     * Check if an attribute is empty.
      *
      * @param string $name
      *
@@ -226,7 +230,7 @@ class Zend_Markup_Token
     // functions for child/parent tokens
 
     /**
-     * Add a child token
+     * Add a child token.
      *
      * @return void
      */
@@ -236,19 +240,21 @@ class Zend_Markup_Token
     }
 
     /**
-     * Set the children token list
+     * Set the children token list.
      *
-     * @param  Zend_Markup_TokenList $children
+     * @param Zend_Markup_TokenList $children
+     *
      * @return Zend_Markup_Token
      */
     public function setChildren(Zend_Markup_TokenList $children)
     {
         $this->_children = $children;
+
         return $this;
     }
 
     /**
-     * Get the children for this token
+     * Get the children for this token.
      *
      * @return Zend_Markup_TokenList
      */
@@ -257,11 +263,12 @@ class Zend_Markup_Token
         if (null === $this->_children) {
             $this->setChildren(new Zend_Markup_TokenList());
         }
+
         return $this->_children;
     }
 
     /**
-     * Does this token have any children
+     * Does this token have any children.
      *
      * @return bool
      */
@@ -271,7 +278,7 @@ class Zend_Markup_Token
     }
 
     /**
-     * Get the parent token (if any)
+     * Get the parent token (if any).
      *
      * @return Zend_Markup_Token
      */
@@ -281,26 +288,28 @@ class Zend_Markup_Token
     }
 
     /**
-     * Set a parent token
+     * Set a parent token.
      *
-     * @param  Zend_Markup_Token $parent
+     * @param Zend_Markup_Token $parent
+     *
      * @return Zend_Markup_Token
      */
     public function setParent(Zend_Markup_Token $parent)
     {
         $this->_parent = $parent;
+
         return $this;
     }
 
     /**
-     * Magic clone function
+     * Magic clone function.
      *
      * @return void
      */
     public function __clone()
     {
-        $this->_parent   = null;
+        $this->_parent = null;
         $this->_children = null;
-        $this->_tag      = '';
+        $this->_tag = '';
     }
 }
