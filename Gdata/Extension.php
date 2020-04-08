@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Gdata
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -27,17 +27,15 @@
 require_once 'Zend/Gdata/App/Extension.php';
 
 /**
- * Represents a Gdata extension
+ * Represents a Gdata extension.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Gdata
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Extension extends Zend_Gdata_App_Extension
 {
-
     protected $_rootNamespace = 'gd';
 
     public function __construct()
@@ -54,5 +52,4 @@ class Zend_Gdata_Extension extends Zend_Gdata_App_Extension
 
         parent::__construct();
     }
-
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Ldap
- * @subpackage Ldif
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -24,71 +24,74 @@
  * Zend_Ldap_Ldif_Encoder provides methods to encode and decode LDAP data into/from LDIF.
  *
  * @category   Zend
- * @package    Zend_Ldap
- * @subpackage Ldif
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Ldap_Ldif_Encoder
 {
     /**
-     * Additional options used during encoding
+     * Additional options used during encoding.
      *
      * @var array
      */
-    protected $_options = array(
-        'sort'    => true,
+    protected $_options = [
+        'sort' => true,
         'version' => 1,
-        'wrap'    => 78
-    );
+        'wrap' => 78,
+    ];
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $_versionWritten = false;
 
     /**
      * Constructor.
      *
-     * @param  array $options Additional options used during encoding
+     * @param array $options Additional options used during encoding
+     *
      * @return void
      */
-    protected function __construct(array $options = array())
+    protected function __construct(array $options = [])
     {
         $this->_options = array_merge($this->_options, $options);
     }
 
     /**
-     * Decodes the string $string into an array of LDIF items
+     * Decodes the string $string into an array of LDIF items.
      *
-     * @param  string $string
+     * @param string $string
+     *
      * @return array
      */
     public static function decode($string)
     {
-        $encoder = new self(array());
+        $encoder = new self([]);
+
         return $encoder->_decode($string);
     }
 
     /**
-     * Decodes the string $string into an array of LDIF items
+     * Decodes the string $string into an array of LDIF items.
      *
-     * @param  string $string
+     * @param string $string
+     *
      * @return array
      */
     protected function _decode($string)
     {
-        $items = array();
-        $item = array();
+        $items = [];
+        $item = [];
         $last = null;
         foreach (explode("\n", $string) as $line) {
             $line = rtrim($line, "\x09\x0A\x0D\x00\x0B");
-            $matches = array();
+            $matches = [];
             if (substr($line, 0, 1) === ' ' && $last !== null) {
                 $last[2] .= substr($line, 1);
-            } else if (substr($line, 0, 1) === '#') {
+            } elseif (substr($line, 0, 1) === '#') {
                 continue;
-            } else if (preg_match('/^([a-z0-9;-]+)(:[:<]?\s*)([^:<]*)$/i', $line, $matches)) {
+            } elseif (preg_match('/^([a-z0-9;-]+)(:[:<]?\s*)([^:<]*)$/i', $line, $matches)) {
                 $name = strtolower($matches[1]);
                 $type = trim($matches[2]);
                 $value = $matches[3];
@@ -97,13 +100,13 @@ class Zend_Ldap_Ldif_Encoder
                 }
                 if ($name === 'version') {
                     continue;
-                } else if (count($item) > 0 && $name === 'dn') {
+                } elseif (count($item) > 0 && $name === 'dn') {
                     $items[] = $item;
-                    $item = array();
+                    $item = [];
                     $last = null;
                 }
-                $last = array($name, $type, $value);
-            } else if (trim($line) === '') {
+                $last = [$name, $type, $value];
+            } elseif (trim($line) === '') {
                 continue;
             }
         }
@@ -111,11 +114,12 @@ class Zend_Ldap_Ldif_Encoder
             $this->_pushAttribute($last, $item);
         }
         $items[] = $item;
-        return (count($items)>1) ? $items : $items[0];
+
+        return (count($items) > 1) ? $items : $items[0];
     }
 
     /**
-     * Pushes a decoded attribute to the stack
+     * Pushes a decoded attribute to the stack.
      *
      * @param array $attribute
      * @param array $entry
@@ -130,23 +134,25 @@ class Zend_Ldap_Ldif_Encoder
         }
         if ($name === 'dn') {
             $entry[$name] = $value;
-        } else if (isset($entry[$name]) && $value !== '') {
+        } elseif (isset($entry[$name]) && $value !== '') {
             $entry[$name][] = $value;
         } else {
-            $entry[$name] = ($value !== '') ? array($value) : array();
+            $entry[$name] = ($value !== '') ? [$value] : [];
         }
     }
 
     /**
-     * Encode $value into a LDIF representation
+     * Encode $value into a LDIF representation.
      *
-     * @param  mixed $value   The value to be encoded
-     * @param  array $options Additional options used during encoding
+     * @param mixed $value The value to be encoded
+     * @param array $options Additional options used during encoding
+     *
      * @return string The encoded value
      */
-    public static function encode($value, array $options = array())
+    public static function encode($value, array $options = [])
     {
         $encoder = new self($options);
+
         return $encoder->_encode($value);
     }
 
@@ -154,33 +160,36 @@ class Zend_Ldap_Ldif_Encoder
      * Recursive driver which determines the type of value to be encoded
      * and then dispatches to the appropriate method.
      *
-     * @param  mixed $value The value to be encoded
+     * @param mixed $value The value to be encoded
+     *
      * @return string Encoded value
      */
     protected function _encode($value)
     {
         if (is_scalar($value)) {
             return $this->_encodeString($value);
-        } else if (is_array($value)) {
+        } elseif (is_array($value)) {
             return $this->_encodeAttributes($value);
-        } else if ($value instanceof Zend_Ldap_Node) {
+        } elseif ($value instanceof Zend_Ldap_Node) {
             return $value->toLdif($this->_options);
         }
+
         return null;
     }
 
     /**
-     * Encodes $string according to RFC2849
+     * Encodes $string according to RFC2849.
      *
-     * @link http://www.faqs.org/rfcs/rfc2849.html
+     * @see http://www.faqs.org/rfcs/rfc2849.html
      *
-     * @param  string $string
-     * @param  boolen $base64
+     * @param string $string
+     * @param boolen $base64
+     *
      * @return string
      */
     protected function _encodeString($string, &$base64 = null)
     {
-        $string = (string)$string;
+        $string = (string) $string;
         if (!is_numeric($string) && empty($string)) {
             return '';
         }
@@ -193,24 +202,24 @@ class Zend_Ldap_Ldif_Encoder
          *                ; and less-than ("<" , ASCII 60 decimal)
          *
          */
-        $unsafe_init_char = array(0, 10, 13, 32, 58, 60);
+        $unsafe_init_char = [0, 10, 13, 32, 58, 60];
         /*
          * SAFE-CHAR      = %x01-09 / %x0B-0C / %x0E-7F
          *                ; any value <= 127 decimal except NUL, LF,
          *                ; and CR
          */
-        $unsafe_char      = array(0, 10, 13);
+        $unsafe_char = [0, 10, 13];
 
         $base64 = false;
-        for ($i = 0; $i < strlen($string); $i++) {
+        for ($i = 0; $i < strlen($string); ++$i) {
             $char = ord(substr($string, $i, 1));
             if ($char >= 127) {
                 $base64 = true;
                 break;
-            } else if ($i === 0 && in_array($char, $unsafe_init_char)) {
+            } elseif ($i === 0 && in_array($char, $unsafe_init_char)) {
                 $base64 = true;
                 break;
-            } else if (in_array($char, $unsafe_char)) {
+            } elseif (in_array($char, $unsafe_char)) {
                 $base64 = true;
                 break;
             }
@@ -228,18 +237,19 @@ class Zend_Ldap_Ldif_Encoder
     }
 
     /**
-     * Encodes an attribute with $name and $value according to RFC2849
+     * Encodes an attribute with $name and $value according to RFC2849.
      *
-     * @link http://www.faqs.org/rfcs/rfc2849.html
+     * @see http://www.faqs.org/rfcs/rfc2849.html
      *
-     * @param  string       $name
-     * @param  array|string $value
+     * @param string $name
+     * @param array|string $value
+     *
      * @return string
      */
     protected function _encodeAttribute($name, $value)
     {
         if (!is_array($value)) {
-            $value = array($value);
+            $value = [$value];
         }
 
         $output = '';
@@ -262,15 +272,17 @@ class Zend_Ldap_Ldif_Encoder
             }
             $output .= $attribute . PHP_EOL;
         }
+
         return trim($output, PHP_EOL);
     }
 
     /**
-     * Encodes a collection of attributes according to RFC2849
+     * Encodes a collection of attributes according to RFC2849.
      *
-     * @link http://www.faqs.org/rfcs/rfc2849.html
+     * @see http://www.faqs.org/rfcs/rfc2849.html
      *
-     * @param  array $attributes
+     * @param array $attributes
+     *
      * @return string
      */
     protected function _encodeAttributes(array $attributes)
@@ -288,17 +300,18 @@ class Zend_Ldap_Ldif_Encoder
             if (array_key_exists('objectclass', $attributes)) {
                 $oc = $attributes['objectclass'];
                 unset($attributes['objectclass']);
-                $attributes = array_merge(array('objectclass' => $oc), $attributes);
+                $attributes = array_merge(['objectclass' => $oc], $attributes);
             }
             if (array_key_exists('dn', $attributes)) {
                 $dn = $attributes['dn'];
                 unset($attributes['dn']);
-                $attributes = array_merge(array('dn' => $dn), $attributes);
+                $attributes = array_merge(['dn' => $dn], $attributes);
             }
         }
         foreach ($attributes as $key => $value) {
             $string .= $this->_encodeAttribute($key, $value) . PHP_EOL;
         }
+
         return trim($string, PHP_EOL);
     }
 }

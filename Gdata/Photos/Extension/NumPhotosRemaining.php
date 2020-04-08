@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Photos
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -36,14 +36,12 @@ require_once 'Zend/Gdata/Photos.php';
  * This indicates the number of photos remaining in an album.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Photos
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Photos_Extension_NumPhotosRemaining extends Zend_Gdata_Extension
 {
-
     protected $_rootNamespace = 'gphoto';
     protected $_rootElement = 'numphotosremaining';
 
@@ -58,5 +56,4 @@ class Zend_Gdata_Photos_Extension_NumPhotosRemaining extends Zend_Gdata_Extensio
         parent::__construct();
         $this->setText($text);
     }
-
 }

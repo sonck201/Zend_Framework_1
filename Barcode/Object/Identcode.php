@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Barcode
- * @subpackage Object
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -31,18 +31,18 @@ require_once 'Zend/Barcode/Object/Code25interleaved.php';
 require_once 'Zend/Validate/Barcode.php';
 
 /**
- * Class for generate Identcode barcode
+ * Class for generate Identcode barcode.
  *
  * @category   Zend
- * @package    Zend_Barcode
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Barcode_Object_Identcode extends Zend_Barcode_Object_Code25interleaved
 {
-
     /**
-     * Default options for Identcode barcode
+     * Default options for Identcode barcode.
+     *
      * @return void
      */
     protected function _getDefaultOptions()
@@ -52,7 +52,8 @@ class Zend_Barcode_Object_Identcode extends Zend_Barcode_Object_Code25interleave
     }
 
     /**
-     * Retrieve text to display
+     * Retrieve text to display.
+     *
      * @return string
      */
     public function getTextToDisplay()
@@ -63,20 +64,24 @@ class Zend_Barcode_Object_Identcode extends Zend_Barcode_Object_Code25interleave
     }
 
     /**
-     * Check allowed characters
+     * Check allowed characters.
+     *
      * @param string $value
+     *
      * @return string
+     *
      * @throws Zend_Barcode_Object_Exception
      */
     public function validateText($value)
     {
-        $this->_validateText($value, array('validator' => $this->getType()));
+        $this->_validateText($value, ['validator' => $this->getType()]);
     }
 
     /**
-     * Get barcode checksum
+     * Get barcode checksum.
      *
-     * @param  string $text
+     * @param string $text
+     *
      * @return int
      */
     public function getChecksum($text)
@@ -84,8 +89,8 @@ class Zend_Barcode_Object_Identcode extends Zend_Barcode_Object_Code25interleave
         $this->_checkText($text);
         $checksum = 0;
 
-        for ($i = strlen($text); $i > 0; $i --) {
-            $checksum += intval($text{$i - 1}) * (($i % 2) ? 4 : 9);
+        for ($i = strlen($text); $i > 0; --$i ) {
+            $checksum += intval($text[$i - 1]) * (($i % 2) ? 4 : 9);
         }
 
         $checksum = (10 - ($checksum % 10)) % 10;

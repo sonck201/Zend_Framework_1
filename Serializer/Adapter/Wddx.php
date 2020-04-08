@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Serializer
- * @subpackage Adapter
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -30,11 +30,11 @@ require_once 'Zend/Xml/Security.php';
 require_once 'Zend/Xml/Exception.php';
 
 /**
- * @link       http://www.infoloom.com/gcaconfs/WEB/chicago98/simeonov.HTM
- * @link       http://en.wikipedia.org/wiki/WDDX
+ * @see       http://www.infoloom.com/gcaconfs/WEB/chicago98/simeonov.HTM
+ * @see       http://en.wikipedia.org/wiki/WDDX
+ *
  * @category   Zend
- * @package    Zend_Serializer
- * @subpackage Adapter
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -43,18 +43,20 @@ class Zend_Serializer_Adapter_Wddx extends Zend_Serializer_Adapter_AdapterAbstra
     /**
      * @var array Default options
      */
-    protected $_options = array(
+    protected $_options = [
         'comment' => null,
-    );
+    ];
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param  array $opts
+     * @param array $opts
+     *
      * @return void
+     *
      * @throws Zend_Serializer_Exception if wddx extension not found
      */
-    public function __construct($opts = array())
+    public function __construct($opts = [])
     {
         if (!extension_loaded('wddx')) {
             require_once 'Zend/Serializer/Exception.php';
@@ -65,19 +67,21 @@ class Zend_Serializer_Adapter_Wddx extends Zend_Serializer_Adapter_AdapterAbstra
     }
 
     /**
-     * Serialize PHP to WDDX
+     * Serialize PHP to WDDX.
      *
-     * @param  mixed $value
-     * @param  array $opts
+     * @param mixed $value
+     * @param array $opts
+     *
      * @return string
+     *
      * @throws Zend_Serializer_Exception on wddx error
      */
-    public function serialize($value, array $opts = array())
+    public function serialize($value, array $opts = [])
     {
         $opts = $opts + $this->_options;
 
         if (isset($opts['comment']) && $opts['comment']) {
-            $wddx = wddx_serialize_value($value, (string)$opts['comment']);
+            $wddx = wddx_serialize_value($value, (string) $opts['comment']);
         } else {
             $wddx = wddx_serialize_value($value);
         }
@@ -87,18 +91,21 @@ class Zend_Serializer_Adapter_Wddx extends Zend_Serializer_Adapter_AdapterAbstra
             require_once 'Zend/Serializer/Exception.php';
             throw new Zend_Serializer_Exception($lastErr['message']);
         }
+
         return $wddx;
     }
 
     /**
-     * Unserialize from WDDX to PHP
+     * Unserialize from WDDX to PHP.
      *
-     * @param  string $wddx
-     * @param  array $opts
+     * @param string $wddx
+     * @param array $opts
+     *
      * @return mixed
+     *
      * @throws Zend_Serializer_Exception on wddx error
      */
-    public function unserialize($wddx, array $opts = array())
+    public function unserialize($wddx, array $opts = [])
     {
         $ret = wddx_deserialize($wddx);
 

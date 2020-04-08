@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Media
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -27,17 +27,15 @@
 require_once 'Zend/Gdata/App/Extension.php';
 
 /**
- * Represents the media:category element
+ * Represents the media:category element.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Media
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Media_Extension_MediaCategory extends Zend_Gdata_Extension
 {
-
     protected $_rootElement = 'category';
     protected $_rootNamespace = 'media';
 
@@ -50,9 +48,9 @@ class Zend_Gdata_Media_Extension_MediaCategory extends Zend_Gdata_Extension
     /**
      * Creates an individual MediaCategory object.
      *
-     * @param string $text      Indication of the type and content of the media
-     * @param string $scheme    URI that identifies the categorization scheme
-     * @param string $label     Human-readable label to be displayed in applications
+     * @param string $text Indication of the type and content of the media
+     * @param string $scheme URI that identifies the categorization scheme
+     * @param string $label Human-readable label to be displayed in applications
      */
     public function __construct($text = null, $scheme = null, $label = null)
     {
@@ -70,8 +68,11 @@ class Zend_Gdata_Media_Extension_MediaCategory extends Zend_Gdata_Extension
      * for application storage/persistence.
      *
      * @param DOMDocument $doc The DOMDocument used to construct DOMElements
+     * @param mixed $majorVersion
+     * @param mixed|null $minorVersion
+     *
      * @return DOMElement The DOMElement representing this element and all
-     * child properties.
+     *                    child properties.
      */
     public function getDOM($doc = null, $majorVersion = 1, $minorVersion = null)
     {
@@ -82,6 +83,7 @@ class Zend_Gdata_Media_Extension_MediaCategory extends Zend_Gdata_Extension
         if ($this->_label !== null) {
             $element->setAttribute('label', $this->_label);
         }
+
         return $element;
     }
 
@@ -118,12 +120,14 @@ class Zend_Gdata_Media_Extension_MediaCategory extends Zend_Gdata_Extension
     }
 
     /**
-     * @param string $value     URI that identifies the categorization scheme
+     * @param string $value URI that identifies the categorization scheme
+     *
      * @return Zend_Gdata_Media_Extension_MediaCategory Provides a fluent interface
      */
     public function setScheme($value)
     {
         $this->_scheme = $value;
+
         return $this;
     }
 
@@ -136,13 +140,14 @@ class Zend_Gdata_Media_Extension_MediaCategory extends Zend_Gdata_Extension
     }
 
     /**
-     * @param string $value     Human-readable label to be displayed in applications
+     * @param string $value Human-readable label to be displayed in applications
+     *
      * @return Zend_Gdata_Media_Extension_MediaCategory Provides a fluent interface
      */
     public function setLabel($value)
     {
         $this->_label = $value;
+
         return $this;
     }
-
 }

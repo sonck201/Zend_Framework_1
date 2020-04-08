@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Gapps
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -38,21 +38,19 @@ require_once 'Zend/Gdata/Gapps.php';
  * is usually contained within an instance of Zend_Gdata_Gapps_UserEntry.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Gapps
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Gapps_Extension_Quota extends Zend_Gdata_Extension
 {
-
     protected $_rootNamespace = 'apps';
     protected $_rootElement = 'quota';
 
     /**
      * The amount of storage space available to the user in megabytes.
      *
-     * @var integer
+     * @var int
      */
     protected $_limit = null;
 
@@ -75,8 +73,11 @@ class Zend_Gdata_Gapps_Extension_Quota extends Zend_Gdata_Extension
      * for application storage/persistence.
      *
      * @param DOMDocument $doc The DOMDocument used to construct DOMElements
+     * @param mixed $majorVersion
+     * @param mixed|null $minorVersion
+     *
      * @return DOMElement The DOMElement representing this element and all
-     * child properties.
+     *                    child properties.
      */
     public function getDOM($doc = null, $majorVersion = 1, $minorVersion = null)
     {
@@ -84,6 +85,7 @@ class Zend_Gdata_Gapps_Extension_Quota extends Zend_Gdata_Extension
         if ($this->_limit !== null) {
             $element->setAttribute('limit', $this->_limit);
         }
+
         return $element;
     }
 
@@ -109,6 +111,7 @@ class Zend_Gdata_Gapps_Extension_Quota extends Zend_Gdata_Extension
      * Get the value for this element's limit attribute.
      *
      * @see setLimit
+     *
      * @return string The requested attribute.
      */
     public function getLimit()
@@ -122,21 +125,22 @@ class Zend_Gdata_Gapps_Extension_Quota extends Zend_Gdata_Extension
      * the associated user.
      *
      * @param string $value The desired value for this attribute.
+     *
      * @return Zend_Gdata_Gapps_Extension_Quota Provides a fluent interface.
      */
     public function setLimit($value)
     {
         $this->_limit = $value;
+
         return $this;
     }
 
     /**
      * Magic toString method allows using this directly via echo
-     * Works best in PHP >= 4.2.0
+     * Works best in PHP >= 4.2.0.
      */
     public function __toString()
     {
         return $this->getLimit();
     }
-
 }

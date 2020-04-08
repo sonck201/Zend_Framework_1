@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Analytics
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -27,8 +27,6 @@ require_once 'Zend/Gdata/Extension.php';
 
 /**
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Analytics
  */
 class Zend_Gdata_Analytics_Extension_Property extends Zend_Gdata_Extension
 {
@@ -39,7 +37,9 @@ class Zend_Gdata_Analytics_Extension_Property extends Zend_Gdata_Extension
 
     /**
      * Constructs a new Zend_Gdata_Calendar_Extension_Timezone object.
+     *
      * @param string $value (optional) The text content of the element.
+     * @param mixed|null $name
      */
     public function __construct($value = null, $name = null)
     {
@@ -85,21 +85,25 @@ class Zend_Gdata_Analytics_Extension_Property extends Zend_Gdata_Extension
      * Set the value for this element's value attribute.
      *
      * @param string $value The desired value for this attribute.
+     *
      * @return Zend_Gdata_Analytics_Extension_Property The element being modified.
      */
     public function setValue($value)
     {
         $this->_value = $value;
+
         return $this;
     }
 
     /**
      * @param string $name
+     *
      * @return Zend_Gdata_Analytics_Extension_Property
      */
     public function setName($name)
     {
         $this->_name = $name;
+
         return $this;
     }
 
@@ -113,7 +117,7 @@ class Zend_Gdata_Analytics_Extension_Property extends Zend_Gdata_Extension
 
     /**
      * Magic toString method allows using this directly via echo
-     * Works best in PHP >= 4.2.0
+     * Works best in PHP >= 4.2.0.
      */
     public function __toString()
     {

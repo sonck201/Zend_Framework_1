@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,22 +13,19 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Search_Lucene
- * @subpackage Search
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
-
 
 /** Zend_Search_Lucene_Search_Query */
 require_once 'Zend/Search/Lucene/Search/Query.php';
 
-
 /**
  * @category   Zend
- * @package    Zend_Search_Lucene
- * @subpackage Search
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -50,18 +47,17 @@ class Zend_Search_Lucene_Search_Query_Term extends Zend_Search_Lucene_Search_Que
 
     /**
      * Term freqs vector.
-     * array(docId => freq, ...)
+     * array(docId => freq, ...).
      *
      * @var array
      */
     private $_termFreqs;
 
-
     /**
-     * Zend_Search_Lucene_Search_Query_Term constructor
+     * Zend_Search_Lucene_Search_Query_Term constructor.
      *
      * @param Zend_Search_Lucene_Index_Term $term
-     * @param boolean $sign
+     * @param bool $sign
      */
     public function __construct(Zend_Search_Lucene_Index_Term $term)
     {
@@ -69,9 +65,10 @@ class Zend_Search_Lucene_Search_Query_Term extends Zend_Search_Lucene_Search_Que
     }
 
     /**
-     * Re-write query into primitive queries in the context of specified index
+     * Re-write query into primitive queries in the context of specified index.
      *
      * @param Zend_Search_Lucene_Interface $index
+     *
      * @return Zend_Search_Lucene_Search_Query
      */
     public function rewrite(Zend_Search_Lucene_Interface $index)
@@ -95,9 +92,10 @@ class Zend_Search_Lucene_Search_Query_Term extends Zend_Search_Lucene_Search_Que
     }
 
     /**
-     * Optimize query in the context of specified index
+     * Optimize query in the context of specified index.
      *
      * @param Zend_Search_Lucene_Interface $index
+     *
      * @return Zend_Search_Lucene_Search_Query
      */
     public function optimize(Zend_Search_Lucene_Interface $index)
@@ -105,29 +103,31 @@ class Zend_Search_Lucene_Search_Query_Term extends Zend_Search_Lucene_Search_Que
         // Check, that index contains specified term
         if (!$index->hasTerm($this->_term)) {
             require_once 'Zend/Search/Lucene/Search/Query/Empty.php';
+
             return new Zend_Search_Lucene_Search_Query_Empty();
         }
 
         return $this;
     }
 
-
     /**
      * Constructs an appropriate Weight implementation for this query.
      *
      * @param Zend_Search_Lucene_Interface $reader
+     *
      * @return Zend_Search_Lucene_Search_Weight
      */
     public function createWeight(Zend_Search_Lucene_Interface $reader)
     {
         require_once 'Zend/Search/Lucene/Search/Weight/Term.php';
         $this->_weight = new Zend_Search_Lucene_Search_Weight_Term($this->_term, $this, $reader);
+
         return $this->_weight;
     }
 
     /**
      * Execute query in context of index reader
-     * It also initializes necessary internal structures
+     * It also initializes necessary internal structures.
      *
      * @param Zend_Search_Lucene_Interface $reader
      * @param Zend_Search_Lucene_Index_DocsFilter|null $docsFilter
@@ -142,7 +142,7 @@ class Zend_Search_Lucene_Search_Query_Term extends Zend_Search_Lucene_Search_Que
     }
 
     /**
-     * Get document ids likely matching the query
+     * Get document ids likely matching the query.
      *
      * It's an array with document ids as keys (performance considerations)
      *
@@ -154,10 +154,11 @@ class Zend_Search_Lucene_Search_Query_Term extends Zend_Search_Lucene_Search_Que
     }
 
     /**
-     * Score specified document
+     * Score specified document.
      *
-     * @param integer $docId
+     * @param int $docId
      * @param Zend_Search_Lucene_Interface $reader
+     *
      * @return float
      */
     public function score($docId, Zend_Search_Lucene_Interface $reader)
@@ -173,17 +174,17 @@ class Zend_Search_Lucene_Search_Query_Term extends Zend_Search_Lucene_Search_Que
     }
 
     /**
-     * Return query terms
+     * Return query terms.
      *
      * @return array
      */
     public function getQueryTerms()
     {
-        return array($this->_term);
+        return [$this->_term];
     }
 
     /**
-     * Return query term
+     * Return query term.
      *
      * @return Zend_Search_Lucene_Index_Term
      */
@@ -193,9 +194,9 @@ class Zend_Search_Lucene_Search_Query_Term extends Zend_Search_Lucene_Search_Que
     }
 
     /**
-     * Query specific matches highlighting
+     * Query specific matches highlighting.
      *
-     * @param Zend_Search_Lucene_Search_Highlighter_Interface $highlighter  Highlighter object (also contains doc for highlighting)
+     * @param Zend_Search_Lucene_Search_Highlighter_Interface $highlighter Highlighter object (also contains doc for highlighting)
      */
     protected function _highlightMatches(Zend_Search_Lucene_Search_Highlighter_Interface $highlighter)
     {
@@ -203,7 +204,7 @@ class Zend_Search_Lucene_Search_Query_Term extends Zend_Search_Lucene_Search_Que
     }
 
     /**
-     * Print a query
+     * Print a query.
      *
      * @return string
      */
@@ -225,4 +226,3 @@ class Zend_Search_Lucene_Search_Query_Term extends Zend_Search_Lucene_Search_Que
         return $query;
     }
 }
-

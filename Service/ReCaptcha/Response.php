@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,35 +13,34 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Service
- * @subpackage ReCaptcha
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
 /**
- * Zend_Service_ReCaptcha_Response
+ * Zend_Service_ReCaptcha_Response.
  *
  * @category   Zend
- * @package    Zend_Service
- * @subpackage ReCaptcha
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 class Zend_Service_ReCaptcha_Response
 {
     /**
-     * Status
+     * Status.
      *
      * true if the response is valid or false otherwise
      *
-     * @var boolean
+     * @var bool
      */
     protected $_status = null;
 
     /**
-     * Error code
+     * Error code.
      *
      * The error code if the status is false. The different error codes can be found in the
      * recaptcha API docs.
@@ -51,7 +50,7 @@ class Zend_Service_ReCaptcha_Response
     protected $_errorCode = null;
 
     /**
-     * Class constructor used to construct a response
+     * Class constructor used to construct a response.
      *
      * @param string $status
      * @param string $errorCode
@@ -73,9 +72,10 @@ class Zend_Service_ReCaptcha_Response
     }
 
     /**
-     * Set the status
+     * Set the status.
      *
      * @param string $status
+     *
      * @return Zend_Service_ReCaptcha_Response
      */
     public function setStatus($status)
@@ -90,9 +90,9 @@ class Zend_Service_ReCaptcha_Response
     }
 
     /**
-     * Get the status
+     * Get the status.
      *
-     * @return boolean
+     * @return bool
      */
     public function getStatus()
     {
@@ -100,9 +100,9 @@ class Zend_Service_ReCaptcha_Response
     }
 
     /**
-     * Alias for getStatus()
+     * Alias for getStatus().
      *
-     * @return boolean
+     * @return bool
      */
     public function isValid()
     {
@@ -110,9 +110,10 @@ class Zend_Service_ReCaptcha_Response
     }
 
     /**
-     * Set the error code
+     * Set the error code.
      *
      * @param string $errorCode
+     *
      * @return Zend_Service_ReCaptcha_Response
      */
     public function setErrorCode($errorCode)
@@ -123,7 +124,7 @@ class Zend_Service_ReCaptcha_Response
     }
 
     /**
-     * Get the error code
+     * Get the error code.
      *
      * @return string
      */
@@ -133,9 +134,10 @@ class Zend_Service_ReCaptcha_Response
     }
 
     /**
-     * Populate this instance based on a Zend_Http_Response object
+     * Populate this instance based on a Zend_Http_Response object.
      *
      * @param Zend_Http_Response $response
+     *
      * @return Zend_Service_ReCaptcha_Response
      */
     public function setFromHttpResponse(Zend_Http_Response $response)

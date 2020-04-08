@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,8 +13,7 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Mobile
- * @subpackage Zend_Mobile_Push
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -23,18 +22,17 @@
 require_once 'Zend/Mobile/Push/Message/Mpns.php';
 
 /**
- * Mpns Tile Message
+ * Mpns Tile Message.
  *
  * @category   Zend
- * @package    Zend_Mobile
- * @subpackage Zend_Mobile_Push
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Mobile_Push_Message_Mpns_Tile extends Zend_Mobile_Push_Message_Mpns
 {
     /**
-     * Mpns delays
+     * Mpns delays.
      *
      * @var int
      */
@@ -43,56 +41,56 @@ class Zend_Mobile_Push_Message_Mpns_Tile extends Zend_Mobile_Push_Message_Mpns
     const DELAY_900S = 21;
 
     /**
-     * Background Image
+     * Background Image.
      *
      * @var string
      */
     protected $_backgroundImage;
 
     /**
-     * Count
+     * Count.
      *
      * @var int
      */
     protected $_count = 0;
 
     /**
-     * Title
+     * Title.
      *
      * @var string
      */
     protected $_title;
 
     /**
-     * Back Background Image
+     * Back Background Image.
      *
      * @var string
      */
     protected $_backBackgroundImage;
 
     /**
-     * Back Title
+     * Back Title.
      *
      * @var string
      */
     protected $_backTitle;
 
     /**
-     * Back Content
+     * Back Content.
      *
      * @var string
      */
     protected $_backContent;
 
     /**
-     * Tile ID
+     * Tile ID.
      *
      * @var string
      */
     protected $_tileId;
 
     /**
-     * Get Background Image
+     * Get Background Image.
      *
      * @return string
      */
@@ -102,10 +100,12 @@ class Zend_Mobile_Push_Message_Mpns_Tile extends Zend_Mobile_Push_Message_Mpns
     }
 
     /**
-     * Set Background Image
+     * Set Background Image.
      *
      * @param string $bgImg
+     *
      * @return Zend_Mobile_Push_Message_Mpns_Tile
+     *
      * @throws Zend_Mobile_Push_Message_Exception
      */
     public function setBackgroundImage($bgImg)
@@ -114,11 +114,12 @@ class Zend_Mobile_Push_Message_Mpns_Tile extends Zend_Mobile_Push_Message_Mpns
             throw new Zend_Mobile_Push_Message_Exception('$bgImg must be a string');
         }
         $this->_backgroundImage = $bgImg;
+
         return $this;
     }
 
     /**
-     * Get Count
+     * Get Count.
      *
      * @return int
      */
@@ -128,10 +129,12 @@ class Zend_Mobile_Push_Message_Mpns_Tile extends Zend_Mobile_Push_Message_Mpns
     }
 
     /**
-     * Set Count
+     * Set Count.
      *
      * @param int $count
+     *
      * @return Zend_Mobile_Push_Message_Mpns_Tile
+     *
      * @throws Zend_Mobile_Push_Message_Exception
      */
     public function setCount($count)
@@ -140,11 +143,12 @@ class Zend_Mobile_Push_Message_Mpns_Tile extends Zend_Mobile_Push_Message_Mpns
             throw new Zend_Mobile_Push_Message_Exception('$count is not numeric');
         }
         $this->_count = (int) $count;
+
         return $this;
     }
 
     /**
-     * Get Title
+     * Get Title.
      *
      * @return string
      */
@@ -154,10 +158,12 @@ class Zend_Mobile_Push_Message_Mpns_Tile extends Zend_Mobile_Push_Message_Mpns
     }
 
     /**
-     * Set Title
+     * Set Title.
      *
      * @param string $title
+     *
      * @return Zend_Mobile_Push_Message_Mpns_Tile
+     *
      * @throws Zend_Mobile_Push_Message_Exception
      */
     public function setTitle($title)
@@ -166,11 +172,12 @@ class Zend_Mobile_Push_Message_Mpns_Tile extends Zend_Mobile_Push_Message_Mpns
             throw new Zend_Mobile_Push_Message_Exception('$title must be a string');
         }
         $this->_title = $title;
+
         return $this;
     }
 
     /**
-     * Get Back Background Image
+     * Get Back Background Image.
      *
      * @return string
      */
@@ -180,10 +187,12 @@ class Zend_Mobile_Push_Message_Mpns_Tile extends Zend_Mobile_Push_Message_Mpns
     }
 
     /**
-     * Set Back Background Image
+     * Set Back Background Image.
      *
      * @param string $bgImg
+     *
      * @return Zend_Mobile_Push_Message_Mpns_Tile
+     *
      * @throws Zend_Mobile_Push_Message_Exception
      */
     public function setBackBackgroundImage($bgImg)
@@ -192,11 +201,12 @@ class Zend_Mobile_Push_Message_Mpns_Tile extends Zend_Mobile_Push_Message_Mpns
             throw new Zend_Mobile_Push_Message_Exception('$bgImg must be a string');
         }
         $this->_backBackgroundImage = $bgImg;
+
         return $this;
     }
 
     /**
-     * Get Back Title
+     * Get Back Title.
      *
      * @return string
      */
@@ -206,10 +216,12 @@ class Zend_Mobile_Push_Message_Mpns_Tile extends Zend_Mobile_Push_Message_Mpns
     }
 
     /**
-     * Set Back Title
+     * Set Back Title.
      *
      * @param string $title
+     *
      * @return Zend_Mobile_Push_Message_Mpns_Tile
+     *
      * @throws Zend_Mobile_Push_Message_Exception
      */
     public function setBackTitle($title)
@@ -218,11 +230,12 @@ class Zend_Mobile_Push_Message_Mpns_Tile extends Zend_Mobile_Push_Message_Mpns
             throw new Zend_Mobile_Push_Message_Exception('$title must be a string');
         }
         $this->_backTitle = $title;
+
         return $this;
     }
 
     /**
-     * Get Back Content
+     * Get Back Content.
      *
      * @return string
      */
@@ -232,10 +245,12 @@ class Zend_Mobile_Push_Message_Mpns_Tile extends Zend_Mobile_Push_Message_Mpns
     }
 
     /**
-     * Set Back Content
-     * 
+     * Set Back Content.
+     *
      * @param string $content
+     *
      * @return Zend_Mobile_Push_Message_Mpns_Tile
+     *
      * @throws Zend_Mobile_Push_Message_Exception
      */
     public function setBackContent($content)
@@ -247,7 +262,7 @@ class Zend_Mobile_Push_Message_Mpns_Tile extends Zend_Mobile_Push_Message_Mpns
     }
 
     /**
-     * Get Tile Id
+     * Get Tile Id.
      *
      * @return string
      */
@@ -257,10 +272,12 @@ class Zend_Mobile_Push_Message_Mpns_Tile extends Zend_Mobile_Push_Message_Mpns
     }
 
     /**
-     * Set Tile Id
+     * Set Tile Id.
      *
      * @param string $tileId
+     *
      * @return Zend_Mobile_Push_Message_Mpns_Tile
+     *
      * @throws Zend_Mobile_Push_Message_Exception
      */
     public function setTileId($tileId)
@@ -269,11 +286,12 @@ class Zend_Mobile_Push_Message_Mpns_Tile extends Zend_Mobile_Push_Message_Mpns
             throw new Zend_Mobile_Push_Message_Exception('$tileId is not a string');
         }
         $this->_tileId = $tileId;
+
         return $this;
     }
 
     /**
-     * Get Delay
+     * Get Delay.
      *
      * @return int
      */
@@ -282,31 +300,35 @@ class Zend_Mobile_Push_Message_Mpns_Tile extends Zend_Mobile_Push_Message_Mpns
         if (!$this->_delay) {
             return self::DELAY_IMMEDIATE;
         }
+
         return $this->_delay;
     }
 
     /**
-     * Set Delay
+     * Set Delay.
      *
      * @param int $delay
+     *
      * @return Zend_Mobile_Push_Message_Mpns_Tile
+     *
      * @throws Zend_Mobile_Push_Message_Exception
      */
     public function setDelay($delay)
     {
-        if (!in_array($delay, array(
+        if (!in_array($delay, [
             self::DELAY_IMMEDIATE,
             self::DELAY_450S,
-            self::DELAY_900S
-        ))) {
+            self::DELAY_900S,
+        ])) {
             throw new Zend_Mobile_Push_Message_Exception('$delay must be one of the DELAY_* constants');
         }
         $this->_delay = $delay;
+
         return $this;
     }
 
     /**
-     * Get Notification Type
+     * Get Notification Type.
      *
      * @return string
      */
@@ -316,7 +338,7 @@ class Zend_Mobile_Push_Message_Mpns_Tile extends Zend_Mobile_Push_Message_Mpns
     }
 
     /**
-     * Get XML Payload
+     * Get XML Payload.
      *
      * @return string
      */
@@ -341,13 +363,14 @@ class Zend_Mobile_Push_Message_Mpns_Tile extends Zend_Mobile_Push_Message_Mpns
 
         $ret .= '</wp:Tile>'
             . '</wp:Notification>';
+
         return $ret;
     }
 
     /**
-     * Validate proper mpns message
+     * Validate proper mpns message.
      *
-     * @return boolean
+     * @return bool
      */
     public function validate()
     {
@@ -360,6 +383,7 @@ class Zend_Mobile_Push_Message_Mpns_Tile extends Zend_Mobile_Push_Message_Mpns
         if (empty($this->_title)) {
             return false;
         }
+
         return parent::validate();
     }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,28 +13,26 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Tool
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
-
 require_once 'Zend/Tool/Framework/Registry.php';
 require_once 'Zend/Tool/Framework/Provider/Interface.php';
 require_once 'Zend/Version.php';
 
 /**
- * Version Provider
+ * Version Provider.
  *
  * @category   Zend
- * @package    Zend_Tool
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Tool_Framework_System_Provider_Version
-    implements Zend_Tool_Framework_Provider_Interface, Zend_Tool_Framework_Registry_EnabledInterface
+class Zend_Tool_Framework_System_Provider_Version implements Zend_Tool_Framework_Provider_Interface, Zend_Tool_Framework_Registry_EnabledInterface
 {
-
     /**
      * @var Zend_Tool_Framework_Registry_Interface
      */
@@ -42,28 +40,28 @@ class Zend_Tool_Framework_System_Provider_Version
 
     const MODE_MAJOR = 'major';
     const MODE_MINOR = 'minor';
-    const MODE_MINI  = 'mini';
+    const MODE_MINI = 'mini';
 
-    protected $_specialties = array('MajorPart', 'MinorPart', 'MiniPart');
+    protected $_specialties = ['MajorPart', 'MinorPart', 'MiniPart'];
 
     public function setRegistry(Zend_Tool_Framework_Registry_Interface $registry)
     {
         $this->_registry = $registry;
+
         return $this;
     }
 
     /**
-     * Show Action
+     * Show Action.
      *
      * @param string $mode The mode switch can be one of: major, minor, or mini (default)
      * @param bool $nameIncluded
      */
     public function show($mode = self::MODE_MINI, $nameIncluded = true)
     {
-
         $versionInfo = $this->_splitVersion();
 
-        switch($mode) {
+        switch ($mode) {
             case self::MODE_MINOR:
                 unset($versionInfo['mini']);
                 break;
@@ -98,14 +96,14 @@ class Zend_Tool_Framework_System_Provider_Version
     public function showMiniPart($nameIncluded = true)
     {
         $versionNumbers = $this->_splitVersion();
-        $output = (($nameIncluded == true) ? 'ZF Mini Version: ' : null)  . $versionNumbers['mini'];
+        $output = (($nameIncluded == true) ? 'ZF Mini Version: ' : null) . $versionNumbers['mini'];
         $this->_registry->response->appendContent($output);
     }
 
     protected function _splitVersion()
     {
         list($major, $minor, $mini) = explode('.', Zend_Version::VERSION);
-        return array('major' => $major, 'minor' => $minor, 'mini' => $mini);
-    }
 
+        return ['major' => $major, 'minor' => $minor, 'mini' => $mini];
+    }
 }

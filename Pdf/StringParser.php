@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,12 +13,12 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Pdf
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
-
 
 /** Internally used classes */
 require_once 'Zend/Pdf/Element/Array.php';
@@ -33,43 +33,41 @@ require_once 'Zend/Pdf/Element/Object/Stream.php';
 require_once 'Zend/Pdf/Element/Reference.php';
 require_once 'Zend/Pdf/Element/String.php';
 
-
 /**
- * PDF string parser
+ * PDF string parser.
  *
- * @package    Zend_Pdf
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Pdf_StringParser
 {
     /**
-     * Source PDF
+     * Source PDF.
      *
      * @var string
      */
     public $data = '';
 
     /**
-     * Current position in a data
+     * Current position in a data.
      *
-     * @var integer
+     * @var int
      */
     public $offset = 0;
 
     /**
-     * Current reference context
+     * Current reference context.
      *
      * @var Zend_Pdf_Element_Reference_Context
      */
     private $_context = null;
 
     /**
-     * Array of elements of the currently parsed object/trailer
+     * Array of elements of the currently parsed object/trailer.
      *
      * @var array
      */
-    private $_elements = array();
+    private $_elements = [];
 
     /**
      * PDF objects factory.
@@ -77,7 +75,6 @@ class Zend_Pdf_StringParser
      * @var Zend_Pdf_ElementFactory_Interface
      */
     private $_objFactory = null;
-
 
     /**
      * Clean up resources.
@@ -87,15 +84,16 @@ class Zend_Pdf_StringParser
     public function cleanUp()
     {
         $this->_context = null;
-        $this->_elements = array();
+        $this->_elements = [];
         $this->_objFactory = null;
     }
 
     /**
-     * Character with code $chCode is white space
+     * Character with code $chCode is white space.
      *
-     * @param integer $chCode
-     * @return boolean
+     * @param int $chCode
+     *
+     * @return bool
      */
     public static function isWhiteSpace($chCode)
     {
@@ -112,14 +110,14 @@ class Zend_Pdf_StringParser
         }
     }
 
-
     /**
-     * Character with code $chCode is a delimiter character
+     * Character with code $chCode is a delimiter character.
      *
-     * @param integer $chCode
-     * @return boolean
+     * @param int $chCode
+     *
+     * @return bool
      */
-    public static function isDelimiter($chCode )
+    public static function isDelimiter($chCode)
     {
         if ($chCode == 0x28 || // '('
             $chCode == 0x29 || // ')'
@@ -138,11 +136,10 @@ class Zend_Pdf_StringParser
         }
     }
 
-
     /**
-     * Skip white space
+     * Skip white space.
      *
-     * @param boolean $skipComment
+     * @param bool $skipComment
      */
     public function skipWhiteSpace($skipComment = true)
     {
@@ -150,7 +147,7 @@ class Zend_Pdf_StringParser
             while (true) {
                 $this->offset += strspn($this->data, "\x00\t\n\f\r ", $this->offset);
 
-                if ($this->offset < strlen($this->data)  &&  $this->data[$this->offset] == '%') {
+                if ($this->offset < strlen($this->data) && $this->data[$this->offset] == '%') {
                     // Skip comment
                     $this->offset += strcspn($this->data, "\r\n", $this->offset);
                 } else {
@@ -175,27 +172,24 @@ class Zend_Pdf_StringParser
 //        }
     }
 
-
     /**
-     * Skip comment
+     * Skip comment.
      */
     public function skipComment()
     {
-        while ($this->offset < strlen($this->data))
-        {
+        while ($this->offset < strlen($this->data)) {
             if (ord($this->data[$this->offset]) != 0x0A || // Line feed
                 ord($this->data[$this->offset]) != 0x0d    // Carriage return
                ) {
-                $this->offset++;
+                ++$this->offset;
             } else {
                 return;
             }
         }
     }
 
-
     /**
-     * Read comment line
+     * Read comment line.
      *
      * @return string
      */
@@ -203,14 +197,14 @@ class Zend_Pdf_StringParser
     {
         $this->skipWhiteSpace(false);
 
-        /** Check if it's a comment line */
+        /* Check if it's a comment line */
         if ($this->data[$this->offset] != '%') {
             return '';
         }
 
         for ($start = $this->offset;
              $this->offset < strlen($this->data);
-             $this->offset++) {
+             ++$this->offset) {
             if (ord($this->data[$this->offset]) == 0x0A || // Line feed
                 ord($this->data[$this->offset]) == 0x0d    // Carriage return
                ) {
@@ -218,12 +212,11 @@ class Zend_Pdf_StringParser
             }
         }
 
-        return substr($this->data, $start, $this->offset-$start);
+        return substr($this->data, $start, $this->offset - $start);
     }
 
-
     /**
-     * Returns next lexeme from a pdf stream
+     * Returns next lexeme from a pdf stream.
      *
      * @return string
      */
@@ -233,7 +226,7 @@ class Zend_Pdf_StringParser
         while (true) {
             $this->offset += strspn($this->data, "\x00\t\n\f\r ", $this->offset);
 
-            if ($this->offset < strlen($this->data)  &&  $this->data[$this->offset] == '%') {
+            if ($this->offset < strlen($this->data) && $this->data[$this->offset] == '%') {
                 $this->offset += strcspn($this->data, "\r\n", $this->offset);
             } else {
                 break;
@@ -245,16 +238,17 @@ class Zend_Pdf_StringParser
         }
 
         if ( /* self::isDelimiter( ord($this->data[$start]) ) */
-             strpos('()<>[]{}/%', $this->data[$this->offset]) !== false ) {
-
+             strpos('()<>[]{}/%', $this->data[$this->offset]) !== false) {
             switch (substr($this->data, $this->offset, 2)) {
                 case '<<':
                     $this->offset += 2;
+
                     return '<<';
                     break;
 
                 case '>>':
                     $this->offset += 2;
+
                     return '>>';
                     break;
 
@@ -265,7 +259,7 @@ class Zend_Pdf_StringParser
         } else {
             $start = $this->offset;
             $compare = '';
-            if( version_compare( phpversion(), '5.2.5' ) >= 0) {
+            if (version_compare(phpversion(), '5.2.5') >= 0) {
                 $compare = "()<>[]{}/%\x00\t\n\f\r ";
             } else {
                 $compare = "()<>[]{}/%\x00\t\n\r ";
@@ -277,12 +271,14 @@ class Zend_Pdf_StringParser
         }
     }
 
-
     /**
-     * Read elemental object from a PDF stream
+     * Read elemental object from a PDF stream.
      *
      * @return Zend_Pdf_Element
+     *
      * @throws Zend_Pdf_Exception
+     *
+     * @param mixed|null $nextLexeme
      */
     public function readElement($nextLexeme = null)
     {
@@ -290,28 +286,28 @@ class Zend_Pdf_StringParser
             $nextLexeme = $this->readLexeme();
         }
 
-        /**
+        /*
          * Note: readElement() method is a public method and could be invoked from other classes.
          * If readElement() is used not by Zend_Pdf_StringParser::getObject() method, then we should not care
          * about _elements member management.
          */
         switch ($nextLexeme) {
             case '(':
-                return ($this->_elements[] = $this->_readString());
+                return $this->_elements[] = $this->_readString();
 
             case '<':
-                return ($this->_elements[] = $this->_readBinaryString());
+                return $this->_elements[] = $this->_readBinaryString();
 
             case '/':
-                return ($this->_elements[] = new Zend_Pdf_Element_Name(
-                                                    Zend_Pdf_Element_Name::unescape( $this->readLexeme() )
-                                                                      ));
+                return $this->_elements[] = new Zend_Pdf_Element_Name(
+                                                    Zend_Pdf_Element_Name::unescape($this->readLexeme())
+                                                                      );
 
             case '[':
-                return ($this->_elements[] = $this->_readArray());
+                return $this->_elements[] = $this->_readArray();
 
             case '<<':
-                return ($this->_elements[] = $this->_readDictionary());
+                return $this->_elements[] = $this->_readDictionary();
 
             case ')':
                 // fall through to next case
@@ -325,33 +321,31 @@ class Zend_Pdf_StringParser
                 // fall through to next case
             case '}':
                 require_once 'Zend/Pdf/Exception.php';
-                throw new Zend_Pdf_Exception(sprintf('PDF file syntax error. Offset - 0x%X.',
-                                                $this->offset));
-
+                throw new Zend_Pdf_Exception(sprintf('PDF file syntax error. Offset - 0x%X.', $this->offset));
             default:
                 if (strcasecmp($nextLexeme, 'true') == 0) {
-                    return ($this->_elements[] = new Zend_Pdf_Element_Boolean(true));
-                } else if (strcasecmp($nextLexeme, 'false') == 0) {
-                    return ($this->_elements[] = new Zend_Pdf_Element_Boolean(false));
-                } else if (strcasecmp($nextLexeme, 'null') == 0) {
-                    return ($this->_elements[] = new Zend_Pdf_Element_Null());
+                    return $this->_elements[] = new Zend_Pdf_Element_Boolean(true);
+                } elseif (strcasecmp($nextLexeme, 'false') == 0) {
+                    return $this->_elements[] = new Zend_Pdf_Element_Boolean(false);
+                } elseif (strcasecmp($nextLexeme, 'null') == 0) {
+                    return $this->_elements[] = new Zend_Pdf_Element_Null();
                 }
 
                 $ref = $this->_readReference($nextLexeme);
                 if ($ref !== null) {
-                    return ($this->_elements[] = $ref);
+                    return $this->_elements[] = $ref;
                 }
 
-                return ($this->_elements[] = $this->_readNumeric($nextLexeme));
+                return $this->_elements[] = $this->_readNumeric($nextLexeme);
         }
     }
 
-
     /**
      * Read string PDF object
-     * Also reads trailing ')' from a pdf stream
+     * Also reads trailing ')' from a pdf stream.
      *
      * @return Zend_Pdf_Element_String
+     *
      * @throws Zend_Pdf_Exception
      */
     private function _readString()
@@ -362,15 +356,15 @@ class Zend_Pdf_StringParser
         $this->offset += strcspn($this->data, '()\\', $this->offset);
 
         while ($this->offset < strlen($this->data)) {
-            switch (ord( $this->data[$this->offset] )) {
+            switch (ord($this->data[$this->offset])) {
                 case 0x28: // '(' - opened bracket in the string, needs balanced pair.
                     $this->offset++;
-                    $openedBrackets++;
+                    ++$openedBrackets;
                     break;
 
                 case 0x29: // ')' - pair to the opened bracket
                     $this->offset++;
-                    $openedBrackets--;
+                    --$openedBrackets;
                     break;
 
                 case 0x5C: // '\\' - escape sequence, skip next char from a check
@@ -388,17 +382,17 @@ class Zend_Pdf_StringParser
             throw new Zend_Pdf_Exception(sprintf('PDF file syntax error. Unexpected end of file while string reading. Offset - 0x%X. \')\' expected.', $start));
         }
 
-        return new Zend_Pdf_Element_String(Zend_Pdf_Element_String::unescape( substr($this->data,
+        return new Zend_Pdf_Element_String(Zend_Pdf_Element_String::unescape(substr($this->data,
                                                                                      $start,
-                                                                                     $this->offset - $start - 1) ));
+                                                                                     $this->offset - $start - 1)));
     }
-
 
     /**
      * Read binary string PDF object
-     * Also reads trailing '>' from a pdf stream
+     * Also reads trailing '>' from a pdf stream.
      *
      * @return Zend_Pdf_Element_String_Binary
+     *
      * @throws Zend_Pdf_Exception
      */
     private function _readBinaryString()
@@ -418,24 +412,24 @@ class Zend_Pdf_StringParser
         }
 
         return new Zend_Pdf_Element_String_Binary(
-                       Zend_Pdf_Element_String_Binary::unescape( substr($this->data,
+                       Zend_Pdf_Element_String_Binary::unescape(substr($this->data,
                                                                         $start,
-                                                                        $this->offset - $start - 1) ));
+                                                                        $this->offset - $start - 1)));
     }
-
 
     /**
      * Read array PDF object
-     * Also reads trailing ']' from a pdf stream
+     * Also reads trailing ']' from a pdf stream.
      *
      * @return Zend_Pdf_Element_Array
+     *
      * @throws Zend_Pdf_Exception
      */
     private function _readArray()
     {
-        $elements = array();
+        $elements = [];
 
-        while ( strlen($nextLexeme = $this->readLexeme()) != 0 ) {
+        while (strlen($nextLexeme = $this->readLexeme()) != 0) {
             if ($nextLexeme != ']') {
                 $elements[] = $this->readElement($nextLexeme);
             } else {
@@ -447,23 +441,23 @@ class Zend_Pdf_StringParser
         throw new Zend_Pdf_Exception(sprintf('PDF file syntax error. Unexpected end of file while array reading. Offset - 0x%X. \']\' expected.', $this->offset));
     }
 
-
     /**
      * Read dictionary PDF object
-     * Also reads trailing '>>' from a pdf stream
+     * Also reads trailing '>>' from a pdf stream.
      *
      * @return Zend_Pdf_Element_Dictionary
+     *
      * @throws Zend_Pdf_Exception
      */
     private function _readDictionary()
     {
         $dictionary = new Zend_Pdf_Element_Dictionary();
 
-        while ( strlen($nextLexeme = $this->readLexeme()) != 0 ) {
+        while (strlen($nextLexeme = $this->readLexeme()) != 0) {
             if ($nextLexeme != '>>') {
                 $nameStart = $this->offset - strlen($nextLexeme);
 
-                $name  = $this->readElement($nextLexeme);
+                $name = $this->readElement($nextLexeme);
                 $value = $this->readElement();
 
                 if (!$name instanceof Zend_Pdf_Element_Name) {
@@ -481,11 +475,11 @@ class Zend_Pdf_StringParser
         throw new Zend_Pdf_Exception(sprintf('PDF file syntax error. Unexpected end of file while dictionary reading. Offset - 0x%X. \'>>\' expected.', $this->offset));
     }
 
-
     /**
-     * Read reference PDF object
+     * Read reference PDF object.
      *
      * @param string $nextLexeme
+     *
      * @return Zend_Pdf_Element_Reference
      */
     private function _readReference($nextLexeme = null)
@@ -499,31 +493,34 @@ class Zend_Pdf_StringParser
         }
         if (!ctype_digit($objNum)) { // it's not a reference
             $this->offset = $start;
+
             return null;
         }
 
         $genNum = $this->readLexeme();
         if (!ctype_digit($genNum)) { // it's not a reference
             $this->offset = $start;
+
             return null;
         }
 
-        $rMark  = $this->readLexeme();
+        $rMark = $this->readLexeme();
         if ($rMark != 'R') { // it's not a reference
             $this->offset = $start;
+
             return null;
         }
 
-        $ref = new Zend_Pdf_Element_Reference((int)$objNum, (int)$genNum, $this->_context, $this->_objFactory->resolve());
+        $ref = new Zend_Pdf_Element_Reference((int) $objNum, (int) $genNum, $this->_context, $this->_objFactory->resolve());
 
         return $ref;
     }
 
-
     /**
-     * Read numeric PDF object
+     * Read numeric PDF object.
      *
      * @param string $nextLexeme
+     *
      * @return Zend_Pdf_Element_Numeric
      */
     private function _readNumeric($nextLexeme = null)
@@ -535,26 +532,26 @@ class Zend_Pdf_StringParser
         return new Zend_Pdf_Element_Numeric($nextLexeme);
     }
 
-
     /**
-     * Read inderect object from a PDF stream
+     * Read inderect object from a PDF stream.
      *
-     * @param integer $offset
+     * @param int $offset
      * @param Zend_Pdf_Element_Reference_Context $context
+     *
      * @return Zend_Pdf_Element_Object
      */
     public function getObject($offset, Zend_Pdf_Element_Reference_Context $context)
     {
-        if ($offset === null ) {
+        if ($offset === null) {
             return new Zend_Pdf_Element_Null();
         }
 
         // Save current offset to make getObject() reentrant
         $offsetSave = $this->offset;
 
-        $this->offset    = $offset;
-        $this->_context  = $context;
-        $this->_elements = array();
+        $this->offset = $offset;
+        $this->_context = $context;
+        $this->_elements = [];
 
         $objNum = $this->readLexeme();
         if (!ctype_digit($objNum)) {
@@ -578,12 +575,12 @@ class Zend_Pdf_StringParser
 
         $nextLexeme = $this->readLexeme();
 
-        if( $nextLexeme == 'endobj' ) {
+        if ($nextLexeme == 'endobj') {
             /**
              * Object is not generated by factory (thus it's not marked as modified object).
              * But factory is assigned to the obect.
              */
-            $obj = new Zend_Pdf_Element_Object($objValue, (int)$objNum, (int)$genNum, $this->_objFactory->resolve());
+            $obj = new Zend_Pdf_Element_Object($objValue, (int) $objNum, (int) $genNum, $this->_objFactory->resolve());
 
             foreach ($this->_elements as $element) {
                 $element->setParentObject($obj);
@@ -595,7 +592,7 @@ class Zend_Pdf_StringParser
             return $obj;
         }
 
-        /**
+        /*
          * It's a stream object
          */
         if ($nextLexeme != 'stream') {
@@ -613,15 +610,15 @@ class Zend_Pdf_StringParser
          */
         $streamLength = $objValue->Length->value;
 
-        /**
+        /*
          * 'stream' keyword must be followed by either cr-lf sequence or lf character only.
          * This restriction gives the possibility to recognize all cases exactly
          */
         if ($this->data[$this->offset] == "\r" &&
-            $this->data[$this->offset + 1] == "\n"    ) {
+            $this->data[$this->offset + 1] == "\n") {
             $this->offset += 2;
-        } else if ($this->data[$this->offset] == "\n"    ) {
-            $this->offset++;
+        } elseif ($this->data[$this->offset] == "\n") {
+            ++$this->offset;
         } else {
             require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception(sprintf('PDF file syntax error. Offset - 0x%X. \'stream\' must be followed by either cr-lf sequence or lf character only.', $this->offset - strlen($nextLexeme)));
@@ -646,8 +643,8 @@ class Zend_Pdf_StringParser
         $obj = new Zend_Pdf_Element_Object_Stream(substr($this->data,
                                                          $dataOffset,
                                                          $streamLength),
-                                                  (int)$objNum,
-                                                  (int)$genNum,
+                                                  (int) $objNum,
+                                                  (int) $genNum,
                                                   $this->_objFactory->resolve(),
                                                   $objValue);
 
@@ -661,11 +658,10 @@ class Zend_Pdf_StringParser
         return $obj;
     }
 
-
     /**
-     * Get length of source string
+     * Get length of source string.
      *
-     * @return integer
+     * @return int
      */
     public function getLength()
     {
@@ -673,7 +669,7 @@ class Zend_Pdf_StringParser
     }
 
     /**
-     * Get source string
+     * Get source string.
      *
      * @return string
      */
@@ -682,19 +678,19 @@ class Zend_Pdf_StringParser
         return $this->data;
     }
 
-
     /**
-     * Parse integer value from a binary stream
+     * Parse integer value from a binary stream.
      *
      * @param string $stream
-     * @param integer $offset
-     * @param integer $size
-     * @return integer
+     * @param int $offset
+     * @param int $size
+     *
+     * @return int
      */
     public static function parseIntFromStream($stream, $offset, $size)
     {
         $value = 0;
-        for ($count = 0; $count < $size; $count++) {
+        for ($count = 0; $count < $size; ++$count) {
             $value *= 256;
             $value += ord($stream[$offset + $count]);
         }
@@ -702,10 +698,8 @@ class Zend_Pdf_StringParser
         return $value;
     }
 
-
-
     /**
-     * Set current context
+     * Set current context.
      *
      * @param Zend_Pdf_Element_Reference_Context $context
      */
@@ -715,17 +709,18 @@ class Zend_Pdf_StringParser
     }
 
     /**
-     * Object constructor
+     * Object constructor.
      *
      * Note: PHP duplicates string, which is sent by value, only of it's updated.
      * Thus we don't need to care about overhead
      *
      * @param string $pdfString
      * @param Zend_Pdf_ElementFactory_Interface $factory
+     * @param mixed $source
      */
     public function __construct($source, Zend_Pdf_ElementFactory_Interface $factory)
     {
-        $this->data         = $source;
-        $this->_objFactory  = $factory;
+        $this->data = $source;
+        $this->_objFactory = $factory;
     }
 }

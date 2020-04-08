@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Geo
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -40,14 +40,12 @@ require_once 'Zend/Gdata/Geo/Extension/GeoRssWhere.php';
  * An Atom entry containing Geograpic data.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Geo
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Geo_Entry extends Zend_Gdata_Entry
 {
-
     protected $_entryClassName = 'Zend_Gdata_Geo_Entry';
 
     protected $_where = null;
@@ -64,6 +62,7 @@ class Zend_Gdata_Geo_Entry extends Zend_Gdata_Entry
         if ($this->_where != null) {
             $element->appendChild($this->_where->getDOM($element->ownerDocument));
         }
+
         return $element;
     }
 
@@ -90,8 +89,7 @@ class Zend_Gdata_Geo_Entry extends Zend_Gdata_Entry
     public function setWhere($value)
     {
         $this->_where = $value;
+
         return $this;
     }
-
-
 }

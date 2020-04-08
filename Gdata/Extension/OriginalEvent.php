@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Gdata
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -37,17 +37,15 @@ require_once 'Zend/Gdata/Feed.php';
 require_once 'Zend/Gdata/Extension/When.php';
 
 /**
- * Represents the gd:originalEvent element
+ * Represents the gd:originalEvent element.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Gdata
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Extension_OriginalEvent extends Zend_Gdata_Extension
 {
-
     protected $_rootElement = 'originalEvent';
     protected $_id = null;
     protected $_href = null;
@@ -73,6 +71,7 @@ class Zend_Gdata_Extension_OriginalEvent extends Zend_Gdata_Extension
         if ($this->_when !== null) {
             $element->appendChild($this->_when->getDOM($element->ownerDocument));
         }
+
         return $element;
     }
 
@@ -94,7 +93,7 @@ class Zend_Gdata_Extension_OriginalEvent extends Zend_Gdata_Extension
     {
         $absoluteNodeName = $child->namespaceURI . ':' . $child->localName;
         switch ($absoluteNodeName) {
-            case $this->lookupNamespace('gd') . ':' . 'when';
+            case $this->lookupNamespace('gd') . ':' . 'when':
                 $when = new Zend_Gdata_Extension_When();
                 $when->transferFromDOM($child);
                 $this->_when = $when;
@@ -113,6 +112,7 @@ class Zend_Gdata_Extension_OriginalEvent extends Zend_Gdata_Extension
     public function setId($value)
     {
         $this->_id = $value;
+
         return $this;
     }
 
@@ -124,6 +124,7 @@ class Zend_Gdata_Extension_OriginalEvent extends Zend_Gdata_Extension
     public function setHref($value)
     {
         $this->_href = $value;
+
         return $this;
     }
 
@@ -135,8 +136,7 @@ class Zend_Gdata_Extension_OriginalEvent extends Zend_Gdata_Extension
     public function setWhen($value)
     {
         $this->_when = $value;
+
         return $this;
     }
-
-
 }

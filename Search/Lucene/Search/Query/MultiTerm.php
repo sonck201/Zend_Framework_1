@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,41 +13,37 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Search_Lucene
- * @subpackage Search
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
-
 
 /** Zend_Search_Lucene_Search_Query */
 require_once 'Zend/Search/Lucene/Search/Query.php';
 
-
 /**
  * @category   Zend
- * @package    Zend_Search_Lucene
- * @subpackage Search
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Search_Query
 {
-
     /**
      * Terms to find.
-     * Array of Zend_Search_Lucene_Index_Term
+     * Array of Zend_Search_Lucene_Index_Term.
      *
      * @var array
      */
-    private $_terms = array();
+    private $_terms = [];
 
     /**
      * Term signs.
      * If true then term is required.
      * If false then term is prohibited.
-     * If null then term is neither prohibited, nor required
+     * If null then term is neither prohibited, nor required.
      *
      * If array is null then all terms are required
      *
@@ -66,32 +62,29 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
      * Terms positions vectors.
      * Array of Arrays:
      * term1Id => (docId => freq, ...)
-     * term2Id => (docId => freq, ...)
+     * term2Id => (docId => freq, ...).
      *
      * @var array
      */
-    private $_termsFreqs = array();
-
+    private $_termsFreqs = [];
 
     /**
      * A score factor based on the fraction of all query terms
      * that a document contains.
      * float for conjunction queries
-     * array of float for non conjunction queries
+     * array of float for non conjunction queries.
      *
      * @var mixed
      */
     private $_coord = null;
 
-
     /**
      * Terms weights
-     * array of Zend_Search_Lucene_Search_Weight
+     * array of Zend_Search_Lucene_Search_Weight.
      *
      * @var array
      */
-    private $_weights = array();
-
+    private $_weights = [];
 
     /**
      * Class constructor.  Create a new multi-term query object.
@@ -99,8 +92,9 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
      * if $signs array is omitted then all terms are required
      * it differs from addTerm() behavior, but should never be used
      *
-     * @param array $terms    Array of Zend_Search_Lucene_Index_Term objects
-     * @param array $signs    Array of signs.  Sign is boolean|null.
+     * @param array $terms Array of Zend_Search_Lucene_Index_Term objects
+     * @param array $signs Array of signs.  Sign is boolean|null.
+     *
      * @throws Zend_Search_Lucene_Exception
      */
     public function __construct($terms = null, $signs = null)
@@ -116,7 +110,7 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
             $this->_signs = null;
             // Check if all terms are required
             if (is_array($signs)) {
-                foreach ($signs as $sign ) {
+                foreach ($signs as $sign) {
                     if ($sign !== true) {
                         $this->_signs = $signs;
                         break;
@@ -126,7 +120,6 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
         }
     }
 
-
     /**
      * Add a $term (Zend_Search_Lucene_Index_Term) to this query.
      *
@@ -135,14 +128,16 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
      *     FALSE - term is prohibited
      *     NULL  - term is neither prohibited, nor required
      *
-     * @param  Zend_Search_Lucene_Index_Term $term
-     * @param  boolean|null $sign
+     * @param Zend_Search_Lucene_Index_Term $term
+     * @param bool|null $sign
+     *
      * @return void
      */
-    public function addTerm(Zend_Search_Lucene_Index_Term $term, $sign = null) {
+    public function addTerm(Zend_Search_Lucene_Index_Term $term, $sign = null)
+    {
         if ($sign !== true || $this->_signs !== null) {       // Skip, if all terms are required
             if ($this->_signs === null) {                     // Check, If all previous terms are required
-                $this->_signs = array();
+                $this->_signs = [];
                 foreach ($this->_terms as $prevTerm) {
                     $this->_signs[] = true;
                 }
@@ -153,17 +148,18 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
         $this->_terms[] = $term;
     }
 
-
     /**
-     * Re-write query into primitive queries in the context of specified index
+     * Re-write query into primitive queries in the context of specified index.
      *
      * @param Zend_Search_Lucene_Interface $index
+     *
      * @return Zend_Search_Lucene_Search_Query
      */
     public function rewrite(Zend_Search_Lucene_Interface $index)
     {
         if (count($this->_terms) == 0) {
             require_once 'Zend/Search/Lucene/Search/Query/Empty.php';
+
             return new Zend_Search_Lucene_Search_Query_Empty();
         }
 
@@ -189,7 +185,7 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
                 $subquery = new Zend_Search_Lucene_Search_Query_Term($term);
 
                 $query->addSubquery($subquery->rewrite($index),
-                                    ($this->_signs === null)?  true : $this->_signs[$termId]);
+                                    ($this->_signs === null) ? true : $this->_signs[$termId]);
             }
 
             return $query;
@@ -197,9 +193,10 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
     }
 
     /**
-     * Optimize query in the context of specified index
+     * Optimize query in the context of specified index.
      *
      * @param Zend_Search_Lucene_Interface $index
+     *
      * @return Zend_Search_Lucene_Search_Query
      */
     public function optimize(Zend_Search_Lucene_Interface $index)
@@ -209,9 +206,10 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
 
         foreach ($terms as $id => $term) {
             if (!$index->hasTerm($term)) {
-                if ($signs === null  ||  $signs[$id] === true) {
+                if ($signs === null || $signs[$id] === true) {
                     // Term is required
                     require_once 'Zend/Search/Lucene/Search/Query/Empty.php';
+
                     return new Zend_Search_Lucene_Search_Query_Empty();
                 } else {
                     // Term is optional or prohibited
@@ -236,10 +234,11 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
         }
         if ($allProhibited) {
             require_once 'Zend/Search/Lucene/Search/Query/Empty.php';
+
             return new Zend_Search_Lucene_Search_Query_Empty();
         }
 
-        /**
+        /*
          * @todo make an optimization for repeated terms
          * (they may have different signs)
          */
@@ -257,17 +256,18 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
 
         if (count($terms) == 0) {
             require_once 'Zend/Search/Lucene/Search/Query/Empty.php';
+
             return new Zend_Search_Lucene_Search_Query_Empty();
         }
 
         $optimizedQuery = new Zend_Search_Lucene_Search_Query_MultiTerm($terms, $signs);
         $optimizedQuery->setBoost($this->getBoost());
+
         return $optimizedQuery;
     }
 
-
     /**
-     * Returns query term
+     * Returns query term.
      *
      * @return array
      */
@@ -276,9 +276,8 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
         return $this->_terms;
     }
 
-
     /**
-     * Return terms signs
+     * Return terms signs.
      *
      * @return array
      */
@@ -287,11 +286,10 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
         return $this->_signs;
     }
 
-
     /**
-     * Set weight for specified term
+     * Set weight for specified term.
      *
-     * @param integer $num
+     * @param int $num
      * @param Zend_Search_Lucene_Search_Weight_Term $weight
      */
     public function setWeight($num, $weight)
@@ -299,24 +297,24 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
         $this->_weights[$num] = $weight;
     }
 
-
     /**
      * Constructs an appropriate Weight implementation for this query.
      *
      * @param Zend_Search_Lucene_Interface $reader
+     *
      * @return Zend_Search_Lucene_Search_Weight
      */
     public function createWeight(Zend_Search_Lucene_Interface $reader)
     {
         require_once 'Zend/Search/Lucene/Search/Weight/MultiTerm.php';
         $this->_weight = new Zend_Search_Lucene_Search_Weight_MultiTerm($this, $reader);
+
         return $this->_weight;
     }
 
-
     /**
      * Calculate result vector for Conjunction query
-     * (like '+something +another')
+     * (like '+something +another').
      *
      * @param Zend_Search_Lucene_Interface $reader
      */
@@ -325,15 +323,15 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
         $this->_resVector = null;
 
         if (count($this->_terms) == 0) {
-            $this->_resVector = array();
+            $this->_resVector = [];
         }
 
         // Order terms by selectivity
-        $docFreqs = array();
-        $ids      = array();
+        $docFreqs = [];
+        $ids = [];
         foreach ($this->_terms as $id => $term) {
             $docFreqs[] = $reader->docFreq($term);
-            $ids[]      = $id; // Used to keep original order for terms with the same selectivity and omit terms comparison
+            $ids[] = $id; // Used to keep original order for terms with the same selectivity and omit terms comparison
         }
         array_multisort($docFreqs, SORT_ASC, SORT_NUMERIC,
                         $ids,      SORT_ASC, SORT_NUMERIC,
@@ -356,30 +354,29 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
         // Docs are returned ordered. Used algorithms doesn't change elements order.
     }
 
-
     /**
      * Calculate result vector for non Conjunction query
-     * (like '+something -another')
+     * (like '+something -another').
      *
      * @param Zend_Search_Lucene_Interface $reader
      */
     private function _calculateNonConjunctionResult(Zend_Search_Lucene_Interface $reader)
     {
-        $requiredVectors      = array();
-        $requiredVectorsSizes = array();
-        $requiredVectorsIds   = array(); // is used to prevent arrays comparison
+        $requiredVectors = [];
+        $requiredVectorsSizes = [];
+        $requiredVectorsIds = []; // is used to prevent arrays comparison
 
-        $optional   = array();
-        $prohibited = array();
+        $optional = [];
+        $prohibited = [];
 
         foreach ($this->_terms as $termId => $term) {
             $termDocs = array_flip($reader->termDocs($term));
 
             if ($this->_signs[$termId] === true) {
                 // required
-                $requiredVectors[]      = $termDocs;
+                $requiredVectors[] = $termDocs;
                 $requiredVectorsSizes[] = count($termDocs);
-                $requiredVectorsIds[]   = $termId;
+                $requiredVectorsIds[] = $termId;
             } elseif ($this->_signs[$termId] === false) {
                 // prohibited
                 // array union
@@ -400,7 +397,7 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
 
         $required = null;
         foreach ($requiredVectors as $nextResVector) {
-            if($required === null) {
+            if ($required === null) {
                 $required = $nextResVector;
             } else {
                 //$required = array_intersect_key($required, $nextResVector);
@@ -408,7 +405,7 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
                 /**
                  * This code is used as workaround for array_intersect_key() slowness problem.
                  */
-                $updatedVector = array();
+                $updatedVector = [];
                 foreach ($required as $id => $value) {
                     if (isset($nextResVector[$id])) {
                         $updatedVector[$id] = $value;
@@ -432,7 +429,7 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
         if (count($prohibited) != 0) {
             // $this->_resVector = array_diff_key($this->_resVector, $prohibited);
 
-            /**
+            /*
              * This code is used as workaround for array_diff_key() slowness problem.
              */
             if (count($this->_resVector) < count($prohibited)) {
@@ -455,25 +452,25 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
         ksort($this->_resVector, SORT_NUMERIC);
     }
 
-
     /**
-     * Score calculator for conjunction queries (all terms are required)
+     * Score calculator for conjunction queries (all terms are required).
      *
-     * @param integer $docId
+     * @param int $docId
      * @param Zend_Search_Lucene_Interface $reader
+     *
      * @return float
      */
     public function _conjunctionScore($docId, Zend_Search_Lucene_Interface $reader)
     {
         if ($this->_coord === null) {
             $this->_coord = $reader->getSimilarity()->coord(count($this->_terms),
-                                                            count($this->_terms) );
+                                                            count($this->_terms));
         }
 
         $score = 0.0;
 
         foreach ($this->_terms as $termId => $term) {
-            /**
+            /*
              * We don't need to check that term freq is not 0
              * Score calculation is performed only for matched docs
              */
@@ -485,41 +482,41 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
         return $score * $this->_coord * $this->getBoost();
     }
 
-
     /**
-     * Score calculator for non conjunction queries (not all terms are required)
+     * Score calculator for non conjunction queries (not all terms are required).
      *
-     * @param integer $docId
+     * @param int $docId
      * @param Zend_Search_Lucene_Interface $reader
+     *
      * @return float
      */
     public function _nonConjunctionScore($docId, $reader)
     {
         if ($this->_coord === null) {
-            $this->_coord = array();
+            $this->_coord = [];
 
             $maxCoord = 0;
             foreach ($this->_signs as $sign) {
                 if ($sign !== false /* not prohibited */) {
-                    $maxCoord++;
+                    ++$maxCoord;
                 }
             }
 
-            for ($count = 0; $count <= $maxCoord; $count++) {
+            for ($count = 0; $count <= $maxCoord; ++$count) {
                 $this->_coord[$count] = $reader->getSimilarity()->coord($count, $maxCoord);
             }
         }
 
         $score = 0.0;
         $matchedTerms = 0;
-        foreach ($this->_terms as $termId=>$term) {
+        foreach ($this->_terms as $termId => $term) {
             // Check if term is
             if ($this->_signs[$termId] !== false &&        // not prohibited
                 isset($this->_termsFreqs[$termId][$docId]) // matched
                ) {
-                $matchedTerms++;
+                ++$matchedTerms;
 
-                /**
+                /*
                  * We don't need to check that term freq is not 0
                  * Score calculation is performed only for matched docs
                  */
@@ -535,7 +532,7 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
 
     /**
      * Execute query in context of index reader
-     * It also initializes necessary internal structures
+     * It also initializes necessary internal structures.
      *
      * @param Zend_Search_Lucene_Interface $reader
      * @param Zend_Search_Lucene_Index_DocsFilter|null $docsFilter
@@ -553,7 +550,7 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
     }
 
     /**
-     * Get document ids likely matching the query
+     * Get document ids likely matching the query.
      *
      * It's an array with document ids as keys (performance considerations)
      *
@@ -565,10 +562,11 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
     }
 
     /**
-     * Score specified document
+     * Score specified document.
      *
-     * @param integer $docId
+     * @param int $docId
      * @param Zend_Search_Lucene_Interface $reader
+     *
      * @return float
      */
     public function score($docId, Zend_Search_Lucene_Interface $reader)
@@ -585,7 +583,7 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
     }
 
     /**
-     * Return query terms
+     * Return query terms.
      *
      * @return array
      */
@@ -595,7 +593,7 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
             return $this->_terms;
         }
 
-        $terms = array();
+        $terms = [];
 
         foreach ($this->_signs as $id => $sign) {
             if ($sign !== false) {
@@ -607,13 +605,13 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
     }
 
     /**
-     * Query specific matches highlighting
+     * Query specific matches highlighting.
      *
-     * @param Zend_Search_Lucene_Search_Highlighter_Interface $highlighter  Highlighter object (also contains doc for highlighting)
+     * @param Zend_Search_Lucene_Search_Highlighter_Interface $highlighter Highlighter object (also contains doc for highlighting)
      */
     protected function _highlightMatches(Zend_Search_Lucene_Search_Highlighter_Interface $highlighter)
     {
-        $words = array();
+        $words = [];
 
         if ($this->_signs === null) {
             foreach ($this->_terms as $term) {
@@ -631,7 +629,7 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
     }
 
     /**
-     * Print a query
+     * Print a query.
      *
      * @return string
      */
@@ -648,7 +646,7 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
 
             if ($this->_signs === null || $this->_signs[$id] === true) {
                 $query .= '+';
-            } else if ($this->_signs[$id] === false) {
+            } elseif ($this->_signs[$id] === false) {
                 $query .= '-';
             }
 
@@ -665,4 +663,3 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
         return $query;
     }
 }
-

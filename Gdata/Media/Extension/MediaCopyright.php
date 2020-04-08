@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Media
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -27,17 +27,15 @@
 require_once 'Zend/Gdata/App/Extension.php';
 
 /**
- * Represents the media:copyright element
+ * Represents the media:copyright element.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Media
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Media_Extension_MediaCopyright extends Zend_Gdata_Extension
 {
-
     protected $_rootElement = 'copyright';
     protected $_rootNamespace = 'media';
 
@@ -65,8 +63,11 @@ class Zend_Gdata_Media_Extension_MediaCopyright extends Zend_Gdata_Extension
      * for application storage/persistence.
      *
      * @param DOMDocument $doc The DOMDocument used to construct DOMElements
+     * @param mixed $majorVersion
+     * @param mixed|null $minorVersion
+     *
      * @return DOMElement The DOMElement representing this element and all
-     * child properties.
+     *                    child properties.
      */
     public function getDOM($doc = null, $majorVersion = 1, $minorVersion = null)
     {
@@ -74,6 +75,7 @@ class Zend_Gdata_Media_Extension_MediaCopyright extends Zend_Gdata_Extension
         if ($this->_url !== null) {
             $element->setAttribute('url', $this->_url);
         }
+
         return $element;
     }
 
@@ -105,12 +107,13 @@ class Zend_Gdata_Media_Extension_MediaCopyright extends Zend_Gdata_Extension
 
     /**
      * @param string $value
+     *
      * @return Zend_Gdata_Media_Extension_MediaCopyright Provides a fluent interface
      */
     public function setUrl($value)
     {
         $this->_url = $value;
+
         return $this;
     }
-
 }

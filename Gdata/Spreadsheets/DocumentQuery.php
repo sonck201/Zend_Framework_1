@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,37 +14,35 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Spreadsheets
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
 /**
- * Zend_Gdata_App_util
+ * Zend_Gdata_App_util.
  */
-require_once('Zend/Gdata/App/Util.php');
+require_once 'Zend/Gdata/App/Util.php';
 
 /**
- * Zend_Gdata_Query
+ * Zend_Gdata_Query.
  */
-require_once('Zend/Gdata/Query.php');
+require_once 'Zend/Gdata/Query.php';
 
 /**
- * Assists in constructing queries for Google Spreadsheets documents
+ * Assists in constructing queries for Google Spreadsheets documents.
  *
- * @link http://code.google.com/apis/gdata/spreadsheets/
+ * @see http://code.google.com/apis/gdata/spreadsheets/
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage   Spreadsheets
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Spreadsheets_DocumentQuery extends Zend_Gdata_Query
 {
-
     const SPREADSHEETS_FEED_URI = 'https://spreadsheets.google.com/feeds';
 
     protected $_defaultFeedUri = self::SPREADSHEETS_FEED_URI;
@@ -64,17 +62,21 @@ class Zend_Gdata_Spreadsheets_DocumentQuery extends Zend_Gdata_Query
 
     /**
      * Sets the spreadsheet key for this query.
+     *
      * @param string $value
+     *
      * @return Zend_Gdata_Spreadsheets_CellQuery Provides a fluent interface
      */
     public function setSpreadsheetKey($value)
     {
         $this->_spreadsheetKey = $value;
+
         return $this;
     }
 
     /**
      * Gets the spreadsheet key for this query.
+     *
      * @return string spreadsheet key
      */
     public function getSpreadsheetKey()
@@ -84,17 +86,21 @@ class Zend_Gdata_Spreadsheets_DocumentQuery extends Zend_Gdata_Query
 
     /**
      * Sets the worksheet id for this query.
+     *
      * @param string $value
+     *
      * @return Zend_Gdata_Spreadsheets_CellQuery Provides a fluent interface
      */
     public function setWorksheetId($value)
     {
         $this->_worksheetId = $value;
+
         return $this;
     }
 
     /**
      * Gets the worksheet id for this query.
+     *
      * @return string worksheet id
      */
     public function getWorksheetId()
@@ -104,17 +110,21 @@ class Zend_Gdata_Spreadsheets_DocumentQuery extends Zend_Gdata_Query
 
     /**
      * Sets the document type for this query.
+     *
      * @param string $value spreadsheets or worksheets
+     *
      * @return Zend_Gdata_Spreadsheets_DocumentQuery Provides a fluent interface
      */
     public function setDocumentType($value)
     {
         $this->_documentType = $value;
+
         return $this;
     }
 
     /**
      * Gets the document type for this query.
+     *
      * @return string document type
      */
     public function getDocumentType()
@@ -124,27 +134,35 @@ class Zend_Gdata_Spreadsheets_DocumentQuery extends Zend_Gdata_Query
 
     /**
      * Sets the projection for this query.
+     *
      * @param string $value
+     *
      * @return Zend_Gdata_Spreadsheets_DocumentQuery Provides a fluent interface
      */
     public function setProjection($value)
     {
         $this->_projection = $value;
+
         return $this;
     }
 
     /**
      * Sets the visibility for this query.
+     *
      * @return Zend_Gdata_Spreadsheets_DocumentQuery Provides a fluent interface
+     *
+     * @param mixed $value
      */
     public function setVisibility($value)
     {
         $this->_visibility = $value;
+
         return $this;
     }
 
     /**
      * Gets the projection for this query.
+     *
      * @return string projection
      */
     public function getProjection()
@@ -154,6 +172,7 @@ class Zend_Gdata_Spreadsheets_DocumentQuery extends Zend_Gdata_Query
 
     /**
      * Gets the visibility for this query.
+     *
      * @return string visibility
      */
     public function getVisibility()
@@ -163,7 +182,9 @@ class Zend_Gdata_Spreadsheets_DocumentQuery extends Zend_Gdata_Query
 
     /**
      * Sets the title attribute for this query.
+     *
      * @param string $value
+     *
      * @return Zend_Gdata_Spreadsheets_DocumentQuery Provides a fluent interface
      */
     public function setTitle($value)
@@ -173,12 +194,15 @@ class Zend_Gdata_Spreadsheets_DocumentQuery extends Zend_Gdata_Query
         } else {
             unset($this->_params['title']);
         }
+
         return $this;
     }
 
     /**
      * Sets the title-exact attribute for this query.
+     *
      * @param string $value
+     *
      * @return Zend_Gdata_Spreadsheets_DocumentQuery Provides a fluent interface
      */
     public function setTitleExact($value)
@@ -188,11 +212,13 @@ class Zend_Gdata_Spreadsheets_DocumentQuery extends Zend_Gdata_Query
         } else {
             unset($this->_params['title-exact']);
         }
+
         return $this;
     }
 
     /**
      * Gets the title attribute for this query.
+     *
      * @return string title
      */
     public function getTitle()
@@ -206,6 +232,7 @@ class Zend_Gdata_Spreadsheets_DocumentQuery extends Zend_Gdata_Query
 
     /**
      * Gets the title-exact attribute for this query.
+     *
      * @return string title-exact
      */
     public function getTitleExact()
@@ -222,14 +249,14 @@ class Zend_Gdata_Spreadsheets_DocumentQuery extends Zend_Gdata_Query
         $uri = '';
 
         if ($this->_visibility != null) {
-            $uri .= '/'.$this->_visibility;
+            $uri .= '/' . $this->_visibility;
         } else {
             require_once 'Zend/Gdata/App/Exception.php';
             throw new Zend_Gdata_App_Exception('A visibility must be provided for document queries.');
         }
 
         if ($this->_projection != null) {
-            $uri .= '/'.$this->_projection;
+            $uri .= '/' . $this->_projection;
         } else {
             require_once 'Zend/Gdata/App/Exception.php';
             throw new Zend_Gdata_App_Exception('A projection must be provided for document queries.');
@@ -238,9 +265,9 @@ class Zend_Gdata_Spreadsheets_DocumentQuery extends Zend_Gdata_Query
         return $uri;
     }
 
-
     /**
      * Gets the full query URL for this query.
+     *
      * @return string url
      */
     public function getQueryUrl()
@@ -248,7 +275,7 @@ class Zend_Gdata_Spreadsheets_DocumentQuery extends Zend_Gdata_Query
         $uri = $this->_defaultFeedUri;
 
         if ($this->_documentType != null) {
-            $uri .= '/'.$this->_documentType;
+            $uri .= '/' . $this->_documentType;
         } else {
             require_once 'Zend/Gdata/App/Exception.php';
             throw new Zend_Gdata_App_Exception('A document type must be provided for document queries.');
@@ -257,32 +284,33 @@ class Zend_Gdata_Spreadsheets_DocumentQuery extends Zend_Gdata_Query
         if ($this->_documentType == 'spreadsheets') {
             $uri .= $this->appendVisibilityProjection();
             if ($this->_spreadsheetKey != null) {
-                $uri .= '/'.$this->_spreadsheetKey;
+                $uri .= '/' . $this->_spreadsheetKey;
             }
-        } else if ($this->_documentType == 'worksheets') {
+        } elseif ($this->_documentType == 'worksheets') {
             if ($this->_spreadsheetKey != null) {
-                $uri .= '/'.$this->_spreadsheetKey;
+                $uri .= '/' . $this->_spreadsheetKey;
             } else {
                 require_once 'Zend/Gdata/App/Exception.php';
                 throw new Zend_Gdata_App_Exception('A spreadsheet key must be provided for worksheet document queries.');
             }
             $uri .= $this->appendVisibilityProjection();
             if ($this->_worksheetId != null) {
-                $uri .= '/'.$this->_worksheetId;
+                $uri .= '/' . $this->_worksheetId;
             }
         }
 
         $uri .= $this->getQueryString();
+
         return $uri;
     }
 
     /**
      * Gets the attribute query string for this query.
+     *
      * @return string query string
      */
     public function getQueryString()
     {
         return parent::getQueryString();
     }
-
 }

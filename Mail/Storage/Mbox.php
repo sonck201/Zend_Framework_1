@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,13 +13,12 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Mail
- * @subpackage Storage
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
-
 
 /**
  * @see Zend_Loader
@@ -37,50 +36,54 @@ require_once 'Zend/Mail/Storage/Abstract.php';
  */
 require_once 'Zend/Mail/Message/File.php';
 
-
 /**
  * @category   Zend
- * @package    Zend_Mail
- * @subpackage Storage
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Mail_Storage_Mbox extends Zend_Mail_Storage_Abstract
 {
     /**
-     * file handle to mbox file
-     * @var null|resource
+     * file handle to mbox file.
+     *
+     * @var resource|null
      */
     protected $_fh;
 
     /**
-     * filename of mbox file for __wakeup
+     * filename of mbox file for __wakeup.
+     *
      * @var string
      */
     protected $_filename;
 
     /**
-     * modification date of mbox file for __wakeup
+     * modification date of mbox file for __wakeup.
+     *
      * @var int
      */
     protected $_filemtime;
 
     /**
-     * start and end position of messages as array('start' => start, 'seperator' => headersep, 'end' => end)
+     * start and end position of messages as array('start' => start, 'seperator' => headersep, 'end' => end).
+     *
      * @var array
      */
     protected $_positions;
 
     /**
-     * used message class, change it in an extened class to extend the returned message class
+     * used message class, change it in an extened class to extend the returned message class.
+     *
      * @var string
      */
     protected $_messageClass = 'Zend_Mail_Message_File';
 
     /**
-     * Count messages all messages in current box
+     * Count messages all messages in current box.
      *
      * @return int number of messages
+     *
      * @throws Zend_Mail_Storage_Exception
      */
     public function countMessages()
@@ -88,21 +91,22 @@ class Zend_Mail_Storage_Mbox extends Zend_Mail_Storage_Abstract
         return count($this->_positions);
     }
 
-
     /**
-     * Get a list of messages with number and size
+     * Get a list of messages with number and size.
      *
-     * @param  int|null $id  number of message or null for all messages
+     * @param int|null $id number of message or null for all messages
+     *
      * @return int|array size of given message of list with all messages as array(num => size)
      */
     public function getSize($id = 0)
     {
         if ($id) {
             $pos = $this->_positions[$id - 1];
+
             return $pos['end'] - $pos['start'];
         }
 
-        $result = array();
+        $result = [];
         foreach ($this->_positions as $num => $pos) {
             $result[$num + 1] = $pos['end'] - $pos['start'];
         }
@@ -110,12 +114,13 @@ class Zend_Mail_Storage_Mbox extends Zend_Mail_Storage_Abstract
         return $result;
     }
 
-
     /**
-     * Get positions for mail message or throw exeption if id is invalid
+     * Get positions for mail message or throw exeption if id is invalid.
      *
      * @param int $id number of message
+     *
      * @return array positions as in _positions
+     *
      * @throws Zend_Mail_Storage_Exception
      */
     protected function _getPos($id)
@@ -131,12 +136,13 @@ class Zend_Mail_Storage_Mbox extends Zend_Mail_Storage_Abstract
         return $this->_positions[$id - 1];
     }
 
-
     /**
-     * Fetch a message
+     * Fetch a message.
      *
-     * @param  int $id number of message
+     * @param int $id number of message
+     *
      * @return Zend_Mail_Message_File
+     *
      * @throws Zend_Mail_Storage_Exception
      */
     public function getMessage($id)
@@ -145,8 +151,9 @@ class Zend_Mail_Storage_Mbox extends Zend_Mail_Storage_Abstract
         if (strtolower($this->_messageClass) == 'zend_mail_message_file' || is_subclass_of($this->_messageClass, 'zend_mail_message_file')) {
             // TODO top/body lines
             $messagePos = $this->_getPos($id);
-            return new $this->_messageClass(array('file' => $this->_fh, 'startPos' => $messagePos['start'],
-                                                  'endPos' => $messagePos['end']));
+
+            return new $this->_messageClass(['file' => $this->_fh, 'startPos' => $messagePos['start'],
+                'endPos' => $messagePos['end'], ]);
         }
 
         $bodyLines = 0; // TODO: need a way to change that
@@ -160,7 +167,7 @@ class Zend_Mail_Storage_Mbox extends Zend_Mail_Storage_Abstract
             }
         }
 
-        return new $this->_messageClass(array('handler' => $this, 'id' => $id, 'headers' => $message));
+        return new $this->_messageClass(['handler' => $this, 'id' => $id, 'headers' => $message]);
     }
 
     /*
@@ -208,21 +215,23 @@ class Zend_Mail_Storage_Mbox extends Zend_Mail_Storage_Abstract
             throw new Zend_Mail_Storage_Exception('not implemented');
         }
         $messagePos = $this->_getPos($id);
+
         return stream_get_contents($this->_fh, $messagePos['end'] - $messagePos['separator'], $messagePos['separator']);
     }
 
     /**
      * Create instance with parameters
      * Supported parameters are:
-     *   - filename filename of mbox file
+     *   - filename filename of mbox file.
      *
      * @param array $params mail reader specific parameters
+     *
      * @throws Zend_Mail_Storage_Exception
      */
     public function __construct($params)
     {
         if (is_array($params)) {
-            $params = (object)$params;
+            $params = (object) $params;
         }
 
         if (!isset($params->filename) /* || Zend_Loader::isReadable($params['filename']) */) {
@@ -234,17 +243,18 @@ class Zend_Mail_Storage_Mbox extends Zend_Mail_Storage_Abstract
         }
 
         $this->_openMboxFile($params->filename);
-        $this->_has['top']      = true;
+        $this->_has['top'] = true;
         $this->_has['uniqueid'] = false;
     }
 
     /**
-     * check if given file is a mbox file
+     * check if given file is a mbox file.
      *
      * if $file is a resource its file pointer is moved after the first line
      *
-     * @param  resource|string $file stream resource of name of file
-     * @param  bool $fileIsString file is string or resource
+     * @param resource|string $file stream resource of name of file
+     * @param bool $fileIsString file is string or resource
+     *
      * @return bool file is mbox file
      */
     protected function _isMboxFile($file, $fileIsString = true)
@@ -273,10 +283,12 @@ class Zend_Mail_Storage_Mbox extends Zend_Mail_Storage_Abstract
     }
 
     /**
-     * open given file as current mbox file
+     * open given file as current mbox file.
      *
-     * @param  string $filename filename of mbox file
+     * @param string $filename filename of mbox file
+     *
      * @return null
+     *
      * @throws Zend_Mail_Storage_Exception
      */
     protected function _openMboxFile($filename)
@@ -305,7 +317,7 @@ class Zend_Mail_Storage_Mbox extends Zend_Mail_Storage_Abstract
             throw new Zend_Mail_Storage_Exception('file is not a valid mbox format');
         }
 
-        $messagePos = array('start' => ftell($this->_fh), 'separator' => 0, 'end' => 0);
+        $messagePos = ['start' => ftell($this->_fh), 'separator' => 0, 'end' => 0];
         while (($line = fgets($this->_fh)) !== false) {
             if (strpos($line, 'From ') === 0) {
                 $messagePos['end'] = ftell($this->_fh) - strlen($line) - 2; // + newline
@@ -313,7 +325,7 @@ class Zend_Mail_Storage_Mbox extends Zend_Mail_Storage_Abstract
                     $messagePos['separator'] = $messagePos['end'];
                 }
                 $this->_positions[] = $messagePos;
-                $messagePos = array('start' => ftell($this->_fh), 'separator' => 0, 'end' => 0);
+                $messagePos = ['start' => ftell($this->_fh), 'separator' => 0, 'end' => 0];
             }
             if (!$messagePos['separator'] && !trim($line)) {
                 $messagePos['separator'] = ftell($this->_fh);
@@ -336,9 +348,8 @@ class Zend_Mail_Storage_Mbox extends Zend_Mail_Storage_Abstract
     public function close()
     {
         @fclose($this->_fh);
-        $this->_positions = array();
+        $this->_positions = [];
     }
-
 
     /**
      * Waste some CPU cycles doing nothing.
@@ -350,12 +361,14 @@ class Zend_Mail_Storage_Mbox extends Zend_Mail_Storage_Abstract
         return true;
     }
 
-
     /**
-     * stub for not supported message deletion
+     * stub for not supported message deletion.
      *
      * @return null
+     *
      * @throws Zend_Mail_Storage_Exception
+     *
+     * @param mixed $id
      */
     public function removeMessage($id)
     {
@@ -367,14 +380,16 @@ class Zend_Mail_Storage_Mbox extends Zend_Mail_Storage_Abstract
     }
 
     /**
-     * get unique id for one or all messages
+     * get unique id for one or all messages.
      *
      * Mbox does not support unique ids (yet) - it's always the same as the message number.
      * That shouldn't be a problem, because we can't change mbox files. Therefor the message
      * number is save enough.
      *
      * @param int|null $id message number
+     *
      * @return array|string message number for given message or all messages as array
+     *
      * @throws Zend_Mail_Storage_Exception
      */
     public function getUniqueId($id = null)
@@ -382,32 +397,37 @@ class Zend_Mail_Storage_Mbox extends Zend_Mail_Storage_Abstract
         if ($id) {
             // check if id exists
             $this->_getPos($id);
+
             return $id;
         }
 
         $range = range(1, $this->countMessages());
+
         return array_combine($range, $range);
     }
 
     /**
-     * get a message number from a unique id
+     * get a message number from a unique id.
      *
      * I.e. if you have a webmailer that supports deleting messages you should use unique ids
      * as parameter and use this method to translate it to message number right before calling removeMessage()
      *
      * @param string $id unique id
+     *
      * @return int message number
+     *
      * @throws Zend_Mail_Storage_Exception
      */
     public function getNumberByUniqueId($id)
     {
         // check if id exists
         $this->_getPos($id);
+
         return $id;
     }
 
     /**
-     * magic method for serialize()
+     * magic method for serialize().
      *
      * with this method you can cache the mbox class
      *
@@ -415,16 +435,17 @@ class Zend_Mail_Storage_Mbox extends Zend_Mail_Storage_Abstract
      */
     public function __sleep()
     {
-        return array('_filename', '_positions', '_filemtime');
+        return ['_filename', '_positions', '_filemtime'];
     }
 
     /**
-     * magic method for unserialize()
+     * magic method for unserialize().
      *
      * with this method you can cache the mbox class
      * for cache validation the mtime of the mbox file is used
      *
      * @return null
+     *
      * @throws Zend_Mail_Storage_Exception
      */
     public function __wakeup()
@@ -443,5 +464,4 @@ class Zend_Mail_Storage_Mbox extends Zend_Mail_Storage_Abstract
             }
         }
     }
-
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,9 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Service_ShortUrl
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id: $
  */
 
@@ -25,27 +26,29 @@
 require_once 'Zend/Service/ShortUrl/AbstractShortener.php';
 
 /**
- * TinyUrl.com API implementation
+ * TinyUrl.com API implementation.
  *
  * @category   Zend
- * @package    Zend_Service_ShortUrl
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Service_ShortUrl_TinyUrlCom extends Zend_Service_ShortUrl_AbstractShortener
 {
     /**
-     * Base URI of the service
+     * Base URI of the service.
      *
      * @var string
      */
     protected $_baseUri = 'http://tinyurl.com';
 
     /**
-     * This function shortens long url
+     * This function shortens long url.
      *
      * @param string $url URL to Shorten
+     *
      * @throws Zend_Service_ShortUrl_Exception When URL is not valid
+     *
      * @return string New URL
      */
     public function shorten($url)
@@ -63,10 +66,12 @@ class Zend_Service_ShortUrl_TinyUrlCom extends Zend_Service_ShortUrl_AbstractSho
     }
 
     /**
-     * Reveals target for short URL
+     * Reveals target for short URL.
      *
      * @param string $shortenedUrl URL to reveal target of
+     *
      * @throws Zend_Service_ShortUrl_Exception When URL is not valid or is not shortened by this service
+     *
      * @return string
      */
     public function unshorten($shortenedUrl)

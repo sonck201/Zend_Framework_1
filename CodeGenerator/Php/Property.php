@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_CodeGenerator
- * @subpackage PHP
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -32,13 +32,12 @@ require_once 'Zend/CodeGenerator/Php/Property/DefaultValue.php';
 
 /**
  * @category   Zend
- * @package    Zend_CodeGenerator
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_CodeGenerator_Php_Property extends Zend_CodeGenerator_Php_Member_Abstract
 {
-
     /**
      * @var bool
      */
@@ -50,9 +49,10 @@ class Zend_CodeGenerator_Php_Property extends Zend_CodeGenerator_Php_Member_Abst
     protected $_defaultValue = null;
 
     /**
-     * fromReflection()
+     * fromReflection().
      *
      * @param Zend_Reflection_Property $reflectionProperty
+     *
      * @return Zend_CodeGenerator_Php_Property
      */
     public static function fromReflection(Zend_Reflection_Property $reflectionProperty)
@@ -87,19 +87,21 @@ class Zend_CodeGenerator_Php_Property extends Zend_CodeGenerator_Php_Member_Abst
     }
 
     /**
-     * setConst()
+     * setConst().
      *
      * @param bool $const
+     *
      * @return Zend_CodeGenerator_Php_Property
      */
     public function setConst($const)
     {
         $this->_isConst = $const;
+
         return $this;
     }
 
     /**
-     * isConst()
+     * isConst().
      *
      * @return bool
      */
@@ -109,9 +111,10 @@ class Zend_CodeGenerator_Php_Property extends Zend_CodeGenerator_Php_Member_Abst
     }
 
     /**
-     * setDefaultValue()
+     * setDefaultValue().
      *
      * @param Zend_CodeGenerator_Php_Property_DefaultValue|string|array $defaultValue
+     *
      * @return Zend_CodeGenerator_Php_Property
      */
     public function setDefaultValue($defaultValue)
@@ -124,15 +127,16 @@ class Zend_CodeGenerator_Php_Property extends Zend_CodeGenerator_Php_Member_Abst
         }
 
         if (!($defaultValue instanceof Zend_CodeGenerator_Php_Property_DefaultValue)) {
-            $defaultValue = new Zend_CodeGenerator_Php_Property_DefaultValue(array('value' => $defaultValue));
+            $defaultValue = new Zend_CodeGenerator_Php_Property_DefaultValue(['value' => $defaultValue]);
         }
 
         $this->_defaultValue = $defaultValue;
+
         return $this;
     }
 
     /**
-     * getDefaultValue()
+     * getDefaultValue().
      *
      * @return Zend_CodeGenerator_Php_Property_DefaultValue
      */
@@ -142,13 +146,13 @@ class Zend_CodeGenerator_Php_Property extends Zend_CodeGenerator_Php_Member_Abst
     }
 
     /**
-     * generate()
+     * generate().
      *
      * @return string
      */
     public function generate()
     {
-        $name         = $this->getName();
+        $name = $this->getName();
         $defaultValue = $this->getDefaultValue();
 
         $output = '';
@@ -161,8 +165,7 @@ class Zend_CodeGenerator_Php_Property extends Zend_CodeGenerator_Php_Member_Abst
         if ($this->isConst()) {
             if ($defaultValue != null && !$defaultValue->isValidConstantType()) {
                 require_once 'Zend/CodeGenerator/Php/Exception.php';
-                throw new Zend_CodeGenerator_Php_Exception('The property ' . $this->_name . ' is said to be '
-                    . 'constant but does not have a valid constant value.');
+                throw new Zend_CodeGenerator_Php_Exception('The property ' . $this->_name . ' is said to be ' . 'constant but does not have a valid constant value.');
             }
             $output .= $this->_indentation . 'const ' . $name . ' = '
                 . (($defaultValue !== null) ? $defaultValue->generate() : 'null;');
@@ -173,7 +176,7 @@ class Zend_CodeGenerator_Php_Property extends Zend_CodeGenerator_Php_Member_Abst
                 . ' $' . $name . ' = '
                 . (($defaultValue !== null) ? $defaultValue->generate() : 'null;');
         }
+
         return $output;
     }
-
 }

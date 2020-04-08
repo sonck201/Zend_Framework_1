@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,16 +13,15 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Pdf
- * @subpackage Core
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
 /** Zend_Exception */
 require_once 'Zend/Exception.php';
-
 
 /**
  * Exception class for Zend_Pdf.
@@ -43,17 +42,14 @@ require_once 'Zend/Exception.php';
  * time. ALWAYS use the symbolic constant names, which are guaranteed never to
  * change, in logical checks! You have been warned.
  *
- * @package    Zend_Pdf
- * @subpackage Core
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Pdf_Exception extends Zend_Exception
 {
-  /**** Class Constants ****/
+    /**** Class Constants ****/
 
-
-  /* Generic Exceptions */
+    /* Generic Exceptions */
 
     /**
      * The feature or option is planned but has not yet been implemented. It
@@ -99,9 +95,7 @@ class Zend_Pdf_Exception extends Zend_Exception
      */
     const INDEX_OUT_OF_RANGE = 0x0008;
 
-
-
-  /* Filesystem I/O */
+    /* Filesystem I/O */
 
     /**
      * The file path was unusable or invalid.
@@ -176,9 +170,7 @@ class Zend_Pdf_Exception extends Zend_Exception
      */
     const INSUFFICIENT_DATA = 0x010e;
 
-
-
-  /* Zend_Pdf_FileParser */
+    /* Zend_Pdf_FileParser */
 
     /**
      * The file parser data source object was invalid or improperly initialized.
@@ -211,9 +203,7 @@ class Zend_Pdf_Exception extends Zend_Exception
      */
     const PARSED_OUT_OF_ORDER = 0x0206;
 
-
-
-  /* Zend_Pdf_FileParser_Font and Subclasses */
+    /* Zend_Pdf_FileParser_Font and Subclasses */
 
     /**
      * The font file type is incorrect.
@@ -245,9 +235,7 @@ class Zend_Pdf_Exception extends Zend_Exception
      */
     const CANT_FIND_GOOD_CMAP = 0x0305;
 
-
-
-  /* Zend_Pdf_Cmap and Subclasses */
+    /* Zend_Pdf_Cmap and Subclasses */
 
     /**
      * The character map type is currently unsupported.
@@ -291,9 +279,7 @@ class Zend_Pdf_Exception extends Zend_Exception
      */
     const CMAP_WRONG_ENTRY_COUNT = 0x0408;
 
-
-
-  /* Zend_Pdf_Resource_Font and Subclasses */
+    /* Zend_Pdf_Resource_Font and Subclasses */
 
     /**
      * The specified glyph number is out of range for this font.
@@ -307,9 +293,7 @@ class Zend_Pdf_Exception extends Zend_Exception
      */
     const FONT_CANT_BE_EMBEDDED = 0x0502;
 
-
-
-  /* Zend_Pdf_Font */
+    /* Zend_Pdf_Font */
 
     /**
      * The font name did not match any previously instantiated font and is not
@@ -322,22 +306,17 @@ class Zend_Pdf_Exception extends Zend_Exception
      */
     const CANT_DETERMINE_FONT_TYPE = 0x0602;
 
-
-  /* Text Layout System */
+    /* Text Layout System */
 
     /**
      * The specified attribute value for the text object cannot be used.
      */
     const BAD_ATTRIBUTE_VALUE = 0x0701;
 
-
-  /* Zend_Pdf_Image and Subclasses */
+    /* Zend_Pdf_Image and Subclasses */
 
     const CANT_DETERMINE_IMAGE_TYPE = 0x0801;
     const WRONG_IMAGE_TYPE = 0x0802;
     const UNSUPPORTED_IMAGE_ENCODING_OPTIONS = 0x0803;
     const IMAGE_FILE_CORRUPT = 0x0804;
-
-
 }
-

@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,31 +13,28 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Search_Lucene
- * @subpackage Storage
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
-
 /** Zend_Search_Lucene_Storage_Directory */
 require_once 'Zend/Search/Lucene/Storage/Directory.php';
-
 
 /**
  * FileSystem implementation of Directory abstraction.
  *
  * @category   Zend
- * @package    Zend_Search_Lucene
- * @subpackage Storage
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Search_Lucene_Storage_Directory_Filesystem extends Zend_Search_Lucene_Storage_Directory
 {
     /**
-     * Filesystem path to the directory
+     * Filesystem path to the directory.
      *
      * @var string
      */
@@ -45,25 +42,25 @@ class Zend_Search_Lucene_Storage_Directory_Filesystem extends Zend_Search_Lucene
 
     /**
      * Cache for Zend_Search_Lucene_Storage_File_Filesystem objects
-     * Array: filename => Zend_Search_Lucene_Storage_File object
+     * Array: filename => Zend_Search_Lucene_Storage_File object.
      *
      * @var array
+     *
      * @throws Zend_Search_Lucene_Exception
      */
     protected $_fileHandlers;
 
     /**
-     * Default file permissions
+     * Default file permissions.
      *
-     * @var integer
+     * @var int
      */
     protected static $_defaultFilePermissions = 0666;
 
-
     /**
-     * Get default file permissions
+     * Get default file permissions.
      *
-     * @return integer
+     * @return int
      */
     public static function getDefaultFilePermissions()
     {
@@ -71,25 +68,24 @@ class Zend_Search_Lucene_Storage_Directory_Filesystem extends Zend_Search_Lucene
     }
 
     /**
-     * Set default file permissions
+     * Set default file permissions.
      *
-     * @param integer $mode
+     * @param int $mode
      */
     public static function setDefaultFilePermissions($mode)
     {
         self::$_defaultFilePermissions = $mode;
     }
 
-
     /**
-     * Utility function to recursive directory creation
+     * Utility function to recursive directory creation.
      *
      * @param string $dir
-     * @param integer $mode
-     * @param boolean $recursive
-     * @return boolean
+     * @param int $mode
+     * @param bool $recursive
+     *
+     * @return bool
      */
-
     public static function mkdirs($dir, $mode = 0775, $recursive = true)
     {
         $mode = $mode & ~0002;
@@ -103,15 +99,16 @@ class Zend_Search_Lucene_Storage_Directory_Filesystem extends Zend_Search_Lucene
         if (self::mkdirs(dirname($dir), $mode, $recursive)) {
             return mkdir($dir, $mode);
         }
+
         return false;
     }
-
 
     /**
      * Object constructor
      * Checks if $path is a directory or tries to create it.
      *
      * @param string $path
+     *
      * @throws Zend_Search_Lucene_Exception
      */
     public function __construct($path)
@@ -128,9 +125,8 @@ class Zend_Search_Lucene_Storage_Directory_Filesystem extends Zend_Search_Lucene
             }
         }
         $this->_dirPath = $path;
-        $this->_fileHandlers = array();
+        $this->_fileHandlers = [];
     }
-
 
     /**
      * Closes the store.
@@ -143,9 +139,8 @@ class Zend_Search_Lucene_Storage_Directory_Filesystem extends Zend_Search_Lucene
             $fileObject->close();
         }
 
-        $this->_fileHandlers = array();
+        $this->_fileHandlers = [];
     }
-
 
     /**
      * Returns an array of strings, one for each file in the directory.
@@ -154,13 +149,15 @@ class Zend_Search_Lucene_Storage_Directory_Filesystem extends Zend_Search_Lucene
      */
     public function fileList()
     {
-        $result = array();
+        $result = [];
 
-        $dirContent = opendir( $this->_dirPath );
+        $dirContent = opendir($this->_dirPath);
         while (($file = readdir($dirContent)) !== false) {
-            if (($file == '..')||($file == '.'))   continue;
+            if (($file == '..') || ($file == '.')) {
+                continue;
+            }
 
-            if( !is_dir($this->_dirPath . '/' . $file) ) {
+            if (!is_dir($this->_dirPath . '/' . $file)) {
                 $result[] = $file;
             }
         }
@@ -173,7 +170,9 @@ class Zend_Search_Lucene_Storage_Directory_Filesystem extends Zend_Search_Lucene
      * Creates a new, empty file in the directory with the given $filename.
      *
      * @param string $filename
+     *
      * @return Zend_Search_Lucene_Storage_File
+     *
      * @throws Zend_Search_Lucene_Exception
      */
     public function createFile($filename)
@@ -192,12 +191,13 @@ class Zend_Search_Lucene_Storage_Directory_Filesystem extends Zend_Search_Lucene
         return $this->_fileHandlers[$filename];
     }
 
-
     /**
      * Removes an existing $filename in the directory.
      *
      * @param string $filename
+     *
      * @return void
+     *
      * @throws Zend_Search_Lucene_Exception
      */
     public function deleteFile($filename)
@@ -219,11 +219,12 @@ class Zend_Search_Lucene_Storage_Directory_Filesystem extends Zend_Search_Lucene
     }
 
     /**
-     * Purge file if it's cached by directory object
+     * Purge file if it's cached by directory object.
      *
      * Method is used to prevent 'too many open files' error
      *
      * @param string $filename
+     *
      * @return void
      */
     public function purgeFile($filename)
@@ -234,12 +235,12 @@ class Zend_Search_Lucene_Storage_Directory_Filesystem extends Zend_Search_Lucene
         unset($this->_fileHandlers[$filename]);
     }
 
-
     /**
      * Returns true if a file with the given $filename exists.
      *
      * @param string $filename
-     * @return boolean
+     *
+     * @return bool
      */
     public function fileExists($filename)
     {
@@ -247,40 +248,42 @@ class Zend_Search_Lucene_Storage_Directory_Filesystem extends Zend_Search_Lucene
                file_exists($this->_dirPath . '/' . $filename);
     }
 
-
     /**
      * Returns the length of a $filename in the directory.
      *
      * @param string $filename
-     * @return integer
+     *
+     * @return int
      */
     public function fileLength($filename)
     {
-        if (isset( $this->_fileHandlers[$filename] )) {
+        if (isset($this->_fileHandlers[$filename])) {
             return $this->_fileHandlers[$filename]->size();
         }
-        return filesize($this->_dirPath .'/'. $filename);
-    }
 
+        return filesize($this->_dirPath . '/' . $filename);
+    }
 
     /**
      * Returns the UNIX timestamp $filename was last modified.
      *
      * @param string $filename
-     * @return integer
+     *
+     * @return int
      */
     public function fileModified($filename)
     {
-        return filemtime($this->_dirPath .'/'. $filename);
+        return filemtime($this->_dirPath . '/' . $filename);
     }
-
 
     /**
      * Renames an existing file in the directory.
      *
      * @param string $from
      * @param string $to
+     *
      * @return void
+     *
      * @throws Zend_Search_Lucene_Exception
      */
     public function renameFile($from, $to)
@@ -319,18 +322,17 @@ class Zend_Search_Lucene_Storage_Directory_Filesystem extends Zend_Search_Lucene
         return $success;
     }
 
-
     /**
      * Sets the modified time of $filename to now.
      *
      * @param string $filename
+     *
      * @return void
      */
     public function touchFile($filename)
     {
-        return touch($this->_dirPath .'/'. $filename);
+        return touch($this->_dirPath . '/' . $filename);
     }
-
 
     /**
      * Returns a Zend_Search_Lucene_Storage_File object for a given $filename in the directory.
@@ -341,7 +343,8 @@ class Zend_Search_Lucene_Storage_Directory_Filesystem extends Zend_Search_Lucene
      * Non-shared handlers are useful for stream file reading (especial for compound files).
      *
      * @param string $filename
-     * @param boolean $shareHandler
+     * @param bool $shareHandler
+     *
      * @return Zend_Search_Lucene_Storage_File
      */
     public function getFileObject($filename, $shareHandler = true)
@@ -353,12 +356,14 @@ class Zend_Search_Lucene_Storage_Directory_Filesystem extends Zend_Search_Lucene
             return new Zend_Search_Lucene_Storage_File_Filesystem($fullFilename);
         }
 
-        if (isset( $this->_fileHandlers[$filename] )) {
+        if (isset($this->_fileHandlers[$filename])) {
             $this->_fileHandlers[$filename]->seek(0);
+
             return $this->_fileHandlers[$filename];
         }
 
         $this->_fileHandlers[$filename] = new Zend_Search_Lucene_Storage_File_Filesystem($fullFilename);
+
         return $this->_fileHandlers[$filename];
     }
 }

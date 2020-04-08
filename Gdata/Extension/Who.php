@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Gdata
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -42,17 +42,15 @@ require_once 'Zend/Gdata/Extension/AttendeeType.php';
 require_once 'Zend/Gdata/Extension/EntryLink.php';
 
 /**
- * Data model class to represent a participant
+ * Data model class to represent a participant.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Gdata
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Extension_Who extends Zend_Gdata_Extension
 {
-
     protected $_rootElement = 'who';
     protected $_email = null;
     protected $_rel = null;
@@ -63,6 +61,7 @@ class Zend_Gdata_Extension_Who extends Zend_Gdata_Extension
 
     /**
      * Constructs a new Zend_Gdata_Extension_Who object.
+     *
      * @param string $email (optional) Email address.
      * @param string $rel (optional) Relationship description.
      * @param string $valueString (optional) Simple string describing this person.
@@ -89,8 +88,11 @@ class Zend_Gdata_Extension_Who extends Zend_Gdata_Extension
      * for application storage/persistence.
      *
      * @param DOMDocument $doc The DOMDocument used to construct DOMElements
+     * @param mixed $majorVersion
+     * @param mixed|null $minorVersion
+     *
      * @return DOMElement The DOMElement representing this element and all
-     * child properties.
+     *                    child properties.
      */
     public function getDOM($doc = null, $majorVersion = 1, $minorVersion = null)
     {
@@ -113,6 +115,7 @@ class Zend_Gdata_Extension_Who extends Zend_Gdata_Extension
         if ($this->_entryLink !== null) {
             $element->appendChild($this->_entryLink->getDOM($element->ownerDocument));
         }
+
         return $element;
     }
 
@@ -180,8 +183,7 @@ class Zend_Gdata_Extension_Who extends Zend_Gdata_Extension
     {
         if ($this->_valueString != null) {
             return $this->_valueString;
-        }
-        else {
+        } else {
             return parent::__toString();
         }
     }
@@ -200,11 +202,13 @@ class Zend_Gdata_Extension_Who extends Zend_Gdata_Extension
      * Set the value for this element's ValueString attribute.
      *
      * @param string $value The desired value for this attribute.
+     *
      * @return Zend_Gdata_Extension_Who The element being modified.
      */
     public function setValueString($value)
     {
         $this->_valueString = $value;
+
         return $this;
     }
 
@@ -222,11 +226,13 @@ class Zend_Gdata_Extension_Who extends Zend_Gdata_Extension
      * Set the value for this element's Email attribute.
      *
      * @param string $value The desired value for this attribute.
+     *
      * @return Zend_Gdata_Extension_Who The element being modified.
      */
     public function setEmail($value)
     {
         $this->_email = $value;
+
         return $this;
     }
 
@@ -244,11 +250,13 @@ class Zend_Gdata_Extension_Who extends Zend_Gdata_Extension
      * Set the value for this element's Rel attribute.
      *
      * @param string $value The desired value for this attribute.
+     *
      * @return Zend_Gdata_Extension_Who The element being modified.
      */
     public function setRel($value)
     {
         $this->_rel = $value;
+
         return $this;
     }
 
@@ -266,11 +274,13 @@ class Zend_Gdata_Extension_Who extends Zend_Gdata_Extension
      * Set the child's AttendeeStatus element.
      *
      * @param Zend_Gdata_Extension_AttendeeStatus $value The desired value for this attribute.
+     *
      * @return Zend_Gdata_Extension_Who The element being modified.
      */
     public function setAttendeeStatus($value)
     {
         $this->_attendeeStatus = $value;
+
         return $this;
     }
 
@@ -288,12 +298,13 @@ class Zend_Gdata_Extension_Who extends Zend_Gdata_Extension
      * Set the child's AttendeeType element.
      *
      * @param Zend_Gdata_Extension_AttendeeType $value The desired value for this attribute.
+     *
      * @return Zend_Gdata_Extension_Who The element being modified.
      */
     public function setAttendeeType($value)
     {
         $this->_attendeeType = $value;
+
         return $this;
     }
-
 }

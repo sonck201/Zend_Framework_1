@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,11 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Controller
- * @subpackage Router
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ *
  * @version    $Id$
+ *
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
@@ -24,58 +25,56 @@
 require_once 'Zend/Controller/Router/Route/Abstract.php';
 
 /**
- * Route
+ * Route.
  *
- * @package    Zend_Controller
- * @subpackage Router
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @see        http://manuals.rubyonrails.com/read/chapter/65
  */
 class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
 {
-
     /**
-     * Default translator
+     * Default translator.
      *
      * @var Zend_Translate
      */
     protected static $_defaultTranslator;
 
     /**
-     * Translator
+     * Translator.
      *
      * @var Zend_Translate
      */
     protected $_translator;
 
     /**
-     * Default locale
+     * Default locale.
      *
      * @var mixed
      */
     protected static $_defaultLocale;
 
     /**
-     * Locale
+     * Locale.
      *
      * @var mixed
      */
     protected $_locale;
 
     /**
-     * Wether this is a translated route or not
+     * Wether this is a translated route or not.
      *
-     * @var boolean
+     * @var bool
      */
     protected $_isTranslated = false;
 
     /**
-     * Translatable variables
+     * Translatable variables.
      *
      * @var array
      */
-    protected $_translatable = array();
+    protected $_translatable = [];
 
     protected $_urlVariable = ':';
 
@@ -90,23 +89,23 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
      *
      * @var array
      */
-    protected $_variables = array();
+    protected $_variables = [];
 
     /**
      * Holds Route patterns for all URL parts. In case of a variable it stores it's regex
      * requirement or null. In case of a static part, it holds only it's direct value.
-     * In case of a wildcard, it stores an asterisk (*)
+     * In case of a wildcard, it stores an asterisk (*).
      *
      * @var array
      */
-    protected $_parts = array();
+    protected $_parts = [];
 
     /**
      * Holds user submitted default values for route's variables. Name and value pairs.
      *
      * @var array
      */
-    protected $_defaults = array();
+    protected $_defaults = [];
 
     /**
      * Holds user submitted regular expression patterns for route's variables' values.
@@ -114,7 +113,7 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
      *
      * @var array
      */
-    protected $_requirements = array();
+    protected $_requirements = [];
 
     /**
      * Associative array filled on match() that holds matched path values
@@ -122,7 +121,7 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
      *
      * @var array
      */
-    protected $_values = array();
+    protected $_values = [];
 
     /**
      * Associative array filled on match() that holds wildcard variable
@@ -130,11 +129,11 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
      *
      * @var array
      */
-    protected $_wildcardData = array();
+    protected $_wildcardData = [];
 
     /**
      * Helper var that holds a count of route pattern's static parts
-     * for validation
+     * for validation.
      *
      * @var int
      */
@@ -146,15 +145,16 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
     }
 
     /**
-     * Instantiates route based on passed Zend_Config structure
+     * Instantiates route based on passed Zend_Config structure.
      *
      * @param Zend_Config $config Configuration object
+     *
      * @return Zend_Controller_Router_Route
      */
     public static function getInstance(Zend_Config $config)
     {
-        $reqs = ($config->reqs instanceof Zend_Config) ? $config->reqs->toArray() : array();
-        $defs = ($config->defaults instanceof Zend_Config) ? $config->defaults->toArray() : array();
+        $reqs = ($config->reqs instanceof Zend_Config) ? $config->reqs->toArray() : [];
+        $defs = ($config->defaults instanceof Zend_Config) ? $config->defaults->toArray() : [];
 
         return new self($config->route, $defs, $reqs);
     }
@@ -164,21 +164,20 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
      * to a corresponding atomic parts. These parts are assigned
      * a position which is later used for matching and preparing values.
      *
-     * @param string         $route      Map used to match with later submitted URL path
-     * @param array          $defaults   Defaults for map variables with keys as variable names
-     * @param array          $reqs       Regular expression requirements for variables (keys as variable names)
+     * @param string $route Map used to match with later submitted URL path
+     * @param array $defaults Defaults for map variables with keys as variable names
+     * @param array $reqs Regular expression requirements for variables (keys as variable names)
      * @param Zend_Translate $translator Translator to use for this instance
-     * @param mixed|null     $locale
+     * @param mixed|null $locale
      */
     public function __construct(
-        $route, $defaults = array(), $reqs = array(), Zend_Translate $translator = null, $locale = null
-    )
-    {
-        $route               = trim($route, $this->_urlDelimiter);
-        $this->_defaults     = (array)$defaults;
-        $this->_requirements = (array)$reqs;
-        $this->_translator   = $translator;
-        $this->_locale       = $locale;
+        $route, $defaults = [], $reqs = [], Zend_Translate $translator = null, $locale = null
+    ) {
+        $route = trim($route, $this->_urlDelimiter);
+        $this->_defaults = (array) $defaults;
+        $this->_requirements = (array) $reqs;
+        $this->_translator = $translator;
+        $this->_locale = $locale;
 
         if ($route !== '') {
             foreach (explode($this->_urlDelimiter, $route) as $pos => $part) {
@@ -186,12 +185,12 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
                     $name = substr($part, 1);
 
                     if (substr($name, 0, 1) === '@' && substr($name, 1, 1) !== '@') {
-                        $name                  = substr($name, 1);
+                        $name = substr($name, 1);
                         $this->_translatable[] = $name;
-                        $this->_isTranslated   = true;
+                        $this->_isTranslated = true;
                     }
 
-                    $this->_parts[$pos]     = (isset($reqs[$name]) ? $reqs[$name] : $this->_defaultRegex);
+                    $this->_parts[$pos] = (isset($reqs[$name]) ? $reqs[$name] : $this->_defaultRegex);
                     $this->_variables[$pos] = $name;
                 } else {
                     if (substr($part, 0, 1) == $this->_urlVariable) {
@@ -205,7 +204,7 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
                     $this->_parts[$pos] = $part;
 
                     if ($part !== '*') {
-                        $this->_staticCount++;
+                        ++$this->_staticCount;
                     }
                 }
             }
@@ -216,9 +215,11 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
      * Matches a user submitted path with parts defined by a map. Assigns and
      * returns an array of variables on a successful match.
      *
-     * @param string  $path Path used to match against this routing map
-     * @param boolean $partial
+     * @param string $path Path used to match against this routing map
+     * @param bool $partial
+     *
      * @throws Zend_Controller_Router_Exception
+     *
      * @return array|false An array of assigned values or a false on a mismatch
      */
     public function match($path, $partial = false)
@@ -228,8 +229,8 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
         }
 
         $pathStaticCount = 0;
-        $values          = array();
-        $matchedPath     = '';
+        $values = [];
+        $matchedPath = '';
 
         if (!$partial) {
             $path = trim($path, $this->_urlDelimiter);
@@ -266,7 +267,7 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
                     break;
                 }
 
-                $name     = isset($this->_variables[$pos]) ? $this->_variables[$pos] : null;
+                $name = isset($this->_variables[$pos]) ? $this->_variables[$pos] : null;
                 $pathPart = urldecode($pathPart);
 
                 // Translate value if required
@@ -307,7 +308,7 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
                 if ($name !== null) {
                     $values[$name] = $pathPart;
                 } else {
-                    $pathStaticCount++;
+                    ++$pathStaticCount;
                 }
             }
         }
@@ -337,16 +338,18 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
     }
 
     /**
-     * Assembles user submitted parameters forming a URL path defined by this route
+     * Assembles user submitted parameters forming a URL path defined by this route.
      *
-     * @param  array   $data  An array of variable and value pairs used as parameters
-     * @param  boolean $reset Whether or not to set route defaults with those provided in $data
-     * @param  boolean $encode
-     * @param  boolean $partial
+     * @param array $data An array of variable and value pairs used as parameters
+     * @param bool $reset Whether or not to set route defaults with those provided in $data
+     * @param bool $encode
+     * @param bool $partial
+     *
      * @throws Zend_Controller_Router_Exception
+     *
      * @return string Route path with user submitted parameters
      */
-    public function assemble($data = array(), $reset = false, $encode = false, $partial = false)
+    public function assemble($data = [], $reset = false, $encode = false, $partial = false)
     {
         if ($this->_isTranslated) {
             $translator = $this->getTranslator();
@@ -359,7 +362,7 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
             }
         }
 
-        $url  = array();
+        $url = [];
         $flag = false;
 
         foreach ($this->_parts as $key => $part) {
@@ -413,7 +416,7 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
                     if ($value !== null && (!isset($defaults[$var]) || $value != $defaults[$var])) {
                         $url[$key++] = $var;
                         $url[$key++] = $value;
-                        $flag        = true;
+                        $flag = true;
                     }
                 }
             }
@@ -439,7 +442,7 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
                     $value = urlencode($value);
                 }
                 $return = $this->_urlDelimiter . $value . $return;
-                $flag   = true;
+                $flag = true;
             }
         }
 
@@ -447,9 +450,10 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
     }
 
     /**
-     * Return a single parameter of route's defaults
+     * Return a single parameter of route's defaults.
      *
      * @param string $name Array key of the parameter
+     *
      * @return string Previously set default
      */
     public function getDefault($name)
@@ -462,7 +466,7 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
     }
 
     /**
-     * Return an array of defaults
+     * Return an array of defaults.
      *
      * @return array Route defaults
      */
@@ -472,7 +476,7 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
     }
 
     /**
-     * Get all variables which are used by the route
+     * Get all variables which are used by the route.
      *
      * @return array
      */
@@ -482,9 +486,10 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
     }
 
     /**
-     * Set a default translator
+     * Set a default translator.
      *
-     * @param  Zend_Translate $translator
+     * @param Zend_Translate $translator
+     *
      * @return void
      */
     public static function setDefaultTranslator(Zend_Translate $translator = null)
@@ -493,7 +498,7 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
     }
 
     /**
-     * Get the default translator
+     * Get the default translator.
      *
      * @return Zend_Translate
      */
@@ -503,9 +508,10 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
     }
 
     /**
-     * Set a translator
+     * Set a translator.
      *
-     * @param  Zend_Translate $translator
+     * @param Zend_Translate $translator
+     *
      * @return void
      */
     public function setTranslator(Zend_Translate $translator)
@@ -514,9 +520,10 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
     }
 
     /**
-     * Get the translator
+     * Get the translator.
      *
      * @throws Zend_Controller_Router_Exception When no translator can be found
+     *
      * @return Zend_Translate
      */
     public function getTranslator()
@@ -544,9 +551,10 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
     }
 
     /**
-     * Set a default locale
+     * Set a default locale.
      *
-     * @param  mixed $locale
+     * @param mixed $locale
+     *
      * @return void
      */
     public static function setDefaultLocale($locale = null)
@@ -555,7 +563,7 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
     }
 
     /**
-     * Get the default locale
+     * Get the default locale.
      *
      * @return mixed
      */
@@ -565,9 +573,10 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
     }
 
     /**
-     * Set a locale
+     * Set a locale.
      *
-     * @param  mixed $locale
+     * @param mixed $locale
+     *
      * @return void
      */
     public function setLocale($locale)
@@ -576,7 +585,7 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
     }
 
     /**
-     * Get the locale
+     * Get the locale.
      *
      * @return mixed
      */

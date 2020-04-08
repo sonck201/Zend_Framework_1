@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,9 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Feed_Reader
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -36,17 +37,18 @@ require_once 'Zend/Date.php';
 
 /**
  * @category   Zend
- * @package    Zend_Feed_Reader
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Feed_Reader_Extension_DublinCore_Entry
-    extends Zend_Feed_Reader_Extension_EntryAbstract
+class Zend_Feed_Reader_Extension_DublinCore_Entry extends Zend_Feed_Reader_Extension_EntryAbstract
 {
     /**
-     * Get an author entry
+     * Get an author entry.
      *
      * @param DOMElement $element
+     * @param mixed $index
+     *
      * @return string
      */
     public function getAuthor($index = 0)
@@ -61,7 +63,7 @@ class Zend_Feed_Reader_Extension_DublinCore_Entry
     }
 
     /**
-     * Get an array with feed authors
+     * Get an array with feed authors.
      *
      * @return array
      */
@@ -71,7 +73,7 @@ class Zend_Feed_Reader_Extension_DublinCore_Entry
             return $this->_data['authors'];
         }
 
-        $authors = array();
+        $authors = [];
         $list = $this->_xpath->evaluate($this->getXpathPrefix() . '//dc11:creator');
 
         if (!$list->length) {
@@ -87,9 +89,9 @@ class Zend_Feed_Reader_Extension_DublinCore_Entry
 
         if ($list->length) {
             foreach ($list as $author) {
-                $authors[] = array(
-                    'name' => $author->nodeValue
-                );
+                $authors[] = [
+                    'name' => $author->nodeValue,
+                ];
             }
             $authors = new Zend_Feed_Reader_Collection_Author(
                 Zend_Feed_Reader::arrayUnique($authors)
@@ -104,7 +106,7 @@ class Zend_Feed_Reader_Extension_DublinCore_Entry
     }
 
     /**
-     * Get categories (subjects under DC)
+     * Get categories (subjects under DC).
      *
      * @return Zend_Feed_Reader_Collection_Category
      */
@@ -121,25 +123,25 @@ class Zend_Feed_Reader_Extension_DublinCore_Entry
         }
 
         if ($list->length) {
-            $categoryCollection = new Zend_Feed_Reader_Collection_Category;
+            $categoryCollection = new Zend_Feed_Reader_Collection_Category();
             foreach ($list as $category) {
-                $categoryCollection[] = array(
+                $categoryCollection[] = [
                     'term' => $category->nodeValue,
                     'scheme' => null,
                     'label' => $category->nodeValue,
-                );
+                ];
             }
         } else {
-            $categoryCollection = new Zend_Feed_Reader_Collection_Category;
+            $categoryCollection = new Zend_Feed_Reader_Collection_Category();
         }
 
         $this->_data['categories'] = $categoryCollection;
+
         return $this->_data['categories'];
     }
 
-
     /**
-     * Get the entry content
+     * Get the entry content.
      *
      * @return string
      */
@@ -149,7 +151,7 @@ class Zend_Feed_Reader_Extension_DublinCore_Entry
     }
 
     /**
-     * Get the entry description
+     * Get the entry description.
      *
      * @return string
      */
@@ -176,7 +178,7 @@ class Zend_Feed_Reader_Extension_DublinCore_Entry
     }
 
     /**
-     * Get the entry ID
+     * Get the entry ID.
      *
      * @return string
      */
@@ -199,7 +201,7 @@ class Zend_Feed_Reader_Extension_DublinCore_Entry
     }
 
     /**
-     * Get the entry title
+     * Get the entry title.
      *
      * @return string
      */
@@ -226,8 +228,6 @@ class Zend_Feed_Reader_Extension_DublinCore_Entry
     }
 
     /**
-     *
-     *
      * @return Zend_Date|null
      */
     public function getDate()
@@ -236,7 +236,7 @@ class Zend_Feed_Reader_Extension_DublinCore_Entry
             return $this->_data['date'];
         }
 
-        $d    = null;
+        $d = null;
         $date = $this->_xpath->evaluate('string(' . $this->getXpathPrefix() . '/dc11:date)');
 
         if (!$date) {
@@ -244,7 +244,7 @@ class Zend_Feed_Reader_Extension_DublinCore_Entry
         }
 
         if ($date) {
-            $d = new Zend_Date;
+            $d = new Zend_Date();
             $d->set($date, Zend_Date::ISO_8601);
         }
 
@@ -254,7 +254,7 @@ class Zend_Feed_Reader_Extension_DublinCore_Entry
     }
 
     /**
-     * Register DC namespaces
+     * Register DC namespaces.
      *
      * @return void
      */

@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,65 +13,65 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Queue
- * @subpackage Message
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
 /**
- * Class for managing queue messages
+ * Class for managing queue messages.
  *
  * @category   Zend
- * @package    Zend_Queue
- * @subpackage Message
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Queue_Message
 {
     /**
-     * The data for the queue message
+     * The data for the queue message.
      *
      * @var array
      */
-    protected $_data = array();
+    protected $_data = [];
 
-     /**
+    /**
      * Connected is true if we have a reference to a live
      * Zend_Queue_Adapter_Abstract object.
      * This is false after the Message has been deserialized.
      *
-     * @var boolean
+     * @var bool
      */
     protected $_connected = true;
 
     /**
-     * Zend_Queue parent class or instance
+     * Zend_Queue parent class or instance.
      *
      * @var Zend_Queue
      */
     protected $_queue = null;
 
     /**
-     * Name of the class of the Zend_Queue
+     * Name of the class of the Zend_Queue.
      *
      * @var string
      */
     protected $_queueClass = null;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param  array $options
+     * @param array $options
+     *
      * @throws Zend_Queue_Exception
      */
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
         if (isset($options['queue'])) {
             if ($options['queue'] instanceof Zend_Queue) {
-                $this->_queue      = $options['queue'];
+                $this->_queue = $options['queue'];
                 $this->_queueClass = get_class($this->_queue);
             } else {
                 $result = gettype($options['queue']);
@@ -80,11 +80,7 @@ class Zend_Queue_Message
                 }
 
                 require_once 'Zend/Queue/Exception.php';
-                throw new Zend_Queue_Exception(
-                    '$options[\'queue\'] = '
-                    . $result
-                    . ': must be instanceof Zend_Queue'
-                );
+                throw new Zend_Queue_Exception('$options[\'queue\'] = ' . $result . ': must be instanceof Zend_Queue');
             }
         }
         if (isset($options['data'])) {
@@ -97,10 +93,12 @@ class Zend_Queue_Message
     }
 
     /**
-     * Retrieve message field value
+     * Retrieve message field value.
      *
-     * @param  string $key The user-specified key name.
-     * @return string      The corresponding key value.
+     * @param string $key The user-specified key name.
+     *
+     * @return string The corresponding key value.
+     *
      * @throws Zend_Queue_Exception if the $key is not a column in the message.
      */
     public function __get($key)
@@ -109,15 +107,18 @@ class Zend_Queue_Message
             require_once 'Zend/Queue/Exception.php';
             throw new Zend_Queue_Exception("Specified field \"$key\" is not in the message");
         }
+
         return $this->_data[$key];
     }
 
     /**
-     * Set message field value
+     * Set message field value.
      *
-     * @param  string $key   The message key.
-     * @param  mixed  $value The value for the property.
+     * @param string $key The message key.
+     * @param mixed $value The value for the property.
+     *
      * @return void
+     *
      * @throws Zend_Queue_Exception
      */
     public function __set($key, $value)
@@ -130,10 +131,11 @@ class Zend_Queue_Message
     }
 
     /**
-     * Test existence of message field
+     * Test existence of message field.
      *
-     * @param  string  $key The column key.
-     * @return boolean
+     * @param string $key The column key.
+     *
+     * @return bool
      */
     public function __isset($key)
     {
@@ -145,13 +147,13 @@ class Zend_Queue_Message
      */
 
     /**
-     * Store queue and data in serialized object
+     * Store queue and data in serialized object.
      *
      * @return array
      */
     public function __sleep()
     {
-        return array('_queueClass', '_data');
+        return ['_queueClass', '_data'];
     }
 
     /**
@@ -166,8 +168,8 @@ class Zend_Queue_Message
         $this->_connected = false;
     }
 
-     /**
-     * Returns the queue object, or null if this is disconnected message
+    /**
+     * Returns the queue object, or null if this is disconnected message.
      *
      * @return Zend_Queue|null
      */
@@ -180,15 +182,17 @@ class Zend_Queue_Message
      * Set the queue object, to re-establish a live connection
      * to the queue for a Message that has been de-serialized.
      *
-     * @param  Zend_Queue $queue
-     * @return boolean
+     * @param Zend_Queue $queue
+     *
+     * @return bool
      */
     public function setQueue(Zend_Queue $queue)
     {
-        $queueClass        = get_class($queue);
-        $this->_queue      = $queue;
+        $queueClass = get_class($queue);
+        $this->_queue = $queue;
         $this->_queueClass = $queueClass;
-        $this->_connected  = true;
+        $this->_connected = true;
+
         return true;
     }
 
@@ -216,7 +220,8 @@ class Zend_Queue_Message
     /**
      * Sets all data in the row from an array.
      *
-     * @param  array $data
+     * @param array $data
+     *
      * @return Zend_Queue_Message Provides a fluent interface
      */
     public function setFromArray(array $data)

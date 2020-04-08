@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,67 +13,70 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_EventManager
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-
 if (version_compare(PHP_VERSION, '5.3.0', '<')) {
     class SplStack implements Iterator, ArrayAccess, Countable
     {
         /**
-         * Delete items during iteration
+         * Delete items during iteration.
          */
         const IT_MODE_DELETE = 1;
 
         /**
-         * Keep items during iteration
+         * Keep items during iteration.
          */
         const IT_MODE_KEEP = 0;
 
         /**
-         * Mode used when iterating
+         * Mode used when iterating.
+         *
          * @var int
          */
         protected $mode = self::IT_MODE_KEEP;
 
         /**
-         * Count of elements in the stack 
-         * 
+         * Count of elements in the stack.
+         *
          * @var int
          */
         protected $count = 0;
 
         /**
-         * Data represented by this stack
-         * 
+         * Data represented by this stack.
+         *
          * @var array
          */
-        protected $data = array();
+        protected $data = [];
 
         /**
-         * Sorted stack of values
-         * 
+         * Sorted stack of values.
+         *
          * @var false|array
          */
         protected $stack = false;
 
         /**
-         * Set the iterator mode
+         * Set the iterator mode.
          *
          * Must be set to one of IT_MODE_DELETE or IT_MODE_KEEP
-         * 
+         *
          * @todo   Currently, IteratorMode is ignored, as we use the default (keep); should this be implemented?
-         * @param  int $mode 
+         *
+         * @param int $mode
+         *
          * @return void
+         *
          * @throws InvalidArgumentException
          */
         public function setIteratorMode($mode)
         {
-            $expected = array(
+            $expected = [
                 self::IT_MODE_DELETE => true,
                 self::IT_MODE_KEEP => true,
-            );
+            ];
 
             if (!isset($expected[$mode])) {
                 throw new InvalidArgumentException(sprintf('Invalid iterator mode specified ("%s")', $mode));
@@ -83,8 +86,8 @@ if (version_compare(PHP_VERSION, '5.3.0', '<')) {
         }
 
         /**
-         * Return last element in the stack
-         * 
+         * Return last element in the stack.
+         *
          * @return mixed
          */
         public function bottom()
@@ -92,12 +95,13 @@ if (version_compare(PHP_VERSION, '5.3.0', '<')) {
             $this->rewind();
             $value = array_pop($this->stack);
             array_push($this->stack, $value);
+
             return $value;
         }
 
         /**
-         * Countable: return count of items in the stack
-         * 
+         * Countable: return count of items in the stack.
+         *
          * @return int
          */
         public function count()
@@ -106,8 +110,8 @@ if (version_compare(PHP_VERSION, '5.3.0', '<')) {
         }
 
         /**
-         * Iterator: return current item in the stack
-         * 
+         * Iterator: return current item in the stack.
+         *
          * @return mixed
          */
         public function current()
@@ -115,12 +119,13 @@ if (version_compare(PHP_VERSION, '5.3.0', '<')) {
             if (!$this->stack) {
                 $this->rewind();
             }
+
             return current($this->stack);
         }
 
         /**
-         * Get iteration mode
-         * 
+         * Get iteration mode.
+         *
          * @return int
          */
         public function getIteratorMode()
@@ -135,11 +140,11 @@ if (version_compare(PHP_VERSION, '5.3.0', '<')) {
          */
         public function isEmpty()
         {
-            return ($this->count === 0);
+            return $this->count === 0;
         }
 
         /**
-         * Iterator: return key of current item in the stack
+         * Iterator: return key of current item in the stack.
          *
          * @return mixed
          */
@@ -148,12 +153,13 @@ if (version_compare(PHP_VERSION, '5.3.0', '<')) {
             if (!$this->stack) {
                 $this->rewind();
             }
+
             return key($this->stack);
         }
 
         /**
-         * Iterator: advance pointer to next item in the stack
-         * 
+         * Iterator: advance pointer to next item in the stack.
+         *
          * @return void
          */
         public function next()
@@ -161,13 +167,15 @@ if (version_compare(PHP_VERSION, '5.3.0', '<')) {
             if (!$this->stack) {
                 $this->rewind();
             }
+
             return next($this->stack);
         }
 
         /**
          * ArrayAccess: does an item exist at the specified offset?
-         * 
-         * @param  mixed $index 
+         *
+         * @param mixed $index
+         *
          * @return bool
          */
         public function offsetExists($index)
@@ -176,10 +184,12 @@ if (version_compare(PHP_VERSION, '5.3.0', '<')) {
         }
 
         /**
-         * ArrayAccess: get the item at the specified offset
-         * 
-         * @param  mixed $index 
+         * ArrayAccess: get the item at the specified offset.
+         *
+         * @param mixed $index
+         *
          * @return mixed
+         *
          * @throws OutOfRangeException
          */
         public function offsetGet($index)
@@ -187,28 +197,32 @@ if (version_compare(PHP_VERSION, '5.3.0', '<')) {
             if (!$this->offsetExists($index)) {
                 throw OutOfRangeException(sprintf('Invalid index ("%s") specified', $index));
             }
+
             return $this->data[$index];
         }
 
         /**
-         * ArrayAccess: add an item at the specified offset
-         * 
-         * @param  mixed $index 
-         * @param  mixed $newval 
+         * ArrayAccess: add an item at the specified offset.
+         *
+         * @param mixed $index
+         * @param mixed $newval
+         *
          * @return void
          */
         public function offsetSet($index, $newval)
         {
             $this->data[$index] = $newval;
             $this->stack = false;
-            $this->count++;
+            ++$this->count;
         }
 
         /**
-         * ArrayAccess: unset the item at the specified offset
-         * 
-         * @param  mixed $index 
+         * ArrayAccess: unset the item at the specified offset.
+         *
+         * @param mixed $index
+         *
          * @return void
+         *
          * @throws OutOfRangeException
          */
         public function offsetUnset($index)
@@ -218,27 +232,30 @@ if (version_compare(PHP_VERSION, '5.3.0', '<')) {
             }
             unset($this->data[$index]);
             $this->stack = false;
-            $this->count--;
+            --$this->count;
         }
 
         /**
-         * Pop a node from the end of the stack
+         * Pop a node from the end of the stack.
          *
          * @return mixed
+         *
          * @throws RuntimeException
          */
         public function pop()
         {
-            $val         = array_pop($this->data);
+            $val = array_pop($this->data);
             $this->stack = false;
-            $this->count--;
+            --$this->count;
+
             return $val;
         }
 
         /**
-         * Move the iterator to the previous node
+         * Move the iterator to the previous node.
          *
          * @todo   Does this need to be implemented?
+         *
          * @return void
          */
         public function prev()
@@ -246,21 +263,22 @@ if (version_compare(PHP_VERSION, '5.3.0', '<')) {
         }
 
         /**
-         * Push an element to the list
-         * 
-         * @param  mixed $value 
+         * Push an element to the list.
+         *
+         * @param mixed $value
+         *
          * @return void
          */
         public function push($value)
         {
             array_push($this->data, $value);
-            $this->count++;
-            $this->stack  = false;
+            ++$this->count;
+            $this->stack = false;
         }
 
         /**
-         * Iterator: rewind to beginning of stack
-         * 
+         * Iterator: rewind to beginning of stack.
+         *
          * @return void
          */
         public function rewind()
@@ -272,7 +290,7 @@ if (version_compare(PHP_VERSION, '5.3.0', '<')) {
         }
 
         /**
-         * Serialize the storage
+         * Serialize the storage.
          *
          * @return string
          */
@@ -282,22 +300,24 @@ if (version_compare(PHP_VERSION, '5.3.0', '<')) {
         }
 
         /**
-         * Shifts a node from the beginning of the list
+         * Shifts a node from the beginning of the list.
          *
          * @return mixed
+         *
          * @throws RuntimeException
          */
         public function shift()
         {
-            $val         = array_shift($this->data);
+            $val = array_shift($this->data);
             $this->stack = false;
-            $this->count--;
+            --$this->count;
+
             return $val;
         }
 
         /**
-         * Peek at the top node of the stack
-         * 
+         * Peek at the top node of the stack.
+         *
          * @return mixed
          */
         public function top()
@@ -305,34 +325,38 @@ if (version_compare(PHP_VERSION, '5.3.0', '<')) {
             $this->rewind();
             $value = array_shift($this->stack);
             array_unshift($this->stack, $value);
+
             return $value;
         }
 
         /**
-         * Unserialize the storage
+         * Unserialize the storage.
          *
          * @param  string
+         * @param mixed $serialized
+         *
          * @return void
          */
         public function unserialize($serialized)
         {
-            $this->data  = unserialize($serialized);
+            $this->data = unserialize($serialized);
             $this->stack = false;
         }
 
         /**
-         * Unshift a node onto the beginning of the list
+         * Unshift a node onto the beginning of the list.
          *
-         * @param  mixed $value
+         * @param mixed $value
+         *
          * @return void
          */
         public function unshift($value)
         {
             array_unshift($this->data, $value);
-            $this->count++;
-            $this->stack  = false;
+            ++$this->count;
+            $this->stack = false;
         }
-        
+
         /**
          * Iterator: is the current pointer valid?
          *
@@ -342,26 +366,27 @@ if (version_compare(PHP_VERSION, '5.3.0', '<')) {
         {
             $key = key($this->stack);
             $var = ($key !== null && $key !== false);
+
             return $var;
         }
     }
 }
 
 /**
- * Collection of signal handler return values
+ * Collection of signal handler return values.
  *
  * @category   Zend
- * @package    Zend_EventManager
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_EventManager_ResponseCollection extends SplStack 
+class Zend_EventManager_ResponseCollection extends SplStack
 {
     protected $stopped = false;
 
     /**
      * Did the last response provided trigger a short circuit of the stack?
-     * 
+     *
      * @return bool
      */
     public function stopped()
@@ -370,14 +395,16 @@ class Zend_EventManager_ResponseCollection extends SplStack
     }
 
     /**
-     * Mark the collection as stopped (or its opposite)
-     * 
-     * @param  bool $flag 
+     * Mark the collection as stopped (or its opposite).
+     *
+     * @param bool $flag
+     *
      * @return Zend_EventManager_ResponseCollection
      */
     public function setStopped($flag)
     {
         $this->stopped = (bool) $flag;
+
         return $this;
     }
 
@@ -404,13 +431,14 @@ class Zend_EventManager_ResponseCollection extends SplStack
         if (count($this) === 0) {
             return null;
         }
+
         return parent::top();
     }
 
     /**
      * Check if any of the responses match the given value.
      *
-     * @param  mixed $value The value to look for among responses
+     * @param mixed $value The value to look for among responses
      */
     public function contains($value)
     {
@@ -419,6 +447,7 @@ class Zend_EventManager_ResponseCollection extends SplStack
                 return true;
             }
         }
+
         return false;
     }
 }

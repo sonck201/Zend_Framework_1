@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,12 +13,12 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Pdf
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id: Image.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
-
 
 /** Internally used classes */
 require_once 'Zend/Pdf/Element/Object.php';
@@ -26,10 +26,8 @@ require_once 'Zend/Pdf/Element/Dictionary.php';
 require_once 'Zend/Pdf/Element/Name.php';
 require_once 'Zend/Pdf/Element/Numeric.php';
 
-
 /** Zend_Pdf_Resource */
 require_once 'Zend/Pdf/Resource.php';
-
 
 /**
  * Graphics State.
@@ -38,7 +36,6 @@ require_once 'Zend/Pdf/Resource.php';
  * as shown in Table 4.7, others cannot. The latter can only be set with the generic
  * graphics state operator gs (PDF 1.2).
  *
- * @package    Zend_Pdf
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -48,6 +45,7 @@ class Zend_Pdf_Resource_GraphicsState extends Zend_Pdf_Resource
      * Object constructor.
      *
      * @param Zend_Pdf_Element_Object $extGStateObject
+     *
      * @throws Zend_Pdf_Exception
      */
     public function __construct(Zend_Pdf_Element_Object $extGStateObject = null)
@@ -72,7 +70,7 @@ class Zend_Pdf_Resource_GraphicsState extends Zend_Pdf_Resource
     }
 
     /**
-     * Set the transparancy
+     * Set the transparancy.
      *
      * $alpha == 0  - transparent
      * $alpha == 1  - opaque
@@ -83,27 +81,27 @@ class Zend_Pdf_Resource_GraphicsState extends Zend_Pdf_Resource
      *
      * @param float $alpha
      * @param string $mode
+     *
      * @throws Zend_Pdf_Exception
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function setAlpha($alpha, $mode = 'Normal')
     {
-        if (!in_array($mode, array('Normal', 'Multiply', 'Screen', 'Overlay', 'Darken', 'Lighten', 'ColorDodge',
-                                   'ColorBurn', 'HardLight', 'SoftLight', 'Difference', 'Exclusion'))) {
+        if (!in_array($mode, ['Normal', 'Multiply', 'Screen', 'Overlay', 'Darken', 'Lighten', 'ColorDodge',
+            'ColorBurn', 'HardLight', 'SoftLight', 'Difference', 'Exclusion', ])) {
             require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Unsupported transparency mode.');
         }
-        if (!is_numeric($alpha)  ||  $alpha < 0  ||  $alpha > 1) {
+        if (!is_numeric($alpha) || $alpha < 0 || $alpha > 1) {
             require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Alpha value must be numeric between 0 (transparent) and 1 (opaque).');
         }
 
-        $this->_resource->BM   = new Zend_Pdf_Element_Name($mode);
-        $this->_resource->CA   = new Zend_Pdf_Element_Numeric($alpha);
-        $this->_resource->ca   = new Zend_Pdf_Element_Numeric($alpha);
+        $this->_resource->BM = new Zend_Pdf_Element_Name($mode);
+        $this->_resource->CA = new Zend_Pdf_Element_Numeric($alpha);
+        $this->_resource->ca = new Zend_Pdf_Element_Numeric($alpha);
     }
 
-
-    /** @todo add other Graphics State features support */
+    /* @todo add other Graphics State features support */
 }
-

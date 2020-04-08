@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,9 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Feed_Reader
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -31,63 +32,63 @@ require_once 'Zend/Feed/Reader/FeedInterface.php';
 
 /**
  * @category   Zend
- * @package    Zend_Feed_Reader
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Feed_Reader_FeedAbstract implements Zend_Feed_Reader_FeedInterface
 {
     /**
-     * Parsed feed data
+     * Parsed feed data.
      *
      * @var array
      */
-    protected $_data = array();
+    protected $_data = [];
 
     /**
-     * Parsed feed data in the shape of a DOMDocument
+     * Parsed feed data in the shape of a DOMDocument.
      *
      * @var DOMDocument
      */
     protected $_domDocument = null;
 
     /**
-     * An array of parsed feed entries
+     * An array of parsed feed entries.
      *
      * @var array
      */
-    protected $_entries = array();
+    protected $_entries = [];
 
     /**
-     * A pointer for the iterator to keep track of the entries array
+     * A pointer for the iterator to keep track of the entries array.
      *
      * @var int
      */
     protected $_entriesKey = 0;
 
     /**
-     * The base XPath query used to retrieve feed data
+     * The base XPath query used to retrieve feed data.
      *
      * @var DOMXPath
      */
     protected $_xpath = null;
 
     /**
-     * Array of loaded extensions
+     * Array of loaded extensions.
      *
      * @var array
      */
-    protected $_extensions = array();
+    protected $_extensions = [];
 
     /**
-     * Original Source URI (set if imported from a URI)
+     * Original Source URI (set if imported from a URI).
      *
      * @var string
      */
     protected $_originalSourceUri = null;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param DomDocument The DOM object for the feed's XML
      * @param string $type Feed type
@@ -142,7 +143,7 @@ abstract class Zend_Feed_Reader_FeedAbstract implements Zend_Feed_Reader_FeedInt
     }
 
     /**
-     * Return the current entry
+     * Return the current entry.
      *
      * @return Zend_Feed_Reader_EntryInterface
      */
@@ -160,7 +161,7 @@ abstract class Zend_Feed_Reader_FeedAbstract implements Zend_Feed_Reader_FeedInt
     }
 
     /**
-     * Get the DOM
+     * Get the DOM.
      *
      * @return DOMDocument
      */
@@ -170,7 +171,7 @@ abstract class Zend_Feed_Reader_FeedAbstract implements Zend_Feed_Reader_FeedInt
     }
 
     /**
-     * Get the Feed's encoding
+     * Get the Feed's encoding.
      *
      * @return string
      */
@@ -180,41 +181,42 @@ abstract class Zend_Feed_Reader_FeedAbstract implements Zend_Feed_Reader_FeedInt
         if (empty($assumed)) {
             $assumed = 'UTF-8';
         }
+
         return $assumed;
     }
 
     /**
-     * Get feed as xml
+     * Get feed as xml.
      *
      * @return string
      */
     public function saveXml()
     {
-          return $this->getDomDocument()->saveXml();
+        return $this->getDomDocument()->saveXml();
     }
 
     /**
-     * Get the DOMElement representing the items/feed element
+     * Get the DOMElement representing the items/feed element.
      *
      * @return DOMElement
      */
     public function getElement()
     {
-          return $this->getDomDocument()->documentElement;
+        return $this->getDomDocument()->documentElement;
     }
 
     /**
-     * Get the DOMXPath object for this feed
+     * Get the DOMXPath object for this feed.
      *
      * @return DOMXPath
      */
     public function getXpath()
     {
-          return $this->_xpath;
+        return $this->_xpath;
     }
 
     /**
-     * Get the feed type
+     * Get the feed type.
      *
      * @return string
      */
@@ -224,7 +226,7 @@ abstract class Zend_Feed_Reader_FeedAbstract implements Zend_Feed_Reader_FeedInt
     }
 
     /**
-     * Return the current feed key
+     * Return the current feed key.
      *
      * @return unknown
      */
@@ -234,8 +236,7 @@ abstract class Zend_Feed_Reader_FeedAbstract implements Zend_Feed_Reader_FeedInt
     }
 
     /**
-     * Move the feed pointer forward
-     *
+     * Move the feed pointer forward.
      */
     public function next()
     {
@@ -243,8 +244,7 @@ abstract class Zend_Feed_Reader_FeedAbstract implements Zend_Feed_Reader_FeedInt
     }
 
     /**
-     * Reset the pointer in the feed object
-     *
+     * Reset the pointer in the feed object.
      */
     public function rewind()
     {
@@ -252,9 +252,9 @@ abstract class Zend_Feed_Reader_FeedAbstract implements Zend_Feed_Reader_FeedInt
     }
 
     /**
-     * Check to see if the iterator is still valid
+     * Check to see if the iterator is still valid.
      *
-     * @return boolean
+     * @return bool
      */
     public function valid()
     {
@@ -270,18 +270,18 @@ abstract class Zend_Feed_Reader_FeedAbstract implements Zend_Feed_Reader_FeedInt
     {
         foreach ($this->_extensions as $extension) {
             if (method_exists($extension, $method)) {
-                return call_user_func_array(array($extension, $method), $args);
+                return call_user_func_array([$extension, $method], $args);
             }
         }
         require_once 'Zend/Feed/Exception.php';
-        throw new Zend_Feed_Exception('Method: ' . $method
-        . 'does not exist and could not be located on a registered Extension');
+        throw new Zend_Feed_Exception('Method: ' . $method . 'does not exist and could not be located on a registered Extension');
     }
 
     /**
-     * Return an Extension object with the matching name (postfixed with _Feed)
+     * Return an Extension object with the matching name (postfixed with _Feed).
      *
      * @param string $name
+     *
      * @return Zend_Feed_Reader_Extension_FeedAbstract
      */
     public function getExtension($name)
@@ -289,6 +289,7 @@ abstract class Zend_Feed_Reader_FeedAbstract implements Zend_Feed_Reader_FeedInt
         if (array_key_exists($name . '_Feed', $this->_extensions)) {
             return $this->_extensions[$name . '_Feed'];
         }
+
         return null;
     }
 
@@ -308,14 +309,12 @@ abstract class Zend_Feed_Reader_FeedAbstract implements Zend_Feed_Reader_FeedInt
     }
 
     /**
-     * Read all entries to the internal entries array
-     *
+     * Read all entries to the internal entries array.
      */
     abstract protected function _indexEntries();
 
     /**
-     * Register the default namespaces for the current feed format
-     *
+     * Register the default namespaces for the current feed format.
      */
     abstract protected function _registerNamespaces();
 }

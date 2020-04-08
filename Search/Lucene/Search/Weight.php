@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,13 +13,12 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Search_Lucene
- * @subpackage Search
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
-
 
 /**
  * Calculate query weights and build query scorers.
@@ -31,8 +30,7 @@
  * is complete.
  *
  * @category   Zend
- * @package    Zend_Search_Lucene
- * @subpackage Search
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -40,14 +38,14 @@ abstract class Zend_Search_Lucene_Search_Weight
 {
     /**
      * Normalization factor.
-     * This value is stored only for query expanation purpose and not used in any other place
+     * This value is stored only for query expanation purpose and not used in any other place.
      *
      * @var float
      */
     protected $_queryNorm;
 
     /**
-     * Weight value
+     * Weight value.
      *
      * Weight value may be initialized in sumOfSquaredWeights() or normalize()
      * because they both are invoked either in Query::_initWeight (for top-level query) or
@@ -56,7 +54,6 @@ abstract class Zend_Search_Lucene_Search_Weight
      * @var float
      */
     protected $_value;
-
 
     /**
      * The weight for this query.
@@ -82,4 +79,3 @@ abstract class Zend_Search_Lucene_Search_Weight
      */
     abstract public function normalize($norm);
 }
-

@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,9 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Feed_Writer
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -33,26 +34,25 @@ require_once 'Zend/Feed/Writer/Source.php';
 
 /**
  * @category   Zend
- * @package    Zend_Feed_Writer
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Feed_Writer_Entry
 {
-
     /**
      * Internal array containing all data associated with this entry or item.
      *
      * @var array
      */
-    protected $_data = array();
+    protected $_data = [];
 
     /**
-     * Registered extensions
+     * Registered extensions.
      *
      * @var array
      */
-    protected $_extensions = array();
+    protected $_extensions = [];
 
     /**
      * Holds the value "atom" or "rss" depending on the feed type set when
@@ -75,14 +75,18 @@ class Zend_Feed_Writer_Entry
     }
 
     /**
-     * Set a single author
+     * Set a single author.
      *
-     * @param  int $index
+     * @param int $index
+     * @param mixed $name
+     * @param mixed|null $email
+     * @param mixed|null $uri
+     *
      * @return string|null
      */
     public function addAuthor($name, $email = null, $uri = null)
     {
-        $author = array();
+        $author = [];
         if (is_array($name)) {
             if (!array_key_exists('name', $name)
                 || empty($name['name'])
@@ -109,10 +113,10 @@ class Zend_Feed_Writer_Entry
                 }
                 $author['uri'] = $name['uri'];
             }
-        /**
-         * @deprecated
-         * Array notation (above) is preferred and will be the sole supported input from ZF 2.0
-         */
+            /*
+             * @deprecated
+             * Array notation (above) is preferred and will be the sole supported input from ZF 2.0
+             */
         } else {
             if (empty($name) || !is_string($name)) {
                 require_once 'Zend/Feed/Exception.php';
@@ -138,21 +142,23 @@ class Zend_Feed_Writer_Entry
     }
 
     /**
-     * Set an array with feed authors
+     * Set an array with feed authors.
      *
      * @return array
      */
     public function addAuthors(array $authors)
     {
-        foreach($authors as $author) {
+        foreach ($authors as $author) {
             $this->addAuthor($author);
         }
     }
 
     /**
-     * Set the feed character encoding
+     * Set the feed character encoding.
      *
      * @return string|null
+     *
+     * @param mixed $encoding
      */
     public function setEncoding($encoding)
     {
@@ -164,7 +170,7 @@ class Zend_Feed_Writer_Entry
     }
 
     /**
-     * Get the feed character encoding
+     * Get the feed character encoding.
      *
      * @return string|null
      */
@@ -173,13 +179,16 @@ class Zend_Feed_Writer_Entry
         if (!array_key_exists('encoding', $this->_data)) {
             return 'UTF-8';
         }
+
         return $this->_data['encoding'];
     }
 
     /**
-     * Set the copyright entry
+     * Set the copyright entry.
      *
      * @return string|null
+     *
+     * @param mixed $copyright
      */
     public function setCopyright($copyright)
     {
@@ -191,9 +200,11 @@ class Zend_Feed_Writer_Entry
     }
 
     /**
-     * Set the entry's content
+     * Set the entry's content.
      *
      * @return string|null
+     *
+     * @param mixed $content
      */
     public function setContent($content)
     {
@@ -205,18 +216,20 @@ class Zend_Feed_Writer_Entry
     }
 
     /**
-     * Set the feed creation date
+     * Set the feed creation date.
      *
      * @return string|null
+     *
+     * @param mixed|null $date
      */
     public function setDateCreated($date = null)
     {
         $zdate = null;
         if ($date === null) {
-            $zdate = new Zend_Date;
+            $zdate = new Zend_Date();
         } elseif ($date instanceof Zend_Date) {
             $zdate = $date;
-        } elseif (ctype_digit((string)$date)) {
+        } elseif (ctype_digit((string) $date)) {
             $zdate = new Zend_Date($date, Zend_Date::TIMESTAMP);
         } else {
             require_once 'Zend/Feed/Exception.php';
@@ -226,18 +239,20 @@ class Zend_Feed_Writer_Entry
     }
 
     /**
-     * Set the feed modification date
+     * Set the feed modification date.
      *
      * @return string|null
+     *
+     * @param mixed|null $date
      */
     public function setDateModified($date = null)
     {
         $zdate = null;
         if ($date === null) {
-            $zdate = new Zend_Date;
+            $zdate = new Zend_Date();
         } elseif ($date instanceof Zend_Date) {
             $zdate = $date;
-        } elseif (ctype_digit((string)$date)) {
+        } elseif (ctype_digit((string) $date)) {
             $zdate = new Zend_Date($date, Zend_Date::TIMESTAMP);
         } else {
             require_once 'Zend/Feed/Exception.php';
@@ -247,9 +262,11 @@ class Zend_Feed_Writer_Entry
     }
 
     /**
-     * Set the feed description
+     * Set the feed description.
      *
      * @return string|null
+     *
+     * @param mixed $description
      */
     public function setDescription($description)
     {
@@ -261,9 +278,11 @@ class Zend_Feed_Writer_Entry
     }
 
     /**
-     * Set the feed ID
+     * Set the feed ID.
      *
      * @return string|null
+     *
+     * @param mixed $id
      */
     public function setId($id)
     {
@@ -275,9 +294,11 @@ class Zend_Feed_Writer_Entry
     }
 
     /**
-     * Set a link to the HTML source of this entry
+     * Set a link to the HTML source of this entry.
      *
      * @return string|null
+     *
+     * @param mixed $link
      */
     public function setLink($link)
     {
@@ -289,13 +310,15 @@ class Zend_Feed_Writer_Entry
     }
 
     /**
-     * Set the number of comments associated with this entry
+     * Set the number of comments associated with this entry.
      *
      * @return string|null
+     *
+     * @param mixed $count
      */
     public function setCommentCount($count)
     {
-        if ( !is_numeric($count) || (int) $count < 0) {
+        if (!is_numeric($count) || (int) $count < 0) {
             require_once 'Zend/Feed/Exception.php';
             throw new Zend_Feed_Exception('Invalid parameter: "count" must be a non-empty integer number');
         }
@@ -303,9 +326,11 @@ class Zend_Feed_Writer_Entry
     }
 
     /**
-     * Set a link to a HTML page containing comments associated with this entry
+     * Set a link to a HTML page containing comments associated with this entry.
      *
      * @return string|null
+     *
+     * @param mixed $link
      */
     public function setCommentLink($link)
     {
@@ -317,7 +342,7 @@ class Zend_Feed_Writer_Entry
     }
 
     /**
-     * Set a link to an XML feed for any comments associated with this entry
+     * Set a link to an XML feed for any comments associated with this entry.
      *
      * @return string|null
      */
@@ -327,13 +352,12 @@ class Zend_Feed_Writer_Entry
             require_once 'Zend/Feed/Exception.php';
             throw new Zend_Feed_Exception('Invalid parameter: "link" must be a non-empty string and valid URI/IRI');
         }
-        if (!isset($link['type']) || !in_array($link['type'], array('atom', 'rss', 'rdf'))) {
+        if (!isset($link['type']) || !in_array($link['type'], ['atom', 'rss', 'rdf'])) {
             require_once 'Zend/Feed/Exception.php';
-            throw new Zend_Feed_Exception('Invalid parameter: "type" must be one'
-            . ' of "atom", "rss" or "rdf"');
+            throw new Zend_Feed_Exception('Invalid parameter: "type" must be one' . ' of "atom", "rss" or "rdf"');
         }
         if (!isset($this->_data['commentFeedLinks'])) {
-            $this->_data['commentFeedLinks'] = array();
+            $this->_data['commentFeedLinks'] = [];
         }
         $this->_data['commentFeedLinks'][] = $link;
     }
@@ -353,9 +377,11 @@ class Zend_Feed_Writer_Entry
     }
 
     /**
-     * Set the feed title
+     * Set the feed title.
      *
      * @return string|null
+     *
+     * @param mixed $title
      */
     public function setTitle($title)
     {
@@ -367,7 +393,7 @@ class Zend_Feed_Writer_Entry
     }
 
     /**
-     * Get an array with feed authors
+     * Get an array with feed authors.
      *
      * @return array
      */
@@ -376,11 +402,12 @@ class Zend_Feed_Writer_Entry
         if (!array_key_exists('authors', $this->_data)) {
             return null;
         }
+
         return $this->_data['authors'];
     }
 
     /**
-     * Get the entry content
+     * Get the entry content.
      *
      * @return string
      */
@@ -389,11 +416,12 @@ class Zend_Feed_Writer_Entry
         if (!array_key_exists('content', $this->_data)) {
             return null;
         }
+
         return $this->_data['content'];
     }
 
     /**
-     * Get the entry copyright information
+     * Get the entry copyright information.
      *
      * @return string
      */
@@ -402,11 +430,12 @@ class Zend_Feed_Writer_Entry
         if (!array_key_exists('copyright', $this->_data)) {
             return null;
         }
+
         return $this->_data['copyright'];
     }
 
     /**
-     * Get the entry creation date
+     * Get the entry creation date.
      *
      * @return string
      */
@@ -415,11 +444,12 @@ class Zend_Feed_Writer_Entry
         if (!array_key_exists('dateCreated', $this->_data)) {
             return null;
         }
+
         return $this->_data['dateCreated'];
     }
 
     /**
-     * Get the entry modification date
+     * Get the entry modification date.
      *
      * @return string
      */
@@ -428,11 +458,12 @@ class Zend_Feed_Writer_Entry
         if (!array_key_exists('dateModified', $this->_data)) {
             return null;
         }
+
         return $this->_data['dateModified'];
     }
 
     /**
-     * Get the entry description
+     * Get the entry description.
      *
      * @return string
      */
@@ -441,11 +472,12 @@ class Zend_Feed_Writer_Entry
         if (!array_key_exists('description', $this->_data)) {
             return null;
         }
+
         return $this->_data['description'];
     }
 
     /**
-     * Get the entry ID
+     * Get the entry ID.
      *
      * @return string
      */
@@ -454,11 +486,12 @@ class Zend_Feed_Writer_Entry
         if (!array_key_exists('id', $this->_data)) {
             return null;
         }
+
         return $this->_data['id'];
     }
 
     /**
-     * Get a link to the HTML source
+     * Get a link to the HTML source.
      *
      * @return string|null
      */
@@ -467,12 +500,12 @@ class Zend_Feed_Writer_Entry
         if (!array_key_exists('link', $this->_data)) {
             return null;
         }
+
         return $this->_data['link'];
     }
 
-
     /**
-     * Get all links
+     * Get all links.
      *
      * @return array
      */
@@ -481,11 +514,12 @@ class Zend_Feed_Writer_Entry
         if (!array_key_exists('links', $this->_data)) {
             return null;
         }
+
         return $this->_data['links'];
     }
 
     /**
-     * Get the entry title
+     * Get the entry title.
      *
      * @return string
      */
@@ -494,24 +528,26 @@ class Zend_Feed_Writer_Entry
         if (!array_key_exists('title', $this->_data)) {
             return null;
         }
+
         return $this->_data['title'];
     }
 
     /**
-     * Get the number of comments/replies for current entry
+     * Get the number of comments/replies for current entry.
      *
-     * @return integer
+     * @return int
      */
     public function getCommentCount()
     {
         if (!array_key_exists('commentCount', $this->_data)) {
             return null;
         }
+
         return $this->_data['commentCount'];
     }
 
     /**
-     * Returns a URI pointing to the HTML page where comments can be made on this entry
+     * Returns a URI pointing to the HTML page where comments can be made on this entry.
      *
      * @return string
      */
@@ -520,6 +556,7 @@ class Zend_Feed_Writer_Entry
         if (!array_key_exists('commentLink', $this->_data)) {
             return null;
         }
+
         return $this->_data['commentLink'];
     }
 
@@ -534,11 +571,12 @@ class Zend_Feed_Writer_Entry
         if (!array_key_exists('commentFeedLinks', $this->_data)) {
             return null;
         }
+
         return $this->_data['commentFeedLinks'];
     }
 
     /**
-     * Add a entry category
+     * Add a entry category.
      *
      * @param string $category
      */
@@ -546,9 +584,7 @@ class Zend_Feed_Writer_Entry
     {
         if (!isset($category['term'])) {
             require_once 'Zend/Feed/Exception.php';
-            throw new Zend_Feed_Exception('Each category must be an array and '
-            . 'contain at least a "term" element containing the machine '
-            . ' readable category name');
+            throw new Zend_Feed_Exception('Each category must be an array and ' . 'contain at least a "term" element containing the machine ' . ' readable category name');
         }
         if (isset($category['scheme'])) {
             if (empty($category['scheme'])
@@ -556,18 +592,17 @@ class Zend_Feed_Writer_Entry
                 || !Zend_Uri::check($category['scheme'])
             ) {
                 require_once 'Zend/Feed/Exception.php';
-                throw new Zend_Feed_Exception('The Atom scheme or RSS domain of'
-                . ' a category must be a valid URI');
+                throw new Zend_Feed_Exception('The Atom scheme or RSS domain of' . ' a category must be a valid URI');
             }
         }
         if (!isset($this->_data['categories'])) {
-            $this->_data['categories'] = array();
+            $this->_data['categories'] = [];
         }
         $this->_data['categories'][] = $category;
     }
 
     /**
-     * Set an array of entry categories
+     * Set an array of entry categories.
      *
      * @param array $categories
      */
@@ -579,7 +614,7 @@ class Zend_Feed_Writer_Entry
     }
 
     /**
-     * Get the entry categories
+     * Get the entry categories.
      *
      * @return string|null
      */
@@ -588,6 +623,7 @@ class Zend_Feed_Writer_Entry
         if (!array_key_exists('categories', $this->_data)) {
             return null;
         }
+
         return $this->_data['categories'];
     }
 
@@ -622,11 +658,12 @@ class Zend_Feed_Writer_Entry
         if (!array_key_exists('enclosure', $this->_data)) {
             return null;
         }
+
         return $this->_data['enclosure'];
     }
 
     /**
-     * Unset a specific data point
+     * Unset a specific data point.
      *
      * @param string $name
      */
@@ -638,7 +675,7 @@ class Zend_Feed_Writer_Entry
     }
 
     /**
-     * Get registered extensions
+     * Get registered extensions.
      *
      * @return array
      */
@@ -648,9 +685,10 @@ class Zend_Feed_Writer_Entry
     }
 
     /**
-     * Return an Extension object with the matching name (postfixed with _Entry)
+     * Return an Extension object with the matching name (postfixed with _Entry).
      *
      * @param string $name
+     *
      * @return object
      */
     public function getExtension($name)
@@ -658,6 +696,7 @@ class Zend_Feed_Writer_Entry
         if (array_key_exists($name . '_Entry', $this->_extensions)) {
             return $this->_extensions[$name . '_Entry'];
         }
+
         return null;
     }
 
@@ -684,24 +723,25 @@ class Zend_Feed_Writer_Entry
     }
 
     /**
-     * Method overloading: call given method on first extension implementing it
+     * Method overloading: call given method on first extension implementing it.
      *
-     * @param  string $method
-     * @param  array $args
+     * @param string $method
+     * @param array $args
+     *
      * @return mixed
+     *
      * @throws Zend_Feed_Exception if no extensions implements the method
      */
     public function __call($method, $args)
     {
         foreach ($this->_extensions as $extension) {
             try {
-                return call_user_func_array(array($extension, $method), $args);
+                return call_user_func_array([$extension, $method], $args);
             } catch (Zend_Feed_Writer_Exception_InvalidMethodException $e) {
             }
         }
         require_once 'Zend/Feed/Exception.php';
-        throw new Zend_Feed_Exception('Method: ' . $method
-            . ' does not exist and could not be located on a registered Extension');
+        throw new Zend_Feed_Exception('Method: ' . $method . ' does not exist and could not be located on a registered Extension');
     }
 
     /**
@@ -713,11 +753,12 @@ class Zend_Feed_Writer_Entry
      */
     public function createSource()
     {
-        $source = new Zend_Feed_Writer_Source;
+        $source = new Zend_Feed_Writer_Source();
         if ($this->getEncoding()) {
             $source->setEncoding($this->getEncoding());
         }
         $source->setType($this->getType());
+
         return $source;
     }
 
@@ -740,11 +781,12 @@ class Zend_Feed_Writer_Entry
         if (isset($this->_data['source'])) {
             return $this->_data['source'];
         }
+
         return null;
     }
 
     /**
-     * Load extensions from Zend_Feed_Writer
+     * Load extensions from Zend_Feed_Writer.
      *
      * @return void
      */

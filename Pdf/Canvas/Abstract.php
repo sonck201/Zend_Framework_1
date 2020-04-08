@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,12 +13,12 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Pdf
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id: Style.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
-
 require_once 'Zend/Pdf/Canvas/Interface.php';
 
 /** Internally used classes */
@@ -35,63 +35,59 @@ require_once 'Zend/Pdf/Resource/GraphicsState.php';
 require_once 'Zend/Pdf/Resource/Font.php';
 require_once 'Zend/Pdf/Resource/Image.php';
 
-
 /**
  * Canvas is an abstract rectangle drawing area which can be dropped into
  * page object at specified place.
  *
- * @package    Zend_Pdf
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
 {
     /**
-     * Drawing instructions
+     * Drawing instructions.
      *
      * @var string
      */
     protected $_contents = '';
 
     /**
-     * Current font
+     * Current font.
      *
      * @var Zend_Pdf_Resource_Font
      */
     protected $_font = null;
 
     /**
-     * Current font size
+     * Current font size.
      *
      * @var float
      */
     protected $_fontSize;
 
     /**
-     * Current style
+     * Current style.
      *
      * @var Zend_Pdf_Style
      */
     protected $_style = null;
 
-
     /**
-     * Counter for the "Save" operations
+     * Counter for the "Save" operations.
      *
-     * @var integer
+     * @var int
      */
     protected $_saveCount = 0;
 
-
     /**
-     * Add procedureSet to the Page description
+     * Add procedureSet to the Page description.
      *
      * @param string $procSetName
      */
     abstract protected function _addProcSet($procSetName);
 
     /**
-     * Attach resource to the canvas
+     * Attach resource to the canvas.
      *
      * Method returns a name of the resource which can be used
      * as a resource reference within drawing instructions stream
@@ -100,12 +96,13 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      *
      * @param string $type
      * @param Zend_Pdf_Resource $resource
+     *
      * @return string
      */
     abstract protected function _attachResource($type, Zend_Pdf_Resource $resource);
 
     /**
-     * Draw a canvas at the specified location
+     * Draw a canvas at the specified location.
      *
      * If upper right corner is not specified then canvas heght and width
      * are used.
@@ -115,6 +112,7 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      * @param float $y1
      * @param float $x2
      * @param float $y2
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function drawCanvas(Zend_Pdf_Canvas_Interface $canvas, $x1, $y1, $x2 = null, $y2 = null)
@@ -136,16 +134,16 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
 
         $this->clipRectangle(0, 0, $with, $height);
 
-        if ($x2 !== null  ||  $y2 !== null) {
+        if ($x2 !== null || $y2 !== null) {
             // Drawn canvas has to be scaled.
             if ($x2 !== null) {
-                $xScale = $with/$canvas->getWidth();
+                $xScale = $with / $canvas->getWidth();
             } else {
                 $xScale = 1;
             }
 
             if ($y2 !== null) {
-                $yScale = $height/$canvas->getHeight();
+                $yScale = $height / $canvas->getHeight();
             } else {
                 $yScale = 1;
             }
@@ -154,7 +152,7 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
         }
 
         $contentsToDraw = $canvas->getContents();
-        /** @todo implementation */
+        /* @todo implementation */
 
         $this->restoreGS();
 
@@ -165,6 +163,7 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      * Set fill color.
      *
      * @param Zend_Pdf_Color $color
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function setFillColor(Zend_Pdf_Color $color)
@@ -179,6 +178,7 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      * Set line color.
      *
      * @param Zend_Pdf_Color $color
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function setLineColor(Zend_Pdf_Color $color)
@@ -193,6 +193,7 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      * Set line width.
      *
      * @param float $width
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function setLineWidth($width)
@@ -205,7 +206,7 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
     }
 
     /**
-     * Set line dashing pattern
+     * Set line dashing pattern.
      *
      * Pattern is an array of floats: array(on_length, off_length, on_length, off_length, ...)
      * or Zend_Pdf_Page::LINE_DASHING_SOLID constant
@@ -213,6 +214,7 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      *
      * @param mixed $pattern
      * @param array $phase
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function setLineDashingPattern($pattern, $phase = 0)
@@ -221,11 +223,11 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
 
         require_once 'Zend/Pdf/Page.php';
         if ($pattern === Zend_Pdf_Page::LINE_DASHING_SOLID) {
-            $pattern = array();
-            $phase   = 0;
+            $pattern = [];
+            $phase = 0;
         }
 
-        $dashPattern  = new Zend_Pdf_Element_Array();
+        $dashPattern = new Zend_Pdf_Element_Array();
         $phaseEleemnt = new Zend_Pdf_Element_Numeric($phase);
 
         foreach ($pattern as $dashItem) {
@@ -244,6 +246,7 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      *
      * @param Zend_Pdf_Resource_Font $font
      * @param float $fontSize
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function setFont(Zend_Pdf_Resource_Font $font, $fontSize)
@@ -251,7 +254,7 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
         $this->_addProcSet('Text');
         $fontName = $this->_attachResource('Font', $font);
 
-        $this->_font     = $font;
+        $this->_font = $font;
         $this->_fontSize = $fontSize;
 
         $fontNameObj = new Zend_Pdf_Element_Name($fontName);
@@ -262,9 +265,10 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
     }
 
     /**
-     * Set the style to use for future drawing operations on this page
+     * Set the style to use for future drawing operations on this page.
      *
      * @param Zend_Pdf_Style $style
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function setStyle(Zend_Pdf_Style $style)
@@ -292,7 +296,7 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
     }
 
     /**
-     * Get current font size
+     * Get current font size.
      *
      * @return float $fontSize
      */
@@ -317,12 +321,14 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      * any rotation/translation/scaling that has been applied.
      *
      * @todo check for the open paths
-     * @throws Zend_Pdf_Exception    - if a save is performed with an open path
+     *
+     * @throws Zend_Pdf_Exception - if a save is performed with an open path
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function saveGS()
     {
-        $this->_saveCount++;
+        ++$this->_saveCount;
 
         $this->_addProcSet('PDF');
         $this->_contents .= " q\n";
@@ -333,7 +339,8 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
     /**
      * Restore the graphics state that was saved with the last call to saveGS().
      *
-     * @throws Zend_Pdf_Exception   - if there is no previously saved state
+     * @throws Zend_Pdf_Exception - if there is no previously saved state
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function restoreGS()
@@ -348,7 +355,7 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
     }
 
     /**
-     * Set the transparancy
+     * Set the transparancy.
      *
      * $alpha == 0  - transparent
      * $alpha == 1  - opaque
@@ -359,6 +366,7 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      *
      * @param float $alpha
      * @param string $mode
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function setAlpha($alpha, $mode = 'Normal')
@@ -385,6 +393,7 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      * @param float $radius
      * @param float $startAngle
      * @param float $endAngle
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function clipCircle($x, $y, $radius, $startAngle = null, $endAngle = null)
@@ -411,6 +420,7 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      * @param float $y2
      * @param float $startAngle
      * @param float $endAngle
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function clipEllipse($x1, $y1, $x2, $y2, $startAngle = null, $endAngle = null)
@@ -419,70 +429,74 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
 
         if ($x2 < $x1) {
             $temp = $x1;
-            $x1   = $x2;
-            $x2   = $temp;
+            $x1 = $x2;
+            $x2 = $temp;
         }
         if ($y2 < $y1) {
             $temp = $y1;
-            $y1   = $y2;
-            $y2   = $temp;
+            $y1 = $y2;
+            $y2 = $temp;
         }
 
-        $x = ($x1 + $x2)/2.;
-        $y = ($y1 + $y2)/2.;
+        $x = ($x1 + $x2) / 2.;
+        $y = ($y1 + $y2) / 2.;
 
         $xC = new Zend_Pdf_Element_Numeric($x);
         $yC = new Zend_Pdf_Element_Numeric($y);
 
         if ($startAngle !== null) {
-            if ($startAngle != 0) { $startAngle = fmod($startAngle, M_PI*2); }
-            if ($endAngle   != 0) { $endAngle   = fmod($endAngle,   M_PI*2); }
-
-            if ($startAngle > $endAngle) {
-                $endAngle += M_PI*2;
+            if ($startAngle != 0) {
+                $startAngle = fmod($startAngle, M_PI * 2);
+            }
+            if ($endAngle != 0) {
+                $endAngle = fmod($endAngle, M_PI * 2);
             }
 
-            $clipPath    = $xC->toString() . ' ' . $yC->toString() . " m\n";
-            $clipSectors = (int)ceil(($endAngle - $startAngle)/M_PI_4);
-            $clipRadius  = max($x2 - $x1, $y2 - $y1);
+            if ($startAngle > $endAngle) {
+                $endAngle += M_PI * 2;
+            }
 
-            for($count = 0; $count <= $clipSectors; $count++) {
-                $pAngle = $startAngle + ($endAngle - $startAngle)*$count/(float)$clipSectors;
+            $clipPath = $xC->toString() . ' ' . $yC->toString() . " m\n";
+            $clipSectors = (int) ceil(($endAngle - $startAngle) / M_PI_4);
+            $clipRadius = max($x2 - $x1, $y2 - $y1);
 
-                $pX = new Zend_Pdf_Element_Numeric($x + cos($pAngle)*$clipRadius);
-                $pY = new Zend_Pdf_Element_Numeric($y + sin($pAngle)*$clipRadius);
+            for ($count = 0; $count <= $clipSectors; ++$count) {
+                $pAngle = $startAngle + ($endAngle - $startAngle) * $count / (float) $clipSectors;
+
+                $pX = new Zend_Pdf_Element_Numeric($x + cos($pAngle) * $clipRadius);
+                $pY = new Zend_Pdf_Element_Numeric($y + sin($pAngle) * $clipRadius);
                 $clipPath .= $pX->toString() . ' ' . $pY->toString() . " l\n";
             }
 
             $this->_contents .= $clipPath . "h\nW\nn\n";
         }
 
-        $xLeft  = new Zend_Pdf_Element_Numeric($x1);
+        $xLeft = new Zend_Pdf_Element_Numeric($x1);
         $xRight = new Zend_Pdf_Element_Numeric($x2);
-        $yUp    = new Zend_Pdf_Element_Numeric($y2);
-        $yDown  = new Zend_Pdf_Element_Numeric($y1);
+        $yUp = new Zend_Pdf_Element_Numeric($y2);
+        $yDown = new Zend_Pdf_Element_Numeric($y1);
 
-        $xDelta  = 2*(M_SQRT2 - 1)*($x2 - $x1)/3.;
-        $yDelta  = 2*(M_SQRT2 - 1)*($y2 - $y1)/3.;
+        $xDelta = 2 * (M_SQRT2 - 1) * ($x2 - $x1) / 3.;
+        $yDelta = 2 * (M_SQRT2 - 1) * ($y2 - $y1) / 3.;
         $xr = new Zend_Pdf_Element_Numeric($x + $xDelta);
         $xl = new Zend_Pdf_Element_Numeric($x - $xDelta);
         $yu = new Zend_Pdf_Element_Numeric($y + $yDelta);
         $yd = new Zend_Pdf_Element_Numeric($y - $yDelta);
 
         $this->_contents .= $xC->toString() . ' ' . $yUp->toString() . " m\n"
-                         .  $xr->toString() . ' ' . $yUp->toString() . ' '
-                         .    $xRight->toString() . ' ' . $yu->toString() . ' '
-                         .      $xRight->toString() . ' ' . $yC->toString() . " c\n"
-                         .  $xRight->toString() . ' ' . $yd->toString() . ' '
-                         .    $xr->toString() . ' ' . $yDown->toString() . ' '
-                         .      $xC->toString() . ' ' . $yDown->toString() . " c\n"
-                         .  $xl->toString() . ' ' . $yDown->toString() . ' '
-                         .    $xLeft->toString() . ' ' . $yd->toString() . ' '
-                         .      $xLeft->toString() . ' ' . $yC->toString() . " c\n"
-                         .  $xLeft->toString() . ' ' . $yu->toString() . ' '
-                         .    $xl->toString() . ' ' . $yUp->toString() . ' '
-                         .      $xC->toString() . ' ' . $yUp->toString() . " c\n"
-                         .  "h\nW\nn\n";
+                         . $xr->toString() . ' ' . $yUp->toString() . ' '
+                         . $xRight->toString() . ' ' . $yu->toString() . ' '
+                         . $xRight->toString() . ' ' . $yC->toString() . " c\n"
+                         . $xRight->toString() . ' ' . $yd->toString() . ' '
+                         . $xr->toString() . ' ' . $yDown->toString() . ' '
+                         . $xC->toString() . ' ' . $yDown->toString() . " c\n"
+                         . $xl->toString() . ' ' . $yDown->toString() . ' '
+                         . $xLeft->toString() . ' ' . $yd->toString() . ' '
+                         . $xLeft->toString() . ' ' . $yC->toString() . " c\n"
+                         . $xLeft->toString() . ' ' . $yu->toString() . ' '
+                         . $xl->toString() . ' ' . $yUp->toString() . ' '
+                         . $xC->toString() . ' ' . $yUp->toString() . " c\n"
+                         . "h\nW\nn\n";
 
         return $this;
     }
@@ -490,9 +504,10 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
     /**
      * Intersect current clipping area with a polygon.
      *
-     * @param array $x  - array of float (the X co-ordinates of the vertices)
-     * @param array $y  - array of float (the Y co-ordinates of the vertices)
-     * @param integer $fillMethod
+     * @param array $x - array of float (the X co-ordinates of the vertices)
+     * @param array $y - array of float (the Y co-ordinates of the vertices)
+     * @param int $fillMethod
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function clipPolygon($x, $y, $fillMethod = Zend_Pdf_Page::FILL_METHOD_NON_ZERO_WINDING)
@@ -531,25 +546,27 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      * @param float $y1
      * @param float $x2
      * @param float $y2
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function clipRectangle($x1, $y1, $x2, $y2)
     {
         $this->_addProcSet('PDF');
 
-        $x1Obj      = new Zend_Pdf_Element_Numeric($x1);
-        $y1Obj      = new Zend_Pdf_Element_Numeric($y1);
-        $widthObj   = new Zend_Pdf_Element_Numeric($x2 - $x1);
+        $x1Obj = new Zend_Pdf_Element_Numeric($x1);
+        $y1Obj = new Zend_Pdf_Element_Numeric($y1);
+        $widthObj = new Zend_Pdf_Element_Numeric($x2 - $x1);
         $height2Obj = new Zend_Pdf_Element_Numeric($y2 - $y1);
 
         $this->_contents .= $x1Obj->toString() . ' ' . $y1Obj->toString() . ' '
-                         .      $widthObj->toString() . ' ' . $height2Obj->toString() . " re\n"
-                         .  " W\nn\n";
+                         . $widthObj->toString() . ' ' . $height2Obj->toString() . " re\n"
+                         . " W\nn\n";
 
         return $this;
     }
 
-// ------------------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------------------
+
     /**
      * Draw a circle centered on x, y with a radius of radius.
      *
@@ -572,9 +589,10 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      * @param mixed $param4
      * @param mixed $param5
      * @param mixed $param6
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
-    public function  drawCircle($x, $y, $radius, $param4 = null, $param5 = null, $param6 = null)
+    public function drawCircle($x, $y, $radius, $param4 = null, $param5 = null, $param6 = null)
     {
         $this->drawEllipse($x - $radius, $y - $radius,
                            $x + $radius, $y + $radius,
@@ -601,6 +619,7 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      * @param mixed $param5
      * @param mixed $param6
      * @param mixed $param7
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function drawEllipse($x1, $y1, $x2, $y2, $param5 = null, $param6 = null, $param7 = null)
@@ -609,7 +628,7 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
             // drawEllipse($x1, $y1, $x2, $y2);
             $startAngle = null;
             $fillType = Zend_Pdf_Page::SHAPE_DRAW_FILL_AND_STROKE;
-        } else if ($param6 === null) {
+        } elseif ($param6 === null) {
             // drawEllipse($x1, $y1, $x2, $y2, $fillType);
             $startAngle = null;
             $fillType = $param5;
@@ -617,7 +636,7 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
             // drawEllipse($x1, $y1, $x2, $y2, $startAngle, $endAngle);
             // drawEllipse($x1, $y1, $x2, $y2, $startAngle, $endAngle, $fillType);
             $startAngle = $param5;
-            $endAngle   = $param6;
+            $endAngle = $param6;
 
             if ($param7 === null) {
                 $fillType = Zend_Pdf_Page::SHAPE_DRAW_FILL_AND_STROKE;
@@ -630,69 +649,73 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
 
         if ($x2 < $x1) {
             $temp = $x1;
-            $x1   = $x2;
-            $x2   = $temp;
+            $x1 = $x2;
+            $x2 = $temp;
         }
         if ($y2 < $y1) {
             $temp = $y1;
-            $y1   = $y2;
-            $y2   = $temp;
+            $y1 = $y2;
+            $y2 = $temp;
         }
 
-        $x = ($x1 + $x2)/2.;
-        $y = ($y1 + $y2)/2.;
+        $x = ($x1 + $x2) / 2.;
+        $y = ($y1 + $y2) / 2.;
 
         $xC = new Zend_Pdf_Element_Numeric($x);
         $yC = new Zend_Pdf_Element_Numeric($y);
 
         if ($startAngle !== null) {
-            if ($startAngle != 0) { $startAngle = fmod($startAngle, M_PI*2); }
-            if ($endAngle   != 0) { $endAngle   = fmod($endAngle,   M_PI*2); }
-
-            if ($startAngle > $endAngle) {
-                $endAngle += M_PI*2;
+            if ($startAngle != 0) {
+                $startAngle = fmod($startAngle, M_PI * 2);
+            }
+            if ($endAngle != 0) {
+                $endAngle = fmod($endAngle, M_PI * 2);
             }
 
-            $clipPath    = $xC->toString() . ' ' . $yC->toString() . " m\n";
-            $clipSectors = (int)ceil(($endAngle - $startAngle)/M_PI_4);
-            $clipRadius  = max($x2 - $x1, $y2 - $y1);
+            if ($startAngle > $endAngle) {
+                $endAngle += M_PI * 2;
+            }
 
-            for($count = 0; $count <= $clipSectors; $count++) {
-                $pAngle = $startAngle + ($endAngle - $startAngle)*$count/(float)$clipSectors;
+            $clipPath = $xC->toString() . ' ' . $yC->toString() . " m\n";
+            $clipSectors = (int) ceil(($endAngle - $startAngle) / M_PI_4);
+            $clipRadius = max($x2 - $x1, $y2 - $y1);
 
-                $pX = new Zend_Pdf_Element_Numeric($x + cos($pAngle)*$clipRadius);
-                $pY = new Zend_Pdf_Element_Numeric($y + sin($pAngle)*$clipRadius);
+            for ($count = 0; $count <= $clipSectors; ++$count) {
+                $pAngle = $startAngle + ($endAngle - $startAngle) * $count / (float) $clipSectors;
+
+                $pX = new Zend_Pdf_Element_Numeric($x + cos($pAngle) * $clipRadius);
+                $pY = new Zend_Pdf_Element_Numeric($y + sin($pAngle) * $clipRadius);
                 $clipPath .= $pX->toString() . ' ' . $pY->toString() . " l\n";
             }
 
             $this->_contents .= "q\n" . $clipPath . "h\nW\nn\n";
         }
 
-        $xLeft  = new Zend_Pdf_Element_Numeric($x1);
+        $xLeft = new Zend_Pdf_Element_Numeric($x1);
         $xRight = new Zend_Pdf_Element_Numeric($x2);
-        $yUp    = new Zend_Pdf_Element_Numeric($y2);
-        $yDown  = new Zend_Pdf_Element_Numeric($y1);
+        $yUp = new Zend_Pdf_Element_Numeric($y2);
+        $yDown = new Zend_Pdf_Element_Numeric($y1);
 
-        $xDelta  = 2*(M_SQRT2 - 1)*($x2 - $x1)/3.;
-        $yDelta  = 2*(M_SQRT2 - 1)*($y2 - $y1)/3.;
+        $xDelta = 2 * (M_SQRT2 - 1) * ($x2 - $x1) / 3.;
+        $yDelta = 2 * (M_SQRT2 - 1) * ($y2 - $y1) / 3.;
         $xr = new Zend_Pdf_Element_Numeric($x + $xDelta);
         $xl = new Zend_Pdf_Element_Numeric($x - $xDelta);
         $yu = new Zend_Pdf_Element_Numeric($y + $yDelta);
         $yd = new Zend_Pdf_Element_Numeric($y - $yDelta);
 
         $this->_contents .= $xC->toString() . ' ' . $yUp->toString() . " m\n"
-                         .  $xr->toString() . ' ' . $yUp->toString() . ' '
-                         .    $xRight->toString() . ' ' . $yu->toString() . ' '
-                         .      $xRight->toString() . ' ' . $yC->toString() . " c\n"
-                         .  $xRight->toString() . ' ' . $yd->toString() . ' '
-                         .    $xr->toString() . ' ' . $yDown->toString() . ' '
-                         .      $xC->toString() . ' ' . $yDown->toString() . " c\n"
-                         .  $xl->toString() . ' ' . $yDown->toString() . ' '
-                         .    $xLeft->toString() . ' ' . $yd->toString() . ' '
-                         .      $xLeft->toString() . ' ' . $yC->toString() . " c\n"
-                         .  $xLeft->toString() . ' ' . $yu->toString() . ' '
-                         .    $xl->toString() . ' ' . $yUp->toString() . ' '
-                         .      $xC->toString() . ' ' . $yUp->toString() . " c\n";
+                         . $xr->toString() . ' ' . $yUp->toString() . ' '
+                         . $xRight->toString() . ' ' . $yu->toString() . ' '
+                         . $xRight->toString() . ' ' . $yC->toString() . " c\n"
+                         . $xRight->toString() . ' ' . $yd->toString() . ' '
+                         . $xr->toString() . ' ' . $yDown->toString() . ' '
+                         . $xC->toString() . ' ' . $yDown->toString() . " c\n"
+                         . $xl->toString() . ' ' . $yDown->toString() . ' '
+                         . $xLeft->toString() . ' ' . $yd->toString() . ' '
+                         . $xLeft->toString() . ' ' . $yC->toString() . " c\n"
+                         . $xLeft->toString() . ' ' . $yu->toString() . ' '
+                         . $xl->toString() . ' ' . $yUp->toString() . ' '
+                         . $xC->toString() . ' ' . $yUp->toString() . " c\n";
 
         switch ($fillType) {
             case Zend_Pdf_Page::SHAPE_DRAW_FILL_AND_STROKE:
@@ -721,25 +744,26 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      * @param float $y1
      * @param float $x2
      * @param float $y2
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function drawImage(Zend_Pdf_Resource_Image $image, $x1, $y1, $x2, $y2)
     {
         $this->_addProcSet('PDF');
 
-        $imageName    = $this->_attachResource('XObject', $image);
+        $imageName = $this->_attachResource('XObject', $image);
         $imageNameObj = new Zend_Pdf_Element_Name($imageName);
 
-        $x1Obj     = new Zend_Pdf_Element_Numeric($x1);
-        $y1Obj     = new Zend_Pdf_Element_Numeric($y1);
-        $widthObj  = new Zend_Pdf_Element_Numeric($x2 - $x1);
+        $x1Obj = new Zend_Pdf_Element_Numeric($x1);
+        $y1Obj = new Zend_Pdf_Element_Numeric($y1);
+        $widthObj = new Zend_Pdf_Element_Numeric($x2 - $x1);
         $heightObj = new Zend_Pdf_Element_Numeric($y2 - $y1);
 
         $this->_contents .= "q\n"
-                         .  '1 0 0 1 ' . $x1Obj->toString() . ' ' . $y1Obj->toString() . " cm\n"
-                         .  $widthObj->toString() . ' 0 0 ' . $heightObj->toString() . " 0 0 cm\n"
-                         .  $imageNameObj->toString() . " Do\n"
-                         .  "Q\n";
+                         . '1 0 0 1 ' . $x1Obj->toString() . ' ' . $y1Obj->toString() . " cm\n"
+                         . $widthObj->toString() . ' 0 0 ' . $heightObj->toString() . " 0 0 cm\n"
+                         . $imageNameObj->toString() . " Do\n"
+                         . "Q\n";
 
         return $this;
     }
@@ -752,11 +776,12 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      * @param Zend_Pdf_Element_LayoutBox $box
      * @param float $x
      * @param float $y
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function drawLayoutBox($box, $x, $y)
     {
-        /** @todo implementation */
+        /* @todo implementation */
         return $this;
     }
 
@@ -767,6 +792,7 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      * @param float $y1
      * @param float $x2
      * @param float $y2
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function drawLine($x1, $y1, $x2, $y2)
@@ -779,7 +805,7 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
         $y2Obj = new Zend_Pdf_Element_Numeric($y2);
 
         $this->_contents .= $x1Obj->toString() . ' ' . $y1Obj->toString() . " m\n"
-                         .  $x2Obj->toString() . ' ' . $y2Obj->toString() . " l\n S\n";
+                         . $x2Obj->toString() . ' ' . $y2Obj->toString() . " l\n S\n";
 
         return $this;
     }
@@ -792,10 +818,11 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      * See detailed description of these methods in a PDF documentation
      * (section 4.4.2 Path painting Operators, Filling)
      *
-     * @param array $x  - array of float (the X co-ordinates of the vertices)
-     * @param array $y  - array of float (the Y co-ordinates of the vertices)
-     * @param integer $fillType
-     * @param integer $fillMethod
+     * @param array $x - array of float (the X co-ordinates of the vertices)
+     * @param array $y - array of float (the Y co-ordinates of the vertices)
+     * @param int $fillType
+     * @param int $fillMethod
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function drawPolygon($x, $y,
@@ -856,20 +883,21 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      * @param float $y1
      * @param float $x2
      * @param float $y2
-     * @param integer $fillType
+     * @param int $fillType
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function drawRectangle($x1, $y1, $x2, $y2, $fillType = Zend_Pdf_Page::SHAPE_DRAW_FILL_AND_STROKE)
     {
         $this->_addProcSet('PDF');
 
-        $x1Obj      = new Zend_Pdf_Element_Numeric($x1);
-        $y1Obj      = new Zend_Pdf_Element_Numeric($y1);
-        $widthObj   = new Zend_Pdf_Element_Numeric($x2 - $x1);
+        $x1Obj = new Zend_Pdf_Element_Numeric($x1);
+        $y1Obj = new Zend_Pdf_Element_Numeric($y1);
+        $widthObj = new Zend_Pdf_Element_Numeric($x2 - $x1);
         $height2Obj = new Zend_Pdf_Element_Numeric($y2 - $y1);
 
         $this->_contents .= $x1Obj->toString() . ' ' . $y1Obj->toString() . ' '
-                             .  $widthObj->toString() . ' ' . $height2Obj->toString() . " re\n";
+                             . $widthObj->toString() . ' ' . $height2Obj->toString() . " re\n";
 
         switch ($fillType) {
             case Zend_Pdf_Page::SHAPE_DRAW_FILL_AND_STROKE:
@@ -902,34 +930,34 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      * @param float $y1
      * @param float $x2
      * @param float $y2
-     * @param integer|array $radius
-     * @param integer $fillType
+     * @param int|array $radius
+     * @param int $fillType
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function drawRoundedRectangle($x1, $y1, $x2, $y2, $radius,
                                          $fillType = Zend_Pdf_Page::SHAPE_DRAW_FILL_AND_STROKE)
     {
-
         $this->_addProcSet('PDF');
 
-        if(!is_array($radius)) {
-            $radius = array($radius, $radius, $radius, $radius);
+        if (!is_array($radius)) {
+            $radius = [$radius, $radius, $radius, $radius];
         } else {
-            for ($i = 0; $i < 4; $i++) {
-                if(!isset($radius[$i])) {
+            for ($i = 0; $i < 4; ++$i) {
+                if (!isset($radius[$i])) {
                     $radius[$i] = 0;
                 }
             }
         }
 
-        $topLeftX      = $x1;
-        $topLeftY      = $y2;
-        $topRightX     = $x2;
-        $topRightY     = $y2;
-        $bottomRightX  = $x2;
-        $bottomRightY  = $y1;
-        $bottomLeftX   = $x1;
-        $bottomLeftY   = $y1;
+        $topLeftX = $x1;
+        $topLeftY = $y2;
+        $topRightX = $x2;
+        $topRightY = $y2;
+        $bottomRightX = $x2;
+        $bottomRightY = $y1;
+        $bottomLeftX = $x1;
+        $bottomLeftY = $y1;
 
         //draw top side
         $x1Obj = new Zend_Pdf_Element_Numeric($topLeftX + $radius[0]);
@@ -1032,8 +1060,10 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      * @param float $x
      * @param float $y
      * @param string $charEncoding (optional) Character encoding of source text.
-     *   Defaults to current locale.
+     *                             Defaults to current locale.
+     *
      * @throws Zend_Pdf_Exception
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function drawText($text, $x, $y, $charEncoding = '')
@@ -1046,28 +1076,29 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
         $this->_addProcSet('Text');
 
         $textObj = new Zend_Pdf_Element_String($this->_font->encodeString($text, $charEncoding));
-        $xObj    = new Zend_Pdf_Element_Numeric($x);
-        $yObj    = new Zend_Pdf_Element_Numeric($y);
+        $xObj = new Zend_Pdf_Element_Numeric($x);
+        $yObj = new Zend_Pdf_Element_Numeric($y);
 
         $this->_contents .= "BT\n"
-                         .  $xObj->toString() . ' ' . $yObj->toString() . " Td\n"
-                         .  $textObj->toString() . " Tj\n"
-                         .  "ET\n";
+                         . $xObj->toString() . ' ' . $yObj->toString() . " Td\n"
+                         . $textObj->toString() . " Tj\n"
+                         . "ET\n";
 
         return $this;
     }
 
-     /**
+    /**
      * Close the path by drawing a straight line back to it's beginning.
      *
      * @internal (needs implementation)
      *
-     * @throws Zend_Pdf_Exception    - if a path hasn't been started with pathMove()
+     * @throws Zend_Pdf_Exception - if a path hasn't been started with pathMove()
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function pathClose()
     {
-        /** @todo implementation */
+        /* @todo implementation */
         return $this;
     }
 
@@ -1076,13 +1107,14 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      *
      * @internal (needs implementation)
      *
-     * @param float $x  - the X co-ordinate to move to
-     * @param float $y  - the Y co-ordinate to move to
+     * @param float $x - the X co-ordinate to move to
+     * @param float $y - the Y co-ordinate to move to
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function pathLine($x, $y)
     {
-        /** @todo implementation */
+        /* @todo implementation */
         return $this;
     }
 
@@ -1092,28 +1124,30 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      *
      * @internal (needs implementation)
      *
-     * @param float $x  - the X co-ordinate to move to
-     * @param float $y  - the Y co-ordinate to move to
+     * @param float $x - the X co-ordinate to move to
+     * @param float $y - the Y co-ordinate to move to
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function pathMove($x, $y)
     {
-        /** @todo implementation */
+        /* @todo implementation */
         return $this;
     }
 
     /**
      * Rotate the page.
      *
-     * @param float $x  - the X co-ordinate of rotation point
-     * @param float $y  - the Y co-ordinate of rotation point
+     * @param float $x - the X co-ordinate of rotation point
+     * @param float $y - the Y co-ordinate of rotation point
      * @param float $angle - rotation angle
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function rotate($x, $y, $angle)
     {
-        $cos  = new Zend_Pdf_Element_Numeric(cos($angle));
-        $sin  = new Zend_Pdf_Element_Numeric(sin($angle));
+        $cos = new Zend_Pdf_Element_Numeric(cos($angle));
+        $sin = new Zend_Pdf_Element_Numeric(sin($angle));
         $mSin = new Zend_Pdf_Element_Numeric(-$sin->value);
 
         $xObj = new Zend_Pdf_Element_Numeric($x);
@@ -1122,11 +1156,10 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
         $mXObj = new Zend_Pdf_Element_Numeric(-$x);
         $mYObj = new Zend_Pdf_Element_Numeric(-$y);
 
-
         $this->_addProcSet('PDF');
         $this->_contents .= '1 0 0 1 ' . $xObj->toString() . ' ' . $yObj->toString() . " cm\n"
-                         .  $cos->toString() . ' ' . $sin->toString() . ' ' . $mSin->toString() . ' ' . $cos->toString() . " 0 0 cm\n"
-                         .  '1 0 0 1 ' . $mXObj->toString() . ' ' . $mYObj->toString() . " cm\n";
+                         . $cos->toString() . ' ' . $sin->toString() . ' ' . $mSin->toString() . ' ' . $cos->toString() . " 0 0 cm\n"
+                         . '1 0 0 1 ' . $mXObj->toString() . ' ' . $mYObj->toString() . " cm\n";
 
         return $this;
     }
@@ -1136,6 +1169,7 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      *
      * @param float $xScale - X dimention scale factor
      * @param float $yScale - Y dimention scale factor
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function scale($xScale, $yScale)
@@ -1154,6 +1188,7 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      *
      * @param float $xShift - X coordinate shift
      * @param float $yShift - Y coordinate shift
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function translate($xShift, $yShift)
@@ -1170,10 +1205,11 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
     /**
      * Translate coordination system.
      *
-     * @param float $x  - the X co-ordinate of axis skew point
-     * @param float $y  - the Y co-ordinate of axis skew point
+     * @param float $x - the X co-ordinate of axis skew point
+     * @param float $y - the Y co-ordinate of axis skew point
      * @param float $xAngle - X axis skew angle
      * @param float $yAngle - Y axis skew angle
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function skew($x, $y, $xAngle, $yAngle)
@@ -1189,8 +1225,8 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
 
         $this->_addProcSet('PDF');
         $this->_contents .= '1 0 0 1 ' . $xObj->toString() . ' ' . $yObj->toString() . " cm\n"
-                         .  '1 ' . $tanXObj->toString() . ' ' . $tanYObj->toString() . " 1 0 0 cm\n"
-                         .  '1 0 0 1 ' . $mXObj->toString() . ' ' . $mYObj->toString() . " cm\n";
+                         . '1 ' . $tanXObj->toString() . ' ' . $tanYObj->toString() . " 1 0 0 cm\n"
+                         . '1 0 0 1 ' . $mXObj->toString() . ' ' . $mYObj->toString() . " cm\n";
 
         return $this;
     }
@@ -1203,11 +1239,12 @@ abstract class Zend_Pdf_Canvas_Abstract implements Zend_Pdf_Canvas_Interface
      *
      * @param string $data
      * @param string $procSet (optional) Name of ProcSet to add.
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function rawWrite($data, $procSet = null)
     {
-        if (! empty($procSet)) {
+        if (!empty($procSet)) {
             $this->_addProcSet($procSet);
         }
         $this->_contents .= $data;

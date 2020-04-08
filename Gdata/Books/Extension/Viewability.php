@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Books
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -27,27 +27,25 @@
 require_once 'Zend/Gdata/Extension.php';
 
 /**
- * Describes a viewability
+ * Describes a viewability.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Books
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Books_Extension_Viewability extends Zend_Gdata_Extension
 {
-
     protected $_rootNamespace = 'gbs';
     protected $_rootElement = 'viewability';
     protected $_value = null;
 
     /**
      * Constructor for Zend_Gdata_Books_Extension_Viewability which
-     * Describes a viewability
+     * Describes a viewability.
      *
      * @param string|null $value A programmatic value representing the book's
-     *        viewability mode.
+     *                           viewability mode.
      */
     public function __construct($value = null)
     {
@@ -63,8 +61,11 @@ class Zend_Gdata_Books_Extension_Viewability extends Zend_Gdata_Extension
      * for application storage/persistance.
      *
      * @param DOMDocument $doc The DOMDocument used to construct DOMElements
+     * @param mixed $majorVersion
+     * @param mixed|null $minorVersion
+     *
      * @return DOMElement The DOMElement representing this element and all
-     * child properties.
+     *                    child properties.
      */
     public function getDOM($doc = null, $majorVersion = 1, $minorVersion = null)
     {
@@ -72,6 +73,7 @@ class Zend_Gdata_Books_Extension_Viewability extends Zend_Gdata_Extension
         if ($this->_value !== null) {
             $element->setAttribute('value', $this->_value);
         }
+
         return $element;
     }
 
@@ -94,7 +96,7 @@ class Zend_Gdata_Books_Extension_Viewability extends Zend_Gdata_Extension
 
     /**
      * Returns the programmatic value that describes the viewability of a volume
-     * in Google Book Search
+     * in Google Book Search.
      *
      * @return string The value
      */
@@ -105,19 +107,18 @@ class Zend_Gdata_Books_Extension_Viewability extends Zend_Gdata_Extension
 
     /**
      * Sets the programmatic value that describes the viewability of a volume in
-     * Google Book Search
+     * Google Book Search.
      *
      * @param string $value programmatic value that describes the viewability
-     *     of a volume in Googl eBook Search
+     *                      of a volume in Googl eBook Search
+     *
      * @return Zend_Gdata_Books_Extension_Viewability Provides a fluent
-     *     interface
+     *                                                interface
      */
     public function setValue($value)
     {
         $this->_value = $value;
+
         return $this;
     }
-
-
 }
-

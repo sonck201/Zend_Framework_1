@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Tool
- * @subpackage Framework
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -49,17 +49,14 @@ require_once 'Zend/Tool/Framework/Provider/Initializable.php';
 
 /**
  * @category   Zend
- * @package    Zend_Tool
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-abstract class Zend_Tool_Project_Provider_Abstract
-    extends Zend_Tool_Framework_Provider_Abstract
-    implements Zend_Tool_Framework_Provider_Initializable
+abstract class Zend_Tool_Project_Provider_Abstract extends Zend_Tool_Framework_Provider_Abstract implements Zend_Tool_Framework_Provider_Initializable
 {
-
     const NO_PROFILE_THROW_EXCEPTION = true;
-    const NO_PROFILE_RETURN_FALSE    = false;
+    const NO_PROFILE_RETURN_FALSE = false;
 
     /**
      * @var bool
@@ -77,7 +74,6 @@ abstract class Zend_Tool_Project_Provider_Abstract
     {
         // initialize the ZF Contexts (only once per php request)
         if (!self::$_isInitialized) {
-
             // load all base contexts ONCE
             $contextRegistry = Zend_Tool_Project_Context_Repository::getInstance();
             $contextRegistry->addContextsFromDirectory(
@@ -103,12 +99,11 @@ abstract class Zend_Tool_Project_Provider_Abstract
         if ($contextClasses = $this->getContextClasses()) {
             $this->_loadContextClassesIntoRegistry($contextClasses);
         }
-
     }
 
     public function getContextClasses()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -116,11 +111,12 @@ abstract class Zend_Tool_Project_Provider_Abstract
      * the client has been called from..   The search order is as follows..
      *    - traversing downwards from (PWD) - current working directory
      *    - if an enpoint variable has been registered in teh client registry - key=workingDirectory
-     *    - if an ENV variable with the key ZFPROJECT_PATH is found
+     *    - if an ENV variable with the key ZFPROJECT_PATH is found.
      *
-     * @param bool   $loadProfileFlag         Whether or not to throw an exception when no profile is found
-     * @param string $projectDirectory        The project directory to use to search
-     * @param bool   $searchParentDirectories Whether or not to search upper level direcotries
+     * @param bool $loadProfileFlag Whether or not to throw an exception when no profile is found
+     * @param string $projectDirectory The project directory to use to search
+     * @param bool $searchParentDirectories Whether or not to search upper level direcotries
+     *
      * @return Zend_Tool_Project_Profile
      */
     protected function _loadProfile($loadProfileFlag = self::NO_PROFILE_THROW_EXCEPTION, $projectDirectory = null, $searchParentDirectories = true)
@@ -139,6 +135,7 @@ abstract class Zend_Tool_Project_Provider_Abstract
         $profile->setAttribute('projectDirectory', $foundPath);
         $profile->loadFromFile();
         $this->_loadedProfile = $profile;
+
         return $profile;
     }
 
@@ -157,13 +154,14 @@ abstract class Zend_Tool_Project_Provider_Abstract
         while ($parentDirectoriesArray) {
             $projectDirectoryAssembled = implode(DIRECTORY_SEPARATOR, $parentDirectoriesArray);
 
-            if (DIRECTORY_SEPARATOR !== "\\") {
+            if (DIRECTORY_SEPARATOR !== '\\') {
                 $projectDirectoryAssembled = DIRECTORY_SEPARATOR . $projectDirectoryAssembled;
             }
 
             $profile->setAttribute('projectDirectory', $projectDirectoryAssembled);
             if ($profile->isLoadableFromFile()) {
                 unset($profile);
+
                 return $projectDirectoryAssembled;
             }
 
@@ -179,7 +177,7 @@ abstract class Zend_Tool_Project_Provider_Abstract
     }
 
     /**
-     * Load the project profile from the current working directory, if not throw exception
+     * Load the project profile from the current working directory, if not throw exception.
      *
      * @return Zend_Tool_Project_Profile
      */
@@ -190,13 +188,16 @@ abstract class Zend_Tool_Project_Provider_Abstract
             require_once 'Zend/Tool/Project/Provider/Exception.php';
             throw new Zend_Tool_Project_Provider_Exception('A project profile was not found in the current working directory.');
         }
+
         return $profile;
     }
 
     /**
-     * Return the currently loaded profile
+     * Return the currently loaded profile.
      *
      * @return Zend_Tool_Project_Profile
+     *
+     * @param mixed $loadProfileFlag
      */
     protected function _getProfile($loadProfileFlag = self::NO_PROFILE_THROW_EXCEPTION)
     {
@@ -210,10 +211,9 @@ abstract class Zend_Tool_Project_Provider_Abstract
     }
 
     /**
-     * _storeProfile()
+     * _storeProfile().
      *
      * This method will store the profile into its proper location
-     *
      */
     protected function _storeProfile()
     {
@@ -238,6 +238,7 @@ abstract class Zend_Tool_Project_Provider_Abstract
         }
 
         $engine = new Zend_Tool_Project_Context_Content_Engine($storage);
+
         return $engine->getContent($context, $methodName, $parameters);
     }
 
@@ -264,7 +265,7 @@ abstract class Zend_Tool_Project_Provider_Abstract
     /**
      * _loadContextClassesIntoRegistry() - This is called by the constructor
      * so that child providers can provide a list of contexts to load into the
-     * context repository
+     * context repository.
      *
      * @param array $contextClasses
      */

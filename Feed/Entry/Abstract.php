@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,12 +14,12 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Feed
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
-
 
 /**
  * @see Zend_Feed
@@ -39,7 +39,7 @@ require_once 'Zend/Xml/Security.php';
  * feed.
  *
  * @category   Zend
- * @package    Zend_Feed
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -61,18 +61,19 @@ abstract class Zend_Feed_Entry_Abstract extends Zend_Feed_Element
      */
     protected $_rootNamespace = null;
 
-
     /**
-     * Zend_Feed_Entry_Abstract constructor
+     * Zend_Feed_Entry_Abstract constructor.
      *
      * The Zend_Feed_Entry_Abstract constructor takes the URI of the feed the entry
      * is part of, and optionally an XML construct (usually a
      * SimpleXMLElement, but it can be an XML string or a DOMNode as
      * well) that contains the contents of the entry.
      *
-     * @param  string $uri
-     * @param  SimpleXMLElement|DOMNode|string  $element
+     * @param string $uri
+     * @param SimpleXMLElement|DOMNode|string $element
+     *
      * @return void
+     *
      * @throws Zend_Feed_Exception
      */
     public function __construct($uri = null, $element = null)
@@ -122,5 +123,4 @@ abstract class Zend_Feed_Entry_Abstract extends Zend_Feed_Element
 
         parent::__construct($element);
     }
-
 }

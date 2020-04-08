@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,27 +13,26 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Tool
- * @subpackage Framework
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
 /**
  * @category   Zend
- * @package    Zend_Tool
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Tool_Framework_Loader_IncludePathLoader_RecursiveFilterIterator extends RecursiveFilterIterator
 {
-
     protected $_denyDirectoryPattern = null;
-    protected $_acceptFilePattern    = null;
+    protected $_acceptFilePattern = null;
 
     /**
-     * constructor
+     * constructor.
      *
      * @param RecursiveIterator $iterator
      * @param string $denyDirectoryPattern
@@ -42,12 +41,12 @@ class Zend_Tool_Framework_Loader_IncludePathLoader_RecursiveFilterIterator exten
     public function __construct(RecursiveIterator $iterator, $denyDirectoryPattern = null, $acceptFilePattern = null)
     {
         $this->_denyDirectoryPattern = $denyDirectoryPattern;
-        $this->_acceptFilePattern    = $acceptFilePattern;
+        $this->_acceptFilePattern = $acceptFilePattern;
         parent::__construct($iterator);
     }
 
     /**
-     * accept() - Which iterable items to accept or deny, required by FilterInterface
+     * accept() - Which iterable items to accept or deny, required by FilterInterface.
      *
      * @return unknown
      */
@@ -64,6 +63,7 @@ class Zend_Tool_Framework_Loader_IncludePathLoader_RecursiveFilterIterator exten
 
         // if the file matches the accept file pattern, accept
         $acceptable = (preg_match('#' . $this->_acceptFilePattern . '#', $currentNodeRealPath)) ? true : false;
+
         return $acceptable;
     }
 
@@ -86,6 +86,4 @@ class Zend_Tool_Framework_Loader_IncludePathLoader_RecursiveFilterIterator exten
             $this->_acceptFilePattern
             );
     }
-
 }
-

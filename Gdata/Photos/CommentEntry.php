@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Photos
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -56,18 +56,16 @@ require_once 'Zend/Gdata/App/Extension/Category.php';
  * This class represents <atom:entry> in the Google Data protocol.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Photos
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Photos_CommentEntry extends Zend_Gdata_Entry
 {
-
     protected $_entryClassName = 'Zend_Gdata_Photos_CommentEntry';
 
     /**
-     * gphoto:id element
+     * gphoto:id element.
      *
      * @var Zend_Gdata_Photos_Extension_Id
      */
@@ -76,7 +74,7 @@ class Zend_Gdata_Photos_CommentEntry extends Zend_Gdata_Entry
     /**
      * gphoto:photoid element, differs from gphoto:id as this is an
      * actual identification number unique exclusively to photo entries,
-     * whereas gphoto:id can refer to all gphoto objects
+     * whereas gphoto:id can refer to all gphoto objects.
      *
      * @var Zend_Gdata_Photos_Extension_PhotoId
      */
@@ -86,7 +84,7 @@ class Zend_Gdata_Photos_CommentEntry extends Zend_Gdata_Entry
      * Create a new instance.
      *
      * @param DOMElement $element (optional) DOMElement from which this
-     *          object should be constructed.
+     *                            object should be constructed.
      */
     public function __construct($element = null)
     {
@@ -96,7 +94,7 @@ class Zend_Gdata_Photos_CommentEntry extends Zend_Gdata_Entry
         $category = new Zend_Gdata_App_Extension_Category(
             'http://schemas.google.com/photos/2007#comment',
             'http://schemas.google.com/g/2005#kind');
-        $this->setCategory(array($category));
+        $this->setCategory([$category]);
     }
 
     /**
@@ -105,8 +103,11 @@ class Zend_Gdata_Photos_CommentEntry extends Zend_Gdata_Entry
      * and eventually XML text for application storage/persistence.
      *
      * @param DOMDocument $doc The DOMDocument used to construct DOMElements
+     * @param mixed $majorVersion
+     * @param mixed|null $minorVersion
+     *
      * @return DOMElement The DOMElement representing this element and all
-     *          child properties.
+     *                    child properties.
      */
     public function getDOM($doc = null, $majorVersion = 1, $minorVersion = null)
     {
@@ -117,6 +118,7 @@ class Zend_Gdata_Photos_CommentEntry extends Zend_Gdata_Entry
         if ($this->_gphotoPhotoId !== null) {
             $element->appendChild($this->_gphotoPhotoId->getDOM($element->ownerDocument));
         }
+
         return $element;
     }
 
@@ -131,12 +133,12 @@ class Zend_Gdata_Photos_CommentEntry extends Zend_Gdata_Entry
         $absoluteNodeName = $child->namespaceURI . ':' . $child->localName;
 
         switch ($absoluteNodeName) {
-            case $this->lookupNamespace('gphoto') . ':' . 'id';
+            case $this->lookupNamespace('gphoto') . ':' . 'id':
                 $id = new Zend_Gdata_Photos_Extension_Id();
                 $id->transferFromDOM($child);
                 $this->_gphotoId = $id;
                 break;
-            case $this->lookupNamespace('gphoto') . ':' . 'photoid';
+            case $this->lookupNamespace('gphoto') . ':' . 'photoid':
                 $photoid = new Zend_Gdata_Photos_Extension_PhotoId();
                 $photoid->transferFromDOM($child);
                 $this->_gphotoPhotoId = $photoid;
@@ -151,6 +153,7 @@ class Zend_Gdata_Photos_CommentEntry extends Zend_Gdata_Entry
      * Get the value for this element's gphoto:photoid attribute.
      *
      * @see setGphotoPhotoId
+     *
      * @return string The requested attribute.
      */
     public function getGphotoPhotoId()
@@ -162,11 +165,13 @@ class Zend_Gdata_Photos_CommentEntry extends Zend_Gdata_Entry
      * Set the value for this element's gphoto:photoid attribute.
      *
      * @param string $value The desired value for this attribute.
+     *
      * @return Zend_Gdata_Photos_Extension_PhotoId The element being modified.
      */
     public function setGphotoPhotoId($value)
     {
         $this->_gphotoPhotoId = $value;
+
         return $this;
     }
 
@@ -174,6 +179,7 @@ class Zend_Gdata_Photos_CommentEntry extends Zend_Gdata_Entry
      * Get the value for this element's gphoto:id attribute.
      *
      * @see setGphotoId
+     *
      * @return string The requested attribute.
      */
     public function getGphotoId()
@@ -185,11 +191,13 @@ class Zend_Gdata_Photos_CommentEntry extends Zend_Gdata_Entry
      * Set the value for this element's gphoto:id attribute.
      *
      * @param string $value The desired value for this attribute.
+     *
      * @return Zend_Gdata_Photos_Extension_Id The element being modified.
      */
     public function setGphotoId($value)
     {
         $this->_gphotoId = $value;
+
         return $this;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage App
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -42,17 +42,15 @@ require_once 'Zend/Gdata/App/Extension/Email.php';
 require_once 'Zend/Gdata/App/Extension/Uri.php';
 
 /**
- * Base class for people (currently used by atom:author, atom:contributor)
+ * Base class for people (currently used by atom:author, atom:contributor).
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage App
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Gdata_App_Extension_Person extends Zend_Gdata_App_Extension
 {
-
     protected $_rootElement = null;
     protected $_name = null;
     protected $_email = null;
@@ -78,6 +76,7 @@ abstract class Zend_Gdata_App_Extension_Person extends Zend_Gdata_App_Extension
         if ($this->_uri != null) {
             $element->appendChild($this->_uri->getDOM($element->ownerDocument));
         }
+
         return $element;
     }
 
@@ -116,11 +115,13 @@ abstract class Zend_Gdata_App_Extension_Person extends Zend_Gdata_App_Extension
 
     /**
      * @param Zend_Gdata_App_Extension_Name $value
+     *
      * @return Zend_Gdata_App_Entry Provides a fluent interface
      */
     public function setName($value)
     {
         $this->_name = $value;
+
         return $this;
     }
 
@@ -134,11 +135,13 @@ abstract class Zend_Gdata_App_Extension_Person extends Zend_Gdata_App_Extension
 
     /**
      * @param Zend_Gdata_App_Extension_Email $value
+     *
      * @return Zend_Gdata_App_Extension_Person Provides a fluent interface
      */
     public function setEmail($value)
     {
         $this->_email = $value;
+
         return $this;
     }
 
@@ -152,12 +155,13 @@ abstract class Zend_Gdata_App_Extension_Person extends Zend_Gdata_App_Extension
 
     /**
      * @param Zend_Gdata_App_Extension_Uri $value
+     *
      * @return Zend_Gdata_App_Extension_Person Provides a fluent interface
      */
     public function setUri($value)
     {
         $this->_uri = $value;
+
         return $this;
     }
-
 }

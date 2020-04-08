@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Gdata
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -32,19 +32,17 @@ require_once 'Zend/Gdata/Extension.php';
 require_once 'Zend/Gdata/Extension/Reminder.php';
 
 /**
- * Represents the gd:when element
+ * Represents the gd:when element.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Gdata
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Extension_When extends Zend_Gdata_Extension
 {
-
     protected $_rootElement = 'when';
-    protected $_reminders = array();
+    protected $_reminders = [];
     protected $_startTime = null;
     protected $_valueString = null;
     protected $_endTime = null;
@@ -77,6 +75,7 @@ class Zend_Gdata_Extension_When extends Zend_Gdata_Extension
                         $reminder->getDOM($element->ownerDocument));
             }
         }
+
         return $element;
     }
 
@@ -84,7 +83,7 @@ class Zend_Gdata_Extension_When extends Zend_Gdata_Extension
     {
         $absoluteNodeName = $child->namespaceURI . ':' . $child->localName;
         switch ($absoluteNodeName) {
-            case $this->lookupNamespace('gd') . ':' . 'reminder';
+            case $this->lookupNamespace('gd') . ':' . 'reminder':
                 $reminder = new Zend_Gdata_Extension_Reminder();
                 $reminder->transferFromDOM($child);
                 $this->_reminders[] = $reminder;
@@ -114,11 +113,11 @@ class Zend_Gdata_Extension_When extends Zend_Gdata_Extension
 
     public function __toString()
     {
-        if ($this->_valueString)
+        if ($this->_valueString) {
             return $this->_valueString;
-        else {
+        } else {
             return 'Starts: ' . $this->getStartTime() . ' ' .
-                   'Ends: ' .  $this->getEndTime();
+                   'Ends: ' . $this->getEndTime();
         }
     }
 
@@ -130,6 +129,7 @@ class Zend_Gdata_Extension_When extends Zend_Gdata_Extension
     public function setStartTime($value)
     {
         $this->_startTime = $value;
+
         return $this;
     }
 
@@ -141,6 +141,7 @@ class Zend_Gdata_Extension_When extends Zend_Gdata_Extension
     public function setEndTime($value)
     {
         $this->_endTime = $value;
+
         return $this;
     }
 
@@ -152,6 +153,7 @@ class Zend_Gdata_Extension_When extends Zend_Gdata_Extension
     public function setValueString($value)
     {
         $this->_valueString = $value;
+
         return $this;
     }
 
@@ -163,7 +165,7 @@ class Zend_Gdata_Extension_When extends Zend_Gdata_Extension
     public function setReminders($value)
     {
         $this->_reminders = $value;
+
         return $this;
     }
-
 }

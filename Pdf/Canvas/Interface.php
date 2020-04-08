@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,18 +13,17 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Pdf
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id: Style.php 20096 2010-01-06 02:05:09Z bkarwin $
  */
-
 
 /**
  * Canvas is an abstract rectangle drawing area which can be dropped into
  * page object at specified place.
  *
- * @package    Zend_Pdf
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -57,12 +56,13 @@ interface Zend_Pdf_Canvas_Interface
      * Allowed procedure set names: 'PDF', 'Text', 'ImageB', 'ImageC', 'ImageI'
      *
      * @internal
+     *
      * @return array
      */
     public function getResources();
 
     /**
-     * Get drawing instructions stream
+     * Get drawing instructions stream.
      *
      * It has to be returned as a PDF stream object to make it reusable.
      *
@@ -86,7 +86,7 @@ interface Zend_Pdf_Canvas_Interface
     public function getWidth();
 
     /**
-     * Draw a canvas at the specified location
+     * Draw a canvas at the specified location.
      *
      * If upper right corner is not specified then canvas heght and width
      * are used.
@@ -96,6 +96,7 @@ interface Zend_Pdf_Canvas_Interface
      * @param float $y1
      * @param float $x2
      * @param float $y2
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function drawCanvas(Zend_Pdf_Canvas_Interface $canvas, $x1, $y1, $x2 = null, $y2 = null);
@@ -104,6 +105,7 @@ interface Zend_Pdf_Canvas_Interface
      * Set fill color.
      *
      * @param Zend_Pdf_Color $color
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function setFillColor(Zend_Pdf_Color $color);
@@ -112,6 +114,7 @@ interface Zend_Pdf_Canvas_Interface
      * Set line color.
      *
      * @param Zend_Pdf_Color $color
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function setLineColor(Zend_Pdf_Color $color);
@@ -120,12 +123,13 @@ interface Zend_Pdf_Canvas_Interface
      * Set line width.
      *
      * @param float $width
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function setLineWidth($width);
 
     /**
-     * Set line dashing pattern
+     * Set line dashing pattern.
      *
      * Pattern is an array of floats: array(on_length, off_length, on_length, off_length, ...)
      * or Zend_Pdf_Page::LINE_DASHING_SOLID constant
@@ -133,6 +137,7 @@ interface Zend_Pdf_Canvas_Interface
      *
      * @param mixed $pattern
      * @param array $phase
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function setLineDashingPattern($pattern, $phase = 0);
@@ -142,14 +147,16 @@ interface Zend_Pdf_Canvas_Interface
      *
      * @param Zend_Pdf_Resource_Font $font
      * @param float $fontSize
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function setFont(Zend_Pdf_Resource_Font $font, $fontSize);
 
     /**
-     * Set the style to use for future drawing operations on this page
+     * Set the style to use for future drawing operations on this page.
      *
      * @param Zend_Pdf_Style $style
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function setStyle(Zend_Pdf_Style $style);
@@ -162,7 +169,7 @@ interface Zend_Pdf_Canvas_Interface
     public function getFont();
 
     /**
-     * Get current font size
+     * Get current font size.
      *
      * @return float $fontSize
      */
@@ -180,13 +187,14 @@ interface Zend_Pdf_Canvas_Interface
      * This takes a snapshot of the currently applied style, position, clipping area and
      * any rotation/translation/scaling that has been applied.
      *
-     * @throws Zend_Pdf_Exception    - if a save is performed with an open path
+     * @throws Zend_Pdf_Exception - if a save is performed with an open path
+     *
      * @return Zend_Pdf_Page
      */
     public function saveGS();
 
     /**
-     * Set the transparancy
+     * Set the transparancy.
      *
      * $alpha == 0  - transparent
      * $alpha == 1  - opaque
@@ -197,7 +205,9 @@ interface Zend_Pdf_Canvas_Interface
      *
      * @param float $alpha
      * @param string $mode
+     *
      * @throws Zend_Pdf_Exception
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function setAlpha($alpha, $mode = 'Normal');
@@ -210,6 +220,7 @@ interface Zend_Pdf_Canvas_Interface
      * @param float $radius
      * @param float $startAngle
      * @param float $endAngle
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function clipCircle($x, $y, $radius, $startAngle = null, $endAngle = null);
@@ -229,6 +240,7 @@ interface Zend_Pdf_Canvas_Interface
      * @param float $y2
      * @param float $startAngle
      * @param float $endAngle
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function clipEllipse($x1, $y1, $x2, $y2, $startAngle = null, $endAngle = null);
@@ -236,9 +248,10 @@ interface Zend_Pdf_Canvas_Interface
     /**
      * Intersect current clipping area with a polygon.
      *
-     * @param array $x  - array of float (the X co-ordinates of the vertices)
-     * @param array $y  - array of float (the Y co-ordinates of the vertices)
-     * @param integer $fillMethod
+     * @param array $x - array of float (the X co-ordinates of the vertices)
+     * @param array $y - array of float (the Y co-ordinates of the vertices)
+     * @param int $fillMethod
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function clipPolygon($x, $y, $fillMethod = Zend_Pdf_Page::FILL_METHOD_NON_ZERO_WINDING);
@@ -250,6 +263,7 @@ interface Zend_Pdf_Canvas_Interface
      * @param float $y1
      * @param float $x2
      * @param float $y2
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function clipRectangle($x1, $y1, $x2, $y2);
@@ -276,9 +290,10 @@ interface Zend_Pdf_Canvas_Interface
      * @param mixed $param4
      * @param mixed $param5
      * @param mixed $param6
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
-    public function  drawCircle($x, $y, $radius, $param4 = null, $param5 = null, $param6 = null);
+    public function drawCircle($x, $y, $radius, $param4 = null, $param5 = null, $param6 = null);
 
     /**
      * Draw an ellipse inside the specified rectangle.
@@ -298,6 +313,7 @@ interface Zend_Pdf_Canvas_Interface
      * @param mixed $param5
      * @param mixed $param6
      * @param mixed $param7
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function drawEllipse($x1, $y1, $x2, $y2, $param5 = null, $param6 = null, $param7 = null);
@@ -310,6 +326,7 @@ interface Zend_Pdf_Canvas_Interface
      * @param float $y1
      * @param float $x2
      * @param float $y2
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function drawImage(Zend_Pdf_Resource_Image $image, $x1, $y1, $x2, $y2);
@@ -322,6 +339,7 @@ interface Zend_Pdf_Canvas_Interface
      * @param Zend_Pdf_Element_LayoutBox $box
      * @param float $x
      * @param float $y
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function drawLayoutBox($box, $x, $y);
@@ -333,6 +351,7 @@ interface Zend_Pdf_Canvas_Interface
      * @param float $y1
      * @param float $x2
      * @param float $y2
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function drawLine($x1, $y1, $x2, $y2);
@@ -345,15 +364,17 @@ interface Zend_Pdf_Canvas_Interface
      * See detailed description of these methods in a PDF documentation
      * (section 4.4.2 Path painting Operators, Filling)
      *
-     * @param array $x  - array of float (the X co-ordinates of the vertices)
-     * @param array $y  - array of float (the Y co-ordinates of the vertices)
-     * @param integer $fillType
-     * @param integer $fillMethod
+     * @param array $x - array of float (the X co-ordinates of the vertices)
+     * @param array $y - array of float (the Y co-ordinates of the vertices)
+     * @param int $fillType
+     * @param int $fillMethod
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function drawPolygon($x, $y,
                                 $fillType = Zend_Pdf_Page::SHAPE_DRAW_FILL_AND_STROKE,
                                 $fillMethod = Zend_Pdf_Page::FILL_METHOD_NON_ZERO_WINDING);
+
     /**
      * Draw a rectangle.
      *
@@ -366,7 +387,8 @@ interface Zend_Pdf_Canvas_Interface
      * @param float $y1
      * @param float $x2
      * @param float $y2
-     * @param integer $fillType
+     * @param int $fillType
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function drawRectangle($x1, $y1, $x2, $y2, $fillType = Zend_Pdf_Page::SHAPE_DRAW_FILL_AND_STROKE);
@@ -387,8 +409,9 @@ interface Zend_Pdf_Canvas_Interface
      * @param float $y1
      * @param float $x2
      * @param float $y2
-     * @param integer|array $radius
-     * @param integer $fillType
+     * @param int|array $radius
+     * @param int $fillType
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function drawRoundedRectangle($x1, $y1, $x2, $y2, $radius,
@@ -401,18 +424,21 @@ interface Zend_Pdf_Canvas_Interface
      * @param float $x
      * @param float $y
      * @param string $charEncoding (optional) Character encoding of source text.
-     *   Defaults to current locale.
+     *                             Defaults to current locale.
+     *
      * @throws Zend_Pdf_Exception
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function drawText($text, $x, $y, $charEncoding = '');
 
-     /**
+    /**
      * Close the path by drawing a straight line back to it's beginning.
      *
      * @internal (needs implementation)
      *
-     * @throws Zend_Pdf_Exception    - if a path hasn't been started with pathMove()
+     * @throws Zend_Pdf_Exception - if a path hasn't been started with pathMove()
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function pathClose();
@@ -422,8 +448,9 @@ interface Zend_Pdf_Canvas_Interface
      *
      * @internal (needs implementation)
      *
-     * @param float $x  - the X co-ordinate to move to
-     * @param float $y  - the Y co-ordinate to move to
+     * @param float $x - the X co-ordinate to move to
+     * @param float $y - the Y co-ordinate to move to
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function pathLine($x, $y);
@@ -434,8 +461,9 @@ interface Zend_Pdf_Canvas_Interface
      *
      * @internal (needs implementation)
      *
-     * @param float $x  - the X co-ordinate to move to
-     * @param float $y  - the Y co-ordinate to move to
+     * @param float $x - the X co-ordinate to move to
+     * @param float $y - the Y co-ordinate to move to
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function pathMove($x, $y);
@@ -443,9 +471,10 @@ interface Zend_Pdf_Canvas_Interface
     /**
      * Rotate the page.
      *
-     * @param float $x  - the X co-ordinate of rotation point
-     * @param float $y  - the Y co-ordinate of rotation point
+     * @param float $x - the X co-ordinate of rotation point
+     * @param float $y - the Y co-ordinate of rotation point
      * @param float $angle - rotation angle
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function rotate($x, $y, $angle);
@@ -455,6 +484,7 @@ interface Zend_Pdf_Canvas_Interface
      *
      * @param float $xScale - X dimention scale factor
      * @param float $yScale - Y dimention scale factor
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function scale($xScale, $yScale);
@@ -464,6 +494,7 @@ interface Zend_Pdf_Canvas_Interface
      *
      * @param float $xShift - X coordinate shift
      * @param float $yShift - Y coordinate shift
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function translate($xShift, $yShift);
@@ -471,10 +502,11 @@ interface Zend_Pdf_Canvas_Interface
     /**
      * Translate coordination system.
      *
-     * @param float $x  - the X co-ordinate of axis skew point
-     * @param float $y  - the Y co-ordinate of axis skew point
+     * @param float $x - the X co-ordinate of axis skew point
+     * @param float $y - the Y co-ordinate of axis skew point
      * @param float $xAngle - X axis skew angle
      * @param float $yAngle - Y axis skew angle
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function skew($x, $y, $xAngle, $yAngle);
@@ -487,6 +519,7 @@ interface Zend_Pdf_Canvas_Interface
      *
      * @param string $data
      * @param string $procSet (optional) Name of ProcSet to add.
+     *
      * @return Zend_Pdf_Canvas_Interface
      */
     public function rawWrite($data, $procSet = null);

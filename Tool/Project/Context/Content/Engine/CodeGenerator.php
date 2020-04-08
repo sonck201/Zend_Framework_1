@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,21 +13,21 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Tool
- * @subpackage Framework
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
 /**
- * This class is the front most class for utilizing Zend_Tool_Project
+ * This class is the front most class for utilizing Zend_Tool_Project.
  *
  * A profile is a hierarchical set of resources that keep track of
  * items within a specific project.
  *
  * @category   Zend
- * @package    Zend_Tool
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -44,22 +44,23 @@ class Zend_Tool_Project_Context_Content_Engine_CodeGenerator
     protected $_contentPrefix = null;
 
     /**
-     * __construct()
+     * __construct().
      *
      * @param Zend_Tool_Framework_Client_Storage $storage
      * @param string $contentPrefix
      */
     public function __construct(Zend_Tool_Framework_Client_Storage $storage, $contentPrefix)
     {
-        $this->_storage       = $storage;
+        $this->_storage = $storage;
         $this->_contentPrefix = $contentPrefix;
     }
 
     /**
-     * hasContent()
+     * hasContent().
      *
      * @param Zend_Tool_Project_Context_Interface $context
      * @param string $method
+     *
      * @return string
      */
     public function hasContent(Zend_Tool_Project_Context_Interface $context, $method)
@@ -68,11 +69,12 @@ class Zend_Tool_Project_Context_Content_Engine_CodeGenerator
     }
 
     /**
-     * getContent()
+     * getContent().
      *
      * @param Zend_Tool_Project_Context_Interface $context
      * @param string $method
      * @param mixed $parameters
+     *
      * @return string
      */
     public function getContent(Zend_Tool_Project_Context_Interface $context, $method, $parameters)
@@ -93,6 +95,4 @@ class Zend_Tool_Project_Context_Content_Engine_CodeGenerator
 
         return $codeGenerator->generate();
     }
-
-
 }

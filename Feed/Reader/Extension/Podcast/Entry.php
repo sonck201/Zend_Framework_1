@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,9 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Feed_Reader
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -31,14 +32,14 @@ require_once 'Zend/Feed/Reader/Extension/EntryAbstract.php';
 
 /**
  * @category   Zend
- * @package    Zend_Feed_Reader
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Feed_Reader_Extension_Podcast_Entry extends Zend_Feed_Reader_Extension_EntryAbstract
 {
     /**
-     * Get the entry author
+     * Get the entry author.
      *
      * @return string
      */
@@ -60,7 +61,7 @@ class Zend_Feed_Reader_Extension_Podcast_Entry extends Zend_Feed_Reader_Extensio
     }
 
     /**
-     * Get the entry block
+     * Get the entry block.
      *
      * @return string
      */
@@ -82,7 +83,7 @@ class Zend_Feed_Reader_Extension_Podcast_Entry extends Zend_Feed_Reader_Extensio
     }
 
     /**
-     * Get the entry duration
+     * Get the entry duration.
      *
      * @return string
      */
@@ -104,7 +105,7 @@ class Zend_Feed_Reader_Extension_Podcast_Entry extends Zend_Feed_Reader_Extensio
     }
 
     /**
-     * Get the entry explicit
+     * Get the entry explicit.
      *
      * @return string
      */
@@ -126,7 +127,7 @@ class Zend_Feed_Reader_Extension_Podcast_Entry extends Zend_Feed_Reader_Extensio
     }
 
     /**
-     * Get the entry keywords
+     * Get the entry keywords.
      *
      * @return string
      */
@@ -148,7 +149,7 @@ class Zend_Feed_Reader_Extension_Podcast_Entry extends Zend_Feed_Reader_Extensio
     }
 
     /**
-     * Get the entry subtitle
+     * Get the entry subtitle.
      *
      * @return string
      */
@@ -170,7 +171,7 @@ class Zend_Feed_Reader_Extension_Podcast_Entry extends Zend_Feed_Reader_Extensio
     }
 
     /**
-     * Get the entry summary
+     * Get the entry summary.
      *
      * @return string
      */
@@ -192,8 +193,7 @@ class Zend_Feed_Reader_Extension_Podcast_Entry extends Zend_Feed_Reader_Extensio
     }
 
     /**
-     * Register iTunes namespace
-     *
+     * Register iTunes namespace.
      */
     protected function _registerNamespaces()
     {

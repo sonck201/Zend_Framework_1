@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Amf
- * @subpackage Value
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -34,8 +34,6 @@ require_once 'Zend/Amf/Value/Messaging/AsyncMessage.php';
  *
  * Note: THESE VALUES MUST BE THE SAME ON CLIENT AND SERVER
  *
- * @package    Zend_Amf
- * @subpackage Value
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -102,7 +100,7 @@ class Zend_Amf_Value_Messaging_CommandMessage extends Zend_Amf_Value_Messaging_A
     const MULTI_SUBSCRIBE_OPERATION = 11;
 
     /**
-     * This operation is used to indicate that a channel has disconnected
+     * This operation is used to indicate that a channel has disconnected.
      */
     const DISCONNECT_OPERATION = 12;
 
@@ -112,7 +110,8 @@ class Zend_Amf_Value_Messaging_CommandMessage extends Zend_Amf_Value_Messaging_A
     const UNKNOWN_OPERATION = 10000;
 
     /**
-     * The operation to execute for messages of this type
+     * The operation to execute for messages of this type.
+     *
      * @var int
      */
     public $operation = self::UNKNOWN_OPERATION;

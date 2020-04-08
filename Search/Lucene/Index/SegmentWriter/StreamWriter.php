@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Search_Lucene
- * @subpackage Index
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -25,8 +25,7 @@ require_once 'Zend/Search/Lucene/Index/SegmentWriter.php';
 
 /**
  * @category   Zend
- * @package    Zend_Search_Lucene
- * @subpackage Index
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -43,9 +42,8 @@ class Zend_Search_Lucene_Index_SegmentWriter_StreamWriter extends Zend_Search_Lu
         parent::__construct($directory, $name);
     }
 
-
     /**
-     * Create stored fields files and open them for write
+     * Create stored fields files and open them for write.
      */
     public function createStoredFieldsFiles()
     {
@@ -66,7 +64,7 @@ class Zend_Search_Lucene_Index_SegmentWriter_StreamWriter extends Zend_Search_Lu
     }
 
     /**
-     * Close segment, write it to disk and return segment info
+     * Close segment, write it to disk and return segment info.
      *
      * @return Zend_Search_Lucene_Index_SegmentInfo
      */
@@ -91,4 +89,3 @@ class Zend_Search_Lucene_Index_SegmentWriter_StreamWriter extends Zend_Search_Lu
                                                         true);
     }
 }
-

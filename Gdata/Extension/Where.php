@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Gdata
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -32,17 +32,15 @@ require_once 'Zend/Gdata/Extension.php';
 require_once 'Zend/Gdata/Extension/EntryLink.php';
 
 /**
- * Data model class to represent a location (gd:where element)
+ * Data model class to represent a location (gd:where element).
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Gdata
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Extension_Where extends Zend_Gdata_Extension
 {
-
     protected $_rootElement = 'where';
     protected $_label = null;
     protected $_rel = null;
@@ -73,6 +71,7 @@ class Zend_Gdata_Extension_Where extends Zend_Gdata_Extension
         if ($this->entryLink !== null) {
             $element->appendChild($this->_entryLink->getDOM($element->ownerDocument));
         }
+
         return $element;
     }
 
@@ -118,8 +117,7 @@ class Zend_Gdata_Extension_Where extends Zend_Gdata_Extension
     {
         if ($this->_valueString != null) {
             return $this->_valueString;
-        }
-        else {
+        } else {
             return parent::__toString();
         }
     }
@@ -132,6 +130,7 @@ class Zend_Gdata_Extension_Where extends Zend_Gdata_Extension
     public function setLabel($value)
     {
         $this->_label = $value;
+
         return $this;
     }
 
@@ -143,6 +142,7 @@ class Zend_Gdata_Extension_Where extends Zend_Gdata_Extension
     public function setRel($value)
     {
         $this->_rel = $value;
+
         return $this;
     }
 
@@ -154,6 +154,7 @@ class Zend_Gdata_Extension_Where extends Zend_Gdata_Extension
     public function setValueString($value)
     {
         $this->_valueString = $value;
+
         return $this;
     }
 
@@ -165,7 +166,7 @@ class Zend_Gdata_Extension_Where extends Zend_Gdata_Extension
     public function setEntryLink($value)
     {
         $this->_entryLink = $value;
+
         return $this;
     }
-
 }

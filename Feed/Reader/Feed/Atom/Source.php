@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,9 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Feed_Reader
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -26,13 +27,12 @@ require_once 'Zend/Feed/Reader/Feed/Atom.php';
 
 /**
  * @category   Zend
- * @package    Zend_Feed_Reader
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Feed_Reader_Feed_Atom_Source extends Zend_Feed_Reader_Feed_Atom
 {
-
     /**
      * Constructor: Create a Source object which is largely just a normal
      * Zend_Feed_Reader_FeedAbstract object only designed to retrieve feed level
@@ -67,36 +67,49 @@ class Zend_Feed_Reader_Feed_Atom_Source extends Zend_Feed_Reader_Feed_Atom
     /**
      * @return void
      */
-    public function count() {}
+    public function count()
+    {
+    }
 
     /**
      * @return void
      */
-    public function current() {}
+    public function current()
+    {
+    }
 
     /**
      * @return void
      */
-    public function key() {}
+    public function key()
+    {
+    }
 
     /**
      * @return void
      */
-    public function next() {}
+    public function next()
+    {
+    }
 
     /**
      * @return void
      */
-    public function rewind() {}
+    public function rewind()
+    {
+    }
 
     /**
      * @return void
      */
-    public function valid() {}
+    public function valid()
+    {
+    }
 
     /**
      * @return void
      */
-    protected function _indexEntries() {}
-
+    protected function _indexEntries()
+    {
+    }
 }

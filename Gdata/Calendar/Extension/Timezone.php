@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Calendar
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -27,23 +27,22 @@
 require_once 'Zend/Gdata/Extension.php';
 
 /**
- * Represents the gCal:timezone element used by the Calendar data API
+ * Represents the gCal:timezone element used by the Calendar data API.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Calendar
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Calendar_Extension_Timezone extends Zend_Gdata_Extension
 {
-
     protected $_rootNamespace = 'gCal';
     protected $_rootElement = 'timezone';
     protected $_value = null;
 
     /**
      * Constructs a new Zend_Gdata_Calendar_Extension_Timezone object.
+     *
      * @param string $value (optional) The text content of the element.
      */
     public function __construct($value = null)
@@ -60,8 +59,11 @@ class Zend_Gdata_Calendar_Extension_Timezone extends Zend_Gdata_Extension
      * for application storage/persistence.
      *
      * @param DOMDocument $doc The DOMDocument used to construct DOMElements
+     * @param mixed $majorVersion
+     * @param mixed|null $minorVersion
+     *
      * @return DOMElement The DOMElement representing this element and all
-     * child properties.
+     *                    child properties.
      */
     public function getDOM($doc = null, $majorVersion = 1, $minorVersion = null)
     {
@@ -69,6 +71,7 @@ class Zend_Gdata_Calendar_Extension_Timezone extends Zend_Gdata_Extension
         if ($this->_value != null) {
             $element->setAttribute('value', $this->_value);
         }
+
         return $element;
     }
 
@@ -104,21 +107,22 @@ class Zend_Gdata_Calendar_Extension_Timezone extends Zend_Gdata_Extension
      * Set the value for this element's value attribute.
      *
      * @param string $value The desired value for this attribute.
+     *
      * @return Zend_Gdata_Calendar_Extension_Timezone The element being modified.
      */
     public function setValue($value)
     {
         $this->_value = $value;
+
         return $this;
     }
 
     /**
      * Magic toString method allows using this directly via echo
-     * Works best in PHP >= 4.2.0
+     * Works best in PHP >= 4.2.0.
      */
     public function __toString()
     {
         return $this->getValue();
     }
-
 }

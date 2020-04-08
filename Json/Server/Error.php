@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,64 +13,70 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Json
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
 /**
  * @category   Zend
- * @package    Zend_Json
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Json_Server_Error
 {
-    const ERROR_PARSE           = -32768;
+    const ERROR_PARSE = -32768;
     const ERROR_INVALID_REQUEST = -32600;
-    const ERROR_INVALID_METHOD  = -32601;
-    const ERROR_INVALID_PARAMS  = -32602;
-    const ERROR_INTERNAL        = -32603;
-    const ERROR_OTHER           = -32000;
+    const ERROR_INVALID_METHOD = -32601;
+    const ERROR_INVALID_PARAMS = -32602;
+    const ERROR_INTERNAL = -32603;
+    const ERROR_OTHER = -32000;
 
     /**
-     * Allowed error codes
+     * Allowed error codes.
+     *
      * @var array
      */
-    protected $_allowedCodes = array(
+    protected $_allowedCodes = [
         self::ERROR_PARSE,
         self::ERROR_INVALID_REQUEST,
         self::ERROR_INVALID_METHOD,
         self::ERROR_INVALID_PARAMS,
         self::ERROR_INTERNAL,
         self::ERROR_OTHER,
-    );
+    ];
 
     /**
-     * Current code
+     * Current code.
+     *
      * @var int
      */
     protected $_code = -32000;
 
     /**
-     * Error data
+     * Error data.
+     *
      * @var mixed
      */
     protected $_data;
 
     /**
-     * Error message
+     * Error message.
+     *
      * @var string
      */
     protected $_message;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param  string $message
-     * @param  int $code
-     * @param  mixed $data
+     * @param string $message
+     * @param int $code
+     * @param mixed $data
+     *
      * @return void
      */
     public function __construct($message = null, $code = -32000, $data = null)
@@ -81,9 +87,10 @@ class Zend_Json_Server_Error
     }
 
     /**
-     * Set error code
+     * Set error code.
      *
-     * @param  int $code
+     * @param int $code
+     *
      * @return Zend_Json_Server_Error
      */
     public function setCode($code)
@@ -103,7 +110,7 @@ class Zend_Json_Server_Error
     }
 
     /**
-     * Get error code
+     * Get error code.
      *
      * @return int|null
      */
@@ -113,9 +120,10 @@ class Zend_Json_Server_Error
     }
 
     /**
-     * Set error message
+     * Set error message.
      *
-     * @param  string $message
+     * @param string $message
+     *
      * @return Zend_Json_Server_Error
      */
     public function setMessage($message)
@@ -125,11 +133,12 @@ class Zend_Json_Server_Error
         }
 
         $this->_message = (string) $message;
+
         return $this;
     }
 
     /**
-     * Get error message
+     * Get error message.
      *
      * @return string
      */
@@ -139,19 +148,21 @@ class Zend_Json_Server_Error
     }
 
     /**
-     * Set error data
+     * Set error data.
      *
-     * @param  mixed $data
+     * @param mixed $data
+     *
      * @return Zend_Json_Server_Error
      */
     public function setData($data)
     {
         $this->_data = $data;
+
         return $this;
     }
 
     /**
-     * Get error data
+     * Get error data.
      *
      * @return mixed
      */
@@ -161,32 +172,33 @@ class Zend_Json_Server_Error
     }
 
     /**
-     * Cast error to array
+     * Cast error to array.
      *
      * @return array
      */
     public function toArray()
     {
-        return array(
-            'code'    => $this->getCode(),
+        return [
+            'code' => $this->getCode(),
             'message' => $this->getMessage(),
-            'data'    => $this->getData(),
-        );
+            'data' => $this->getData(),
+        ];
     }
 
     /**
-     * Cast error to JSON
+     * Cast error to JSON.
      *
      * @return string
      */
     public function toJson()
     {
         require_once 'Zend/Json.php';
+
         return Zend_Json::encode($this->toArray());
     }
 
     /**
-     * Cast to string (JSON)
+     * Cast to string (JSON).
      *
      * @return string
      */
@@ -195,4 +207,3 @@ class Zend_Json_Server_Error
         return $this->toJson();
     }
 }
-

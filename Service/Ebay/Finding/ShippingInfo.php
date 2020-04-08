@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Service
- * @subpackage Ebay
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id: ShippingInfo.php 22791 2010-08-04 16:11:47Z renanbr $
  */
 
@@ -27,10 +27,10 @@ require_once 'Zend/Service/Ebay/Finding/Abstract.php';
 
 /**
  * @category   Zend
- * @package    Zend_Service
- * @subpackage Ebay
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @uses       Zend_Service_Ebay_Finding_Abstract
  */
 class Zend_Service_Ebay_Finding_ShippingInfo extends Zend_Service_Ebay_Finding_Abstract
@@ -102,8 +102,9 @@ class Zend_Service_Ebay_Finding_ShippingInfo extends Zend_Service_Ebay_Finding_A
      *
      * Returned only for items that have shipToLocations specified.
      *
-     * @link http://developer.ebay.com/DevZone/finding/CallRef/Enums/shipToLocationList.html
-     * @var  string[]
+     * @see http://developer.ebay.com/DevZone/finding/CallRef/Enums/shipToLocationList.html
+     *
+     * @var string[]
      */
     public $shipToLocations;
 
@@ -116,11 +117,11 @@ class Zend_Service_Ebay_Finding_ShippingInfo extends Zend_Service_Ebay_Finding_A
         $ns = Zend_Service_Ebay_Finding::XMLNS_FINDING;
 
         $this->shippingServiceCost = $this->_query(".//$ns:shippingServiceCost[1]", 'float');
-        $this->shippingType        = $this->_query(".//$ns:shippingType[1]", 'string');
-        $this->shipToLocations     = $this->_query(".//$ns:shipToLocations", 'string', true);
+        $this->shippingType = $this->_query(".//$ns:shippingType[1]", 'string');
+        $this->shipToLocations = $this->_query(".//$ns:shipToLocations", 'string', true);
 
-        $this->_attributes['shippingServiceCost'] = array(
-            'currencyId' => $this->_query(".//$ns:shippingServiceCost[1]/@currencyId[1]", 'string')
-        );
+        $this->_attributes['shippingServiceCost'] = [
+            'currencyId' => $this->_query(".//$ns:shippingServiceCost[1]/@currencyId[1]", 'string'),
+        ];
     }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,9 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Feed_Writer
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -27,17 +28,18 @@ require_once 'Zend/Version.php';
 
 /**
  * @category   Zend
- * @package    Zend_Feed_Writer
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Feed_Writer_Renderer_RendererAbstract
 {
     /**
-     * Extensions
+     * Extensions.
+     *
      * @var array
      */
-    protected $_extensions = array();
+    protected $_extensions = [];
 
     /**
      * @var mixed
@@ -57,10 +59,10 @@ class Zend_Feed_Writer_Renderer_RendererAbstract
     /**
      * @var array
      */
-    protected $_exceptions = array();
+    protected $_exceptions = [];
 
     /**
-     * Encoding of all text values
+     * Encoding of all text values.
      *
      * @var string
      */
@@ -80,9 +82,10 @@ class Zend_Feed_Writer_Renderer_RendererAbstract
     protected $_rootElement = null;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param  mixed $container
+     * @param mixed $container
+     *
      * @return void
      */
     public function __construct($container)
@@ -93,7 +96,7 @@ class Zend_Feed_Writer_Renderer_RendererAbstract
     }
 
     /**
-     * Save XML to string
+     * Save XML to string.
      *
      * @return string
      */
@@ -103,7 +106,7 @@ class Zend_Feed_Writer_Renderer_RendererAbstract
     }
 
     /**
-     * Get DOM document
+     * Get DOM document.
      *
      * @return DOMDocument
      */
@@ -113,7 +116,7 @@ class Zend_Feed_Writer_Renderer_RendererAbstract
     }
 
     /**
-     * Get document element from DOM
+     * Get document element from DOM.
      *
      * @return DOMElement
      */
@@ -123,7 +126,7 @@ class Zend_Feed_Writer_Renderer_RendererAbstract
     }
 
     /**
-     * Get data container of items being rendered
+     * Get data container of items being rendered.
      *
      * @return mixed
      */
@@ -133,19 +136,21 @@ class Zend_Feed_Writer_Renderer_RendererAbstract
     }
 
     /**
-     * Set feed encoding
+     * Set feed encoding.
      *
-     * @param  string $enc
+     * @param string $enc
+     *
      * @return Zend_Feed_Writer_Renderer_RendererAbstract
      */
     public function setEncoding($enc)
     {
         $this->_encoding = $enc;
+
         return $this;
     }
 
     /**
-     * Get feed encoding
+     * Get feed encoding.
      *
      * @return string
      */
@@ -155,9 +160,10 @@ class Zend_Feed_Writer_Renderer_RendererAbstract
     }
 
     /**
-     * Indicate whether or not to ignore exceptions
+     * Indicate whether or not to ignore exceptions.
      *
-     * @param  bool $bool
+     * @param bool $bool
+     *
      * @return Zend_Feed_Writer_Renderer_RendererAbstract
      */
     public function ignoreExceptions($bool = true)
@@ -167,11 +173,12 @@ class Zend_Feed_Writer_Renderer_RendererAbstract
             throw new Zend_Feed_Exception('Invalid parameter: $bool. Should be TRUE or FALSE (defaults to TRUE if null)');
         }
         $this->_ignoreExceptions = $bool;
+
         return $this;
     }
 
     /**
-     * Get exception list
+     * Get exception list.
      *
      * @return array
      */
@@ -226,7 +233,7 @@ class Zend_Feed_Writer_Renderer_RendererAbstract
     }
 
     /**
-     * Load extensions from Zend_Feed_Writer
+     * Load extensions from Zend_Feed_Writer.
      *
      * @return void
      */

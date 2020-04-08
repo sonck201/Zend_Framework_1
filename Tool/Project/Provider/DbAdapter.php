@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Tool
- * @subpackage Framework
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -32,15 +32,12 @@ require_once 'Zend/Tool/Framework/Provider/Interactable.php';
 
 /**
  * @category   Zend
- * @package    Zend_Tool
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Tool_Project_Provider_DbAdapter
-    extends Zend_Tool_Project_Provider_Abstract
-    implements Zend_Tool_Framework_Provider_Interactable, Zend_Tool_Framework_Provider_Pretendable
+class Zend_Tool_Project_Provider_DbAdapter extends Zend_Tool_Project_Provider_Abstract implements Zend_Tool_Framework_Provider_Interactable, Zend_Tool_Framework_Provider_Pretendable
 {
-
     protected $_appConfigFilePath = null;
 
     protected $_config = null;
@@ -59,7 +56,7 @@ class Zend_Tool_Project_Provider_DbAdapter
 
         $this->_appConfigFilePath = $appConfigFileResource->getPath();
 
-        $this->_config = new Zend_Config_Ini($this->_appConfigFilePath, null, array('skipExtends' => true, 'allowModifications' => true));
+        $this->_config = new Zend_Config_Ini($this->_appConfigFilePath, null, ['skipExtends' => true, 'allowModifications' => true]);
 
         if ($sectionName != 'production') {
             $this->_sectionName = $sectionName;
@@ -80,28 +77,24 @@ class Zend_Tool_Project_Provider_DbAdapter
         } else {
             $this->_registry->getResponse()->appendContent('Nothing to do!');
         }
-
-
     }
 
     protected function _configureViaDSN($dsn)
     {
-        $dsnVars = array();
+        $dsnVars = [];
 
         if (strpos($dsn, '=') === false) {
-            throw new Zend_Tool_Project_Provider_Exception('At least one name value pair is expected, typcially '
-                . 'in the format of "adapter=Mysqli&username=uname&password=mypass&dbname=mydb"'
-                );
+            throw new Zend_Tool_Project_Provider_Exception('At least one name value pair is expected, typcially ' . 'in the format of "adapter=Mysqli&username=uname&password=mypass&dbname=mydb"');
         }
 
         parse_str($dsn, $dsnVars);
 
         // parse_str suffers when magic_quotes is enabled
         if (get_magic_quotes_gpc()) {
-            array_walk_recursive($dsnVars, array($this, '_cleanMagicQuotesInValues'));
+            array_walk_recursive($dsnVars, [$this, '_cleanMagicQuotesInValues']);
         }
 
-        $dbConfigValues = array('resources' => array('db' => null));
+        $dbConfigValues = ['resources' => ['db' => null]];
 
         if (isset($dsnVars['adapter'])) {
             $dbConfigValues['resources']['db']['adapter'] = $dsnVars['adapter'];
@@ -135,5 +128,4 @@ class Zend_Tool_Project_Provider_DbAdapter
     {
         $value = stripslashes($value);
     }
-
 }

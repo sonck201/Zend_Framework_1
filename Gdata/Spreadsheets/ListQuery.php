@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,37 +14,35 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Spreadsheets
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
 /**
- * Zend_Gdata_App_util
+ * Zend_Gdata_App_util.
  */
-require_once('Zend/Gdata/App/Util.php');
+require_once 'Zend/Gdata/App/Util.php';
 
 /**
- * Zend_Gdata_Query
+ * Zend_Gdata_Query.
  */
-require_once('Zend/Gdata/Query.php');
+require_once 'Zend/Gdata/Query.php';
 
 /**
- * Assists in constructing queries for Google Spreadsheets lists
+ * Assists in constructing queries for Google Spreadsheets lists.
  *
- * @link http://code.google.com/apis/gdata/calendar/
+ * @see http://code.google.com/apis/gdata/calendar/
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage Spreadsheets
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Spreadsheets_ListQuery extends Zend_Gdata_Query
 {
-
     const SPREADSHEETS_LIST_FEED_URI = 'https://spreadsheets.google.com/feeds/list';
 
     protected $_defaultFeedUri = self::SPREADSHEETS_LIST_FEED_URI;
@@ -64,17 +62,21 @@ class Zend_Gdata_Spreadsheets_ListQuery extends Zend_Gdata_Query
 
     /**
      * Sets the spreadsheet key for the query.
+     *
      * @param string $value
+     *
      * @return Zend_Gdata_Spreadsheets_CellQuery Provides a fluent interface
      */
     public function setSpreadsheetKey($value)
     {
         $this->_spreadsheetKey = $value;
+
         return $this;
     }
 
     /**
      * Gets the spreadsheet key for the query.
+     *
      * @return string spreadsheet key
      */
     public function getSpreadsheetKey()
@@ -84,17 +86,21 @@ class Zend_Gdata_Spreadsheets_ListQuery extends Zend_Gdata_Query
 
     /**
      * Sets the worksheet id for the query.
+     *
      * @param string $value
+     *
      * @return Zend_Gdata_Spreadsheets_CellQuery Provides a fluent interface
      */
     public function setWorksheetId($value)
     {
         $this->_worksheetId = $value;
+
         return $this;
     }
 
     /**
      * Gets the worksheet id for the query.
+     *
      * @return string worksheet id
      */
     public function getWorksheetId()
@@ -104,17 +110,21 @@ class Zend_Gdata_Spreadsheets_ListQuery extends Zend_Gdata_Query
 
     /**
      * Sets the row id for the query.
+     *
      * @param string $value row id
+     *
      * @return Zend_Gdata_Spreadsheets_CellQuery Provides a fluent interface
      */
     public function setRowId($value)
     {
         $this->_rowId = $value;
+
         return $this;
     }
 
     /**
      * Gets the row id for the query.
+     *
      * @return string row id
      */
     public function getRowId()
@@ -124,28 +134,35 @@ class Zend_Gdata_Spreadsheets_ListQuery extends Zend_Gdata_Query
 
     /**
      * Sets the projection for the query.
+     *
      * @param string $value Projection
+     *
      * @return Zend_Gdata_Spreadsheets_ListQuery Provides a fluent interface
      */
     public function setProjection($value)
     {
         $this->_projection = $value;
+
         return $this;
     }
 
     /**
      * Sets the visibility for this query.
+     *
      * @param string $value visibility
+     *
      * @return Zend_Gdata_Spreadsheets_ListQuery Provides a fluent interface
      */
     public function setVisibility($value)
     {
         $this->_visibility = $value;
+
         return $this;
     }
 
     /**
      * Gets the projection for this query.
+     *
      * @return string projection
      */
     public function getProjection()
@@ -155,6 +172,7 @@ class Zend_Gdata_Spreadsheets_ListQuery extends Zend_Gdata_Query
 
     /**
      * Gets the visibility for this query.
+     *
      * @return string visibility
      */
     public function getVisibility()
@@ -164,7 +182,9 @@ class Zend_Gdata_Spreadsheets_ListQuery extends Zend_Gdata_Query
 
     /**
      * Sets the spreadsheet key for this query.
+     *
      * @param string $value
+     *
      * @return Zend_Gdata_Spreadsheets_DocumentQuery Provides a fluent interface
      */
     public function setSpreadsheetQuery($value)
@@ -174,11 +194,13 @@ class Zend_Gdata_Spreadsheets_ListQuery extends Zend_Gdata_Query
         } else {
             unset($this->_params['sq']);
         }
+
         return $this;
     }
 
     /**
      * Gets the spreadsheet key for this query.
+     *
      * @return string spreadsheet query
      */
     public function getSpreadsheetQuery()
@@ -192,7 +214,9 @@ class Zend_Gdata_Spreadsheets_ListQuery extends Zend_Gdata_Query
 
     /**
      * Sets the orderby attribute for this query.
+     *
      * @param string $value
+     *
      * @return Zend_Gdata_Spreadsheets_DocumentQuery Provides a fluent interface
      */
     public function setOrderBy($value)
@@ -202,11 +226,13 @@ class Zend_Gdata_Spreadsheets_ListQuery extends Zend_Gdata_Query
         } else {
             unset($this->_params['orderby']);
         }
+
         return $this;
     }
 
     /**
      * Gets the orderby attribute for this query.
+     *
      * @return string orderby
      */
     public function getOrderBy()
@@ -220,7 +246,9 @@ class Zend_Gdata_Spreadsheets_ListQuery extends Zend_Gdata_Query
 
     /**
      * Sets the reverse attribute for this query.
+     *
      * @param string $value
+     *
      * @return Zend_Gdata_Spreadsheets_DocumentQuery Provides a fluent interface
      */
     public function setReverse($value)
@@ -230,17 +258,17 @@ class Zend_Gdata_Spreadsheets_ListQuery extends Zend_Gdata_Query
         } else {
             unset($this->_params['reverse']);
         }
+
         return $this;
     }
 
     /**
      * Gets the reverse attribute for this query.
+     *
      * @return string reverse
      */
     public function getReverse()
     {
-
-
         if (array_key_exists('reverse', $this->_params)) {
             return $this->_params['reverse'];
         } else {
@@ -250,56 +278,57 @@ class Zend_Gdata_Spreadsheets_ListQuery extends Zend_Gdata_Query
 
     /**
      * Gets the full query URL for this query.
+     *
      * @return string url
      */
     public function getQueryUrl()
     {
-
         $uri = $this->_defaultFeedUri;
 
         if ($this->_spreadsheetKey != null) {
-            $uri .= '/'.$this->_spreadsheetKey;
+            $uri .= '/' . $this->_spreadsheetKey;
         } else {
             require_once 'Zend/Gdata/App/Exception.php';
             throw new Zend_Gdata_App_Exception('A spreadsheet key must be provided for list queries.');
         }
 
         if ($this->_worksheetId != null) {
-            $uri .= '/'.$this->_worksheetId;
+            $uri .= '/' . $this->_worksheetId;
         } else {
             require_once 'Zend/Gdata/App/Exception.php';
             throw new Zend_Gdata_App_Exception('A worksheet id must be provided for list queries.');
         }
 
         if ($this->_visibility != null) {
-            $uri .= '/'.$this->_visibility;
+            $uri .= '/' . $this->_visibility;
         } else {
             require_once 'Zend/Gdata/App/Exception.php';
             throw new Zend_Gdata_App_Exception('A visibility must be provided for list queries.');
         }
 
         if ($this->_projection != null) {
-            $uri .= '/'.$this->_projection;
+            $uri .= '/' . $this->_projection;
         } else {
             require_once 'Zend/Gdata/App/Exception.php';
             throw new Zend_Gdata_App_Exception('A projection must be provided for list queries.');
         }
 
         if ($this->_rowId != null) {
-            $uri .= '/'.$this->_rowId;
+            $uri .= '/' . $this->_rowId;
         }
 
         $uri .= $this->getQueryString();
+
         return $uri;
     }
 
     /**
      * Gets the attribute query string for this query.
+     *
      * @return string query string
      */
     public function getQueryString()
     {
         return parent::getQueryString();
     }
-
 }

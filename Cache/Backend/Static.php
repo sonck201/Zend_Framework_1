@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Cache
- * @subpackage Zend_Cache_Backend
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -31,42 +31,41 @@ require_once 'Zend/Cache/Backend/Interface.php';
 require_once 'Zend/Cache/Backend.php';
 
 /**
- * @package    Zend_Cache
- * @subpackage Zend_Cache_Backend
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Cache_Backend_Static
-    extends Zend_Cache_Backend
-    implements Zend_Cache_Backend_Interface
+class Zend_Cache_Backend_Static extends Zend_Cache_Backend implements Zend_Cache_Backend_Interface
 {
     const INNER_CACHE_NAME = 'zend_cache_backend_static_tagcache';
 
     /**
-     * Static backend options
+     * Static backend options.
+     *
      * @var array
      */
-    protected $_options = array(
-        'public_dir'           => null,
-        'sub_dir'              => 'html',
-        'file_extension'       => '.html',
-        'index_filename'       => 'index',
-        'file_locking'         => true,
-        'cache_file_perm'      => 0600,
+    protected $_options = [
+        'public_dir' => null,
+        'sub_dir' => 'html',
+        'file_extension' => '.html',
+        'index_filename' => 'index',
+        'file_locking' => true,
+        'cache_file_perm' => 0600,
         'cache_directory_perm' => 0700,
-        'debug_header'         => false,
-        'tag_cache'            => null,
-        'disable_caching'      => false
-    );
+        'debug_header' => false,
+        'tag_cache' => null,
+        'disable_caching' => false,
+    ];
 
     /**
-     * Cache for handling tags
+     * Cache for handling tags.
+     *
      * @var Zend_Cache_Core
      */
     protected $_tagCache = null;
 
     /**
-     * Tagged items
+     * Tagged items.
+     *
      * @var array
      */
     protected $_tagged = null;
@@ -74,10 +73,11 @@ class Zend_Cache_Backend_Static
     /**
      * Interceptor child method to handle the case where an Inner
      * Cache object is being set since it's not supported by the
-     * standard backend interface
+     * standard backend interface.
      *
-     * @param  string $name
-     * @param  mixed $value
+     * @param string $name
+     * @param mixed $value
+     *
      * @return Zend_Cache_Backend_Static
      */
     public function setOption($name, $value)
@@ -105,6 +105,7 @@ class Zend_Cache_Backend_Static
 
             parent::setOption($name, $value);
         }
+
         return $this;
     }
 
@@ -112,7 +113,8 @@ class Zend_Cache_Backend_Static
      * Retrieve any option via interception of the parent's statically held
      * options including the local option for a tag cache.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return mixed
      */
     public function getOption($name)
@@ -127,17 +129,18 @@ class Zend_Cache_Backend_Static
     }
 
     /**
-     * Test if a cache is available for the given id and (if yes) return it (false else)
+     * Test if a cache is available for the given id and (if yes) return it (false else).
      *
      * Note : return value is always "string" (unserialization is done by the core not by the backend)
      *
-     * @param  string  $id                     Cache id
-     * @param  boolean $doNotTestCacheValidity If set to true, the cache validity won't be tested
+     * @param string $id Cache id
+     * @param bool $doNotTestCacheValidity If set to true, the cache validity won't be tested
+     *
      * @return string|false cached datas
      */
     public function load($id, $doNotTestCacheValidity = false)
     {
-        if (($id = (string)$id) === '') {
+        if (($id = (string) $id) === '') {
             $id = $this->_detectId();
         } else {
             $id = $this->_decodeId($id);
@@ -146,7 +149,7 @@ class Zend_Cache_Backend_Static
             Zend_Cache::throwException('Invalid cache id: does not match expected public_dir path');
         }
         if ($doNotTestCacheValidity) {
-            $this->_log("Zend_Cache_Backend_Static::load() : \$doNotTestCacheValidity=true is unsupported by the Static backend");
+            $this->_log('Zend_Cache_Backend_Static::load() : $doNotTestCacheValidity=true is unsupported by the Static backend');
         }
 
         $fileName = basename($id);
@@ -154,9 +157,10 @@ class Zend_Cache_Backend_Static
             $fileName = $this->_options['index_filename'];
         }
         $pathName = $this->_options['public_dir'] . dirname($id);
-        $file     = rtrim($pathName, '/') . '/' . $fileName . $this->_options['file_extension'];
+        $file = rtrim($pathName, '/') . '/' . $fileName . $this->_options['file_extension'];
         if (file_exists($file)) {
             $content = file_get_contents($file);
+
             return $content;
         }
 
@@ -164,9 +168,10 @@ class Zend_Cache_Backend_Static
     }
 
     /**
-     * Test if a cache is available or not (for the given id)
+     * Test if a cache is available or not (for the given id).
      *
-     * @param  string $id cache id
+     * @param string $id cache id
+     *
      * @return bool
      */
     public function test($id)
@@ -193,26 +198,28 @@ class Zend_Cache_Backend_Static
         } else {
             $extension = $this->_options['file_extension'];
         }
-        $file     = $pathName . '/' . $fileName . $extension;
+        $file = $pathName . '/' . $fileName . $extension;
         if (file_exists($file)) {
             return true;
         }
+
         return false;
     }
 
     /**
-     * Save some string datas into a cache record
+     * Save some string datas into a cache record.
      *
      * Note : $data is always "string" (serialization is done by the
      * core not by the backend)
      *
-     * @param  string $data            Datas to cache
-     * @param  string $id              Cache id
-     * @param  array $tags             Array of strings, the cache record will be tagged by each string entry
-     * @param  int   $specificLifetime If != false, set a specific lifetime for this cache record (null => infinite lifetime)
-     * @return boolean true if no problem
+     * @param string $data Datas to cache
+     * @param string $id Cache id
+     * @param array $tags Array of strings, the cache record will be tagged by each string entry
+     * @param int $specificLifetime If != false, set a specific lifetime for this cache record (null => infinite lifetime)
+     *
+     * @return bool true if no problem
      */
-    public function save($data, $id, $tags = array(), $specificLifetime = false)
+    public function save($data, $id, $tags = [], $specificLifetime = false)
     {
         if ($this->_options['disable_caching']) {
             return true;
@@ -225,7 +232,7 @@ class Zend_Cache_Backend_Static
         }
 
         clearstatcache();
-        if (($id = (string)$id) === '') {
+        if (($id = (string) $id) === '') {
             $id = $this->_detectId();
         } else {
             $id = $this->_decodeId($id);
@@ -244,7 +251,9 @@ class Zend_Cache_Backend_Static
             $data = $dataUnserialized['data'];
         }
         $ext = $this->_options['file_extension'];
-        if ($extension) $ext = $extension;
+        if ($extension) {
+            $ext = $extension;
+        }
         $file = rtrim($pathName, '/') . '/' . $fileName . $ext;
         if ($this->_options['file_locking']) {
             $result = file_put_contents($file, $data, LOCK_EX);
@@ -256,28 +265,31 @@ class Zend_Cache_Backend_Static
         if ($this->_tagged === null && $tagged = $this->getInnerCache()->load(self::INNER_CACHE_NAME)) {
             $this->_tagged = $tagged;
         } elseif ($this->_tagged === null) {
-            $this->_tagged = array();
+            $this->_tagged = [];
         }
         if (!isset($this->_tagged[$id])) {
-            $this->_tagged[$id] = array();
+            $this->_tagged[$id] = [];
         }
         if (!isset($this->_tagged[$id]['tags'])) {
-            $this->_tagged[$id]['tags'] = array();
+            $this->_tagged[$id]['tags'] = [];
         }
         $this->_tagged[$id]['tags'] = array_unique(array_merge($this->_tagged[$id]['tags'], $tags));
         $this->_tagged[$id]['extension'] = $ext;
         $this->getInnerCache()->save($this->_tagged, self::INNER_CACHE_NAME);
+
         return (bool) $result;
     }
 
     /**
-     * Recursively create the directories needed to write the static file
+     * Recursively create the directories needed to write the static file.
+     *
+     * @param mixed $path
      */
     protected function _createDirectoriesFor($path)
     {
         if (!is_dir($path)) {
             $oldUmask = umask(0);
-            if ( !@mkdir($path, $this->_octdec($this->_options['cache_directory_perm']), true)) {
+            if (!@mkdir($path, $this->_octdec($this->_options['cache_directory_perm']), true)) {
                 $lastErr = error_get_last();
                 umask($oldUmask);
                 Zend_Cache::throwException("Can't create directory: {$lastErr['message']}");
@@ -294,6 +306,8 @@ class Zend_Cache_Backend_Static
      *
      * This format is the only valid one possible for the class, so it's simple
      * to just run a regular expression for the starting serialized format.
+     *
+     * @param mixed $data
      */
     protected function _isSerialized($data)
     {
@@ -301,10 +315,11 @@ class Zend_Cache_Backend_Static
     }
 
     /**
-     * Remove a cache record
+     * Remove a cache record.
      *
-     * @param  string $id Cache id
-     * @return boolean True if no problem
+     * @param string $id Cache id
+     *
+     * @return bool True if no problem
      */
     public function remove($id)
     {
@@ -326,20 +341,22 @@ class Zend_Cache_Backend_Static
             $fileName = $this->_options['index_filename'];
         }
         $pathName = $this->_options['public_dir'] . dirname($id);
-        $file     = realpath($pathName) . '/' . $fileName . $extension;
+        $file = realpath($pathName) . '/' . $fileName . $extension;
         if (!file_exists($file)) {
             return false;
         }
+
         return unlink($file);
     }
 
     /**
      * Remove a cache record recursively for the given directory matching a
      * REQUEST_URI based relative path (deletes the actual file matching this
-     * in addition to the matching directory)
+     * in addition to the matching directory).
      *
-     * @param  string $id Cache id
-     * @return boolean True if no problem
+     * @param string $id Cache id
+     *
+     * @return bool True if no problem
      */
     public function removeRecursively($id)
     {
@@ -350,8 +367,8 @@ class Zend_Cache_Backend_Static
         if ($fileName === '') {
             $fileName = $this->_options['index_filename'];
         }
-        $pathName  = $this->_options['public_dir'] . dirname($id);
-        $file      = $pathName . '/' . $fileName . $this->_options['file_extension'];
+        $pathName = $this->_options['public_dir'] . dirname($id);
+        $file = $pathName . '/' . $fileName . $this->_options['file_extension'];
         $directory = $pathName . '/' . $fileName;
         if (file_exists($directory)) {
             if (!is_writable($directory)) {
@@ -372,13 +389,15 @@ class Zend_Cache_Backend_Static
             if (!is_writable($file)) {
                 return false;
             }
+
             return unlink($file);
         }
+
         return true;
     }
 
     /**
-     * Clean some cache records
+     * Clean some cache records.
      *
      * Available modes are :
      * Zend_Cache::CLEANING_MODE_ALL (default)    => remove all cache entries ($tags is not used)
@@ -390,12 +409,14 @@ class Zend_Cache_Backend_Static
      * Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG => remove cache entries matching any given tags
      *                                               ($tags can be an array of strings or a single string)
      *
-     * @param  string $mode Clean mode
-     * @param  array  $tags Array of tags
-     * @return boolean true if no problem
+     * @param string $mode Clean mode
+     * @param array $tags Array of tags
+     *
+     * @return bool true if no problem
+     *
      * @throws Zend_Exception
      */
-    public function clean($mode = Zend_Cache::CLEANING_MODE_ALL, $tags = array())
+    public function clean($mode = Zend_Cache::CLEANING_MODE_ALL, $tags = [])
     {
         $result = false;
         switch ($mode) {
@@ -438,7 +459,7 @@ class Zend_Cache_Backend_Static
                 $result = true;
                 break;
             case Zend_Cache::CLEANING_MODE_OLD:
-                $this->_log("Zend_Cache_Backend_Static : Selected Cleaning Mode Currently Unsupported By This Backend");
+                $this->_log('Zend_Cache_Backend_Static : Selected Cleaning Mode Currently Unsupported By This Backend');
                 break;
             case Zend_Cache::CLEANING_MODE_NOT_MATCHING_TAG:
                 if (empty($tags)) {
@@ -466,6 +487,7 @@ class Zend_Cache_Backend_Static
                 Zend_Cache::throwException('Invalid mode for clean() method');
                 break;
         }
+
         return $result;
     }
 
@@ -476,6 +498,7 @@ class Zend_Cache_Backend_Static
      * have been irrevocably lost.
      *
      * @param  Zend_Cache_Core
+     *
      * @return void
      */
     public function setInnerCache(Zend_Cache_Core $cache)
@@ -485,7 +508,7 @@ class Zend_Cache_Backend_Static
     }
 
     /**
-     * Get the Inner Cache if set
+     * Get the Inner Cache if set.
      *
      * @return Zend_Cache_Core
      */
@@ -494,24 +517,27 @@ class Zend_Cache_Backend_Static
         if ($this->_tagCache === null) {
             Zend_Cache::throwException('An Inner Cache has not been set; use setInnerCache()');
         }
+
         return $this->_tagCache;
     }
 
     /**
-     * Verify path exists and is non-empty
+     * Verify path exists and is non-empty.
      *
-     * @param  string $path
+     * @param string $path
+     *
      * @return bool
      */
     protected function _verifyPath($path)
     {
         $path = realpath($path);
         $base = realpath($this->_options['public_dir']);
+
         return strncmp($path, $base, strlen($base)) !== 0;
     }
 
     /**
-     * Determine the page to save from the request
+     * Determine the page to save from the request.
      *
      * @return string
      */
@@ -521,13 +547,16 @@ class Zend_Cache_Backend_Static
     }
 
     /**
-     * Validate a cache id or a tag (security, reliable filenames, reserved prefixes...)
+     * Validate a cache id or a tag (security, reliable filenames, reserved prefixes...).
      *
      * Throw an exception if a problem is found
      *
-     * @param  string $string Cache id or tag
+     * @param string $string Cache id or tag
+     *
      * @throws Zend_Cache_Exception
+     *
      * @return void
+     *
      * @deprecated Not usable until perhaps ZF 2.0
      */
     protected static function _validateIdOrTag($string)
@@ -553,9 +582,10 @@ class Zend_Cache_Backend_Static
 
     /**
      * Detect an octal string and return its octal value for file permission ops
-     * otherwise return the non-string (assumed octal or decimal int already)
+     * otherwise return the non-string (assumed octal or decimal int already).
      *
      * @param string $val The potential octal in need of conversion
+     *
      * @return int
      */
     protected function _octdec($val)
@@ -563,13 +593,15 @@ class Zend_Cache_Backend_Static
         if (is_string($val) && decoct(octdec($val)) == $val) {
             return octdec($val);
         }
+
         return $val;
     }
 
     /**
-     * Decode a request URI from the provided ID
+     * Decode a request URI from the provided ID.
      *
      * @param string $id
+     *
      * @return string
      */
     protected function _decodeId($id)

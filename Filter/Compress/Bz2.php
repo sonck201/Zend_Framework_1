@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,9 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Filter
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -25,10 +26,10 @@
 require_once 'Zend/Filter/Compress/CompressAbstract.php';
 
 /**
- * Compression adapter for Bz2
+ * Compression adapter for Bz2.
  *
  * @category   Zend
- * @package    Zend_Filter
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -39,17 +40,17 @@ class Zend_Filter_Compress_Bz2 extends Zend_Filter_Compress_CompressAbstract
      * array(
      *     'blocksize' => Blocksize to use from 0-9
      *     'archive'   => Archive to use
-     * )
+     * ).
      *
      * @var array
      */
-    protected $_options = array(
+    protected $_options = [
         'blocksize' => 4,
-        'archive'   => null,
-    );
+        'archive' => null,
+    ];
 
     /**
-     * Class constructor
+     * Class constructor.
      *
      * @param array|Zend_Config $options (Optional) Options to set
      */
@@ -63,9 +64,9 @@ class Zend_Filter_Compress_Bz2 extends Zend_Filter_Compress_CompressAbstract
     }
 
     /**
-     * Returns the set blocksize
+     * Returns the set blocksize.
      *
-     * @return integer
+     * @return int
      */
     public function getBlocksize()
     {
@@ -73,9 +74,11 @@ class Zend_Filter_Compress_Bz2 extends Zend_Filter_Compress_CompressAbstract
     }
 
     /**
-     * Sets a new blocksize
+     * Sets a new blocksize.
      *
-     * @param integer $level
+     * @param int $level
+     * @param mixed $blocksize
+     *
      * @return Zend_Filter_Compress_Bz2
      */
     public function setBlocksize($blocksize)
@@ -86,11 +89,12 @@ class Zend_Filter_Compress_Bz2 extends Zend_Filter_Compress_CompressAbstract
         }
 
         $this->_options['blocksize'] = (int) $blocksize;
+
         return $this;
     }
 
     /**
-     * Returns the set archive
+     * Returns the set archive.
      *
      * @return string
      */
@@ -100,21 +104,24 @@ class Zend_Filter_Compress_Bz2 extends Zend_Filter_Compress_CompressAbstract
     }
 
     /**
-     * Sets the archive to use for de-/compression
+     * Sets the archive to use for de-/compression.
      *
      * @param string $archive Archive to use
+     *
      * @return Zend_Filter_Compress_Bz2
      */
     public function setArchive($archive)
     {
         $this->_options['archive'] = (string) $archive;
+
         return $this;
     }
 
     /**
-     * Compresses the given content
+     * Compresses the given content.
      *
-     * @param  string $content
+     * @param string $content
+     *
      * @return string
      */
     public function compress($content)
@@ -143,9 +150,10 @@ class Zend_Filter_Compress_Bz2 extends Zend_Filter_Compress_CompressAbstract
     }
 
     /**
-     * Decompresses the given content
+     * Decompresses the given content.
      *
-     * @param  string $content
+     * @param string $content
+     *
      * @return string
      */
     public function decompress($content)
@@ -177,7 +185,7 @@ class Zend_Filter_Compress_Bz2 extends Zend_Filter_Compress_CompressAbstract
     }
 
     /**
-     * Returns the adapter name
+     * Returns the adapter name.
      *
      * @return string
      */

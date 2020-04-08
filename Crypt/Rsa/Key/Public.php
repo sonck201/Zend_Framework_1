@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Crypt
- * @subpackage Rsa
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -27,13 +27,12 @@ require_once 'Zend/Crypt/Rsa/Key.php';
 
 /**
  * @category   Zend
- * @package    Zend_Crypt
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Crypt_Rsa_Key_Public extends Zend_Crypt_Rsa_Key
 {
-
     protected $_certificateString = null;
 
     public function __construct($string)
@@ -43,11 +42,12 @@ class Zend_Crypt_Rsa_Key_Public extends Zend_Crypt_Rsa_Key
 
     /**
      * @param string $string
+     *
      * @throws Zend_Crypt_Exception
      */
     protected function _parse($string)
     {
-        if (preg_match("/^-----BEGIN CERTIFICATE-----/", $string)) {
+        if (preg_match('/^-----BEGIN CERTIFICATE-----/', $string)) {
             $this->_certificateString = $string;
         } else {
             $this->_pemString = $string;
@@ -70,5 +70,4 @@ class Zend_Crypt_Rsa_Key_Public extends Zend_Crypt_Rsa_Key
     {
         return $this->_certificateString;
     }
-
 }

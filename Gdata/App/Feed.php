@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,10 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage App
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -32,20 +32,17 @@ require_once 'Zend/Gdata/App/Entry.php';
 require_once 'Zend/Gdata/App/FeedSourceParent.php';
 
 /**
- * Atom feed class
+ * Atom feed class.
  *
  * @category   Zend
- * @package    Zend_Gdata
- * @subpackage App
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Gdata_App_Feed extends Zend_Gdata_App_FeedSourceParent
-        implements Iterator, ArrayAccess, Countable
+class Zend_Gdata_App_Feed extends Zend_Gdata_App_FeedSourceParent implements Iterator, ArrayAccess, Countable
 {
-
     /**
-     * The root xml element of this data element
+     * The root xml element of this data element.
      *
      * @var string
      */
@@ -56,10 +53,10 @@ class Zend_Gdata_App_Feed extends Zend_Gdata_App_FeedSourceParent
      *
      * @var array
      */
-    protected $_entry = array();
+    protected $_entry = [];
 
     /**
-     * Current location in $_entry array
+     * Current location in $_entry array.
      *
      * @var int
      */
@@ -73,7 +70,8 @@ class Zend_Gdata_App_Feed extends Zend_Gdata_App_FeedSourceParent
      * using foreach ($feed->entries as $entry) or foreach
      * ($feed->entry as $entry).
      *
-     * @param  string $var The property to get.
+     * @param string $var The property to get.
+     *
      * @return mixed
      */
     public function __get($var)
@@ -87,9 +85,12 @@ class Zend_Gdata_App_Feed extends Zend_Gdata_App_FeedSourceParent
     }
 
     /**
-     * Retrieves the DOM model representing this object and all children
+     * Retrieves the DOM model representing this object and all children.
      *
      * @param DOMDocument $doc
+     * @param mixed $majorVersion
+     * @param mixed|null $minorVersion
+     *
      * @return DOMElement
      */
     public function getDOM($doc = null, $majorVersion = 1, $minorVersion = null)
@@ -98,6 +99,7 @@ class Zend_Gdata_App_Feed extends Zend_Gdata_App_FeedSourceParent
         foreach ($this->_entry as $entry) {
             $element->appendChild($entry->getDOM($element->ownerDocument));
         }
+
         return $element;
     }
 
@@ -127,7 +129,7 @@ class Zend_Gdata_App_Feed extends Zend_Gdata_App_FeedSourceParent
     /**
      * Get the number of entries in this feed object.
      *
-     * @return integer Entry count.
+     * @return int Entry count.
      */
     public function count()
     {
@@ -177,7 +179,7 @@ class Zend_Gdata_App_Feed extends Zend_Gdata_App_FeedSourceParent
     /**
      * Required by the Iterator interface.
      *
-     * @return boolean Whether the iteration is valid
+     * @return bool Whether the iteration is valid
      */
     public function valid()
     {
@@ -186,7 +188,7 @@ class Zend_Gdata_App_Feed extends Zend_Gdata_App_FeedSourceParent
 
     /**
      * Gets the array of atom:entry elements contained within this
-     * atom:feed representation
+     * atom:feed representation.
      *
      * @return array Zend_Gdata_App_Entry array
      */
@@ -197,35 +199,41 @@ class Zend_Gdata_App_Feed extends Zend_Gdata_App_FeedSourceParent
 
     /**
      * Sets the array of atom:entry elements contained within this
-     * atom:feed representation
+     * atom:feed representation.
      *
      * @param array $value The array of Zend_Gdata_App_Entry elements
+     *
      * @return Zend_Gdata_App_Feed Provides a fluent interface
      */
     public function setEntry($value)
     {
         $this->_entry = $value;
+
         return $this;
     }
 
     /**
      * Adds an entry representation to the array of entries
-     * contained within this feed
+     * contained within this feed.
      *
      * @param Zend_Gdata_App_Entry An individual entry to add.
+     * @param mixed $value
+     *
      * @return Zend_Gdata_App_Feed Provides a fluent interface
      */
     public function addEntry($value)
     {
         $this->_entry[] = $value;
+
         return $this;
     }
 
     /**
-     * Required by the ArrayAccess interface
+     * Required by the ArrayAccess interface.
      *
      * @param int $key The index to set
      * @param Zend_Gdata_App_Entry $value The value to set
+     *
      * @return void
      */
     public function offsetSet($key, $value)
@@ -234,7 +242,7 @@ class Zend_Gdata_App_Feed extends Zend_Gdata_App_FeedSourceParent
     }
 
     /**
-     * Required by the ArrayAccess interface
+     * Required by the ArrayAccess interface.
      *
      * @param int $key The index to get
      * @param Zend_Gdata_App_Entry $value The value to set
@@ -247,7 +255,7 @@ class Zend_Gdata_App_Feed extends Zend_Gdata_App_FeedSourceParent
     }
 
     /**
-     * Required by the ArrayAccess interface
+     * Required by the ArrayAccess interface.
      *
      * @param int $key The index to set
      * @param Zend_Gdata_App_Entry $value The value to set
@@ -260,30 +268,31 @@ class Zend_Gdata_App_Feed extends Zend_Gdata_App_FeedSourceParent
     }
 
     /**
-     * Required by the ArrayAccess interface
+     * Required by the ArrayAccess interface.
      *
      * @param int $key The index to check for existence
-     * @return boolean
+     *
+     * @return bool
      */
     public function offsetExists($key)
     {
-        return (array_key_exists($key, $this->_entry));
+        return array_key_exists($key, $this->_entry);
     }
 
-   /**
+    /**
      * Retrieve the next set of results from this feed.
      *
      * @throws Zend_Gdata_App_Exception
+     *
      * @return mixed|null Returns the next set of results as a feed of the same
-     *          class as this feed, or null if no results exist.
+     *                    class as this feed, or null if no results exist.
      */
     public function getNextFeed()
     {
         $nextLink = $this->getNextLink();
         if (!$nextLink) {
             require_once 'Zend/Gdata/App/HttpException.php';
-            throw new Zend_Gdata_App_Exception('No link to next set ' .
-            'of results found.');
+            throw new Zend_Gdata_App_Exception('No link to next set ' . 'of results found.');
         }
         $nextLinkHref = $nextLink->getHref();
         $service = new Zend_Gdata_App($this->getHttpClient());
@@ -291,20 +300,20 @@ class Zend_Gdata_App_Feed extends Zend_Gdata_App_FeedSourceParent
         return $service->getFeed($nextLinkHref, get_class($this));
     }
 
-   /**
+    /**
      * Retrieve the previous set of results from this feed.
      *
      * @throws Zend_Gdata_App_Exception
+     *
      * @return mixed|null Returns the previous set of results as a feed of
-     *          the same class as this feed, or null if no results exist.
+     *                    the same class as this feed, or null if no results exist.
      */
     public function getPreviousFeed()
     {
         $previousLink = $this->getPreviousLink();
         if (!$previousLink) {
             require_once 'Zend/Gdata/App/HttpException.php';
-            throw new Zend_Gdata_App_Exception('No link to previous set ' .
-            'of results found.');
+            throw new Zend_Gdata_App_Exception('No link to previous set ' . 'of results found.');
         }
         $previousLinkHref = $previousLink->getHref();
         $service = new Zend_Gdata_App($this->getHttpClient());
@@ -319,7 +328,9 @@ class Zend_Gdata_App_Feed extends Zend_Gdata_App_FeedSourceParent
      * This value will be propogated to all child entries.
      *
      * @see _majorProtocolVersion
+     *
      * @param (int|NULL) $value The major protocol version to use.
+     *
      * @throws Zend_Gdata_App_InvalidArgumentException
      */
     public function setMajorProtocolVersion($value)
@@ -338,7 +349,9 @@ class Zend_Gdata_App_Feed extends Zend_Gdata_App_FeedSourceParent
      * This value will be propogated to all child entries.
      *
      * @see _minorProtocolVersion
+     *
      * @param (int|NULL) $value The minor protocol version to use.
+     *
      * @throws Zend_Gdata_App_InvalidArgumentException
      */
     public function setMinorProtocolVersion($value)
@@ -348,5 +361,4 @@ class Zend_Gdata_App_Feed extends Zend_Gdata_App_FeedSourceParent
             $entry->setMinorProtocolVersion($value);
         }
     }
-
 }

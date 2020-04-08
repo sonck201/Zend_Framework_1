@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,10 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Search_Lucene
- * @subpackage Search
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -25,45 +25,42 @@ require_once 'Zend/Search/Lucene/Search/QueryEntry.php';
 
 /**
  * @category   Zend
- * @package    Zend_Search_Lucene
- * @subpackage Search
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Search_Lucene_Search_QueryEntry_Phrase extends Zend_Search_Lucene_Search_QueryEntry
 {
     /**
-     * Phrase value
+     * Phrase value.
      *
      * @var string
      */
     private $_phrase;
 
     /**
-     * Field
+     * Field.
      *
      * @var string|null
      */
     private $_field;
 
-
     /**
-     * Proximity phrase query
+     * Proximity phrase query.
      *
-     * @var boolean
+     * @var bool
      */
     private $_proximityQuery = false;
 
     /**
-     * Words distance, used for proximiti queries
+     * Words distance, used for proximiti queries.
      *
-     * @var integer
+     * @var int
      */
     private $_wordsDistance = 0;
 
-
     /**
-     * Object constractor
+     * Object constractor.
      *
      * @param string $phrase
      * @param string $field
@@ -71,11 +68,11 @@ class Zend_Search_Lucene_Search_QueryEntry_Phrase extends Zend_Search_Lucene_Sea
     public function __construct($phrase, $field)
     {
         $this->_phrase = $phrase;
-        $this->_field  = $field;
+        $this->_field = $field;
     }
 
     /**
-     * Process modifier ('~')
+     * Process modifier ('~').
      *
      * @param mixed $parameter
      */
@@ -89,10 +86,12 @@ class Zend_Search_Lucene_Search_QueryEntry_Phrase extends Zend_Search_Lucene_Sea
     }
 
     /**
-     * Transform entry to a subquery
+     * Transform entry to a subquery.
      *
      * @param string $encoding
+     *
      * @return Zend_Search_Lucene_Search_Query
+     *
      * @throws Zend_Search_Lucene_Search_QueryParserException
      */
     public function getQuery($encoding)
@@ -101,7 +100,7 @@ class Zend_Search_Lucene_Search_QueryEntry_Phrase extends Zend_Search_Lucene_Sea
         require_once 'Zend/Search/Lucene/Search/Query/Preprocessing/Phrase.php';
         $query = new Zend_Search_Lucene_Search_Query_Preprocessing_Phrase($this->_phrase,
                                                                           $encoding,
-                                                                          ($this->_field !== null)?
+                                                                          ($this->_field !== null) ?
                                                                               iconv($encoding, 'UTF-8', $this->_field) :
                                                                               null);
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,9 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Filter
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -26,61 +27,61 @@ require_once 'Zend/Filter/Interface.php';
 
 /**
  * @category   Zend
- * @package    Zend_Filter
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Filter_Boolean implements Zend_Filter_Interface
 {
-    const BOOLEAN      = 1;
-    const INTEGER      = 2;
-    const FLOAT        = 4;
-    const STRING       = 8;
-    const ZERO         = 16;
-    const EMPTY_ARRAY  = 32;
-    const NULL         = 64;
-    const PHP          = 127;
+    const BOOLEAN = 1;
+    const INTEGER = 2;
+    const FLOAT = 4;
+    const STRING = 8;
+    const ZERO = 16;
+    const EMPTY_ARRAY = 32;
+    const NULL = 64;
+    const PHP = 127;
     const FALSE_STRING = 128;
-    const YES          = 256;
-    const ALL          = 511;
+    const YES = 256;
+    const ALL = 511;
 
-    protected $_constants = array(
-        self::BOOLEAN      => 'boolean',
-        self::INTEGER      => 'integer',
-        self::FLOAT        => 'float',
-        self::STRING       => 'string',
-        self::ZERO         => 'zero',
-        self::EMPTY_ARRAY  => 'array',
-        self::NULL         => 'null',
-        self::PHP          => 'php',
+    protected $_constants = [
+        self::BOOLEAN => 'boolean',
+        self::INTEGER => 'integer',
+        self::FLOAT => 'float',
+        self::STRING => 'string',
+        self::ZERO => 'zero',
+        self::EMPTY_ARRAY => 'array',
+        self::NULL => 'null',
+        self::PHP => 'php',
         self::FALSE_STRING => 'false',
-        self::YES          => 'yes',
-        self::ALL          => 'all',
-    );
+        self::YES => 'yes',
+        self::ALL => 'all',
+    ];
 
     /**
-     * Internal type to detect
+     * Internal type to detect.
      *
-     * @var integer
+     * @var int
      */
     protected $_type = self::PHP;
 
     /**
-     * Internal locale
+     * Internal locale.
      *
      * @var array
      */
-    protected $_locale = array('auto');
+    protected $_locale = ['auto'];
 
     /**
-     * Internal mode
+     * Internal mode.
      *
-     * @var boolean
+     * @var bool
      */
     protected $_casting = true;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string|array|Zend_Config $options OPTIONAL
      */
@@ -90,7 +91,7 @@ class Zend_Filter_Boolean implements Zend_Filter_Interface
             $options = $options->toArray();
         } elseif (!is_array($options)) {
             $options = func_get_args();
-            $temp    = array();
+            $temp = [];
             if (!empty($options)) {
                 $temp['type'] = array_shift($options);
             }
@@ -120,7 +121,7 @@ class Zend_Filter_Boolean implements Zend_Filter_Interface
     }
 
     /**
-     * Returns the set null types
+     * Returns the set null types.
      *
      * @return int
      */
@@ -130,17 +131,19 @@ class Zend_Filter_Boolean implements Zend_Filter_Interface
     }
 
     /**
-     * Set the null types
+     * Set the null types.
      *
-     * @param  integer|array $type
+     * @param int|array $type
+     *
      * @throws Zend_Filter_Exception
+     *
      * @return Zend_Filter_Boolean
      */
     public function setType($type = null)
     {
         if (is_array($type)) {
             $detected = 0;
-            foreach($type as $value) {
+            foreach ($type as $value) {
                 if (is_int($value)) {
                     $detected += $value;
                 } elseif (in_array($value, $this->_constants)) {
@@ -159,11 +162,12 @@ class Zend_Filter_Boolean implements Zend_Filter_Interface
         }
 
         $this->_type = $type;
+
         return $this;
     }
 
     /**
-     * Returns the set locale
+     * Returns the set locale.
      *
      * @return array
      */
@@ -173,18 +177,20 @@ class Zend_Filter_Boolean implements Zend_Filter_Interface
     }
 
     /**
-     * Set the locales which are accepted
+     * Set the locales which are accepted.
      *
-     * @param  string|array|Zend_Locale $locale
+     * @param string|array|Zend_Locale $locale
+     *
      * @throws Zend_Filter_Exception
+     *
      * @return Zend_Filter_Boolean
      */
     public function setLocale($locale = null)
     {
         if (is_string($locale)) {
-            $locale = array($locale);
+            $locale = [$locale];
         } elseif ($locale instanceof Zend_Locale) {
-            $locale = array($locale->toString());
+            $locale = [$locale->toString()];
         } elseif (!is_array($locale)) {
             require_once 'Zend/Filter/Exception.php';
             throw new Zend_Filter_Exception('Locale has to be string, array or an instance of Zend_Locale');
@@ -199,13 +205,14 @@ class Zend_Filter_Boolean implements Zend_Filter_Interface
         }
 
         $this->_locale = $locale;
+
         return $this;
     }
 
     /**
-     * Returns the casting option
+     * Returns the casting option.
      *
-     * @return boolean
+     * @return bool
      */
     public function getCasting()
     {
@@ -213,31 +220,36 @@ class Zend_Filter_Boolean implements Zend_Filter_Interface
     }
 
     /**
-     * Set the working mode
+     * Set the working mode.
      *
-     * @param  boolean $locale When true this filter works like cast
-     *                         When false it recognises only true and false
-     *                         and all other values are returned as is
+     * @param bool $locale When true this filter works like cast
+     *                     When false it recognises only true and false
+     *                     and all other values are returned as is
+     * @param mixed $casting
+     *
      * @throws Zend_Filter_Exception
+     *
      * @return Zend_Filter_Boolean
      */
     public function setCasting($casting = true)
     {
-        $this->_casting = (boolean) $casting;
+        $this->_casting = (bool) $casting;
+
         return $this;
     }
 
     /**
-     * Defined by Zend_Filter_Interface
+     * Defined by Zend_Filter_Interface.
      *
      * Returns a boolean representation of $value
      *
-     * @param  string $value
+     * @param string $value
+     *
      * @return string
      */
     public function filter($value)
     {
-        $type    = $this->getType();
+        $type = $this->getType();
         $casting = $this->getCasting();
 
         // STRING YES (Localized)
@@ -281,7 +293,7 @@ class Zend_Filter_Boolean implements Zend_Filter_Interface
         // EMPTY_ARRAY (array())
         if ($type >= self::EMPTY_ARRAY) {
             $type -= self::EMPTY_ARRAY;
-            if (is_array($value) && ($value == array())) {
+            if (is_array($value) && ($value == [])) {
                 return false;
             }
         }
@@ -346,26 +358,27 @@ class Zend_Filter_Boolean implements Zend_Filter_Interface
     }
 
     /**
-     * Determine the value of a localized string, and compare it to a given value
+     * Determine the value of a localized string, and compare it to a given value.
      *
-     * @param  string $value
-     * @param  boolean $yes
-     * @param  array $locale
-     * @return boolean
+     * @param string $value
+     * @param bool $yes
+     * @param array $locale
+     *
+     * @return bool
      */
     protected function _getLocalizedQuestion($value, $yes, $locale)
     {
         if ($yes == true) {
             $question = 'yes';
-            $return   = true;
+            $return = true;
         } else {
             $question = 'no';
-            $return   = false;
+            $return = false;
         }
         $str = Zend_Locale::getTranslation($question, 'question', $locale);
         $str = explode(':', $str);
         if (!empty($str)) {
-            foreach($str as $no) {
+            foreach ($str as $no) {
                 if (($no == $value) || (strtolower($no) == strtolower($value))) {
                     return $return;
                 }

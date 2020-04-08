@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,22 +13,21 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_EventManager
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-
 require_once 'Zend/Stdlib/CallbackHandler.php';
 require_once 'Zend/Stdlib/SplPriorityQueue.php';
 
 /**
- * Specialized priority queue implementation for use with an intercepting 
+ * Specialized priority queue implementation for use with an intercepting
  * filter chain.
  *
  * Allows removal
  *
  * @category   Zend
- * @package    Zend_EventManager
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -36,8 +35,9 @@ class Zend_EventManager_Filter_FilterIterator extends Zend_Stdlib_SplPriorityQue
 {
     /**
      * Does the queue contain a given value?
-     * 
-     * @param  mixed $datum 
+     *
+     * @param mixed $datum
+     *
      * @return bool
      */
     public function contains($datum)
@@ -48,16 +48,18 @@ class Zend_EventManager_Filter_FilterIterator extends Zend_Stdlib_SplPriorityQue
                 return true;
             }
         }
+
         return false;
     }
 
     /**
-     * Remove a value from the queue
+     * Remove a value from the queue.
      *
      * This is an expensive operation. It must first iterate through all values,
      * and then re-populate itself. Use only if absolutely necessary.
-     * 
-     * @param  mixed $datum 
+     *
+     * @param mixed $datum
+     *
      * @return bool
      */
     public function remove($datum)
@@ -66,7 +68,7 @@ class Zend_EventManager_Filter_FilterIterator extends Zend_Stdlib_SplPriorityQue
 
         // Iterate and remove any matches
         $removed = false;
-        $items   = array();
+        $items = [];
         $this->rewind();
         while (!$this->isEmpty()) {
             $item = $this->extract();
@@ -83,20 +85,22 @@ class Zend_EventManager_Filter_FilterIterator extends Zend_Stdlib_SplPriorityQue
         }
 
         $this->setExtractFlags(self::EXTR_DATA);
+
         return $removed;
     }
 
     /**
-     * Iterate the next filter in the chain
+     * Iterate the next filter in the chain.
      *
      * Iterates and calls the next filter in the chain.
      *
-     * @param  mixed                                   $context
-     * @param  array                                   $params
-     * @param  Zend_EventManager_Filter_FilterIterator $chain
+     * @param mixed $context
+     * @param array $params
+     * @param Zend_EventManager_Filter_FilterIterator $chain
+     *
      * @return mixed
      */
-    public function next($context = null, array $params = array(), $chain = null)
+    public function next($context = null, array $params = [], $chain = null)
     {
         if (empty($context) || $chain->isEmpty()) {
             return;
@@ -108,6 +112,7 @@ class Zend_EventManager_Filter_FilterIterator extends Zend_Stdlib_SplPriorityQue
         }
 
         $return = call_user_func($next->getCallback(), $context, $params, $chain);
+
         return $return;
     }
 }

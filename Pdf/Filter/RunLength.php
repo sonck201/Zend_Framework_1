@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,31 +13,32 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Pdf
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
-
 
 /** Zend_Pdf_Filter_Interface */
 require_once 'Zend/Pdf/Filter/Interface.php';
 
 /**
- * RunLength stream filter
+ * RunLength stream filter.
  *
- * @package    Zend_Pdf
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Pdf_Filter_RunLength implements Zend_Pdf_Filter_Interface
 {
     /**
-     * Encode data
+     * Encode data.
      *
      * @param string $data
      * @param array $params
+     *
      * @return string
+     *
      * @throws Zend_Pdf_Exception
      */
     public static function encode($data, $params = null)
@@ -50,7 +51,7 @@ class Zend_Pdf_Filter_RunLength implements Zend_Pdf_Filter_Interface
         while ($offset < strlen($data)) {
             // Do not encode 2 char chains since they produce 2 char run sequence,
             // but it takes more time to decode such output (because of processing additional run)
-            if (($repeatedCharChainLength = strspn($data, $data[$offset], $offset + 1, 127) + 1)  >  2) {
+            if (($repeatedCharChainLength = strspn($data, $data[$offset], $offset + 1, 127) + 1) > 2) {
                 if ($chainStartOffset != $offset) {
                     // Drop down previouse (non-repeatable chars) run
                     $output .= chr($offset - $chainStartOffset - 1)
@@ -62,7 +63,7 @@ class Zend_Pdf_Filter_RunLength implements Zend_Pdf_Filter_Interface
                 $offset += $repeatedCharChainLength;
                 $chainStartOffset = $offset;
             } else {
-                $offset++;
+                ++$offset;
 
                 if ($offset - $chainStartOffset == 128) {
                     // Maximum run length is reached
@@ -85,11 +86,13 @@ class Zend_Pdf_Filter_RunLength implements Zend_Pdf_Filter_Interface
     }
 
     /**
-     * Decode data
+     * Decode data.
      *
      * @param string $data
      * @param array $params
+     *
      * @return string
+     *
      * @throws Zend_Pdf_Exception
      */
     public static function decode($data, $params = null)
@@ -98,28 +101,27 @@ class Zend_Pdf_Filter_RunLength implements Zend_Pdf_Filter_Interface
         $output = '';
         $offset = 0;
 
-        while($offset < $dataLength) {
+        while ($offset < $dataLength) {
             $length = ord($data[$offset]);
 
-            $offset++;
+            ++$offset;
 
             if ($length == 128) {
                 // EOD byte
                 break;
-            } else if ($length < 128) {
-                $length++;
+            } elseif ($length < 128) {
+                ++$length;
 
                 $output .= substr($data, $offset, $length);
 
                 $offset += $length;
-            } else if ($length > 128) {
+            } elseif ($length > 128) {
                 $output .= str_repeat($data[$offset], 257 - $length);
 
-                $offset++;
+                ++$offset;
             }
         }
 
         return $output;
     }
 }
-

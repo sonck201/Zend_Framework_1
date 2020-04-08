@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,81 +14,80 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category     Zend
- * @package      Zend_Gdata
- * @subpackage   Spreadsheets
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
 /**
- * Zend_Gdata
+ * Zend_Gdata.
  */
-require_once('Zend/Gdata.php');
+require_once 'Zend/Gdata.php';
 
 /**
- * Zend_Gdata_Spreadsheets_SpreadsheetFeed
+ * Zend_Gdata_Spreadsheets_SpreadsheetFeed.
  */
-require_once('Zend/Gdata/Spreadsheets/SpreadsheetFeed.php');
+require_once 'Zend/Gdata/Spreadsheets/SpreadsheetFeed.php';
 
 /**
- * Zend_Gdata_Spreadsheets_WorksheetFeed
+ * Zend_Gdata_Spreadsheets_WorksheetFeed.
  */
-require_once('Zend/Gdata/Spreadsheets/WorksheetFeed.php');
+require_once 'Zend/Gdata/Spreadsheets/WorksheetFeed.php';
 
 /**
- * Zend_Gdata_Spreadsheets_CellFeed
+ * Zend_Gdata_Spreadsheets_CellFeed.
  */
-require_once('Zend/Gdata/Spreadsheets/CellFeed.php');
+require_once 'Zend/Gdata/Spreadsheets/CellFeed.php';
 
 /**
- * Zend_Gdata_Spreadsheets_ListFeed
+ * Zend_Gdata_Spreadsheets_ListFeed.
  */
-require_once('Zend/Gdata/Spreadsheets/ListFeed.php');
+require_once 'Zend/Gdata/Spreadsheets/ListFeed.php';
 
 /**
- * Zend_Gdata_Spreadsheets_SpreadsheetEntry
+ * Zend_Gdata_Spreadsheets_SpreadsheetEntry.
  */
-require_once('Zend/Gdata/Spreadsheets/SpreadsheetEntry.php');
+require_once 'Zend/Gdata/Spreadsheets/SpreadsheetEntry.php';
 
 /**
- * Zend_Gdata_Spreadsheets_WorksheetEntry
+ * Zend_Gdata_Spreadsheets_WorksheetEntry.
  */
-require_once('Zend/Gdata/Spreadsheets/WorksheetEntry.php');
+require_once 'Zend/Gdata/Spreadsheets/WorksheetEntry.php';
 
 /**
- * Zend_Gdata_Spreadsheets_CellEntry
+ * Zend_Gdata_Spreadsheets_CellEntry.
  */
-require_once('Zend/Gdata/Spreadsheets/CellEntry.php');
+require_once 'Zend/Gdata/Spreadsheets/CellEntry.php';
 
 /**
- * Zend_Gdata_Spreadsheets_ListEntry
+ * Zend_Gdata_Spreadsheets_ListEntry.
  */
-require_once('Zend/Gdata/Spreadsheets/ListEntry.php');
+require_once 'Zend/Gdata/Spreadsheets/ListEntry.php';
 
 /**
- * Zend_Gdata_Spreadsheets_DocumentQuery
+ * Zend_Gdata_Spreadsheets_DocumentQuery.
  */
-require_once('Zend/Gdata/Spreadsheets/DocumentQuery.php');
+require_once 'Zend/Gdata/Spreadsheets/DocumentQuery.php';
 
 /**
- * Zend_Gdata_Spreadsheets_ListQuery
+ * Zend_Gdata_Spreadsheets_ListQuery.
  */
-require_once('Zend/Gdata/Spreadsheets/ListQuery.php');
+require_once 'Zend/Gdata/Spreadsheets/ListQuery.php';
 
 /**
- * Zend_Gdata_Spreadsheets_CellQuery
+ * Zend_Gdata_Spreadsheets_CellQuery.
  */
-require_once('Zend/Gdata/Spreadsheets/CellQuery.php');
+require_once 'Zend/Gdata/Spreadsheets/CellQuery.php';
 
 /**
- * Gdata Spreadsheets
+ * Gdata Spreadsheets.
  *
- * @link http://code.google.com/apis/gdata/spreadsheets.html
+ * @see http://code.google.com/apis/gdata/spreadsheets.html
  *
  * @category     Zend
- * @package      Zend_Gdata
- * @subpackage   Spreadsheets
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -102,21 +101,21 @@ class Zend_Gdata_Spreadsheets extends Zend_Gdata
     const AUTH_SERVICE_NAME = 'wise';
 
     /**
-     * Namespaces used for Zend_Gdata_Photos
+     * Namespaces used for Zend_Gdata_Photos.
      *
      * @var array
      */
-    public static $namespaces = array(
-        array('gs', 'http://schemas.google.com/spreadsheets/2006', 1, 0),
-        array(
-            'gsx', 'http://schemas.google.com/spreadsheets/2006/extended', 1, 0)
-    );
+    public static $namespaces = [
+        ['gs', 'http://schemas.google.com/spreadsheets/2006', 1, 0],
+        [
+            'gsx', 'http://schemas.google.com/spreadsheets/2006/extended', 1, 0, ],
+    ];
 
     /**
-     * Create Gdata_Spreadsheets object
+     * Create Gdata_Spreadsheets object.
      *
      * @param Zend_Http_Client $client (optional) The HTTP client to use when
-     *          when communicating with the Google servers.
+     *                                 when communicating with the Google servers.
      * @param string $applicationId The identity of the app in the form of Company-AppName-Version
      */
     public function __construct($client = null, $applicationId = 'MyCompany-MyApp-1.0')
@@ -132,13 +131,14 @@ class Zend_Gdata_Spreadsheets extends Zend_Gdata
      * Gets a spreadsheet feed.
      *
      * @param mixed $location A DocumentQuery or a string URI specifying the feed location.
+     *
      * @return Zend_Gdata_Spreadsheets_SpreadsheetFeed
      */
     public function getSpreadsheetFeed($location = null)
     {
         if ($location == null) {
             $uri = self::SPREADSHEETS_FEED_URI;
-        } else if ($location instanceof Zend_Gdata_Spreadsheets_DocumentQuery) {
+        } elseif ($location instanceof Zend_Gdata_Spreadsheets_DocumentQuery) {
             if ($location->getDocumentType() == null) {
                 $location->setDocumentType('spreadsheets');
             }
@@ -154,6 +154,7 @@ class Zend_Gdata_Spreadsheets extends Zend_Gdata
      * Gets a spreadsheet entry.
      *
      * @param string $location A DocumentQuery or a URI specifying the entry location.
+     *
      * @return SpreadsheetEntry
      */
     public function getSpreadsheetEntry($location)
@@ -174,6 +175,7 @@ class Zend_Gdata_Spreadsheets extends Zend_Gdata
      * Gets a worksheet feed.
      *
      * @param mixed $location A DocumentQuery, SpreadsheetEntry, or a string URI
+     *
      * @return Zend_Gdata_Spreadsheets_WorksheetFeed The feed of worksheets
      */
     public function getWorksheetFeed($location)
@@ -183,7 +185,7 @@ class Zend_Gdata_Spreadsheets extends Zend_Gdata
                 $location->setDocumentType('worksheets');
             }
             $uri = $location->getQueryUrl();
-        } else if ($location instanceof Zend_Gdata_Spreadsheets_SpreadsheetEntry) {
+        } elseif ($location instanceof Zend_Gdata_Spreadsheets_SpreadsheetEntry) {
             $uri = $location->getLink(self::WORKSHEETS_FEED_LINK_URI)->href;
         } else {
             $uri = $location;
@@ -196,6 +198,7 @@ class Zend_Gdata_Spreadsheets extends Zend_Gdata
      * Gets a worksheet entry.
      *
      * @param string $location A DocumentQuery or a URI specifying the entry location.
+     *
      * @return WorksheetEntry
      */
     public function GetWorksheetEntry($location)
@@ -216,17 +219,19 @@ class Zend_Gdata_Spreadsheets extends Zend_Gdata
      * Gets a cell feed.
      *
      * @param string $location A CellQuery, WorksheetEntry or a URI specifying the feed location.
+     *
      * @return CellFeed
      */
     public function getCellFeed($location)
     {
         if ($location instanceof Zend_Gdata_Spreadsheets_CellQuery) {
             $uri = $location->getQueryUrl();
-        } else if ($location instanceof Zend_Gdata_Spreadsheets_WorksheetEntry) {
+        } elseif ($location instanceof Zend_Gdata_Spreadsheets_WorksheetEntry) {
             $uri = $location->getLink(self::CELL_FEED_LINK_URI)->href;
         } else {
             $uri = $location;
         }
+
         return parent::getFeed($uri, 'Zend_Gdata_Spreadsheets_CellFeed');
     }
 
@@ -234,6 +239,7 @@ class Zend_Gdata_Spreadsheets extends Zend_Gdata
      * Gets a cell entry.
      *
      * @param string $location A CellQuery or a URI specifying the entry location.
+     *
      * @return CellEntry
      */
     public function getCellEntry($location)
@@ -251,13 +257,14 @@ class Zend_Gdata_Spreadsheets extends Zend_Gdata
      * Gets a list feed.
      *
      * @param mixed $location A ListQuery, WorksheetEntry or string URI specifying the feed location.
+     *
      * @return ListFeed
      */
     public function getListFeed($location)
     {
         if ($location instanceof Zend_Gdata_Spreadsheets_ListQuery) {
             $uri = $location->getQueryUrl();
-        } else if ($location instanceof Zend_Gdata_Spreadsheets_WorksheetEntry) {
+        } elseif ($location instanceof Zend_Gdata_Spreadsheets_WorksheetEntry) {
             $uri = $location->getLink(self::LIST_FEED_LINK_URI)->href;
         } else {
             $uri = $location;
@@ -270,6 +277,7 @@ class Zend_Gdata_Spreadsheets extends Zend_Gdata
      * Gets a list entry.
      *
      * @param string $location A ListQuery or a URI specifying the entry location.
+     *
      * @return ListEntry
      */
     public function getListEntry($location)
@@ -291,11 +299,12 @@ class Zend_Gdata_Spreadsheets extends Zend_Gdata
      * @param int $inputValue The new value for the cell
      * @param string $key The key for the spreadsheet to be updated
      * @param string $wkshtId (optional) The worksheet to be updated
+     *
      * @return CellEntry The updated cell entry.
      */
     public function updateCell($row, $col, $inputValue, $key, $wkshtId = 'default')
     {
-        $cell = 'R'.$row.'C'.$col;
+        $cell = 'R' . $row . 'C' . $col;
 
         $query = new Zend_Gdata_Spreadsheets_CellQuery();
         $query->setSpreadsheetKey($key);
@@ -305,6 +314,7 @@ class Zend_Gdata_Spreadsheets extends Zend_Gdata
         $entry = $this->getCellEntry($query);
         $entry->setCell(new Zend_Gdata_Spreadsheets_Extension_Cell(null, $row, $col, $inputValue));
         $response = $entry->save();
+
         return $response;
     }
 
@@ -314,12 +324,13 @@ class Zend_Gdata_Spreadsheets extends Zend_Gdata
      * @param array $rowData An array of column header to row data
      * @param string $key The key of the spreadsheet to modify
      * @param string $wkshtId (optional) The worksheet to modify
+     *
      * @return ListEntry The inserted row
      */
     public function insertRow($rowData, $key, $wkshtId = 'default')
     {
         $newEntry = new Zend_Gdata_Spreadsheets_ListEntry();
-        $newCustomArr = array();
+        $newCustomArr = [];
         foreach ($rowData as $k => $v) {
             $newCustom = new Zend_Gdata_Spreadsheets_Extension_Custom();
             $newCustom->setText($v)->setColumnName($k);
@@ -344,7 +355,7 @@ class Zend_Gdata_Spreadsheets extends Zend_Gdata
      */
     public function updateRow($entry, $newRowData)
     {
-        $newCustomArr = array();
+        $newCustomArr = [];
         foreach ($newRowData as $k => $v) {
             $newCustom = new Zend_Gdata_Spreadsheets_Extension_Custom();
             $newCustom->setText($v)->setColumnName($k);
@@ -366,24 +377,26 @@ class Zend_Gdata_Spreadsheets extends Zend_Gdata
     }
 
     /**
-     * Returns the content of all rows as an associative array
+     * Returns the content of all rows as an associative array.
      *
      * @param mixed $location A ListQuery or string URI specifying the feed location.
+     *
      * @return array An array of rows.  Each element of the array is an associative array of data
      */
     public function getSpreadsheetListFeedContents($location)
     {
         $listFeed = $this->getListFeed($location);
         $listFeed = $this->retrieveAllEntriesForFeed($listFeed);
-        $spreadsheetContents = array();
+        $spreadsheetContents = [];
         foreach ($listFeed as $listEntry) {
-            $rowContents = array();
+            $rowContents = [];
             $customArray = $listEntry->getCustom();
             foreach ($customArray as $custom) {
                 $rowContents[$custom->getColumnName()] = $custom->getText();
             }
             $spreadsheetContents[] = $rowContents;
         }
+
         return $spreadsheetContents;
     }
 
@@ -393,11 +406,12 @@ class Zend_Gdata_Spreadsheets extends Zend_Gdata
      * the array is an associative array with a 'value' and a 'function'.
      * Only non-empty cells are returned by default.  'range' is the
      * value of the 'range' query parameter specified at:
-     * http://code.google.com/apis/spreadsheets/reference.html#cells_Parameters
+     * http://code.google.com/apis/spreadsheets/reference.html#cells_Parameters.
      *
      * @param mixed $location A CellQuery, WorksheetEntry or a URL (w/o query string) specifying the feed location.
      * @param string $range The range of cells to retrieve
-     * @param boolean $empty Whether to retrieve empty cells
+     * @param bool $empty Whether to retrieve empty cells
+     *
      * @return array An associative array of cells
      */
     public function getSpreadsheetCellFeedContents($location, $range = null, $empty = false)
@@ -405,7 +419,7 @@ class Zend_Gdata_Spreadsheets extends Zend_Gdata
         $cellQuery = null;
         if ($location instanceof Zend_Gdata_Spreadsheets_CellQuery) {
             $cellQuery = $location;
-        } else if ($location instanceof Zend_Gdata_Spreadsheets_WorksheetEntry) {
+        } elseif ($location instanceof Zend_Gdata_Spreadsheets_WorksheetEntry) {
             $url = $location->getLink(self::CELL_FEED_LINK_URI)->href;
             $cellQuery = new Zend_Gdata_Spreadsheets_CellQuery($url);
         } else {
@@ -420,26 +434,27 @@ class Zend_Gdata_Spreadsheets extends Zend_Gdata
 
         $cellFeed = $this->getCellFeed($cellQuery);
         $cellFeed = $this->retrieveAllEntriesForFeed($cellFeed);
-        $spreadsheetContents = array();
+        $spreadsheetContents = [];
         foreach ($cellFeed as $cellEntry) {
-            $cellContents = array();
+            $cellContents = [];
             $cell = $cellEntry->getCell();
             $cellContents['formula'] = $cell->getInputValue();
             $cellContents['value'] = $cell->getText();
             $spreadsheetContents[$cellEntry->getTitle()->getText()] = $cellContents;
         }
+
         return $spreadsheetContents;
     }
 
     /**
-     * Alias for getSpreadsheetFeed
+     * Alias for getSpreadsheetFeed.
      *
      * @param mixed $location A DocumentQuery or a string URI specifying the feed location.
+     *
      * @return Zend_Gdata_Spreadsheets_SpreadsheetFeed
      */
     public function getSpreadsheets($location = null)
     {
         return $this->getSpreadsheetFeed($location = null);
     }
-
 }

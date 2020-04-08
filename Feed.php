@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -14,9 +14,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Feed
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -24,21 +25,20 @@
 require_once 'Zend/Xml/Security.php';
 
 /**
- * Feed utility class
+ * Feed utility class.
  *
  * Base Zend_Feed class, containing constants and the Zend_Http_Client instance
  * accessor.
  *
  * @category   Zend
- * @package    Zend_Feed
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Feed
 {
-
     /**
-     * HTTP client object to use for retrieving feeds
+     * HTTP client object to use for retrieving feeds.
      *
      * @var Zend_Http_Client
      */
@@ -47,33 +47,32 @@ class Zend_Feed
     /**
      * Override HTTP PUT and DELETE request methods?
      *
-     * @var boolean
+     * @var bool
      */
     protected static $_httpMethodOverride = false;
 
     /**
      * @var array
      */
-    protected static $_namespaces = array(
+    protected static $_namespaces = [
         'opensearch' => 'http://a9.com/-/spec/opensearchrss/1.0/',
-        'atom'       => 'http://www.w3.org/2005/Atom',
-        'rss'        => 'http://blogs.law.harvard.edu/tech/rss',
-    );
-
+        'atom' => 'http://www.w3.org/2005/Atom',
+        'rss' => 'http://blogs.law.harvard.edu/tech/rss',
+    ];
 
     /**
-     * Set the HTTP client instance
+     * Set the HTTP client instance.
      *
      * Sets the HTTP client object to use for retrieving the feeds.
      *
-     * @param  Zend_Http_Client $httpClient
+     * @param Zend_Http_Client $httpClient
+     *
      * @return void
      */
     public static function setHttpClient(Zend_Http_Client $httpClient)
     {
         self::$_httpClient = $httpClient;
     }
-
 
     /**
      * Gets the HTTP client object. If none is set, a new Zend_Http_Client will be used.
@@ -93,9 +92,8 @@ class Zend_Feed
         return self::$_httpClient;
     }
 
-
     /**
-     * Toggle using POST instead of PUT and DELETE HTTP methods
+     * Toggle using POST instead of PUT and DELETE HTTP methods.
      *
      * Some feed implementations do not accept PUT and DELETE HTTP
      * methods, or they can't be used because of proxies or other
@@ -104,7 +102,8 @@ class Zend_Feed
      * X-Method-Override header will be sent with a value of PUT or
      * DELETE as appropriate.
      *
-     * @param  boolean $override Whether to override PUT and DELETE.
+     * @param bool $override Whether to override PUT and DELETE.
+     *
      * @return void
      */
     public static function setHttpMethodOverride($override = true)
@@ -112,20 +111,18 @@ class Zend_Feed
         self::$_httpMethodOverride = $override;
     }
 
-
     /**
-     * Get the HTTP override state
+     * Get the HTTP override state.
      *
-     * @return boolean
+     * @return bool
      */
     public static function getHttpMethodOverride()
     {
         return self::$_httpMethodOverride;
     }
 
-
     /**
-     * Get the full version of a namespace prefix
+     * Get the full version of a namespace prefix.
      *
      * Looks up a prefix (atom:, etc.) in the list of registered
      * namespaces and returns the full namespace URI if
@@ -133,6 +130,8 @@ class Zend_Feed
      * registered.
      *
      * @return string
+     *
+     * @param mixed $prefix
      */
     public static function lookupNamespace($prefix)
     {
@@ -141,16 +140,16 @@ class Zend_Feed
             $prefix;
     }
 
-
     /**
-     * Add a namespace and prefix to the registered list
+     * Add a namespace and prefix to the registered list.
      *
      * Takes a prefix and a full namespace URI and adds them to the
      * list of registered namespaces for use by
      * Zend_Feed::lookupNamespace().
      *
-     * @param  string $prefix The namespace prefix
-     * @param  string $namespaceURI The full namespace URI
+     * @param string $prefix The namespace prefix
+     * @param string $namespaceURI The full namespace URI
+     *
      * @return void
      */
     public static function registerNamespace($prefix, $namespaceURI)
@@ -158,12 +157,13 @@ class Zend_Feed
         self::$_namespaces[$prefix] = $namespaceURI;
     }
 
-
     /**
      * Imports a feed located at $uri.
      *
-     * @param  string $uri
+     * @param string $uri
+     *
      * @throws Zend_Feed_Exception
+     *
      * @return Zend_Feed_Abstract
      */
     public static function import($uri)
@@ -179,25 +179,26 @@ class Zend_Feed
             throw new Zend_Feed_Exception('Feed failed to load, got response code ' . $response->getStatus());
         }
         $feed = $response->getBody();
+
         return self::importString($feed);
     }
-
 
     /**
      * Imports a feed represented by $string.
      *
-     * @param  string $string
+     * @param string $string
+     *
      * @throws Zend_Feed_Exception
+     *
      * @return Zend_Feed_Abstract
      */
     public static function importString($string)
     {
         if (trim($string) == '') {
             require_once 'Zend/Feed/Exception.php';
-            throw new Zend_Feed_Exception('Document/string being imported'
-            . ' is an Empty string or comes from an empty HTTP response');
+            throw new Zend_Feed_Exception('Document/string being imported' . ' is an Empty string or comes from an empty HTTP response');
         }
-        $doc = new DOMDocument;
+        $doc = new DOMDocument();
         $doc = Zend_Xml_Security::scan($string, $doc);
 
         if (!$doc) {
@@ -207,9 +208,8 @@ class Zend_Feed
             if ($error && $error->message) {
                 $errormsg = "DOMDocument cannot parse XML: {$error->message}";
             } else {
-                $errormsg = "DOMDocument cannot parse XML";
+                $errormsg = 'DOMDocument cannot parse XML';
             }
-
 
             /**
              * @see Zend_Feed_Exception
@@ -247,12 +247,13 @@ class Zend_Feed
         throw new Zend_Feed_Exception('Invalid or unsupported feed format');
     }
 
-
     /**
      * Imports a feed from a file located at $filename.
      *
-     * @param  string $filename
+     * @param string $filename
+     *
      * @throws Zend_Feed_Exception
+     *
      * @return Zend_Feed_Abstract
      */
     public static function importFile($filename)
@@ -267,9 +268,9 @@ class Zend_Feed
             require_once 'Zend/Feed/Exception.php';
             throw new Zend_Feed_Exception("File could not be loaded: $php_errormsg");
         }
+
         return self::importString($feed);
     }
-
 
     /**
      * Attempts to find feeds at $uri referenced by <link ... /> tags. Returns an
@@ -277,8 +278,10 @@ class Zend_Feed
      *
      * @todo Allow findFeeds() to follow one, but only one, code 302.
      *
-     * @param  string $uri
+     * @param string $uri
+     *
      * @throws Zend_Feed_Exception
+     *
      * @return array
      */
     public static function findFeeds($uri)
@@ -310,7 +313,7 @@ class Zend_Feed
         }
 
         // Try to fetch a feed for each link tag that appears to refer to a feed
-        $feeds = array();
+        $feeds = [];
         if (isset($matches[1]) && count($matches[1]) > 0) {
             foreach ($matches[1] as $link) {
                 // force string to be an utf-8 one
@@ -369,10 +372,11 @@ class Zend_Feed
     }
 
     /**
-     * Construct a new Zend_Feed_Abstract object from a custom array
+     * Construct a new Zend_Feed_Abstract object from a custom array.
      *
-     * @param  array  $data
-     * @param  string $format (rss|atom) the requested output format
+     * @param array $data
+     * @param string $format (rss|atom) the requested output format
+     *
      * @return Zend_Feed_Abstract
      */
     public static function importArray(array $data, $format = 'atom')
@@ -387,14 +391,16 @@ class Zend_Feed
          * @see Zend_Feed_Builder
          */
         require_once 'Zend/Feed/Builder.php';
+
         return new $obj(null, null, new Zend_Feed_Builder($data));
     }
 
     /**
-     * Construct a new Zend_Feed_Abstract object from a Zend_Feed_Builder_Interface data source
+     * Construct a new Zend_Feed_Abstract object from a Zend_Feed_Builder_Interface data source.
      *
-     * @param  Zend_Feed_Builder_Interface $builder this object will be used to extract the data of the feed
-     * @param  string                      $format (rss|atom) the requested output format
+     * @param Zend_Feed_Builder_Interface $builder this object will be used to extract the data of the feed
+     * @param string $format (rss|atom) the requested output format
+     *
      * @return Zend_Feed_Abstract
      */
     public static function importBuilder(Zend_Feed_Builder_Interface $builder, $format = 'atom')
@@ -404,6 +410,7 @@ class Zend_Feed
             require_once 'Zend/Loader.php';
             Zend_Loader::loadClass($obj);
         }
+
         return new $obj(null, null, $builder);
     }
 }

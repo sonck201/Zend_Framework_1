@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,9 +13,10 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Reflection
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
@@ -24,7 +25,7 @@ require_once 'Zend/Reflection/Docblock/Tag.php';
 
 /**
  * @category   Zend
- * @package    Zend_Reflection
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -36,9 +37,10 @@ class Zend_Reflection_Docblock_Tag_Return extends Zend_Reflection_Docblock_Tag
     protected $_type = null;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param  string $tagDocblockLine
+     * @param string $tagDocblockLine
+     *
      * @return \Zend_Reflection_Docblock_Tag_Return
      */
     public function __construct($tagDocblockLine)
@@ -61,7 +63,7 @@ class Zend_Reflection_Docblock_Tag_Return extends Zend_Reflection_Docblock_Tag
     }
 
     /**
-     * Get return variable type
+     * Get return variable type.
      *
      * @return string
      */

@@ -1,0 +1,18 @@
+{
+    "name": "iamck/zend_framework_1",
+    "authors": [
+        {
+            "name": "Iamck",
+            "email": "thanhson_it201@yahoo.com"
+        }
+    ],
+    "scripts": {
+        "post-autoload-dump": [
+            "./vendor/bin/php-cs-fixer fix --show-progress=dots --config=./.php_cs"
+        ]
+    },
+    "require": {},
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.16"
+    }
+}

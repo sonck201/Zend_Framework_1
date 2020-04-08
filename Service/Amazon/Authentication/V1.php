@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,8 +13,7 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Service_Amazon
- * @subpackage Authentication
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -31,36 +30,37 @@ require_once 'Zend/Crypt/Hmac.php';
 
 /**
  * @category   Zend
- * @package    Zend_Service_Amazon
- * @subpackage Authentication
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Service_Amazon_Authentication_V1 extends Zend_Service_Amazon_Authentication
 {
     /**
-     * Signature Version
+     * Signature Version.
      */
     protected $_signatureVersion = '1';
 
     /**
-     * Signature Encoding Method
+     * Signature Encoding Method.
      */
     protected $_signatureMethod = 'HmacSHA256';
 
     /**
-     * Generate the required attributes for the signature
+     * Generate the required attributes for the signature.
+     *
      * @param string $url
      * @param array $parameters
+     *
      * @return string
      */
     public function generateSignature($url, array &$parameters)
     {
-        $parameters['AWSAccessKeyId']   = $this->_accessKey;
+        $parameters['AWSAccessKeyId'] = $this->_accessKey;
         $parameters['SignatureVersion'] = $this->_signatureVersion;
-        $parameters['Version']          = $this->_apiVersion;
-        if(!isset($parameters['Timestamp'])) {
-            $parameters['Timestamp']    = gmdate('Y-m-d\TH:i:s\Z', time()+10);
+        $parameters['Version'] = $this->_apiVersion;
+        if (!isset($parameters['Timestamp'])) {
+            $parameters['Timestamp'] = gmdate('Y-m-d\TH:i:s\Z', time() + 10);
         }
 
         $data = $this->_signParameters($url, $parameters);
@@ -69,7 +69,7 @@ class Zend_Service_Amazon_Authentication_V1 extends Zend_Service_Amazon_Authenti
     }
 
     /**
-     * Computes the RFC 2104-compliant HMAC signature for request parameters
+     * Computes the RFC 2104-compliant HMAC signature for request parameters.
      *
      * This implements the Amazon Web Services signature, as per the following
      * specification:
@@ -83,8 +83,9 @@ class Zend_Service_Amazon_Authentication_V1 extends Zend_Service_Amazon_Authenti
      *    values before constructing this string. Do not use any separator
      *    characters when appending strings.
      *
-     * @param  string $queue_url  Queue URL
-     * @param  array  $parameters the parameters for which to get the signature.
+     * @param string $queue_url Queue URL
+     * @param array $parameters the parameters for which to get the signature.
+     * @param mixed $url
      *
      * @return string the signed data.
      */
@@ -95,7 +96,7 @@ class Zend_Service_Amazon_Authentication_V1 extends Zend_Service_Amazon_Authenti
         uksort($paramaters, 'strcasecmp');
         unset($paramaters['Signature']);
 
-        foreach($paramaters as $key => $value) {
+        foreach ($paramaters as $key => $value) {
             $data .= $key . $value;
         }
 

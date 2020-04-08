@@ -1,6 +1,6 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework.
  *
  * LICENSE
  *
@@ -13,78 +13,86 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_Mobile
- * @subpackage Zend_Mobile_Push
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 
 /**
- * Gcm Response
+ * Gcm Response.
  *
  * @category   Zend
- * @package    Zend_Mobile
- * @subpackage Zend_Mobile_Push
+ *
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ *
  * @version    $Id$
  */
 class Zend_Mobile_Push_Response_Gcm
 {
-
     const RESULT_MESSAGE_ID = 'message_id';
     const RESULT_ERROR = 'error';
     const RESULT_CANONICAL = 'registration_id';
 
     /**
-     * Multicast ID
+     * Multicast ID.
+     *
      * @var int
      */
     protected $_id;
 
     /**
-     * Success Count
+     * Success Count.
+     *
      * @var int
      */
     protected $_successCnt;
 
     /**
-     * Failure Count
+     * Failure Count.
+     *
      * @var int
      */
     protected $_failureCnt;
 
     /**
-     * Canonical registration id count
+     * Canonical registration id count.
+     *
      * @var int
      */
     protected $_canonicalCnt;
 
     /**
-     * Message
+     * Message.
+     *
      * @var Zend_Mobile_Push_Message_Gcm
      */
     protected $_message;
 
     /**
-     * Results
+     * Results.
+     *
      * @var array
      */
     protected $_results;
 
     /**
-     * Raw Response
+     * Raw Response.
+     *
      * @var array
      */
     protected $_response;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $responseString JSON encoded response
      * @param Zend_Mobile_Push_Message_Gcm $message
+     *
      * @return Zend_Mobile_Push_Response_Gcm
+     *
      * @throws Zend_Mobile_Push_Exception_ServerUnavailable
      */
     public function __construct($responseString = null, Zend_Mobile_Push_Message_Gcm $message = null)
@@ -100,11 +108,10 @@ class Zend_Mobile_Push_Response_Gcm
         if ($message) {
             $this->setMessage($message);
         }
-
     }
 
     /**
-     * Get Message
+     * Get Message.
      *
      * @return Zend_Mobile_Push_Message_Gcm
      */
@@ -114,19 +121,21 @@ class Zend_Mobile_Push_Response_Gcm
     }
 
     /**
-     * Set Message
+     * Set Message.
      *
      * @param Zend_Mobile_Push_Message_Gcm $message
+     *
      * @return Zend_Mobile_Push_Response_Gcm
      */
     public function setMessage(Zend_Mobile_Push_Message_Gcm $message)
     {
         $this->_message = $message;
+
         return $this;
     }
 
     /**
-     * Get Response
+     * Get Response.
      *
      * @return array
      */
@@ -136,10 +145,12 @@ class Zend_Mobile_Push_Response_Gcm
     }
 
     /**
-     * Set Response
+     * Set Response.
      *
-     * @param  array $response
+     * @param array $response
+     *
      * @throws Zend_Mobile_Push_Exception
+     *
      * @return Zend_Mobile_Push_Response_Gcm
      */
     public function setResponse(array $response)
@@ -157,11 +168,12 @@ class Zend_Mobile_Push_Response_Gcm
         $this->_failureCnt = (int) $response['failure'];
         $this->_canonicalCnt = (int) $response['canonical_ids'];
         $this->_id = (int) $response['multicast_id'];
+
         return $this;
     }
 
     /**
-     * Get Success Count
+     * Get Success Count.
      *
      * @return int
      */
@@ -171,7 +183,7 @@ class Zend_Mobile_Push_Response_Gcm
     }
 
     /**
-     * Get Failure Count
+     * Get Failure Count.
      *
      * @return int
      */
@@ -181,7 +193,7 @@ class Zend_Mobile_Push_Response_Gcm
     }
 
     /**
-     * Get Canonical Count
+     * Get Canonical Count.
      *
      * @return int
      */
@@ -191,15 +203,15 @@ class Zend_Mobile_Push_Response_Gcm
     }
 
     /**
-     * Get Results
+     * Get Results.
      *
      * @return array multi dimensional array of:
-     *         NOTE: key is registration_id if the message is passed.
-     *         'registration_id' => array( 
-     *             'message_id' => 'id',
-     *             'error' => 'error',
-     *             'registration_id' => 'id'
-     *          )
+     *               NOTE: key is registration_id if the message is passed.
+     *               'registration_id' => array(
+     *               'message_id' => 'id',
+     *               'error' => 'error',
+     *               'registration_id' => 'id'
+     *               )
      */
     public function getResults()
     {
@@ -207,25 +219,27 @@ class Zend_Mobile_Push_Response_Gcm
     }
 
     /**
-     * Get Singular Result
+     * Get Singular Result.
      *
-     * @param  int   $flag one of the RESULT_* flags
+     * @param int $flag one of the RESULT_* flags
+     *
      * @return array singular array with keys being registration id
      *               value is the type of result
      */
     public function getResult($flag)
     {
-        $ret = array();
+        $ret = [];
         foreach ($this->_correlate() as $k => $v) {
             if (isset($v[$flag])) {
                 $ret[$k] = $v[$flag];
             }
         }
+
         return $ret;
     }
 
     /**
-     * Correlate Message and Result
+     * Correlate Message and Result.
      *
      * @return array
      */
@@ -234,10 +248,11 @@ class Zend_Mobile_Push_Response_Gcm
         $results = $this->_results;
         if ($this->_message && $results) {
             $tokens = $this->_message->getToken();
-            while($token = array_shift($tokens)) {
+            while ($token = array_shift($tokens)) {
                 $results[$token] = array_shift($results);
             }
         }
+
         return $results;
     }
 }
